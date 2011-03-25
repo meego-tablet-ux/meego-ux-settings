@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+   <!-- 'path' is a relative path to where the settings application lives.  
+         The path role is not expected to be useful
+         outside the settings application itself. -->
+   <app title="Wifi" path="/usr/share/meego-ux-settings/Wifi/ConnectionsSettings.qml" icon="image://theme/icn_networks" />
+   <app title="Bluetooth" path="/usr/share/meego-ux-settings/Bluetooth/BluetoothSettings.qml" icon="image://theme/icn_bluetooth" />
+   <app title="Volume" path="/usr/share/meego-ux-settings/Volume/VolumeSettings.qml" icon="image://theme/icn_sound" />
+   <app title="Email" path="/usr/share/meego-ux-settings/Email/EmailSettings.qml" icon="image://theme/icn_email" />
+   <app title="Browser" path="/usr/share/meego-ux-settings/Browser/BrowserSettings.qml" icon="image://theme/icn_web" />
+</settings>
