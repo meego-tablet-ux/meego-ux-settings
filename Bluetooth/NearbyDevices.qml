@@ -93,6 +93,7 @@ ApplicationPage {
 				onExpandedChanged: {
 					console.log("pairing with device: " + model.address)
 					if(expanded) {
+						nearbyDevicesModel.discovering=false
 						nearbyDevicesModel.pair(model.address)
 					}
 
