@@ -1,4 +1,4 @@
-/*
+]/*
  * Copyright 2011 Intel Corporation.
  *
  * This program is licensed under the terms and conditions of the
@@ -51,6 +51,8 @@ private slots:
   void identities(const QList<SignOn::IdentityInfo> &identityList);
 
 private:
+
+  Q_DISABLE_COPY(SharedCredentials)
 
   /// Identity info for provider found.
   void identityFound(const SignOn::IdentityInfo &info);

@@ -85,6 +85,8 @@ namespace MeeGo
 
     private:
 
+      Q_DISABLE_COPY(StorageModel)
+
       /// Create list of objects containing visible sync profiles,
       /// where the profiles are stored in memory as fully fledged C++
       /// objects, not XML.

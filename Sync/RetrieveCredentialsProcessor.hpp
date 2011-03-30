@@ -49,6 +49,8 @@ private slots:
 
 private:
 
+  Q_DISABLE_COPY(RetrieveCredentialsProcessor)
+
   virtual void processIdentity_i(const SignOn::IdentityInfo & info);
   virtual bool operationPending() const;
 

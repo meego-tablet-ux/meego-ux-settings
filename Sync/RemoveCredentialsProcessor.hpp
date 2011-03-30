@@ -14,12 +14,11 @@
 
 
 /**
- * @class StoreSharedCredentials
+ * @class RemoveSharedCredentials
  *
- * @brief Credentials storage handling strategy implementation.
+ * @brief Credentials removal handling strategy implementation.
  *
- * This shared credentials strategy creates or updates credentials,
- * and stores them in SSO.
+ * This shared credentials strategy removes credentials from SSO.
  */
 class RemoveCredentialsProcessor : public SharedCredentialsProcessor
 {
@@ -41,6 +40,10 @@ private slots:
 
   /// Slot called when shared credentials have been removed.
   void credentialsRemoved();
+
+private:
+
+  Q_DISABLE_COPY(RemoveCredentialsProcessor)
 
 private:
 
