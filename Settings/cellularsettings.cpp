@@ -55,6 +55,8 @@ CellularSettings::CellularSettings(QObject *parent) :
     qDebug()<<"CellularSettings::Active context: "<<contexts.at(0).path.path();
 
     context = new ConnectionContext("org.ofono",contexts.at(0).path.path(),QDBusConnection::systemBus(),this);
+
+    connect(context,SIGNAL(PropertyChanged(QString,QDBusVariant)),this,SLOT(propertyChanged(QString,QDBusVariant)));
 }
 
 QString CellularSettings::apn()
@@ -177,7 +179,7 @@ QStringList CellularSettings::providers(QString country)
 {
     QXmlQuery query;
     query.setFocus(QUrl("/usr/share/mobile-broadband-provider-info/serviceproviders.xml"));
-    query.setQuery("/serviceproviders/country/[@code = '"+ country +"']/provider/name/string()");
+    query.setQuery("/serviceproviders/country[@code = '"+ country +"']/provider/name/string()");
 
     QStringList list;
 
@@ -197,4 +199,12 @@ QStringList CellularSettings::apns(QString country, QString provider)
     query.evaluateTo(&list);
 
     return list;
+}
+
+void CellularSettings::propertyChanged(QString name,QDBusVariant value)
+{
+    if(name == "AccessPointName")
+    {
+        apnChanged();
+    }
 }

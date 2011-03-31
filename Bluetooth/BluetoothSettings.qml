@@ -133,7 +133,7 @@ ApplicationPage {
                         anchors.rightMargin: 10
                         anchors.verticalCenter: parent.verticalCenter
                         on: bluetoothModel.discoverable
-                        onOnChanged: {
+                        onToggled: {
                             bluetoothModel.discoverable = visibilityToggleButton.on
                         }
 

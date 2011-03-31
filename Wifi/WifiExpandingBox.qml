@@ -240,7 +240,7 @@ ExpandingBox {
             DropDown {
                 id: dropdown
                 selectedValue: WifiHelper.IPv4Type[container.method]
-                dataModel: [WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"]]
+                dataList: [WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"]]
 
                 onSelectionChanged: {
                     console.log("new method value: " + selectedVal)

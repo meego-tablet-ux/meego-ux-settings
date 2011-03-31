@@ -23,7 +23,6 @@ ApplicationPage {
             width: parent.width
 
             Image {
-                id: bluetoothToggleGrid
                 width: parent.width
                 source: "image://theme/settings/pulldown_box_2"
 
@@ -37,25 +36,41 @@ ApplicationPage {
                 }
 
                 ToggleButton {
-                    anchors.right: parent.right;
+                    id: manualApn
+                    on: true
+                    anchors.right: parent.right
                     anchors.rightMargin: 10
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
 
-            Column {
+            Grid {
                 id: dropDowns
+                visible: !manualApn.on
+                columns: 2
+                spacing: 10
                 width: parent.width
+                height: childrenRect.height
+
                 property string country
-                property string provider
-                property string apn
+                property string provider: networkItem.name
+                property string apn: cellularSettings.apn;
+
+                Text {
+                    text: qsTr("Country")
+                }
+
                 DropDown {
                     id: countryDropdown
-                    dataModel: cellularSettings.countries();
+                    dataList: cellularSettings.countries()
                     onSelectionChanged: {
                         country = data;
-                        providerDropdown.dataModel = cellularSettings.providers(data)
+                        providerDropdown.dataList = cellularSettings.providers(data)
                     }
+                }
+
+                Text {
+                    text: qsTr("Provider")
                 }
 
                 DropDown {
@@ -63,8 +78,12 @@ ApplicationPage {
                     selectedValue: provider
                     onSelectionChanged: {
                         provider = data
-                        apnDropDown.dataModel = cellularSettings.apns(country,data)
+                        apnDropDown.dataList = cellularSettings.apns(country,provider)
                     }
+                }
+
+                Text {
+                    text: qsTr("APN")
                 }
 
                 DropDown {
@@ -81,9 +100,9 @@ ApplicationPage {
                 width: parent.width
                 columns: 2
                 height: childrenRect.height
-
+                visible: manualApn.on
                 Text {
-                    text: qsTr("APN:")
+                    text: qsTr("APN")
                 }
 
                 TextEntry {
@@ -94,7 +113,7 @@ ApplicationPage {
                 }
 
                 Text {
-                    text: qsTr("Username:")
+                    text: qsTr("Username")
                 }
 
                 TextEntry {
@@ -105,7 +124,7 @@ ApplicationPage {
                 }
 
                 Text {
-                    text: qsTr("Password:")
+                    text: qsTr("Password")
                 }
 
                 TextEntry {

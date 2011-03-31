@@ -10,6 +10,7 @@
 class CellularSettings : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString apn READ apn WRITE setApn NOTIFY apnChanged)
 
 public:
     explicit CellularSettings(QObject *parent = 0);
@@ -25,6 +26,11 @@ public slots:
     QStringList countries();
     QStringList providers(QString country);
     QStringList apns(QString country, QString provider);
+
+    void propertyChanged(QString,QDBusVariant);
+
+signals:
+    void apnChanged();
 
 private:
     ConnectionContext *context;
