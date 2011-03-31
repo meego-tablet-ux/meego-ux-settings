@@ -16,10 +16,15 @@ public:
 
 public slots:
     void setApn(QString apn, QString username, QString password);
+    void setApn(QString apn);
 
     QString apn();
     QString username();
     QString password();
+
+    QStringList countries();
+    QStringList providers(QString country);
+    QStringList apns(QString country, QString provider);
 
 private:
     ConnectionContext *context;

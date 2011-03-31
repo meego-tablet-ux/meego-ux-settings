@@ -1,6 +1,7 @@
 #include "cellularsettings.h"
 #include <QDBusInterface>
 #include <QtDBus>
+#include <QXmlQuery>
 
 struct OfonoPropertyStruct {
     QDBusObjectPath path;
@@ -134,4 +135,66 @@ void CellularSettings::setApn(QString ap, QString user, QString pass)
         if(reply.error().isValid())
             qDebug()<<"CellularSettings::Error setting Active property:"<<reply.error().message();
     }
+}
+
+void CellularSettings::setApn(QString apn)
+{
+    if(!context) return;
+
+    ///lookup username/password
+
+    QXmlQuery query;
+    query.setFocus(QUrl("/usr/share/mobile-broadband-provider-info/serviceproviders.xml"));
+    query.setQuery("/serviceproviders/country/provider/gsm/apn[@value='"+apn+"']/username/string()");
+
+    QString user;
+
+    query.evaluateTo(&user);
+
+    query.setQuery("/serviceproviders/country/provider/gsm/apn[@value='"+apn+"']/password/string()");
+
+    QString pass;
+
+    query.evaluateTo(&pass);
+
+    setApn(apn, user, pass);
+}
+
+QStringList CellularSettings::countries()
+{
+    QXmlQuery query;
+    query.setFocus(QUrl("/usr/share/mobile-broadband-provider-info/serviceproviders.xml"));
+    query.setQuery("/serviceproviders/country/@code[1]/string()");
+
+    QStringList list;
+
+    query.evaluateTo(&list);
+
+    return list;
+}
+
+QStringList CellularSettings::providers(QString country)
+{
+    QXmlQuery query;
+    query.setFocus(QUrl("/usr/share/mobile-broadband-provider-info/serviceproviders.xml"));
+    query.setQuery("/serviceproviders/country/[@code = '"+ country +"']/provider/name/string()");
+
+    QStringList list;
+
+    query.evaluateTo(&list);
+
+    return list;
+}
+
+QStringList CellularSettings::apns(QString country, QString provider)
+{
+    QXmlQuery query;
+    query.setFocus(QUrl("/usr/share/mobile-broadband-provider-info/serviceproviders.xml"));
+    query.setQuery("/serviceproviders/country[@code = '"+ country +"']/provider[name = '"+provider+"']/gsm/apn/@value[1]/string()");
+
+    QStringList list;
+
+    query.evaluateTo(&list);
+
+    return list;
 }

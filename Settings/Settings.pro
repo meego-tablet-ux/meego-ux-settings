@@ -1,7 +1,8 @@
 TEMPLATE = lib
 QT += declarative \
 	dbus \
-	xml
+	xml \
+	xmlpatterns
 CONFIG += qt \
     plugin \
     dbus \

@@ -66,25 +66,31 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
+                    NetworkListModel {
+                        id: networkListModel
+                    }
+
                     ToggleButton {
-                        id: airplaneToggle
+                        id: bluetoothToggle
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
                         on: networkListModel.enabledTechnologies.indexOf("bluetooth")
                         onToggled: {
-                            if(dtoggle.on) {
+                            if(bluetoothToggle.on) {
                                 networkListModel.enableTechnology("bluetooth");
                             }
                             else networkListModel.disableTechnology("bluetooth");
                         }
-                    }
 
-                    NetworkListModel {
-                        id: networkListModel
-                    }
+                        Connections {
+                            target: networkListModel
+                            onEnabledTechnologiesChanged: {
+                                bluetoothToggle.on = networkListModel.enabledTechnologies.indexOf("bluetooth") != -1
+                            }
+                        }
+                    } 
                 }
-
 
                 Image {
                     id: bluetoothToggleGrid
