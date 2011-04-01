@@ -9,6 +9,8 @@
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
 import MeeGo.Settings 0.1
+import MeeGo.Components 0.1 as MeeGo
+
 import "helper.js" as WifiHelper
 
 ExpandingBox {
@@ -237,12 +239,11 @@ ExpandingBox {
                 text: qsTr("Connect by:")
             }
 
-            DropDown {
+            MeeGo.DropDown {
                 id: dropdown
-                selectedValue: WifiHelper.IPv4Type[container.method]
-                dataList: [WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"]]
+                model: [WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"]]
 
-                onSelectionChanged: {
+                onTriggered: {
                     console.log("new method value: " + selectedVal)
                     networkItem.method = index == 0 ? "dhcp":"static"
                 }
