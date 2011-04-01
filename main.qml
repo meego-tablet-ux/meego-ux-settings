@@ -23,15 +23,25 @@ Window {
 			return;
 		}
 
-		var payloadFile  = settingsModel.settingsAppPaths[index - 1]
-		scene.applicationPage = Qt.createComponent(payloadFile);
+		topView = settingsModel.settingsAppPaths[index - 1]
+
+		//scene.applicationPage = Qt.createComponent(payloadFile);
 	}
 
 	property string topView
 
 	onTopViewChanged: {
-		if(topView != "")
-			scene.applicationPage = Qt.createComponent(topView)
+		if(topView != "") {
+			console.log(topView.lastIndexOf("xml"))
+			if(topView.lastIndexOf("xml") == topView.length - 3) {
+				console.log("loading xml setting: " + topView)
+				scene.applicationData = topView
+				scene.applicationPage = declarativeComponent
+			}
+			else {
+				scene.applicationPage = Qt.createComponent(topView)
+			}
+		}
 	}
 
 	Component.onCompleted: {
@@ -77,6 +87,13 @@ Window {
     Loader {
         id: dialogLoader
         anchors.fill: parent
+    }
+
+    Component {
+        id: declarativeComponent
+        DeclarativeComponent {
+
+        }
     }
 
 	Component {
@@ -139,11 +156,9 @@ Window {
 					MouseArea {
 						id: mouseArea
 						anchors.fill: parent
-						onPressed: {
-							console.log("pressed")
-						}
 
 						onClicked: {
+							console.log("setting topView to: " + model.path)
 							scene.topView = model.path
 						}
 					}

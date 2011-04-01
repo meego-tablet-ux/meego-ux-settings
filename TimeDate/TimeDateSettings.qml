@@ -300,10 +300,10 @@ ApplicationPage {
             }
         }
 
-        MeeGo.DatePickerDialog {
+        MeeGo.DatePicker{
             id: datePicker
 
-            onTriggered: {
+            onDateSelected: {
                 timeSettings.setDate(date);
                 timeTimer.interval = 1000
             }

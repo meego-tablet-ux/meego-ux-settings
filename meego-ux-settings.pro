@@ -46,7 +46,7 @@ dist.commands += tar jcpvf $${PROJECT_NAME}-$${VERSION}.tar.bz2 $${PROJECT_NAME}
 QMAKE_EXTRA_TARGETS += dist
 
 
-SUBDIRS += Settings Sync
+SUBDIRS += Settings Sync Example
 
 qmlfiles.files += *.qml Wifi Volume Panels TimeDate Browser Language Personalize
 qmlfiles.path = $$INSTALL_ROOT/usr/share/$$TARGET

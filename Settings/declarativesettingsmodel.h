@@ -23,6 +23,7 @@ namespace TabletSettings
 		Q_PROPERTY(QVariant value READ value WRITE setValue);
 		Q_PROPERTY(Type type READ type);
 		Q_ENUMS(Type)
+
 	public:
 
 		enum Type
@@ -85,18 +86,21 @@ namespace TabletSettings
 	class Selection: public Setting
 	{
 		Q_OBJECT
-		Q_PROPERTY(QDeclarativeListProperty<Option> options READ options);
+		Q_PROPERTY(QStringList model READ model);
+		Q_PROPERTY(QDeclarativeListProperty<QVariant> payload READ payload);
 	public:
 		Selection(QString key="",QObject *parent=0): Setting(key, SelectionType, parent) { }
-		QDeclarativeListProperty<Option> options()
-		{
-			return QDeclarativeListProperty<Option>(this, m_options);
-		}
+
+		QStringList model() { return m_model; }
+		QDeclarativeListProperty<QVariant> payload() { return QDeclarativeListProperty<QVariant>(this, m_payload); }
+
 	public slots:
-		void setOptions(QList<Option*> o) { m_options = o; }
+		void setModel(QStringList o) { m_model = o; }
+		void setPayload(QList<QVariant*> p) { m_payload = p; }
 
 	private:
-		QList<Option*> m_options;
+		QStringList m_model;
+		QList<QVariant*> m_payload;
 	};
 
 	class Boolean: public Setting

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=ControlPanelApplet
+Name=Declarative Example
+Icon=
+
+[DCP]
+Part=/usr/share/meego-ux-settings/Example/declarativeexample.xml

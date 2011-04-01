@@ -8,13 +8,13 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-Item {
+ApplicationPage {
 	id: container
-	anchors.fill: parent
 
-	property string source//: defaultSource == undefined ? "": defaultSource
+	property string source: applicationData
 
 
 	DeclarativeSettingsModel {
@@ -26,11 +26,11 @@ Item {
 		}
 
 		onStateChanged: {
-			if(newState == 2) {
+			if(newState == DeclarativeSettingsModel.Ready) {
 				for(var g=0; g< declarativeSettings.groups.length; g++){
 					var group = declarativeSettings.groups[g];
 					for(var i = 0;i<group.settings.length; i++){
-						if(group.settings[i].type == 1){
+						if(group.settings[i].type == TabletSettingsSetting.TextType){
 							var text = textEdits.createObject(column);
 							text.key = group.settings[i].key
 							text.title = group.settings[i].title
@@ -38,10 +38,10 @@ Item {
 								text.value = group.settings[i].value
 							else console.log("error: text value is undefined!")
 						}
-						else if(group.settings[i].type == 2) {
+						else if(group.settings[i].type == TabletSettingsSetting.SelectionType) {
 							///selection type
 						}
-						else if(group.settings[i].type == 3) {
+						else if(group.settings[i].type == TabletSettingsSetting.BooleanType) {
 							var boholean = booleans.createObject(column);
 							boholean.key = group.settings[i].key
 							boholean.title = group.settings[i].title
@@ -49,7 +49,7 @@ Item {
 								boholean.value = group.settings[i].value
 							else console.log("error: boolean value is undefined!")
 						}
-						else if(group.settings[i].type == 4) {
+						else if(group.settings[i].type == TabletSettingsSetting.IntegerType) {
 
 							var integer = integers.createObject(column);
 							integer.title = group.settings[i].title
@@ -72,37 +72,47 @@ Item {
 		}
 	}
 
-	Grid {
+	Flickable {
+		parent: container.content
+		contentHeight: column.height
 		anchors.fill: parent
-		id: column
-		spacing: 20
-		columns: 2
+		interactive: true
+		Column {
+			id: column
+
+			anchors.fill: parent
+			spacing: 20
+		}
 	}
+
+
 
 	Component {
 		id: booleans
 
-		Item {
+        Image {
+            source: "image://theme/settings/pulldown_box_2"
 			property string key: ""
 			property string title: ""
 			property bool value
 
-			width: parent.width / 2
+			width: parent.width
 			height: 50
 
 			Text {
 				id: textTitle
 				text: title
+				anchors.left: parent.left
 				anchors.verticalCenter: togglebutton.verticalCenter
 			}
 
-			ToggleButton {
+			MeeGo.ToggleButton {
 				id: togglebutton
 				on: value
-				anchors.left: textTitle.right
-				anchors.leftMargin: 20
-
-				onOnChanged: {
+				anchors.right: parent.right
+				anchors.rightMargin: 20
+				anchors.verticalCenter: parent.verticalCenter
+				onToggled: {
 					declarativeSettings.setValue(parent.key, togglebutton.on);
 				}
 			}
@@ -112,32 +122,36 @@ Item {
 	Component {
 		id: integers
 
-		Item {
+        Image {
+            source: "image://theme/settings/pulldown_box_2"
+            id: integersContainer
 			property string key: ""
 			property string title: ""
 			property bool value
 			property int max: 100
 			property int min: 0
 
-			width:parent.width / 2
+			width:parent.width
 			height: 50
 
 			Text {
 				id: textTitle
 				text: title
+				anchors.left: parent.left
 				anchors.verticalCenter: slider.verticalCenter
 			}
 
-			Slider {
+			MeeGo.Slider {
 				id: slider
 				min: parent.min
 				max: parent.max
-				anchors.left: textTitle.right
-				anchors.leftMargin: 20
+				anchors.right: parent.right
+				anchors.rightMargin: 20
+				anchors.verticalCenter: parent.verticalCenter
 				width: parent.width - textTitle.width - 40
 				value: parent.value
-				onValueChanged: {
-					declarativeSettings.setValue(parent.key, slider.value);
+				onSliderChanged: {
+					declarativeSettings.setValue(integersContainer.key, slider.value);
 				}
 			}
 		}
@@ -145,12 +159,15 @@ Item {
 
 	Component {
 		id: textEdits
-		Item {
+		Image {
+			width: parent.width
+			source: "image://theme/settings/pulldown_box_2"
+
+			id: textEditsContainer
 			property string key: ""
 			property string title: ""
 			property string value: ""
 
-			width: parent.width / 2
 			height: 50
 
 			Text {
@@ -159,11 +176,11 @@ Item {
 				anchors.verticalCenter: textEdit.verticalCenter
 			}
 
-			TextEdit {
+			MeeGo.TextEntry {
 				id: textEdit
 				text: value
-				anchors.left: textTitle.right
-				anchors.leftMargin: 20
+				anchors.right: parent.right
+				anchors.rightMargin: 20
 
 				onTextChanged: {
 					declarativeSettings.setValue(parent.key,text);

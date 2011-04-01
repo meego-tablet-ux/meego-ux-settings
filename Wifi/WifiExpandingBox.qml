@@ -32,8 +32,8 @@ ExpandingBox {
     property string method: ""
     property variant nameservers: []
 
-    /// TODO FIXME: this is bad but connman doesn't currently expose a property to indicate whether a service is
-    /// the default route or not:
+    /// TODO FIXME: this is bad but connman doesn't currently expose a property to indicate whether
+    /// a service is the default route or not:
     property bool defaultRoute: false
 
     Component.onCompleted: {

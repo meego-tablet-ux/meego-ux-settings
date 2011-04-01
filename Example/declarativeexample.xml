@@ -1,0 +1,9 @@
+<settings>
+  <group>
+      <text key = "/apps/tablet/settings/example/text1" title="text">example1</text>
+      <boolean key = "/apps/tablet/settings/example/boolean1" title="switch" />
+      <integer key="/apps/tablet/settings/example/integer" 
+             title="integer" min="0" max="100" />
+  </group>
+</settings>
+
