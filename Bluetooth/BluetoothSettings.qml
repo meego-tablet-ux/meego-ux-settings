@@ -76,23 +76,16 @@ ApplicationPage {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
- 	                    //on: networkListModel.enabledTechnologies.indexOf("bluetooth")
                         on: bluetoothModel.powered
- 	                    
                         onToggled: {
-                        	/* 3-30
-                        	using power interface in BluetoothDevicesModel */
-	                        bluetoothModel.makePowered(poweredToggleButton.on);
-	                        addNewDeviceButton.active = poweredToggleButton.on;
-                            /*if(!poweredToggleButton.on)
-                                networkListModel.enableTechnology("bluetooth");
-                            else networkListModel.disableTechnology("bluetooth");*/
+	               	    bluetoothModel.makePowered(poweredToggleButton.on);
+	                    addNewDeviceButton.active = poweredToggleButton.on;
                         }
 
                         Connections {
                             target: bluetoothModel
                             onPoweredChanged: {
-                                if(!bluetoothModel.powered)	discoverableTimer.stop();
+                                if(!bluetoothModel.powered) discoverableTimer.stop();
                                 poweredToggleButton.on = bluetoothModel.powered;
                             }
                         }
@@ -187,8 +180,8 @@ ApplicationPage {
                         height: parent.height / 1.5
                         width: 200
                         onClicked: {
-                        	if (poweredToggleButton.on)
-                            	container.addApplicationPage(nearbyDevicesComponent);
+                            if (poweredToggleButton.on)
+                                container.addApplicationPage(nearbyDevicesComponent);
                         }
                     }
                 }
