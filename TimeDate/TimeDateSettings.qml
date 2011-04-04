@@ -106,20 +106,21 @@ ApplicationPage {
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        text: qsTr("Twelve hour clock")
+                        text: qsTr("24 hour clock")
                         width: 100
                         height: parent.height
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    ToggleButton {
+                    MeeGo.ToggleButton {
                         id: twentyfourhrtoggle
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
                         on: timeSettings.flag24
-                        onOnChanged: {
+                        onToggled: {
                             timeSettings.flag24 = twentyfourhrtoggle.on
+                            //twentyfourhrtoggle.on = timeSettings.flag24
                         }
                     }
                 }
@@ -139,7 +140,7 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    ToggleButton {
+                    MeeGo.ToggleButton {
                         on: timeSettings.automatic
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
@@ -203,7 +204,7 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    ToggleButton {
+                    MeeGo.ToggleButton {
                         id: findMeToggleButton
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
