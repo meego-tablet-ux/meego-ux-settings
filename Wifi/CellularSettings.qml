@@ -65,6 +65,7 @@ ApplicationPage {
                     dataList: cellularSettings.countries()
                     onSelectionChanged: {
                         country = data;
+                        console.log("setting provider dropdownlist to: " + data)
                         providerDropdown.dataList = cellularSettings.providers(data)
                     }
                 }

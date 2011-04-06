@@ -59,7 +59,7 @@ ExpandingBox {
     Component {
         id: audioButtonComponent
         Button {
-            width: parent.width
+            width: profileButtonsColumn.width
             height: 50
             title: connected ? qsTr("Disconnect Audio"): qsTr("Connect Audio")
             property bool connected: container.device.audioConnected
@@ -88,7 +88,7 @@ ExpandingBox {
     Component {
         id: inputButtonComponent
         Button {
-            width: parent.width
+            width: profileButtonsColumn.width
             height: 50
             title: connected ? qsTr("Disconnect"): qsTr("Connect")
             property bool connected: container.device.inputConnected
@@ -116,19 +116,23 @@ ExpandingBox {
 
     Component {
         id: panButtonComponent
-        Item {
-            Button {
-                width: parent.width
-                height: 50
-                title: connected ? qsTr("Disconnect Internet"): qsTr("Connect Internet")
-                property bool connected: false
+        Button {
+            width: profileButtonsColumn.width
+            height: 50
+            title: connected ? qsTr("Disconnect Internet"): qsTr("Connect Internet")
+            property bool connected: networkItem.state >= NetworkItemModel.StateReady
+            property NetworkItemModel networkItem: networkListModel.service(container.device.name)
 
-                onClicked: {
+            onClicked: {
+                connected ? networkItem.disconnectService() : networkItem.connectService()
+            }
 
-                }
+            NetworkListModel {
+                id: networkListModel
             }
         }
     }
+
 
     Component {
         id: capabilitiesComponent
@@ -145,9 +149,8 @@ ExpandingBox {
             }
 
             Connections {
-		target: container
-		onUuidsChanged: {
-		    console.log("grabbed property changed for device: "+ container.device.name)
+                target: container
+                onUuidsChanged: {
                     profileButtonsColumn.populateList();
                 }
             }
@@ -160,7 +163,10 @@ ExpandingBox {
                 spacing: 10
                 Column {
                     id: profileButtonsColumn
-		    width: capabilitiesItem.width / 2 - 10
+                    width: capabilitiesItem.width / 2 - 10
+                    property Item audioItem: null
+                    property Item napItem: null
+                    property Item inputItem: null
 
                     Text {
                         text: qsTr("Connect Actions")
@@ -168,6 +174,7 @@ ExpandingBox {
                         width: 200
 
                         Component.onCompleted: {
+                            console.log("text created first!!! " + container.device.name)
                             profileButtonsColumn.populateList();
                         }
                     }
@@ -175,24 +182,30 @@ ExpandingBox {
                     function populateList() {
                         console.log("device: "+ name)
                         var list = container.device.profiles;
-                        var hasAudio = false;
                         var count=0
+                        if(audioItem) audioItem.destroy()
+                        audioItem = null;
+                        if(napItem) napItem.destroy()
+                        napItem = null;
+                        if(inputItem) inputItem.destroy()
+                        inputItem = null;
+
                         for(var i=0;i < list.length;i++) {
                             console.log(container.device.name + ": " + list[i])
-                            if(!hasAudio && (list[i] == "00001108-0000-1000-8000-00805f9b34fb" ||
+                            if(audioItem == null && (list[i] == "00001108-0000-1000-8000-00805f9b34fb" ||
                                              list[i] == "0000110b-0000-1000-8000-00805f9b34fb")) {
                                 //audio
-                                var button = audioButtonComponent.createObject(profileButtonsColumn);
-                                hasAudio = true
+                                audioItem = audioButtonComponent.createObject(profileButtonsColumn);
                                 count ++;
                             }
-                            else if(list[i] == "00001116-0000-1000-8000-00805f9b34fb") {
+                            else if(napItem == null && list[i] == "00001116-0000-1000-8000-00805f9b34fb") {
                                 //internets nap profile
-                                var button = panButtonComponent.createObject(profileButtonsColumn);
+                                napItem = panButtonComponent.createObject(profileButtonsColumn);
                                 count ++;
                             }
-                            else if(list[i] == "00001124-0000-1000-8000-00805f9b34fb") {
-                                inputButtonComponent.createObject(profileButtonsColumn);
+                            else if(inputItem == null && list[i] == "00001124-0000-1000-8000-00805f9b34fb") {
+                                //input profile
+                                inputItem = inputButtonComponent.createObject(profileButtonsColumn);
                                 count ++;
                             }
                         }
