@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
 ExpandingBox {
@@ -46,31 +47,20 @@ ExpandingBox {
     }
 
     Component {
-        id: profileButton
-        Button {
-            property string uuid
-
-            width: 200
-            height: 50
-
-        }
-    }
-
-    Component {
         id: audioButtonComponent
-        Button {
+        MeeGo.Button {
             width: profileButtonsColumn.width
             height: 50
-            title: connected ? qsTr("Disconnect Audio"): qsTr("Connect Audio")
+            text: connected ? qsTr("Disconnect Audio"): qsTr("Connect Audio")
             property bool connected: container.device.audioConnected
 
             onConnectedChanged: {
                 if(connected){
-                    title = qsTr("Disconnect Audio")
+                    text = qsTr("Disconnect Audio")
                 }
 
                 else{
-                    title = qsTr("Connect Audio")
+                    text = qsTr("Connect Audio")
                 }
             }
 
@@ -87,19 +77,20 @@ ExpandingBox {
 
     Component {
         id: inputButtonComponent
-        Button {
+        MeeGo.Button {
             width: profileButtonsColumn.width
             height: 50
-            title: connected ? qsTr("Disconnect"): qsTr("Connect")
+            text: connected ? qsTr("Disconnect"): qsTr("Connect")
+            elideText: true
             property bool connected: container.device.inputConnected
 
             onConnectedChanged: {
                 if(connected){
-                    title = qsTr("Disconnect")
+                    text = qsTr("Disconnect")
                 }
 
                 else{
-                    title = qsTr("Connect")
+                    text = qsTr("Connect")
                 }
             }
 
@@ -116,10 +107,11 @@ ExpandingBox {
 
     Component {
         id: panButtonComponent
-        Button {
+        MeeGo.Button {
             width: profileButtonsColumn.width
             height: 50
-            title: connected ? qsTr("Disconnect Internet"): qsTr("Connect Internet")
+            text: connected ? qsTr("Disconnect Internet"): qsTr("Connect Internet")
+            elideText: true
             property bool connected: networkItem.state >= NetworkItemModel.StateReady
             property NetworkItemModel networkItem: networkListModel.service(container.device.name)
 
@@ -226,11 +218,12 @@ ExpandingBox {
                         width: 200
                     }
 
-                    Button {
+                    MeeGo.Button {
                         id: removeButton
-                        title: qsTr("Remove")
+                        text: qsTr("Remove")
                         height: 50
                         width: parent.width
+                        elideText: true
 
                         onClicked: {
                             device.unpair();

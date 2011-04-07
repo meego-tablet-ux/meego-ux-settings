@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1 as MeeGo
 
 Column {
     id: container
@@ -36,25 +37,23 @@ Column {
         width: parent.width / 2
         height: 50
 
-        Button {
+        MeeGo.Button {
             id: acceptButton
             anchors.left: parent.left
             width: 100
             height: parent.height
-            title: qsTr("Accept")
-            color: "green"
+            text: qsTr("Accept")
             onClicked: {
                 replyRequestConfirmation(true);
             }
         }
 
-        Button {
+        MeeGo.Button {
             id: rejectButton
-            color: "red"
             anchors.right: parent.right
             width: 100
             height: parent.height
-            title: qsTr("Reject")
+            text: qsTr("Reject")
             onClicked: {
                 replyRequestConfirmation(false);
             }

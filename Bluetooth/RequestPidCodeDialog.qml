@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1 as MeeGo
 
 Column {
     signal replyRequestPidCode(string reply)
@@ -31,13 +32,12 @@ Column {
         text: replyValue
     }
 
-    Button {
+    MeeGo.Button {
         id: acceptButton
         anchors.left: parent.left
         width: parent.width
         height: 50
-        title: qsTr("Accept")
-        color: "green"
+        text: qsTr("Accept")
         onClicked: {
             console.log(deviceName + " replying with key: " + textInputField.text)
             replyRequestPidCode(textInputField.text);

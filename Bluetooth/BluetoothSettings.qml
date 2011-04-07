@@ -175,9 +175,9 @@ ApplicationPage {
                         anchors.right: parent.right
                         anchors.rightMargin: 10
                         anchors.verticalCenter: parent.verticalCenter
-                        title: qsTr("Add Device")
+                        text: qsTr("Add Device")
                         height: parent.height / 1.5
-                        width: 200
+                        //width: 200
                         onClicked: {
                             if (poweredToggleButton.on)
                                 container.addApplicationPage(nearbyDevicesComponent);

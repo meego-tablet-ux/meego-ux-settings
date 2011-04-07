@@ -175,10 +175,9 @@ ExpandingBox {
                 anchors.horizontalCenter: parent.horizontalCenter
                 height: childrenRect.height
 
-                Button {
+                MeeGo.Button {
                     id: yesDelete
-                    title: qsTr("Yes, Delete")
-                    color: "green"
+                    text: qsTr("Yes, Delete")
                     width: removeConfirmArea.width / 6
                     height: 50
                     onClicked: {
@@ -187,10 +186,9 @@ ExpandingBox {
                         container.detailsComponent = detailsArea
                     }
                 }
-                Button {
+                MeeGo.Button {
                     id: noSave
-                    title: qsTr("No, Save")
-                    color: "red"
+                    text: qsTr("No, Save")
                     width: removeConfirmArea.width / 6
                     height: 50
                     onClicked: {
@@ -212,9 +210,9 @@ ExpandingBox {
             width: parent.width
             height: childrenRect.height
 
-            Button {
+            MeeGo.Button {
                 id: disconnectButton
-                title: qsTr("Disconnect")
+                text: qsTr("Disconnect")
                 height: 50
                 width: parent.width / 3
                 onClicked: {
@@ -223,12 +221,12 @@ ExpandingBox {
                 }
             }
 
-            Button {
+            MeeGo.Button {
                 id: removeConnection
-                title: qsTr("Remove Connection")
+                text: qsTr("Remove Connection")
                 height: 50
                 width: parent.width / 3
-
+                elideText: true
                 onClicked: {
                     container.detailsComponent = removeConfirmAreaComponent
                 }
@@ -242,7 +240,7 @@ ExpandingBox {
             MeeGo.DropDown {
                 id: dropdown
                 model: [WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"]]
-
+                //selectedIndex: networkItem.method == "dhcp" ? 0:1
                 onTriggered: {
                     console.log("new method value: " + selectedVal)
                     networkItem.method = index == 0 ? "dhcp":"static"
@@ -335,9 +333,10 @@ ExpandingBox {
 				text: container.hwaddy
 			}
 
-			Button {
+			MeeGo.Button {
 				id: applyButton
-				title: qsTr("Apply")
+				text: qsTr("Apply")
+				elideText: true
 				height: 50
 				width: parent.width / 3
 				onClicked: {
@@ -348,12 +347,12 @@ ExpandingBox {
 				}
 			}
 
-			Button {
+			MeeGo.Button {
 				id: cancelButton
-				title: qsTr("Cancel")
+				text: qsTr("Cancel")
 				height: 50
 				width: parent.width / 3
-
+				elideText: true
 				onClicked: {
 					container.expanded = false;
 				}
@@ -387,22 +386,22 @@ ExpandingBox {
 
                     }
 
-                    Button {
+                    MeeGo.Button {
                         id: setupButton
                         height: 50
-                        width: 150
-                        title:  qsTr("Setup")
+
+                        text:  qsTr("Setup")
                         visible: container.networkItem.type == "cellular"
                         onClicked: {
                             page.addApplicationPage(cellularSettings)
                         }
                     }
 
-                    Button {
+                    MeeGo.Button {
                         id: connectButtonOfAwesome
                         height: 50
-                        width: 150
-                        title: qsTr("Connect")
+
+                        text: qsTr("Connect")
                         onClicked: {
                             if(container.networkItem.type == "wifi") {
                                 container.networkItem.passphrase = passwordTextInput.text;

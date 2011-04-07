@@ -238,16 +238,16 @@ ApplicationPage {
                     MeeGo.Button {
                         id: setTimeZoneButton
                         height: 40
-                        width: 180
+                       // width: 180
                         anchors.right: parent.right
                         anchors.rightMargin: 10
                         anchors.verticalCenter: parent.verticalCenter
                         //active: !findMeToggleButton.on
-                        bgSourceUp: "image://theme/btn_blue_up"
-                        bgSourceDn: "image://theme/btn_blue_dn"
-                        title: qsTr("Set Time Zone")
+                        //bgSourceUp: "image://theme/btn_blue_up"
+                        //bgSourceDn: "image://theme/btn_blue_dn"
+                        text: qsTr("Set Time Zone")
                         //font.pixelSize: theme_fontSizeLargest
-                        color: theme_buttonFontColor
+                        //color: theme_buttonFontColor
                         //visible: !findMeToggleButton.on
 
                         onClicked: {
@@ -293,8 +293,8 @@ ApplicationPage {
 
         MeeGo.TimePicker {
             id: timePicker
-
-            onAccepted: {
+            parent: scene.container
+            onTimeChanged: {
                 var time = timeSettings.time(timePicker.hours, timePicker.minutes, "00")
                 timeSettings.setTime(time);
                 timeTimer.interval = 1000
@@ -303,7 +303,7 @@ ApplicationPage {
 
         MeeGo.DatePicker{
             id: datePicker
-
+            parent: scene.container
             onDateSelected: {
                 timeSettings.setDate(date);
                 timeTimer.interval = 1000
