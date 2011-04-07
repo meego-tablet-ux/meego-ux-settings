@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
 ApplicationPage {
@@ -66,13 +67,11 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    NetworkListModel {
+                    MeeGo.ToggleButton {
                         id: networkListModel
                     }
 
-                    ToggleButton {
                         id: poweredToggleButton
-                        
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
@@ -134,7 +133,7 @@ ApplicationPage {
 
                     }
 
-                    ToggleButton {
+                    MeeGo.ToggleButton {
                         id: visibilityToggleButton
                         anchors.right: parent.right;
                         anchors.rightMargin: 10
@@ -171,7 +170,7 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    Button {
+                    MeeGo.Button {
                         id: addNewDeviceButton
                         anchors.right: parent.right
                         anchors.rightMargin: 10

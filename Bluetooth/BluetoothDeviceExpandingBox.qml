@@ -129,6 +129,10 @@ ExpandingBox {
 
             NetworkListModel {
                 id: networkListModel
+
+                onCountChanged: {
+                    networkItem = networkListModel.service(container.device.name)
+                }
             }
         }
     }

@@ -235,7 +235,7 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    Button {
+                    MeeGo.Button {
                         id: setTimeZoneButton
                         height: 40
                         width: 180
@@ -291,10 +291,10 @@ ApplicationPage {
             }
         }
 
-        TimePicker {
+        MeeGo.TimePicker {
             id: timePicker
 
-            onClosed: {
+            onAccepted: {
                 var time = timeSettings.time(timePicker.hours, timePicker.minutes, "00")
                 timeSettings.setTime(time);
                 timeTimer.interval = 1000
