@@ -11,4 +11,11 @@ import MeeGo.Labs.Components 0.1
 
 TextEntry {
     id:inputBox
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            bsContainer.current = inputBox.parent
+            inputBox.textInput.forceActiveFocus()
+        }
+    }
 }

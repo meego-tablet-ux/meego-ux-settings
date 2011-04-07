@@ -11,23 +11,33 @@ import MeeGo.Labs.Components 0.1
 import MeeGo.Settings 0.1
 
 ApplicationPage {
-    id: container
+    id: bsContainer
     title: "Browser"
     anchors.fill: parent
 		
     BrowserSettingModel {
         id:settings
     }
-
+    property int vkbheight: 0
+    property variant current: bsContainer
+    Connections {
+        target: mainWindow
+        onVkbHeight: {
+            var map = current.mapToItem(bsContainer, 0, 0);
+            vkbheight = height;
+            if ((bsContainer.height - map.y - current.height) < vkbheight) 
+                flickableContent.contentY += vkbheight - (bsContainer.height - map.y - current.height) + 5
+        }
+    }
 
     Flickable
     {
         id: flickableContent
-        anchors.top:container.content.top
-        anchors.left: container.content.left
+        anchors.top:bsContainer.content.top
+        anchors.left: bsContainer.content.left
         contentHeight:settingGroups.height + restoreButton.height + 50
-        width:container.content.width
-        height: container.content.height
+        width:bsContainer.content.width
+        height: bsContainer.content.height
         z:-100
         Column
         {
@@ -118,7 +128,7 @@ ApplicationPage {
 
             onClicked: {
                 //confirmDialogLoader.sourceComponent = restoreToDefaultComponent;
-                var dlg = dlgComponent.createObject(container)
+                var dlg = dlgComponent.createObject(bsContainer)
                 dlg.visible = true
             }
         }
