@@ -68,17 +68,14 @@ ApplicationPage {
                     }
 
                     MeeGo.ToggleButton {
-                        id: networkListModel
-                    }
-
                         id: poweredToggleButton
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
                         on: bluetoothModel.powered
                         onToggled: {
-	               	    bluetoothModel.makePowered(poweredToggleButton.on);
-	                    addNewDeviceButton.active = poweredToggleButton.on;
+                            bluetoothModel.powered = poweredToggleButton.on;
+                            addNewDeviceButton.active = poweredToggleButton.on;
                         }
 
                         Connections {
@@ -86,13 +83,6 @@ ApplicationPage {
                             onPoweredChanged: {
                                 if(!bluetoothModel.powered) discoverableTimer.stop();
                                 poweredToggleButton.on = bluetoothModel.powered;
-                            }
-                        }
-
-                        Connections {
-                            target: networkListModel
-                            onEnabledTechnologiesChanged: {
-                                bluetoothToggle.on = networkListModel.enabledTechnologies.indexOf("bluetooth") != -1
                             }
                         }
                     } 
