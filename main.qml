@@ -7,8 +7,9 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
 import MeeGo.Settings 0.1
+import MeeGo.Components 0.1
+import MeeGo.Labs.Components 0.1
 
 Window {
 	id: scene
@@ -130,15 +131,19 @@ Window {
 						anchors.left: parent.left
 						anchors.leftMargin: 20
 						anchors.verticalCenter: parent.verticalCenter
-						source: model.icon != "" ? model.icon: "image://meegotheme/icons/settings/everyday_settings"
+						source: model.icon != "image://systemicon/" ? model.icon: "image://meegotheme/icons/settings/everyday-settings"
 						onStatusChanged: {
 						    if(icon.status == Image.Ready) {
 								console.log("image width: " + width + " height: " + height)
 						    }
 						    if(icon.status == Image.Error) {
 								///fallback
-								icon.source =  "image://meegotheme/icons/settings/everyday_settings"
+								icon.source =  "image://meegotheme/icons/settings/everyday-settings"
 						    }
+						}
+
+						Component.onCompleted: {
+							console.log("app: " + model.title + " icon: " + model.icon + " src: " + icon.source)
 						}
 
 					}
