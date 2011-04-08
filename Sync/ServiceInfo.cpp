@@ -54,8 +54,8 @@ MeeGo::Sync::ServiceInfo::ServiceInfo(ServiceInfo const & rhs)
 
 void MeeGo::Sync::ServiceInfo::operator=(ServiceInfo const & rhs)
 {
-  // @todo It would be nice if we implement strong exception and
-  //       remove this self-assignment check by using the
+  // @todo It would be nice if we implement strong exception safety
+  //       and remove this self-assignment check by using the
   //       copy-and-swap idiom.
   if (this == &rhs)
     return;
@@ -116,7 +116,7 @@ QString MeeGo::Sync::ServiceInfo::imageFilename() const
   else if (name == "Yahoo!")
     return "image://meegotheme/icons/services/yahoo"; // Do we need a sync version?
   else if (name == "Mobical")
-    return "image://themetheme/icons/services/mobical";
+    return "image://meegotheme/icons/services/mobical";
 
   return QString();
 }
