@@ -380,7 +380,7 @@ ExpandingBox {
                         textInput.echoMode: TextInput.Normal
                         visible: passwordGrid.passwordRequired
                         defaultText: qsTr("Type password here")
-                        width: parent.width / 2
+                        width: passwordGrid.width / 2
                         text: container.networkItem.passphrase
                         textInput.inputMethodHints: Qt.ImhNoAutoUppercase
 
