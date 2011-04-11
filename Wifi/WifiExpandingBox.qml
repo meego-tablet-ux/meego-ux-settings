@@ -181,6 +181,7 @@ ExpandingBox {
                     width: removeConfirmArea.width / 6
                     height: 50
                     onClicked: {
+                        networkItem.passphrase=""
                         networkItem.removeService();
                         container.expanded = false;
                         container.detailsComponent = detailsArea
