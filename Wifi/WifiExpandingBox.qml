@@ -423,9 +423,6 @@ ExpandingBox {
                         id: showPasswordCheckbox
                         visible: passwordGrid.passwordRequired
                         isChecked: true
-                        height: 50
-                        width: 50
-
                         onIsCheckedChanged: {
                             if(isChecked) passwordTextInput.textInput.echoMode = TextInput.Normal
                             else passwordTextInput.textInput.echoMode = TextInput.Password
