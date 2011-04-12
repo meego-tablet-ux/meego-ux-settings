@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Media 0.1
 
 ApplicationPage {
@@ -83,7 +84,7 @@ ApplicationPage {
             header: Column {
                 width: parent.width
                 height: builtinWallpapers.height + customWallpapers.height + wallpaperTools.height
-                PhotoPicker {
+                MeeGo.PhotoPicker {
                     id: photoPicker
                     parent: personalizeContainer
                     property string selectedPhoto
@@ -92,7 +93,7 @@ ApplicationPage {
                     onPhotoSelected: {
                         selectedPhoto = uri.split("file://")[1];
                     }
-                    onClosed: {
+                    onAccepted: {
                         if (selectedPhoto)
                         {
                             var path = customWallpapers.model.copyImageToBackgrounds(selectedPhoto);
