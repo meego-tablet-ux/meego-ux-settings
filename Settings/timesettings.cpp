@@ -146,7 +146,7 @@ bool TimeSettings::isUsingTzAuto()
     return  info.flagLocalCellular();
 }
 
-bool TimeSettings::setTzAuto(bool useAuto)
+void TimeSettings::setTzAuto(bool useAuto)
 {
     Maemo::Timed::WallClock::Settings set;
 
@@ -166,5 +166,5 @@ bool TimeSettings::setTzAuto(bool useAuto)
     {
         qDebug() << "pid call failed" << timed->lastError() ;
     }
-    return busReply.isValid();
+   // return busReply.isValid();
 }

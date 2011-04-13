@@ -92,6 +92,8 @@ ApplicationPage {
                         anchors.fill: parent
                         onClicked: {
                             var coords = mapToItem(page.parent,mouseX,mouseY)
+                            timePicker.hours = timeSettings.currentHour();
+                            timePicker.minutes = timeSettings.currentMinute();
                             timePicker.show(coords.x,coords.y);
                         }
                     }
