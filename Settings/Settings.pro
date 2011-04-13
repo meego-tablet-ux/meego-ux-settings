@@ -29,7 +29,8 @@ SOURCES += components.cpp \
     BrowserSettingModel.cpp \
     localesettings.cpp \
     cellularsettings.cpp \
-    connectioncontext.cpp
+    connectioncontext.cpp \
+    notificationtypes.cpp 
 OTHER_FILES += qmldir \ 
     connectioncontext.xml
 HEADERS += components.h \ 
@@ -38,7 +39,8 @@ HEADERS += components.h \
     BrowserSettingModel.h \
     localesettings.h \
     cellularsettings.h \
-    connectioncontext.h
+    connectioncontext.h \
+    notificationtypes.h 
 
 qmldir.files += qmldir *.qml *.xml
 qmldir.path = $$[QT_INSTALL_IMPORTS]/MeeGo/Settings
