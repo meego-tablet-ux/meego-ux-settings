@@ -67,3 +67,92 @@ QString LocaleSettings::currentLocale()
     return QLocale::languageToString(current.language()) + " - " + QLocale::countryToString(current.country());
 }
 
+
+QStringList LocaleSettings::layouts()
+{
+    // this is just for test !!!
+    return m_localesStrings;
+}
+
+void LocaleSettings::setLayout(QString)
+{
+
+}
+
+QString LocaleSettings::currentLayout()
+{
+
+}
+
+QStringList LocaleSettings::dateFormats()
+{
+    QStringList dateFormats;
+
+    QLocale locale = QLocale::system();
+
+    dateFormats << locale.toString(QDate::currentDate(), QLocale::LongFormat);
+    dateFormats << locale.toString(QDate::currentDate(), QLocale::ShortFormat);
+    dateFormats << locale.toString(QDate::currentDate(), QLocale::NarrowFormat);
+
+    return dateFormats;
+}
+
+void LocaleSettings::setDateFormat(QString)
+{
+
+}
+
+QString LocaleSettings::currentDateFormat()
+{
+
+}
+
+QStringList LocaleSettings::timeFormats()
+{
+    QStringList timeFormats;
+
+    QLocale locale = QLocale::system();
+
+    timeFormats << locale.toString(QTime::currentTime(), QLocale::LongFormat);
+    timeFormats << locale.toString(QDate::currentTime(), QLocale::ShortFormat);
+    timeFormats << locale.toString(QDate::currentTime(), QLocale::NarrowFormat);
+
+    return dateFormats;
+}
+
+void LocaleSettings::setTimeFormat(QString)
+{
+
+}
+
+QString LocaleSettings::currentTimeFormat()
+{
+
+}
+
+QStringList LocaleSettings::numberFormats()
+{
+    double dbl = 1234.5678;
+
+    QStringList numberFormats;
+    QLocale locale = QLocale::system();
+
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    numberFormats << locale.toString(dbl);
+
+    locale.setNumberOptions(QLocale::RejectGroupSeparator);
+    numberFormats << locale.toString(dbl);
+
+    return numberFormats;
+}
+
+void LocaleSettings::setNumberFormat(QString)
+{
+
+}
+
+QString LocaleSettings::currentNumberFormat()
+{
+
+}
+

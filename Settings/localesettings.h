@@ -18,6 +18,22 @@ public slots:
     void setLocale(QString);
     QString currentLocale();
 
+    QStringList layouts();
+    void setLayout(QString);
+    QString currentLayout();
+
+    QStringList dateFormats();
+    void setDateFormat(QString);
+    QString currentDateFormat();
+
+    QStringList timeFormats();
+    void setTimeFormat(QString);
+    QString currentTimeFormat();
+
+    QStringList numberFormats();
+    void setNumberFormat(QString);
+    QString currentNumberFormat();
+    
 private:
 
     QStringList m_localesStrings;
