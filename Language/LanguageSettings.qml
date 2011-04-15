@@ -56,7 +56,7 @@ ApplicationPage {
                         }
                     }
                 }
-                /*Image {
+                Image {
                     id: keyboardItem
                     source: "image://theme/pulldown_box"
                     width: parent.width
@@ -75,7 +75,13 @@ ApplicationPage {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
+                        selectedValue: localeSettings.currentLayout()
+                        dataList: localeSettings.layouts()
                         width: 200
+
+                        onSelectionChanged: {
+                            localeSettings.setLayout(data);
+                        }
                     }
                 }
                 Image {
@@ -97,10 +103,44 @@ ApplicationPage {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
+                        selectedValue: localeSettings.currentDateFormat()
+                        dataList: localeSettings.dateFormats()
                         width: 200
+
+                        onSelectionChanged: {
+                            localeSettings.setDateFormat(data);
+                        }
                     }
                 }
                 Image {
+                    id: timeFormatItem
+                    source: "image://theme/pulldown_box"
+                    width: parent.width
+
+                    Text {
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                        text: qsTr("Time format:")
+                        width: 100
+                        height: parent.height
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    DropDown {
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: 10
+                        selectedValue: localeSettings.currentTimeFormat()
+                        dataList: localeSettings.timeFormats()
+                        width: 200
+
+                        onSelectionChanged: {
+                            localeSettings.setTimeFormat(data);
+                        }
+                    }
+                }
+                /*Image {
                     id: weekStartsItem
                     source: "image://theme/pulldown_box"
                     width: parent.width
@@ -121,7 +161,7 @@ ApplicationPage {
                         anchors.rightMargin: 10
                         width: 200
                     }
-                }
+                }*/
                 Image {
                     id: numberFormatItem
                     source: "image://theme/pulldown_box"
@@ -141,10 +181,16 @@ ApplicationPage {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
+                        selectedValue: localeSettings.currentNumberFormat()
+                        dataList: localeSettings.numberFormats()
                         width: 200
+
+                        onSelectionChanged: {
+                            localeSettings.setNumberFormat(data);
+                        }
                     }
                 }
-                Image {
+                /*Image {
                     id: currencyItem
                     source: "image://theme/pulldown_box"
                     width: parent.width
