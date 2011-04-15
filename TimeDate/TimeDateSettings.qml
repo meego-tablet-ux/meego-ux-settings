@@ -214,7 +214,7 @@ ApplicationPage {
                         on: timeSettings.isUsingTzAuto()
                         onToggled: {
                             timeSettings.setTzAuto(isOn);
-                            currentTzText.text = qsTr("Current Timezone is ") + timeSettings.getHumanReadableTz();
+                            currentTzText.text = qsTr("Current Timezone is %1").arg(timeSettings.getHumanReadableTz());
                         }
                     }
                 }
@@ -262,7 +262,7 @@ ApplicationPage {
                                 var saveSuccess = timeSettings.setTz(newTzTitle);
                                 if (saveSuccess)
                                 {
-                                    currentTzText.text = qsTr("Current Timezone is ") + timeSettings.getHumanReadableTz();
+                                    currentTzText.text = qsTr("Current Timezone is ").arg(timeSettings.getHumanReadableTz());
                                     timeTimer.interval = 2000
                                 }
 

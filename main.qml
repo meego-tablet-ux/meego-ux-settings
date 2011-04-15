@@ -24,6 +24,7 @@ Window {
 			return;
 		}
 
+		translator.catalog = settingsModel.settingsTranslationPaths[index - 1]
 		topView = settingsModel.settingsAppPaths[index - 1]
 
 		//scene.applicationPage = Qt.createComponent(payloadFile);
@@ -33,6 +34,7 @@ Window {
 
 	onTopViewChanged: {
 		if(topView != "") {
+
 			console.log(topView.lastIndexOf("xml"))
 			if(topView.lastIndexOf("xml") == topView.length - 3) {
 				console.log("loading xml setting: " + topView)
@@ -48,6 +50,10 @@ Window {
 	Component.onCompleted: {
 		console.log("mainWindow: " + mainWindow)
 		console.log("qApp: " + qApp)
+	}
+
+	Translator {
+		id: translator
 	}
 
 	SettingsModel {
@@ -164,6 +170,7 @@ Window {
 
 						onClicked: {
 							console.log("setting topView to: " + model.path)
+							translator.catalog = model.translation
 							scene.topView = model.path
 						}
 					}

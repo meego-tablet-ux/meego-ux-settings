@@ -22,6 +22,7 @@ ListModel {
 
 	property variant settingsApps: []
 	property variant settingsAppPaths: []
+	property variant settingsTranslationPaths: []
 
 	function filter(filterValue) {
 		settingsApps = []
@@ -39,11 +40,14 @@ ListModel {
 				var title = app.title;
 				var icon = app.icon;
 				var path = app.value("MTS/Part");
+				var translationFile = app.value("MTS/Translation")
 				if(path=="") path = app.value("DCP/Part")
 				settingsApps = settingsApps.concat(title);
 				settingsAppPaths = settingsAppPaths.concat(path);
+				settingsTranslationPaths = settingsTranslationPaths.concat(translationFile)
 
-				settingsModel.append({"title":title, "path": path, "icon": icon})
+				settingsModel.append({"title":title, "path": path, "icon": icon,
+									  "translation": translationFile})
 			}
 		}
 	}
@@ -56,11 +60,13 @@ ListModel {
 			var title = app.title;
 			var icon = app.icon;
 			var path = app.value("MTS/Part");
+			var translationFile = app.value("MTS/Translation")
 			if(path=="") path = app.value("DCP/Part")
 			settingsApps = settingsApps.concat(title);
 			settingsAppPaths = settingsAppPaths.concat(path);
+			settingsTranslationPaths = settingsTranslationPaths.concat(translationFile)
 
-			settingsModel.append({"title":title, "path": path, "icon": icon})
+			settingsModel.append({"title":title, "path": path, "icon": icon, "translation": translationFile})
 		}
 
 	}

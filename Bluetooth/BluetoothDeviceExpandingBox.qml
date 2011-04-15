@@ -80,17 +80,17 @@ ExpandingBox {
         MeeGo.Button {
             width: profileButtonsColumn.width
             height: 50
-            text: connected ? qsTr("Disconnect"): qsTr("Connect")
+            text: connected ? qsTr("Disconnect Input Device"): qsTr("Connect Input Device")
             elideText: true
             property bool connected: container.device.inputConnected
 
             onConnectedChanged: {
                 if(connected){
-                    text = qsTr("Disconnect")
+                    text = qsTr("Disconnect Input Device")
                 }
 
                 else{
-                    text = qsTr("Connect")
+                    text = qsTr("Connect Input Device")
                 }
             }
 

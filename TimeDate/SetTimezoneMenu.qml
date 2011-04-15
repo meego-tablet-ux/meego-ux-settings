@@ -33,8 +33,8 @@ Item {
         id: highlighter	
         Rectangle {
             color: "green"
-	    width: 200
-	    height: 40
+            width: 200
+            height: 40
         }
     }
 
@@ -58,9 +58,9 @@ Item {
 
         Image {
             id: menu
-	      width:parent.width - 100
-	      height: parent.height -100
-              source: "image://theme/bg_application_p"
+            width:parent.width - 100
+            height: parent.height -100
+            source: "image://theme/bg_application_p"
             anchors.centerIn: parent
             MouseArea {
                 anchors.fill: parent
@@ -70,22 +70,22 @@ Item {
             Text {
                 id: filterTitle
                 anchors.right: searchBar.left
-		anchors.rightMargin: 10
+                anchors.rightMargin: 10
                 anchors.top: parent.top
                 anchors.topMargin: 20
                 anchors.left: parent.left
-		anchors.leftMargin: 40
-		text: "Filter list"
-		font.weight: Font.DemiBold
-		style: Text.Raised
-		styleColor: "white"
+                anchors.leftMargin: 40
+                text: qsTr("Filter list")
+                font.weight: Font.DemiBold
+                style: Text.Raised
+                styleColor: "white"
             }
 
             Image {
                 id: timezones
                 anchors.top: searchBar.bottom
-		anchors.topMargin: 10
-		anchors.bottom: buttons.top
+                anchors.topMargin: 10
+                anchors.bottom: buttons.top
                 anchors.left: parent.left
                 anchors.bottomMargin: 10
                 anchors.leftMargin: 40
@@ -101,43 +101,43 @@ Item {
                     highlight: highlighteroff
                     highlightMoveDuration: 1
                     delegate: Image {
-                       id: timerect
-                       property int gmt: gmtoffset
-                       property string tzCity : city
-                       property string tzTitle: title
-                       source: "image://theme/clock/bg_list_item"
-                       height: 30
-                       width: parent.width
-                       Text {
-                           text: title
-                           anchors.left: timerect.left
-                           anchors.verticalCenter: parent.verticalCenter
-                           color: theme_fontColorNormal
-                           font.pointSize: theme_fontSizeMedium
-                           font.bold: false
-                           verticalAlignment: Text.AlignVCenter
-                           horizontalAlignment: Text.AlignHCenter
-                           wrapMode: Text.WordWrap
-                       }
-                       Text {
-                           text: "(" + qsTr("GMT") + " " + ((gmtoffset < 0)?"":"+") + gmtoffset + ")"
-                           anchors.right: timerect.right
-                           anchors.verticalCenter: parent.verticalCenter
-                           color: theme_fontColorNormal
-                           font.pointSize: theme_fontSizeMedium
-                           font.bold: false
-                           verticalAlignment: Text.AlignVCenter
-                           horizontalAlignment: Text.AlignHCenter
-                           wrapMode: Text.WordWrap
-                       }
-                       MouseArea {
-                           anchors.fill: parent
-                           onClicked: {
-                               tzlistmodel.currentIndex = index;
-                               tzlistmodel.highlight = highlighter;
-                               inputElement.text = title;
-                           }
-                       }
+                        id: timerect
+                        property int gmt: gmtoffset
+                        property string tzCity : city
+                        property string tzTitle: title
+                        source: "image://theme/clock/bg_list_item"
+                        height: 30
+                        width: parent.width
+                        Text {
+                            text: title
+                            anchors.left: timerect.left
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: theme_fontColorNormal
+                            font.pointSize: theme_fontSizeMedium
+                            font.bold: false
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            wrapMode: Text.WordWrap
+                        }
+                        Text {
+                            text: "(" + qsTr("GMT") + " " + ((gmtoffset < 0)?"":"+") + gmtoffset + ")"
+                            anchors.right: timerect.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: theme_fontColorNormal
+                            font.pointSize: theme_fontSizeMedium
+                            font.bold: false
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            wrapMode: Text.WordWrap
+                        }
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                tzlistmodel.currentIndex = index;
+                                tzlistmodel.highlight = highlighter;
+                                inputElement.text = title;
+                            }
+                        }
                     }
                 }
             }
@@ -189,17 +189,17 @@ Item {
                     }
                 }
             }
-	   
-            Image {
-		id: searchBar
-		anchors.top: parent.top
-		anchors.topMargin: 10
-		anchors.right: parent.right
-                anchors.rightMargin: 40
-		width: parent.width - filterTitle.paintedWidth - 100
-		source: "image://theme/clock/bg_searchbox"
 
-		Image {
+            Image {
+                id: searchBar
+                anchors.top: parent.top
+                anchors.topMargin: 10
+                anchors.right: parent.right
+                anchors.rightMargin: 40
+                width: parent.width - filterTitle.paintedWidth - 100
+                source: "image://theme/clock/bg_searchbox"
+
+                Image {
                     id: searchIcon
                     anchors.left: parent.left
                     anchors.leftMargin: 10
