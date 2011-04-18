@@ -240,10 +240,12 @@ ExpandingBox {
 
             MeeGo.DropDown {
                 id: dropdown
+                width: parent.width / 3
                 property string method
 
-                model: [WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"]]
-                //selectedIndex: networkItem.method == "dhcp" ? 0:1
+                model: [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]
+                payload: [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]
+                selectedIndex: networkItem.method == "dhcp" ? 0:1
                 onTriggered: {
                     dropdown.method = index == 0 ? "dhcp":"static"
                 }
