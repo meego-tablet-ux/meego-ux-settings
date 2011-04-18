@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=ControlPanelApplet
+Name=Developer Hacks
+Icon=/usr/share/pixmaps/icn_hacks.png
+
+[MTS]
+Part=/usr/share/meego-ux-settings/Hacks/Hacks.qml
