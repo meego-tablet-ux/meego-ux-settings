@@ -72,13 +72,6 @@ ApplicationPage {
                     }
                 }
 
-
-  /*              Item {
-                    id: customNotificationsLabel
-                    width: parent.width
-                    anchors.top: customizeableNotifications.bottom
-		    height: childrenRect.height  
-*/
                     GridView{
                         id: notificationsListView
                         model: notificationModel
@@ -128,7 +121,6 @@ ApplicationPage {
                             }
                         }
                     }                    
-               // }
             }
         }
     }

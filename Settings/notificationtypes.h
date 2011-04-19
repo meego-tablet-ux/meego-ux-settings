@@ -11,10 +11,11 @@
 
 #include <QObject>
 #include <QList>
-#include <QSettings>
 #include <QMap>
+#include <MGConfItem>
 #include <QDebug>
 
+#define MAXNOTIFICATIONS 4
 
 class NotificationTypes : public QObject
 {
@@ -24,8 +25,8 @@ public:
    explicit NotificationTypes(QObject *parent = 0);
 
 public slots:
-    void removeType(QString typeToRemove);
-    void addType(QString typeToAdd);
+    void removeType(QVariant typeToRemove);
+    void addType(QVariant typeToAdd);
     bool isActive(QString typeToCheck);
     bool maxNotifications();
 
@@ -35,7 +36,7 @@ signals:
 private:
 
     void findNextOpenIndex();
-    QSettings notificationSettings;
+    MGConfItem* notificationSettings[MAXNOTIFICATIONS];
     QMap<int,QString> settingsNameMap;
     QMap<QString,int> currentNotificationMap;
     int numberOfNotifications;

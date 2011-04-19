@@ -7,59 +7,59 @@
  */
 
 #include "notificationtypes.h"
-#define MAXNOTIFICATIONS 4
 
 NotificationTypes::NotificationTypes(QObject *parent) :
-        QObject(parent), notificationSettings("MeeGo", "Settings")
+        QObject(parent)
 {
-    settingsNameMap[0] = "lockscreen/visibleNotification1";
-    settingsNameMap[1] = "lockscreen/visibleNotification2";
-    settingsNameMap[2] = "lockscreen/visibleNotification3";
-    settingsNameMap[3] = "lockscreen/visibleNotification4";
+    settingsNameMap[0] = "/meego/ux/settings/lockscreen/visibleNotification1";
+    settingsNameMap[1] = "/meego/ux/settings/lockscreen/visibleNotification2";
+    settingsNameMap[2] = "/meego/ux/settings/lockscreen/visibleNotification3";
+    settingsNameMap[3] = "/meego/ux/settings/lockscreen/visibleNotification4";
 
     QString notificationType;
 
     for (int i = 0; i < MAXNOTIFICATIONS; i++)
     {
-        notificationType = notificationSettings.value(settingsNameMap[i],"").toString();
+        notificationSettings[i] = new MGConfItem(settingsNameMap[i]);
 
-        if (notificationType != "")
+        if (notificationSettings[i]->value() != QVariant::Invalid)
         {
-            numberOfNotifications++;
-            currentNotificationMap.insert(notificationType, i);
+            notificationType = notificationSettings[i]->value().toString();
+
+                numberOfNotifications++;
+                currentNotificationMap.insert(notificationType, i);
         }
     }
 
     findNextOpenIndex();
 }
 
-void NotificationTypes::addType(QString typeToAdd)
+void NotificationTypes::addType(QVariant typeToAdd)
 {
-
     if (numberOfNotifications != MAXNOTIFICATIONS)
     {
-        notificationSettings.setValue(settingsNameMap[currentIndex], typeToAdd);
+        notificationSettings[currentIndex]->set(typeToAdd);
 
         numberOfNotifications++;
-        currentNotificationMap.insert(typeToAdd,currentIndex);
+        currentNotificationMap.insert(typeToAdd.toString(),currentIndex);
         findNextOpenIndex();
 
         emit notificationNumberChanged();
     }
 }
 
-void NotificationTypes::removeType(QString typeToRemove)
+void NotificationTypes::removeType(QVariant typeToRemove)
 {
 
-    if (currentNotificationMap.contains(typeToRemove))
+    if (currentNotificationMap.contains(typeToRemove.toString()))
     {
-        int indexToRemove = currentNotificationMap[typeToRemove];
+        int indexToRemove = currentNotificationMap[typeToRemove.toString()];
 
-        notificationSettings.setValue(settingsNameMap[indexToRemove], "");
+        notificationSettings[indexToRemove]->unset();
 
         numberOfNotifications--;
         currentIndex = indexToRemove;
-        currentNotificationMap.remove(typeToRemove);
+        currentNotificationMap.remove(typeToRemove.toString());
 
         emit notificationNumberChanged();
     }
@@ -72,13 +72,12 @@ void NotificationTypes::findNextOpenIndex()
 
     for (int i = 0; i < MAXNOTIFICATIONS; i++)
     {
-        if (notificationSettings.value(settingsNameMap[i], "").toString() == "")
+        if (notificationSettings[i]->value() == QVariant::Invalid)
         {
             currentIndex = i;
             i = MAXNOTIFICATIONS;
         }
     }
-
 }
 
 bool NotificationTypes::isActive(QString typeToCheck)
