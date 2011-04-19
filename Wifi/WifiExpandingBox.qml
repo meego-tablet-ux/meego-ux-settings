@@ -165,7 +165,7 @@ ExpandingBox {
             }
 
             Text {
-                text: qsTr("Do you want to remove %1 ?\nThis action will forget any passwords and you will no longer be automatically connected to %2").arg(networkItem.name).arg(networkItem.name);
+                text: qsTr("Do you want to remove %1 ?  This action will forget any passwords and you will no longer be automatically connected to %2").arg(networkItem.name).arg(networkItem.name);
                 wrapMode: Text.WordWrap
                 height: paintedHeight
                 width: parent.width

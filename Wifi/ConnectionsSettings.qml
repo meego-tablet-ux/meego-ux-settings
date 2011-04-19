@@ -73,6 +73,13 @@ ApplicationPage {
                     onToggled: {
                         networkListModel.setOfflineMode(airplaneToggle.on);
                     }
+
+                    Connections {
+                        target: networkListModel
+                        onOfflineModeChanged: {
+                            airplaneToggle.on = networkListModel.offlineMode
+                        }
+                    }
                 }
             }
 
