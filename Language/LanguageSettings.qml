@@ -49,7 +49,7 @@ ApplicationPage {
                         anchors.rightMargin: 10
                         selectedValue: localeSettings.currentLocale()
                         dataList: localeSettings.locales()
-                        width: 300
+                        //width: 300
 
                         onSelectionChanged: {
                             localeSettings.setLocale(data);
@@ -77,7 +77,7 @@ ApplicationPage {
                         anchors.rightMargin: 10
                         selectedValue: localeSettings.currentLayout()
                         dataList: localeSettings.layouts()
-                        width: 200
+                        //width: 200
 
                         onSelectionChanged: {
                             localeSettings.setLayout(data);
@@ -105,7 +105,7 @@ ApplicationPage {
                         anchors.rightMargin: 10
                         selectedValue: localeSettings.currentDateFormat()
                         dataList: localeSettings.dateFormats()
-                        width: 200
+                        //width: 200
 
                         onSelectionChanged: {
                             localeSettings.setDateFormat(data);
@@ -133,7 +133,7 @@ ApplicationPage {
                         anchors.rightMargin: 10
                         selectedValue: localeSettings.currentTimeFormat()
                         dataList: localeSettings.timeFormats()
-                        width: 200
+                        //width: 200
 
                         onSelectionChanged: {
                             localeSettings.setTimeFormat(data);
@@ -183,7 +183,7 @@ ApplicationPage {
                         anchors.rightMargin: 10
                         selectedValue: localeSettings.currentNumberFormat()
                         dataList: localeSettings.numberFormats()
-                        width: 200
+                        //width: 200
 
                         onSelectionChanged: {
                             localeSettings.setNumberFormat(data);

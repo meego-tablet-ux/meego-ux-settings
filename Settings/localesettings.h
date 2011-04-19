@@ -37,6 +37,10 @@ public slots:
 private:
 
     QStringList m_localesStrings;
+    QStringList m_dateFormats;
+    QStringList m_timeFormats;
+    QStringList m_numberFormats;
+
     QMap<QString, QLocale> m_locales;
 
 };

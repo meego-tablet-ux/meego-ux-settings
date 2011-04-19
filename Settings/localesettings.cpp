@@ -3,6 +3,7 @@
 
 #include <QLocale>
 #include <QDebug>
+#include <QDate>
 #include <QSettings>
 #include <QDir>
 
@@ -81,20 +82,20 @@ void LocaleSettings::setLayout(QString)
 
 QString LocaleSettings::currentLayout()
 {
-
+    return m_localesStrings.first();
 }
 
 QStringList LocaleSettings::dateFormats()
 {
-    QStringList dateFormats;
+    m_dateFormats.clear();
 
     QLocale locale = QLocale::system();
 
-    dateFormats << locale.toString(QDate::currentDate(), QLocale::LongFormat);
-    dateFormats << locale.toString(QDate::currentDate(), QLocale::ShortFormat);
-    dateFormats << locale.toString(QDate::currentDate(), QLocale::NarrowFormat);
+    m_dateFormats << locale.toString(QDate::currentDate(), QLocale::LongFormat);
+    m_dateFormats << locale.toString(QDate::currentDate(), QLocale::ShortFormat);
+    m_dateFormats << locale.toString(QDate::currentDate(), QLocale::NarrowFormat);
 
-    return dateFormats;
+    return m_dateFormats;
 }
 
 void LocaleSettings::setDateFormat(QString)
@@ -104,20 +105,21 @@ void LocaleSettings::setDateFormat(QString)
 
 QString LocaleSettings::currentDateFormat()
 {
-
+    // this is just for test !!!
+    return m_dateFormats.first();
 }
 
 QStringList LocaleSettings::timeFormats()
 {
-    QStringList timeFormats;
+    m_timeFormats.clear();
 
     QLocale locale = QLocale::system();
 
-    timeFormats << locale.toString(QTime::currentTime(), QLocale::LongFormat);
-    timeFormats << locale.toString(QDate::currentTime(), QLocale::ShortFormat);
-    timeFormats << locale.toString(QDate::currentTime(), QLocale::NarrowFormat);
+    m_timeFormats << locale.toString(QTime::currentTime(), QLocale::LongFormat);
+    m_timeFormats << locale.toString(QTime::currentTime(), QLocale::ShortFormat);
+    m_timeFormats << locale.toString(QTime::currentTime(), QLocale::NarrowFormat);
 
-    return dateFormats;
+    return m_timeFormats;
 }
 
 void LocaleSettings::setTimeFormat(QString)
@@ -127,23 +129,24 @@ void LocaleSettings::setTimeFormat(QString)
 
 QString LocaleSettings::currentTimeFormat()
 {
-
+    // this is just for test !!!
+    return m_timeFormats.first();
 }
 
 QStringList LocaleSettings::numberFormats()
 {
     double dbl = 1234.5678;
+    m_numberFormats.clear();
 
-    QStringList numberFormats;
     QLocale locale = QLocale::system();
 
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    numberFormats << locale.toString(dbl);
+    m_numberFormats << locale.toString(dbl);
 
     locale.setNumberOptions(QLocale::RejectGroupSeparator);
-    numberFormats << locale.toString(dbl);
+    m_numberFormats << locale.toString(dbl);
 
-    return numberFormats;
+    return m_numberFormats;
 }
 
 void LocaleSettings::setNumberFormat(QString)
@@ -153,6 +156,7 @@ void LocaleSettings::setNumberFormat(QString)
 
 QString LocaleSettings::currentNumberFormat()
 {
-
+    // this is just for test !!!
+    return m_numberFormats.first();
 }
 
