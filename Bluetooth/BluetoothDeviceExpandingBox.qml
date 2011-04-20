@@ -49,7 +49,7 @@ ExpandingBox {
     Component {
         id: audioButtonComponent
         MeeGo.Button {
-            width: profileButtonsColumn.width
+            width: parent.width
             height: 50
             text: connected ? qsTr("Disconnect Audio"): qsTr("Connect Audio")
             property bool connected: container.device.audioConnected
@@ -78,7 +78,7 @@ ExpandingBox {
     Component {
         id: inputButtonComponent
         MeeGo.Button {
-            width: profileButtonsColumn.width
+            width: parent.width
             height: 50
             text: connected ? qsTr("Disconnect Input Device"): qsTr("Connect Input Device")
             elideText: true
@@ -108,7 +108,7 @@ ExpandingBox {
     Component {
         id: panButtonComponent
         MeeGo.Button {
-            width: profileButtonsColumn.width
+            width: parent.width
             height: 50
             text: connected ? qsTr("Disconnect Internet"): qsTr("Connect Internet")
             elideText: true
@@ -192,16 +192,19 @@ ExpandingBox {
                                              list[i] == "0000110b-0000-1000-8000-00805f9b34fb")) {
                                 //audio
                                 audioItem = audioButtonComponent.createObject(profileButtonsColumn);
+                                audioItem.parent = profileButtonsColumn
                                 count ++;
                             }
                             else if(napItem == null && list[i] == "00001116-0000-1000-8000-00805f9b34fb") {
                                 //internets nap profile
                                 napItem = panButtonComponent.createObject(profileButtonsColumn);
+                                napItem.parent = profileButtonsColumn
                                 count ++;
                             }
                             else if(inputItem == null && list[i] == "00001124-0000-1000-8000-00805f9b34fb") {
                                 //input profile
                                 inputItem = inputButtonComponent.createObject(profileButtonsColumn);
+                                inputItem.parent = profileButtonsColumn
                                 count ++;
                             }
                         }

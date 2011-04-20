@@ -8,17 +8,18 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1 as MeeGo
 
 ApplicationPage {
     id: container
     title: qsTr("Sound")
 
-		VolumeControl {
-			id: volumeControl
-			onVolumeChanged: {
-				slider.value = volumeControl.volume
-			}
-	    }
+    MeeGo.VolumeControl {
+        id: volumeControl
+        onVolumeChanged: {
+            slider.value = volumeControl.volume
+        }
+    }
 
     Image {
         id: volval
@@ -37,13 +38,13 @@ ApplicationPage {
     Connections {
         target: slider
         onSliderChanged: {
-            volumeControl.volume = slider.percent
+            volumeControl.volume = slider.value
             if(volumeControl.mute)
                 volumeControl.mute = false;
         }
     }
 
-    Slider {
+    MeeGo.Slider {
         id: slider
         value: volumeControl.volume
         width: 400

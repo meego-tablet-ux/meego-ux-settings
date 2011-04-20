@@ -249,6 +249,13 @@ ExpandingBox {
                 onTriggered: {
                     dropdown.method = index == 0 ? "dhcp":"static"
                 }
+
+                Connections {
+                    target: networkItem
+                    onMethodChanged: {
+                        dropdown.selectedIndex = networkItem.method == "dhcp" ? 0:1
+                    }
+                }
             }
 
 			/*Text {
