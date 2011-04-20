@@ -200,8 +200,10 @@ ApplicationPage {
                                 target: bluetoothModel
                                 onDevicePaired: {
                                     console.log("new paired device address:" + device.address + "==" + model.address)
-                                    if(device.address == model.address)
+                                    if(device.address == model.address){
                                         expanded=true;
+                                        device.trusted = true
+                                    }
                                 }
                             }
                         }
