@@ -10,12 +10,12 @@
 #define NOTIFICATIONTYPES_H
 
 #include <QObject>
-#include <QList>
-#include <QMap>
+#include <QStringList>
 #include <MGConfItem>
-#include <QDebug>
 
 #define MAXNOTIFICATIONS 4
+#define NUMBEROFDEFAULTS 3
+#define SETTINGSGCONFKEY "/meego/ux/settings/lockscreen/filters"
 
 class NotificationTypes : public QObject
 {
@@ -35,11 +35,11 @@ signals:
 
 private:
 
-    void findNextOpenIndex();
-    MGConfItem* notificationSettings[MAXNOTIFICATIONS];
-    QMap<int,QString> settingsNameMap;
-    QMap<QString,int> currentNotificationMap;
-    int numberOfNotifications;
+    void addDefaultNotifications();
+    MGConfItem* notificationSettings;
+    QStringList currentNotificationList;
+
+    int numberOfCustomNotifications;
     int currentIndex;
 };
 

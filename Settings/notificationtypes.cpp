@@ -9,40 +9,24 @@
 #include "notificationtypes.h"
 
 NotificationTypes::NotificationTypes(QObject *parent) :
-        QObject(parent)
+        QObject(parent), notificationSettings(NULL)
 {
-    settingsNameMap[0] = "/meego/ux/settings/lockscreen/visibleNotification1";
-    settingsNameMap[1] = "/meego/ux/settings/lockscreen/visibleNotification2";
-    settingsNameMap[2] = "/meego/ux/settings/lockscreen/visibleNotification3";
-    settingsNameMap[3] = "/meego/ux/settings/lockscreen/visibleNotification4";
+    notificationSettings = new MGConfItem(SETTINGSGCONFKEY, this);
+    if (notificationSettings->value() != QVariant::Invalid)
+        currentNotificationList = notificationSettings->value().toStringList();
 
-    QString notificationType;
+    addDefaultNotifications();
 
-    for (int i = 0; i < MAXNOTIFICATIONS; i++)
-    {
-        notificationSettings[i] = new MGConfItem(settingsNameMap[i]);
-
-        if (notificationSettings[i]->value() != QVariant::Invalid)
-        {
-            notificationType = notificationSettings[i]->value().toString();
-
-                numberOfNotifications++;
-                currentNotificationMap.insert(notificationType, i);
-        }
-    }
-
-    findNextOpenIndex();
+    numberOfCustomNotifications = currentNotificationList.size() - NUMBEROFDEFAULTS;
 }
 
 void NotificationTypes::addType(QVariant typeToAdd)
 {
-    if (numberOfNotifications != MAXNOTIFICATIONS)
+    if (numberOfCustomNotifications != MAXNOTIFICATIONS && !currentNotificationList.contains(typeToAdd.toString()))
     {
-        notificationSettings[currentIndex]->set(typeToAdd);
-
-        numberOfNotifications++;
-        currentNotificationMap.insert(typeToAdd.toString(),currentIndex);
-        findNextOpenIndex();
+        currentNotificationList.append(typeToAdd.toString());
+        numberOfCustomNotifications++;
+        notificationSettings->set(currentNotificationList);
 
         emit notificationNumberChanged();
     }
@@ -50,45 +34,37 @@ void NotificationTypes::addType(QVariant typeToAdd)
 
 void NotificationTypes::removeType(QVariant typeToRemove)
 {
-
-    if (currentNotificationMap.contains(typeToRemove.toString()))
+    if (currentNotificationList.contains(typeToRemove.toString()))
     {
-        int indexToRemove = currentNotificationMap[typeToRemove.toString()];
-
-        notificationSettings[indexToRemove]->unset();
-
-        numberOfNotifications--;
-        currentIndex = indexToRemove;
-        currentNotificationMap.remove(typeToRemove.toString());
+        currentNotificationList.removeAll(typeToRemove.toString());
+        notificationSettings->set(currentNotificationList);
+        numberOfCustomNotifications--;
 
         emit notificationNumberChanged();
     }
 }
 
-
-void NotificationTypes::findNextOpenIndex()
-{
-    currentIndex = -1;
-
-    for (int i = 0; i < MAXNOTIFICATIONS; i++)
-    {
-        if (notificationSettings[i]->value() == QVariant::Invalid)
-        {
-            currentIndex = i;
-            i = MAXNOTIFICATIONS;
-        }
-    }
-}
-
 bool NotificationTypes::isActive(QString typeToCheck)
 {
-    if (currentNotificationMap.contains(typeToCheck))
+    if (currentNotificationList.contains(typeToCheck))
         return true;
 
     return false;
 }
 
 bool NotificationTypes::maxNotifications()
+{    
+    return (numberOfCustomNotifications >= MAXNOTIFICATIONS);
+}
+
+void NotificationTypes::addDefaultNotifications()
 {
-    return (numberOfNotifications == MAXNOTIFICATIONS);
+    if (!currentNotificationList.contains("x-nokia.call"))
+        currentNotificationList.append("x-nokia.call");
+
+    if (!currentNotificationList.contains("x-nokia.message.arrived"))
+        currentNotificationList.append("x-nokia.message.arrived");
+
+    if (!currentNotificationList.contains("x-nokia.message"))
+        currentNotificationList.append("x-nokia.message");
 }
