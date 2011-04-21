@@ -14,7 +14,8 @@ PKGCONFIG += bluetooth-qt \
 	timed \
 	gnome-keyring-1 \
 	gconf-2.0 \
-	ofono-qt
+	ofono-qt \
+	mlite
 
 system(qdbusxml2cpp -c ConnectionContext -p connectioncontext -N connectioncontext.xml)
 
@@ -30,7 +31,9 @@ SOURCES += components.cpp \
     localesettings.cpp \
     cellularsettings.cpp \
     connectioncontext.cpp \
-    notificationtypes.cpp 
+    notificationtypes.cpp \
+    notificationmaker.cpp
+
 OTHER_FILES += qmldir \ 
     connectioncontext.xml
 HEADERS += components.h \ 
@@ -40,7 +43,8 @@ HEADERS += components.h \
     localesettings.h \
     cellularsettings.h \
     connectioncontext.h \
-    notificationtypes.h 
+    notificationtypes.h \
+    notificationmaker.h
 
 qmldir.files += qmldir *.qml *.xml
 qmldir.path = $$[QT_INSTALL_IMPORTS]/MeeGo/Settings

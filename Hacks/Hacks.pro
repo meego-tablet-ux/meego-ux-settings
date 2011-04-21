@@ -1,6 +1,8 @@
 TEMPLATE=subdirs
 
-OTHER_FILES += *.qml
+OTHER_FILES += *.qml \
+    NotificationMaker/*.qml
+
 DESKTOP_FILES = hacks.desktop
 
 desktop.files = hacks.desktop

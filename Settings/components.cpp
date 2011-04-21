@@ -20,6 +20,7 @@
 #include "declarativesettingsmodel.h"
 #include "BrowserSettingModel.h"
 #include "notificationtypes.h"
+#include "notificationmaker.h"
 
 void Components::registerTypes(const char *uri)
 {
@@ -43,6 +44,7 @@ void Components::registerTypes(const char *uri)
 	qmlRegisterType<CellularSettings>(uri, 0, 1,"CellularSettingsModel");
 	qmlRegisterType<LocaleSettings>(uri, 0, 1,"LocaleSettings");
         qmlRegisterType<NotificationTypes>(uri, 0, 1,"NotificationTypes");
+        qmlRegisterType<NotificationMaker>(uri, 0, 1,"NotificationMaker");
 }
 
 void Components::initializeEngine(QDeclarativeEngine *engine, const char *uri)
