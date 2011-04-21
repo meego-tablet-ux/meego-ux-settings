@@ -35,12 +35,17 @@ public slots:
     QString currentNumberFormat();
     
 private:
+    void loadLayouts();
+
+private:
 
     QStringList m_localesStrings;
+    QStringList m_layoutsStrings;
     QStringList m_dateFormats;
     QStringList m_timeFormats;
     QStringList m_numberFormats;
 
+    QMap<QString, QString> m_layoutsByTitle;
     QMap<QString, QLocale> m_locales;
 
 };

@@ -15,7 +15,7 @@ PKGCONFIG += bluetooth-qt \
 	gnome-keyring-1 \
 	gconf-2.0 \
 	ofono-qt \
-	mlite
+	MeegoImFramework
 
 system(qdbusxml2cpp -c ConnectionContext -p connectioncontext -N connectioncontext.xml)
 

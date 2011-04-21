@@ -7,6 +7,15 @@
 #include <QSettings>
 #include <QDir>
 
+#include <QDBusInterface>
+#include <QDBusReply>
+#include <MGConfItem>
+#include <minputmethodnamespace.h>
+
+const QString VKBConfigurationPath("/usr/share/meegotouch/virtual-keyboard/layouts/");
+const QString VKBLayoutsFilterRule("*.xml");
+const QString VKBLayoutsIgnoreRules("symbols|number|test|customer|default");
+
 LocaleSettings::LocaleSettings(QObject *parent) :
     QObject(parent)
 {
@@ -24,7 +33,54 @@ LocaleSettings::LocaleSettings(QObject *parent) :
             }
         }
     }
+
+    loadLayouts();
 }
+
+void LocaleSettings::loadLayouts()
+{
+    QStringList layoutFiles;
+    QDir dir(VKBConfigurationPath, VKBLayoutsFilterRule);
+    QRegExp ignoreExp(VKBLayoutsIgnoreRules, Qt::CaseInsensitive);
+
+    foreach (const QFileInfo &keyboardFileInfo, dir.entryInfoList()) {
+        if (keyboardFileInfo.fileName().contains(ignoreExp))
+            continue;
+        layoutFiles << keyboardFileInfo.fileName();
+    }
+
+    MGConfItem layoutsItem("/meegotouch/inputmethods/virtualkeyboard/layouts");
+    layoutsItem.set(QVariant(layoutFiles));//
+
+    if(!QDBusConnection::sessionBus().isConnected())
+        return;
+
+    QDBusInterface iface("com.meego.inputmethodpluginmanager1",
+                         "/com/meego/inputmethodpluginmanager1");
+
+    if(!iface.isValid())
+        return;
+
+    QDBusReply<QStringList> reply = iface.call("queryAvailablePlugins", MInputMethod::OnScreen);
+    if(!reply.isValid())
+        return;
+
+    if(!reply.value().contains("MeegoKeyboard"))
+        return;
+
+    QDBusReply<QMap<QString,QVariant> > subViews = iface.call("queryAvailableSubViews", "MeegoKeyboard", MInputMethod::OnScreen);
+    if(!subViews.isValid())
+        return;
+
+    QMapIterator<QString,QVariant> it(subViews);
+    while(it.hasNext()){
+        it.next();
+        QString layoutTitle = it.value().toString();
+
+        m_layoutsByTitle[layoutTitle] = it.key();
+        m_layoutsStrings << layoutTitle;
+    }
+ }
 
 QStringList LocaleSettings::locales()
 {
@@ -71,18 +127,53 @@ QString LocaleSettings::currentLocale()
 
 QStringList LocaleSettings::layouts()
 {
-    // this is just for test !!!
-    return m_localesStrings;
+    return m_layoutsStrings;
 }
 
-void LocaleSettings::setLayout(QString)
+void LocaleSettings::setLayout(QString layoutTitle)
 {
+    if(!m_layoutsByTitle.contains(layoutTitle))
+        return;
 
+    QString layoutId = m_layoutsByTitle.value(layoutTitle);
+
+    if(!QDBusConnection::sessionBus().isConnected())
+        return;
+
+    QDBusInterface iface("com.meego.inputmethodpluginmanager1",
+                         "/com/meego/inputmethodpluginmanager1");
+
+    if(!iface.isValid())
+        return;
+
+    iface.call("setActiveSubView", layoutId, MInputMethod::OnScreen);
 }
 
 QString LocaleSettings::currentLayout()
 {
-    return m_localesStrings.first();
+    if(!QDBusConnection::sessionBus().isConnected())
+        return "";
+
+    QDBusInterface iface("com.meego.inputmethodpluginmanager1",
+                         "/com/meego/inputmethodpluginmanager1");
+
+    QDBusReply<QMap<QString,QVariant> > activeSubViews = iface.call("queryActiveSubView", MInputMethod::OnScreen);
+    if(!activeSubViews.isValid())
+        return "";
+
+    if(activeSubViews.value().count() != 1)
+        return "";
+
+    QString layoutId = activeSubViews.value().keys().first();
+
+    QMapIterator<QString,QString> it(m_layoutsByTitle);
+    while(it.hasNext()){
+        it.next();
+        if(it.value() == layoutId)
+            return it.key();
+    }
+
+    return "";
 }
 
 QStringList LocaleSettings::dateFormats()
