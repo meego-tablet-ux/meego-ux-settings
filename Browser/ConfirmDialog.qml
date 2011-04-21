@@ -60,7 +60,7 @@ Item
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 font.weight: Font.Bold
-                font.pixelSize: theme_fontPixelSizeLarger
+                font.pixelSize: theme_fontPixelSizeLarge
                 color:theme_fontColorInactive
             }
             Text {

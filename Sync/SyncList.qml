@@ -36,7 +36,7 @@ Item {
                   x: 5
 
                   color: theme_fontColorNormal
-                  font.pixelSize: theme_fontPixelSizeLarger
+                  font.pixelSize: theme_fontPixelSizeLarge
                   font.bold: true
 
                   //: Arg 1 refers to the storage type (e.g. Contacts, Calendar, etc)
