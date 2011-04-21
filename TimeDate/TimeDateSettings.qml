@@ -297,7 +297,6 @@ ApplicationPage {
             id: timePicker
             parent: scene.container
             onTimeChanged: {
-                console.log("setting time!! hours: " + timePicer.hours + ":" + timePicer.minutes);
                 var time = timeSettings.time(timePicker.hours, timePicker.minutes, "00")
                 timeSettings.setTime(time);
                 timeTimer.interval = 1000
