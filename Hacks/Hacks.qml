@@ -39,6 +39,48 @@ ApplicationPage {
                     anchors.rightMargin: 10
                 }
             }
+
+            Image {
+                id: gpsSettings
+                source: "image://theme/pulldown_box"
+                width: parent.width
+
+                Text {
+                    id: textLabelgps
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: gpsEntry.left
+                    anchors.leftMargin: 10
+                    text: qsTr("Gps Device:")
+                    width: 100
+                    height: parent.height
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                TextEntry {
+                    id: gpsEntry
+                    anchors.right: parent.right
+                    width: parent.width / 2
+                    text: gpsGconf.value
+                    anchors.verticalCenter: parent.verticalCenter
+                    onTextChanged: {
+                        gpsGconf.value = gpsEntry.text
+                    }
+
+                    GConfItem {
+                        id: gpsGconf
+                        key: "/apps/geoclue/master/org.freedesktop.Geoclue.GPSDevice"
+                        onValueChanged: {
+                            gpsEntry.text = gpsGconf.value
+                        }
+                    }
+                }
+
+                /*Ux.Button {
+                    id: selectBluetoothDevice
+                    text: qsTr("Select Bluetooth Device")
+                }*/
+            }
         }
     }
 }
