@@ -57,7 +57,7 @@ Item {
 				height: container.topicHeight
 				width: container.width
 				text: name
-				font.pixelSize: theme_fontPixelSizeMedium
+				font.pixelSize: theme_fontPixelSizeNormal
                                 color: theme_fontColorHighlight
 				anchors.left: parent.left
 				anchors.leftMargin: 10

@@ -82,7 +82,7 @@ ApplicationPage{
                     anchors.right: tbPanel.left
                     anchors.rightMargin: 12
                     color: theme_fontColorNormal
-                    font.pixelSize: theme_fontPixelSizeLargest2
+                    font.pixelSize: theme_fontPixelSizeLarge
                     anchors.verticalCenter: parent.verticalCenter
                     wrapMode: Text.NoWrap
                     elide: Text.ElideRight

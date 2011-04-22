@@ -51,7 +51,7 @@ GroupBox {
         orientation:ListView.Horizontal
         delegate: Text{
             text: choice + ","
-            font.pixelSize: theme_fontPixelSizeLarger
+            font.pixelSize: theme_fontPixelSizeLarge
             color:theme_fontColorHighlight
             style: Text.Outline
             styleColor: "gray"

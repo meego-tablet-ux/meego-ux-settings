@@ -58,7 +58,8 @@ ApplicationPage {
                         anchors.leftMargin: 10
                         anchors.top: parent.top
                         anchors.topMargin: 2
-                        font.pixelSize: theme_fontPixelSizeLargest3
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: theme_fontPixelSizeLarge
                         height: 100
                         width: parent.width
                     }
@@ -83,7 +84,7 @@ ApplicationPage {
                         anchors.leftMargin: 10
                         verticalAlignment: Text.AlignVCenter
                         text: timeSettings.currentTime()
-                        font.pixelSize: theme_fontPixelSizeLargest3
+                        font.pixelSize: theme_fontPixelSizeLarge
                         height: parent.height
                         width: parent.width - 10
                     }
@@ -229,7 +230,7 @@ ApplicationPage {
                         anchors.left: parent.left
                         anchors.leftMargin: 10
                         text: qsTr("Manual time zone selection");
-                        font.pixelSize: theme_fontPixelSizeLargest
+                        font.pixelSize: theme_fontPixelSizeLarge
                         font.bold: true
                         height: parent.height
                         width: parent.width

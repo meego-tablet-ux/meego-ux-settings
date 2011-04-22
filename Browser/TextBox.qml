@@ -50,7 +50,7 @@ Item
         anchors.fill: parent
         text:qsTr("Text")
         color:theme_fontColorNormal
-        font.pixelSize: theme_fontPixelSizeLarger
+        font.pixelSize: theme_fontPixelSizeLarge
         horizontalAlignment:Text.AlignHCenter
         verticalAlignment:Text.AlignVCenter
 

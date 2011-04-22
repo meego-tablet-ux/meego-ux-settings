@@ -45,7 +45,7 @@ Item {
             text: qsTr("Google Account")
             font.weight: Font.Bold
             color: theme_fontColorNormal
-            font.pixelSize: theme_fontPixelSizeLarger
+            font.pixelSize: theme_fontPixelSizeLarge
         }
 
         Column {

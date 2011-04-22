@@ -86,7 +86,7 @@ Item
                 anchors.leftMargin: 20
                 text: qsTr("group")
                 color: theme_fontColorNormal
-                font.pixelSize: theme_fontPixelSizeLarger
+                font.pixelSize: theme_fontPixelSizeLarge
                 font.bold: true
 
             }
