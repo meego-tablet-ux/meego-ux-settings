@@ -102,19 +102,18 @@ void LocaleSettings::setLocale(QString locale)
     setenv("LANG",envvar.data(),1);
     setenv("LC_ALL",envvar.data(),1);
 
-    if(!QDir::home().exists(QDir::homePath() + "/.config/sysconfig"))
-    {
-        QDir::home().mkpath(".config/sysconfig");
-    }
-
     if(!QFile::exists(QDir::homePath() + "/.config/sysconfig/i18n"))
     {
+        if(!QDir::home().exists(QDir::homePath() + "/.config/sysconfig"))
+        {
+            QDir::home().mkpath(".config/sysconfig");
+        }
+
         QFile::copy("/etc/sysconfig/i18n", QDir::homePath() + "/.config/sysconfig/i18n");
     }
 
-    QSettings *i18n = new QSettings(QDir::homePath() + "/.config/sysconfig/i18n", QSettings::NativeFormat, this);
-
-    i18n->setValue("LANG",QLocale().name() + ".UTF-8");
+    QSettings i18n(QDir::homePath() + "/.config/sysconfig/i18n", QSettings::NativeFormat, this);
+    i18n.setValue("LANG",QLocale().name() + ".UTF-8");
 }
 
 QString LocaleSettings::currentLocale()
