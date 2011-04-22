@@ -15,11 +15,13 @@ SharedCredentials::SharedCredentials(QObject * parent)
   : QObject(parent)
   , m_provider()
   , m_processor(0)
-  , m_service(new SignOn::AuthService)
+  , m_service(0)
 {
-//   m_service->dumpObjectInfo();
+  m_service = new SignOn::AuthService(this);
 
-  connect(m_service.data(),
+  // m_service->dumpObjectInfo();
+
+  connect(m_service,
 	  SIGNAL(identities(const QList<SignOn::IdentityInfo> &)),
 	  this,
 	  SLOT(identities(const QList<SignOn::IdentityInfo> &)));

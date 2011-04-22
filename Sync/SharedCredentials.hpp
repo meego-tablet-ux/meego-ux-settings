@@ -12,7 +12,7 @@
 #include "SharedCredentialsProcessor.hpp"
 
 #include <SignOn/AuthService>
-#include <QScopedPointer>
+
 
 namespace SignOn
 {
@@ -69,7 +69,7 @@ private:
   SharedCredentialsProcessor * m_processor;
 
   /// Underlying SSO authentication service.
-  QScopedPointer<SignOn::AuthService> m_service;
+  SignOn::AuthService * m_service;
 
 };
 

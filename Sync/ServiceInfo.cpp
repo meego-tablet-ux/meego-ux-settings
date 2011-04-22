@@ -54,23 +54,13 @@ MeeGo::Sync::ServiceInfo::ServiceInfo(ServiceInfo const & rhs)
 
 void MeeGo::Sync::ServiceInfo::operator=(ServiceInfo const & rhs)
 {
+  // Weak exception-safety.
+
   // @todo It would be nice if we implement strong exception safety
   //       and remove this self-assignment check by using the
   //       copy-and-swap idiom.
   if (this == &rhs)
     return;
-
-  // Weak exception-safety.
-
-  // @todo It would be nice if we implement strong exception and
-  //       remove this self-assignment check by using the
-  //       copy-and-swap idiom.
-  if (this == &rhs)
-    return;
-
-  disconnect(SIGNAL(serviceReady(QString)));
-
-  setParent(rhs.parent());
 
   m_profile.reset(new Buteo::SyncProfile(*rhs.m_profile));
 
@@ -85,6 +75,10 @@ void MeeGo::Sync::ServiceInfo::operator=(ServiceInfo const & rhs)
   m_username = rhs.m_username;
   m_password = rhs.m_password;
   m_ready    = rhs.m_ready;
+
+  disconnect(SIGNAL(serviceReady(QString)));
+
+  setParent(rhs.parent());
 
   connect(this,
 	  SIGNAL(serviceReady(QString)),
