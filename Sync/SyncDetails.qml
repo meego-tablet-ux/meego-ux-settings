@@ -52,7 +52,7 @@ Item {
     function executeOnSignin(u, p) {
         username = u;
         password = p;
-        bridge.doPostInit(true);
+        bridge.doPostInit("", true);
     }
 
     Component {
