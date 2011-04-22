@@ -9,7 +9,7 @@ CONFIG += link_pkgconfig \
     debug \
     warn_on
 
-PKGCONFIG += syncfwclient syncprofile libsignon-qt
+PKGCONFIG += syncfwclient syncprofile libsignon-qt mlite
 
 QT += declarative xml
 

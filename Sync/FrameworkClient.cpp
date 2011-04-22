@@ -17,6 +17,9 @@
 // #include <QDomDocument>
 #include <QDebug>
 
+#include <MNotification>
+
+
 namespace {
   // Keep these around for future use so that translators need not
   // translate them later.
@@ -495,6 +498,17 @@ MeeGo::Sync::FrameworkClient::resultsAvailable(
     //: Sync result message.  The argument provides the error details.
     s = tr("Sync failed: %1").arg(e);
 
+    // Issue a soft notification about the failure.
+    MNotification n("Sync");
+    n.setSummary(s);
+    //n.setBody("");
+
+    // @todo Causes crash.
+    // n.setImage("image://meegotheme/icons/settings/sync");
+
+    n.publish();
+
+    // Pop up the login dialog on authentication failure.
     if (results.minorCode() == Buteo::SyncResults::AUTHENTICATION_FAILURE) {
       emit authenticationFailed();
     }
