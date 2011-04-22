@@ -173,7 +173,18 @@ Window {
 							id: tapArea
 							onFinished: {
 								translator.catalog = model.translation
-								scene.topView = model.path
+								//scene.topView = model.path
+
+								///This is added because of influential people:
+								if(topView.lastIndexOf("xml") == topView.length - 3) {
+									console.log("loading xml setting: " + topView)
+									scene.applicationData = topView
+									scene.addApplicationPage(declarativeComponent)
+
+								}
+								else {
+									scene.addApplicationPage(Qt.createComponent(model.path))
+								}
 							}
 						}
 					}
