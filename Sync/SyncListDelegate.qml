@@ -6,7 +6,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import Qt 4.7
+import QtQuick 1.0
 import MeeGo.Labs.Components 0.1
 import MeeGo.Sync 0.1
 
@@ -48,9 +48,9 @@ BorderImage {
             anchors.fill: parent
             title: model.storage
 
-            onSearch: {
-                    console.log("application search query: " + needle)
-            }
+//            onSearch: {
+//                    console.log("application search query: " + needle)
+//            }
 
             SyncDetails {
                 id: fnord
@@ -127,7 +127,7 @@ BorderImage {
         x: 100  // Force alignment of all service labels
 
         color: theme_fontColorNormal
-        font.pixelSize: theme_fontPixelSizeMediumLarge
+        font.pixelSize: theme_fontPixelSizeNormal
 
         //: Arg 1 is the sync service name (e.g. "Yahoo!") and arg 2 is the storage name (e.g. "Contacts" or "Calendar".
         text: qsTr("%1 %2").arg(displayName).arg(storage)

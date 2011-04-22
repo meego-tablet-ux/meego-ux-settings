@@ -6,7 +6,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import Qt 4.7
+import QtQuick 1.0
 import MeeGo.Labs.Components 0.1
 import MeeGo.Sync 0.1
 
@@ -116,7 +116,7 @@ Item {
                     Text {
                         id: serviceName
                         color: theme_fontColorNormal
-                        font.pixelSize: theme_fontPixelSizeLarger
+                        font.pixelSize: theme_fontPixelSizeLarge
                         font.bold: true
                         // @todo Pull display name and storage profile name from C++ side.
                         //: Arg 1 is the name of the sync service (e.g. "Yahoo!") and arg 2 is the name of the storage (e.g. "Contacts" or "Calendar").
@@ -126,7 +126,7 @@ Item {
                     Text {
                         id: syncResult
                         color: theme_fontColorNormal
-                        font.pixelSize: theme_fontPixelSizeMediumLarge
+                        font.pixelSize: theme_fontPixelSizeNormal
                         text: bridge.status
                     }
 
@@ -198,7 +198,7 @@ Item {
                 Text {
                     id: detailsLabel
                     color: theme_fontColorNormal
-                    font.pixelSize: theme_fontPixelSizeLarger
+                    font.pixelSize: theme_fontPixelSizeLarge
                     font.bold: true
                     //: Title of "account details" area of page.
                     text: qsTr("Sync account details")
@@ -206,7 +206,7 @@ Item {
 
                 Text {
                     color: theme_fontColorNormal
-                    font.pixelSize: theme_fontPixelSizeMediumLarge
+                    font.pixelSize: theme_fontPixelSizeNormal
                     text: username
                 }
             }

@@ -6,7 +6,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import Qt 4.7
+import QtQuick 1.0
 import MeeGo.Labs.Components 0.1
 import MeeGo.Sync 0.1
 
@@ -36,7 +36,7 @@ Item {
                   x: 5
 
                   color: theme_fontColorNormal
-                  font.pixelSize: theme_fontPixelSizeLarger
+                  font.pixelSize: theme_fontPixelSizeLarge
                   font.bold: true
 
                   //: Arg 1 refers to the storage type (e.g. Contacts, Calendar, etc)
