@@ -274,7 +274,7 @@ ExpandingBox {
 				width: parent.width / 3
 			}
 
-			TextEntry {
+			MeeGo.TextEntry {
 				id: ipaddyEdit
 				width: parent.width / 3
 				text: container.ipaddy
@@ -293,7 +293,7 @@ ExpandingBox {
 				width: parent.width / 3
 			}
 
-			TextEntry {
+			MeeGo.TextEntry {
 				id: subnetEdit
 				width: parent.width / 3
 				text: container.subnet
@@ -311,7 +311,7 @@ ExpandingBox {
 				width: parent.width / 3
 			}
 
-			TextEntry {
+			MeeGo.TextEntry {
 				id: gatewayEdit
 				width: parent.width / 3
 				text: container.gateway
@@ -386,7 +386,7 @@ ExpandingBox {
                 Row {
                     height: childrenRect.height
 
-                    TextEntry {
+                    MeeGo.TextEntry {
                         id: passwordTextInput
                         textInput.echoMode: TextInput.Normal
                         visible: passwordGrid.passwordRequired

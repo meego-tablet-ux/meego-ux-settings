@@ -189,7 +189,7 @@ ApplicationPage {
                 Text{
                     anchors.left: parent.left
                     anchors.leftMargin: 10
-                    text: networkListModel.count > 0 ? qsTr("Available Networks"):qsTr("No networks available")
+                    text: qsTr("Available Networks")
                     font.pixelSize: theme_fontPixelSizeLarge
                     height: parent.height
                     width: parent.width
@@ -201,6 +201,16 @@ ApplicationPage {
             Column {
                 id: availableNetworksList
                 width: parent.width
+
+                Text {
+                    visible: networkListModel.count == 0
+                    text:  qsTr("No networks available")
+                    font.pixelSize: theme_fontPixelSizeLarge
+                    height: parent.height
+                    width: parent.width
+                    elide: Text.ElideRight
+                }
+
                 Repeater {
                     model: networkListModel
                     delegate: availableNetworkItem

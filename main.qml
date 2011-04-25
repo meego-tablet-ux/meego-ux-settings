@@ -19,6 +19,7 @@ Window {
 	filterModel: allSettingsArray.concat(settingsModel.settingsApps)
 	filterPayload: settingsModel.settingsAppPaths
 	applicationPage: landingPageComponent
+
 	onFilterTriggered: {
 		if(index == 0) {
 			scene.applicationPage = landingPageComponent
@@ -82,7 +83,7 @@ Window {
 				}
 
 				for(var i=0; i< settingsModel.settingsApps.length; i++) {
-					if(page == settingsModel.settingsApps[i]) {
+					if(page == settingsModel.settingsAppNames[i]) {
 						var payloadFile  = settingsModel.settingsAppPaths[i]
 						scene.applicationData = cdata
 						scene.applicationPage = Qt.createComponent(payloadFile);

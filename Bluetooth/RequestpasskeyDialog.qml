@@ -22,7 +22,7 @@ Column {
         width: parent.width
     }
 
-    TextEntry {
+    MeeGo.TextEntry {
         id: textInput
         width: parent.width
         textInput.inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhDigitsOnly | ImhNoPredictiveText

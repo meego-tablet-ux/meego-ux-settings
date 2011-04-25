@@ -26,7 +26,7 @@ Column {
         height: 30
     }
 
-    TextEntry {
+    MeeGo.TextEntry {
         id: textInputField
         width: parent.width
         text: replyValue

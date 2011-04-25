@@ -58,7 +58,7 @@ ApplicationPage {
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                TextEntry {
+                Ux.TextEntry {
                     id: gpsEntry
                     anchors.right: parent.right
                     width: parent.width / 2
