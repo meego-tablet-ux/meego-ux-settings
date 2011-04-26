@@ -147,6 +147,7 @@ ApplicationPage {
                                 Connections {
                                     target: networkListModel
                                     onEnabledTechnologiesChanged: {
+                                        console.log("["+modelData+"]: caught enabled tech signals changed")
                                         dtoggle.on = networkListModel.enabledTechnologies.indexOf(modelData) != -1
                                     }
                                 }

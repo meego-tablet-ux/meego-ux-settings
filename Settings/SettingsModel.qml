@@ -60,11 +60,12 @@ ListModel {
 		var name = app.name
 		if(name == "") {
 			console.log("************************************************************")
-			console.log("* WARNING: " + title + " is missing MTS/SettingName section*")
-			console.log("* All remote calls to the page may fail.                   *")
-			console.log("* please add MTS/SettingsName to the settings .desktop     *")
+			console.log("* WARNING: " + title + " is missing 'Name' section         *")
+			console.log("* Any remote calls to the page may fail.                   *")
+			console.log("* please add 'Name'' to the settings .desktop              *")
 			console.log("************************************************************")
 		}
+
 		var icon = app.icon;
 		var path = app.value("MTS/Part");
 		var translationFile = app.value("MTS/Translation")
