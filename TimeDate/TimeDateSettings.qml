@@ -299,8 +299,6 @@ ApplicationPage {
             parent: scene.container
             onAccepted: {
                 var time = timeSettings.time(timePicker.hours, timePicker.minutes, "00")
-                console.log("returned time: " + timePicker.hours + ":" + timePicker.minutes)
-                console.log("reported time: " + timePicker.time)
                 timeSettings.setTime(time);
                 timeTimer.interval = 1000
             }
@@ -320,7 +318,7 @@ ApplicationPage {
         }
 
 		///I hate using loaders
-		Loader{
+		Loader {
 			id: timezoneSelectLoader
 			anchors.fill: parent
 			width: parent.width
