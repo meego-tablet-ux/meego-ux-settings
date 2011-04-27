@@ -237,7 +237,7 @@ ApplicationPage {
             subnet: model.netmask
             method: model.method
             nameservers: model.nameservers
-            defaultRoute:  networkListModel.defaultRoute == model.networkitemmodel
+            defaultRoute:  model.defaultRoute
         }
     }
 }
