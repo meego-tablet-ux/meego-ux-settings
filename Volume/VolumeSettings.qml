@@ -38,6 +38,18 @@ ApplicationPage {
     Connections {
         target: slider
         onSliderChanged: {
+            if(setVolumeTimer.running)
+                setVolumeTimer.restart();
+            else setVolumeTimer.start();
+        }
+    }
+
+    Timer {
+        id: setVolumeTimer
+        interval: 250
+        repeat:  false
+
+        onTriggered: {
             volumeControl.volume = slider.value
             if(volumeControl.mute)
                 volumeControl.mute = false;
