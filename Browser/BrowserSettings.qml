@@ -12,7 +12,7 @@ import MeeGo.Settings 0.1
 
 ApplicationPage {
     id: bsContainer
-    title: "Browser"
+    title: qsTr("Browser")
     anchors.fill: parent
 		
     BrowserSettingModel {
