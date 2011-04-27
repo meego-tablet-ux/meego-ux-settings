@@ -82,7 +82,7 @@ Window {
 				    return;
 				}
 
-				for(var i=0; i< settingsModel.settingsApps.length; i++) {
+				for(var i=0; i< settingsModel.settingsAppNames.length; i++) {
 					if(page == settingsModel.settingsAppNames[i]) {
 						var payloadFile  = settingsModel.settingsAppPaths[i]
 						scene.applicationData = cdata

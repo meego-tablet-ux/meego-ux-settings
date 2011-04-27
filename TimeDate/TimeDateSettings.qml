@@ -297,8 +297,10 @@ ApplicationPage {
         MeeGo.TimePicker {
             id: timePicker
             parent: scene.container
-            onTimeChanged: {
+            onAccepted: {
                 var time = timeSettings.time(timePicker.hours, timePicker.minutes, "00")
+                console.log("returned time: " + timePicker.hours + ":" + timePicker.minutes)
+                console.log("reported time: " + timePicker.time)
                 timeSettings.setTime(time);
                 timeTimer.interval = 1000
             }
