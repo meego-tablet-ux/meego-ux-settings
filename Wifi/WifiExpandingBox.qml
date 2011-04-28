@@ -98,15 +98,20 @@ ExpandingBox {
             ]
         }
 
-        Text {
-            id: mainText
-            text: status == "" ? ssid:(ssid + " - " + status)
-        }
+        Column {
+            spacing: 5
+            width: childrenRect.width
+            Text {
+                id: mainText
+                text: status == "" ? ssid:(ssid + " - " + status)
+            }
 
-        Text {
-            id: securityText
+            Text {
+                id: securityText
+            }
         }
     }
+
 
 
 
@@ -265,6 +270,7 @@ ExpandingBox {
 			}*/
 
 			Text {
+				width: parent.width / 3
 				text: qsTr("IP Address:")
 			}
 
@@ -383,9 +389,10 @@ ExpandingBox {
 
             Column {
                 width:  parent.width
+                spacing: 10
                 Row {
                     height: childrenRect.height
-
+                    spacing: 10
                     MeeGo.TextEntry {
                         id: passwordTextInput
                         textInput.echoMode: TextInput.Normal
@@ -427,7 +434,7 @@ ExpandingBox {
 
                 Row {
                     height: childrenRect.height
-
+                    spacing: 10
                     CheckBox {
                         id: showPasswordCheckbox
                         visible: passwordGrid.passwordRequired
@@ -442,7 +449,7 @@ ExpandingBox {
                         visible: passwordGrid.passwordRequired
                         text: qsTr("Show Password")
                         width: 100
-                        height: 50
+                        height: showPasswordCheckbox.height
                         verticalAlignment: Text.AlignVCenter
                     }
                 }
