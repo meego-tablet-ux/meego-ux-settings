@@ -43,6 +43,7 @@ MeeGo::Sync::FrameworkClient::FrameworkClient(QObject* parent)
   , m_scheduled(false)
   , m_status()
   , m_service()
+  , m_storage()
   , m_name()
   , m_username()
   , m_password()
@@ -121,6 +122,20 @@ MeeGo::Sync::FrameworkClient::setService(QString s)
     // @note Service name, *not* profile name/ID, is passed to the
     //       getSsoCaption() function!
     m_provider = getSsoCaption(s);
+  }
+}
+
+QString
+MeeGo::Sync::FrameworkClient::storage() const
+{
+  return m_storage;
+}
+
+void
+MeeGo::Sync::FrameworkClient::setStorage(QString s)
+{
+  if (s != m_storage) {
+    m_storage = s;
   }
 }
 
@@ -307,10 +322,18 @@ MeeGo::Sync::FrameworkClient::doPostInit(QString fuzzyTime,
       //: Arg 1 is a brief sync error description, e.g. "connection failed".
       setStatus(tr("Last sync failed: %1").arg(e));
 
-      if (results.minorCode() == Buteo::SyncResults::AUTHENTICATION_FAILURE) {
-	// Pop-up the login dialog.
-	emit authenticationFailed();
-      }
+      // We could pop up the login dialog on authentication failure of
+      // the last sync by emitting the authentication_failed()
+      // signal.  However, doing so could inadvertently make the user
+      // re-enter shared credentials that were previously updated for
+      // another account that uses those same credentials.  For
+      // example, the user could have updated the credentials for
+      // Google Calendar because of an authentication failure.  We
+      // would not to immediately pop-up the login dialog if the last
+      // sync for Google Contacts had an authentication failure.  We'd
+      // want to use the updated shared credentials.  As such, we only
+      // pop up the login dialog *immediately* after an authentication
+      // failure.
     }
 
     // Flip the recurring sync toggle as necessary.
@@ -500,12 +523,9 @@ MeeGo::Sync::FrameworkClient::resultsAvailable(
 
     // Issue a soft notification about the failure.
     MNotification n("Sync");
-    n.setSummary(s);
-    //n.setBody("");
-
-    // @todo Causes crash.
-    // n.setImage("image://meegotheme/icons/settings/sync");
-
+    n.setSummary(tr("%1 %2 sync failed").arg(m_service).arg(m_storage));
+    n.setBody(e);
+    n.setImage("image://meegotheme/icons/settings/sync");
     n.publish();
 
     // Pop up the login dialog on authentication failure.
