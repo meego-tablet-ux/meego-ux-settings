@@ -39,6 +39,7 @@ namespace MeeGo {
       Q_PROPERTY(bool scheduled READ scheduled NOTIFY scheduledChanged)
       Q_PROPERTY(QString status READ status NOTIFY statusChanged)
       Q_PROPERTY(QString service READ service WRITE setService)
+      Q_PROPERTY(QString storage READ storage WRITE setStorage)
       Q_PROPERTY(QString name READ name WRITE setName)
       Q_PROPERTY(QString username READ username WRITE setUsername)
       Q_PROPERTY(QString password READ password WRITE setPassword)
@@ -58,11 +59,17 @@ namespace MeeGo {
       /// Set the sync status string.
       void setStatus(QString s);
 
-      /// Retrieve sync service name (e.g. google.com).
+      /// Retrieve sync service name (e.g. "Google").
       QString service() const;
 
-      /// Set sync service name (e.g. google.com).
+      /// Set sync service name (e.g. "Google").
       void setService(QString s);
+
+      /// Retrieve sync storage name (e.g. "Calendar").
+      QString storage() const;
+
+      /// Set sync storage name (e.g. "Calendar").
+      void setStorage(QString s);
 
       /// Retrieve sync profile name.
       QString name() const;
@@ -181,8 +188,11 @@ namespace MeeGo {
       /// Stringified sync status.
       QString m_status;
 
-      /// Sync service name (e.g. google.com).
+      /// Sync service name (e.g. "Google").
       QString m_service;
+
+      /// Sync storage name (e.g. "Calendar").
+      QString m_storage;
 
       /// Sync profile name.
       QString m_name;
