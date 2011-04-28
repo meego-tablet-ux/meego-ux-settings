@@ -7,7 +7,8 @@
  */
 
 import QtQuick 1.0
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 import MeeGo.Sync 0.1
 
 Item {
@@ -23,7 +24,7 @@ Item {
     property string username
     property string password
 
-    FuzzyDateTime {
+    Labs.FuzzyDateTime {
         id: fuzz
     }
 
@@ -32,6 +33,7 @@ Item {
         id: bridge
 
         service:  container.service   // Needed for credentials removal.
+        storage:  container.storage   // Used in soft notifications.
         name:     container.name
         username: container.username  // To be potentially stored.
         password: container.password
@@ -44,7 +46,7 @@ Item {
 
             bridge.doPostInit(fuzz.getFuzzy(bridge.lastSyncTime(name)), false);
 
-            syncMe.active = true;
+            syncMe.enabled = true;
         }
     }
 
@@ -83,13 +85,7 @@ Item {
             Item {
                 id: syncSummary
                 height: {
-                    var h = serviceIcon.height;
-                    if (serviceStatus.height > h)
-                        h = serviceStatus.height;
-                    if (syncMe.height > h)
-                        h = syncMe.height;
-
-                    h + 10;
+                    Math.max(serviceIcon.height, serviceStatus.height, syncMe.height) + 10
                 }
                 width: parent.width - 10
                 anchors.horizontalCenter: serviceInfo.horizontalCenter
@@ -139,8 +135,8 @@ Item {
                     anchors.right: syncSummary.right
 
                     //: Text displayed in "sync now" button.
-                    title: qsTr("Sync now")
-                    active: false
+                    text: qsTr("Sync now")
+                    enabled: false
 
                     onClicked: {
                         // Manually run sync on selected profile.
@@ -186,7 +182,7 @@ Item {
             border.bottom: 5
             width: serviceInfo.width
             height: {
-                (details.height > forget.height ? details.height : forget.height) + 10;
+                Math.max(details.height, forget.height) + 10
             }
 
             Column {
@@ -218,11 +214,11 @@ Item {
                 anchors.right: syncAccountDetails.right
 
                 //: Text displayed in "forget this" button (used to remove current sync account).
-                title: qsTr("Forget this")
+                text: qsTr("Forget this")
 
                 onClicked: {
                     // Disable the "Sync Now" button auto-sync toggle switch.
-                    syncMe.active = false;
+                    syncMe.enabled = false;
 
                     // Remove account login information from profile on disk.  Note that we're
                     // removing all profiles for the given service provider (e.g. all Google

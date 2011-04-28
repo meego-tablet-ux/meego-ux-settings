@@ -7,15 +7,13 @@
  */
 
 import QtQuick 1.0
-import MeeGo.Labs.Components 0.1
 import MeeGo.Sync 0.1
 
 Item {
-    property ApplicationPage syncParentPage
+    property alias syncParentPage: syncAllProfilesList.appPage
 
     SyncList {
         id: syncAllProfilesList
-        appPage: syncParentPage
         model: AllVisibleSyncProfilesModel {}
     }
 }

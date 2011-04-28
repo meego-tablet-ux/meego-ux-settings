@@ -7,7 +7,7 @@
  */
 
 import QtQuick 1.0
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Sync 0.1
 
 BorderImage {
@@ -27,15 +27,7 @@ BorderImage {
     property string thePassword: password
 
     height: {
-        var h = serviceIcon.height;
-        if (serviceLabel.height > h)
-            h = serviceLabel.height;
-        if (scheduledStatus.height > h)
-            h = scheduledStatus.height;
-        if (arrowRight.height > h)
-            h = arrowRight.height
-
-        h;
+        Math.max(serviceIcon.height, serviceLabel.height, scheduledStatus.height, arrowRight.height)
     }
 
     width: parent.width
@@ -43,7 +35,7 @@ BorderImage {
     Component {
         id: syncDetails
 
-        ApplicationPage {
+        Labs.ApplicationPage {
             id: syncDetailsPage
             anchors.fill: parent
             title: model.storage
@@ -124,7 +116,7 @@ BorderImage {
     Text {
         id: serviceLabel
         anchors.verticalCenter: parent.verticalCenter
-        x: 100  // Force alignment of all service labels
+        x: 110  // Force alignment of all service labels
 
         color: theme_fontColorNormal
         font.pixelSize: theme_fontPixelSizeNormal

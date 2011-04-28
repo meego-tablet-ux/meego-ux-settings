@@ -7,15 +7,13 @@
  */
 
 import QtQuick 1.0
-import MeeGo.Labs.Components 0.1
-import MeeGo.Sync 0.1
 
 Item {
     id: container
     anchors.fill: parent
 
     property alias model: syncListView.model
-    property ApplicationPage appPage
+    property Item appPage
     property variant theLoginDialog: null
 
     Component {
@@ -40,7 +38,7 @@ Item {
                   font.bold: true
 
                   //: Arg 1 refers to the storage type (e.g. Contacts, Calendar, etc)
-                  text: qsTr("Sync %1").arg(section)// storageName
+                  text: qsTr("Sync %1").arg(section)
               }
           }
       }
