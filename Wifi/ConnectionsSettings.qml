@@ -23,6 +23,10 @@ ApplicationPage {
         WifiHelper.connmanTechnologies["bluetooth"] = qsTr("Bluetooth");
         WifiHelper.connmanTechnologies["cellular"] = qsTr("3G");
         WifiHelper.connmanTechnologies["wimax"] = qsTr("WiMAX");
+
+        WifiHelper.connmanSecurityType["wpa"] = qsTr("WPA");
+        WifiHelper.connmanSecurityType["rsn"] = qsTr("WPA2");
+        WifiHelper.connmanSecurityType["wep"] = qsTr("WEP");
     }
 
     Flickable {
@@ -196,6 +200,73 @@ ApplicationPage {
                     width: parent.width
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
+                }
+
+                MeeGo.Button {
+                    text: qsTr("Add Network")
+                    anchors.right:  parent.right
+                    anchors.rightMargin: 10
+                    height: parent.height - 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: false
+                    onClicked: {
+                        addNetworkDialog.show()
+                    }
+
+                    MeeGo.ModalDialog {
+                        id: addNetworkDialog
+                        showAcceptButton: true
+                        showCancelButton: true
+                        title: qsTr("Add Network")
+
+                        property string ssidHidden
+                        property string securityHidden
+
+                        content: Column {
+                            anchors.centerIn: parent
+                            width: childrenRect.width
+
+                            Row {
+                                spacing: 10
+                                height: childrenRect.height
+                                Text {
+                                    text: qsTr("Network Name:")
+                                    verticalAlignment: Text.AlignVCenter
+                                    height: ssidEntry.height
+                                }
+
+                                MeeGo.TextEntry {
+                                    id: ssidEntry
+                                    onTextChanged: addNetworkDialog.ssidHidden = text
+                                }
+                            }
+
+                            Row {
+                                spacing: 10
+                                height: childrenRect.height
+
+                                Text {
+                                    text: qsTr("Security Type:")
+                                    verticalAlignment: Text.AlignVCenter
+                                    height: ssidEntry.height
+                                }
+
+                                MeeGo.DropDown {
+                                    id: securityDropdown
+                                    model: [ qsTr("none"), qsTr("WPA"), qsTr("WPA2"), qsTr("wep") ]
+                                    payload: ["none", "wpa", "rsn", "wep"]
+                                    selectedTitle: model[selectedIndex]
+                                    onTriggered: {
+                                        addNetworkDialog.securityHidden = payload[selectedIndex]
+                                    }
+                                }
+                            }
+                        }
+                        onAccepted: {
+                            networkListModel.connectService(addNetworkDialog.ssidHidden,
+                                                            addNetworkDialog.securityHidden, "")
+                        }
+                    }
                 }
             }
 
