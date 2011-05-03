@@ -42,6 +42,78 @@ ApplicationPage {
             }
 
             Image {
+                id: homeItem
+                source: "image://theme/pulldown_box"
+                width: parent.width
+
+                Text {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    text: qsTr("show Panels as home:")
+                    width: 100
+                    height: parent.height
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Ux.ToggleButton {
+                    id: homeToggle
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    on: homeGconf.value
+                    onToggled: {
+                        homeGconf.value = homeToggle.on
+                    }
+
+                    GConfItem {
+                        id: homeGconf
+                        key: "/meego/ux/ShowPanelsAsHome"
+                        onValueChanged: {
+                            homeToggle.on = homeGconf.value
+                        }
+                    }
+
+                }
+            }
+
+            Image {
+                id: bluetoothHacks
+                source: "image://theme/pulldown_box"
+                width: parent.width
+
+                Text {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    text: qsTr("bluetooth hacks:")
+                    width: 100
+                    height: parent.height
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Ux.ToggleButton {
+                    id: bthacksToggle
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    on: btHacksGconf.value
+                    onToggled: {
+                        btHacksGconf.value = bthacksToggle.on
+                    }
+
+                    GConfItem {
+                        id: btHacksGconf
+                        key: "/meego/ux/settings/bluetoothhacks"
+                        onValueChanged: {
+                            bthacksToggle.on = btHacksGconf.value
+                        }
+                    }
+
+                }
+            }
+
+            Image {
                 id: gpsSettings
                 source: "image://theme/pulldown_box"
                 width: parent.width

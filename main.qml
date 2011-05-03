@@ -8,11 +8,11 @@
 
 import Qt 4.7
 import MeeGo.Settings 0.1
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as Ux
 import Qt.labs.gestures 2.0
 
-Window {
+Labs.Window2 {
 	id: scene
 	property variant allSettingsArray: [qsTr("All Settings")];
 
@@ -54,7 +54,7 @@ Window {
 		console.log("qApp: " + qApp)
 	}
 
-	Translator {
+	Labs.Translator {
 		id: translator
 	}
 
@@ -62,7 +62,7 @@ Window {
 		id: settingsModel
 	}
 
-	ApplicationsModel {
+	Labs.ApplicationsModel {
 		id: declarativeAppsModel
 		directory: "/usr/lib/meego-ux-settings"
 	}
@@ -107,7 +107,7 @@ Window {
 
 	Component {
 		id: landingPageComponent
-		ApplicationPage {
+		Labs.ApplicationPage {
 			id: landingPage
 			title: qsTr("Settings")
 

@@ -208,7 +208,7 @@ ApplicationPage {
                     anchors.rightMargin: 10
                     height: parent.height - 10
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: false
+                    //visible: false
                     onClicked: {
                         addNetworkDialog.show()
                     }
@@ -258,6 +258,7 @@ ApplicationPage {
                                     payload: ["none", "wpa", "rsn", "wep"]
                                     selectedTitle: model[selectedIndex]
                                     selectedIndex: 0
+                                    replaceDropDownTitle: true
                                     onTriggered: {
                                         addNetworkDialog.securityHidden = payload[selectedIndex]
                                     }

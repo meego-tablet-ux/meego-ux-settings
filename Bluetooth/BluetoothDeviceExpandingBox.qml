@@ -232,6 +232,29 @@ ExpandingBox {
                             device.unpair();
                         }
                     }
+
+                    Text {
+                        visible: btHacksGconf.value
+                        text: qsTr("Hardware Address: %1").arg(container.hwaddy)
+                        height: 50
+                        width: parent.width
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    Text {
+                        visible: btHacksGconf.value
+                        text: qsTr("UUids: %1").arg(container.uuids)
+                        height: 100
+                        wrapMode: Text.WrapAnywhere
+                        width: parent.width
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    GConfItem {
+                        id: btHacksGconf
+                        defaultValue: false
+                        key: "/meego/ux/settings/bluetoothhacks"
+                    }
                 }
             }
         }
