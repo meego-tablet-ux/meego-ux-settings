@@ -221,6 +221,7 @@ ApplicationPage {
 
                         property string ssidHidden
                         property string securityHidden
+                        property string securityPassphrase: ""
 
                         content: Column {
                             anchors.centerIn: parent
@@ -256,15 +257,32 @@ ApplicationPage {
                                     model: [ qsTr("none"), qsTr("WPA"), qsTr("WPA2"), qsTr("wep") ]
                                     payload: ["none", "wpa", "rsn", "wep"]
                                     selectedTitle: model[selectedIndex]
+                                    selectedIndex: 0
                                     onTriggered: {
                                         addNetworkDialog.securityHidden = payload[selectedIndex]
                                     }
                                 }
                             }
+                            Row {
+                                spacing: 10
+                                height: childrenRect.height
+                                visible: securityDropdown.selectedIndex > 0
+                                Text {
+                                    text: qsTr("Security Passphrase:")
+                                    verticalAlignment: Text.AlignVCenter
+                                    height: ssidEntry.height
+                                }
+
+                                MeeGo.TextEntry {
+                                    id: passPhraseEntry
+                                    onTextChanged: addNetworkDialog.securityPassphrase = text
+                                }
+
+                            }
                         }
                         onAccepted: {
                             networkListModel.connectService(addNetworkDialog.ssidHidden,
-                                                            addNetworkDialog.securityHidden, "")
+                                                            addNetworkDialog.securityHidden, addNetworkDialog.securityPassphrase)
                         }
                     }
                 }

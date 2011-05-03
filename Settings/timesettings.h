@@ -33,6 +33,7 @@ class TimeSettings : public QObject
     Q_PROPERTY(bool flag24 READ flag24 WRITE setFlag24 NOTIFY flag24Changed)
     Q_PROPERTY(bool automatic READ automatic WRITE setAutomatic NOTIFY automaticChanged)
     Q_PROPERTY(bool automaticTimeZone READ isUsingTzAuto WRITE setTzAuto NOTIFY automaticTimeZoneChanged)
+    Q_PROPERTY(QString timezone READ getHumanReadableTz WRITE setTz NOTIFY timezoneChanged)
 
 public:
     explicit TimeSettings(QObject *parent = 0);
@@ -44,6 +45,7 @@ signals:
     void flag24Changed(bool);
     void automaticChanged(bool);
     void automaticTimeZoneChanged(bool);
+    void timezoneChanged();
 
 public slots:
 
@@ -98,6 +100,7 @@ private:
     Maemo::Timed::Interface *timed;
     bool m_flag24;
     bool m_flagTimeAutomatic;
+    QString m_humanReadableTz;
 };
 
 #endif // TIMESETTINGS_H

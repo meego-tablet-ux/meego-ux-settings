@@ -108,6 +108,12 @@ void TimeSettings::settingsChangedSlot(const Maemo::Timed::WallClock::Info &info
         m_flagTimeAutomatic = info.flagTimeNitz();
         automaticChanged(m_flagTimeAutomatic);
     }
+
+    if(info.humanReadableTz()  != m_humanReadableTz)
+    {
+        m_humanReadableTz = info.humanReadableTz();
+        timezoneChanged();
+    }
 }
 
 

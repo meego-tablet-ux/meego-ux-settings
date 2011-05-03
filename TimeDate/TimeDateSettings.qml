@@ -186,7 +186,7 @@ ApplicationPage {
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        text: qsTr("Current Timezone is %1").arg(timeSettings.getHumanReadableTz())
+                        text: qsTr("Current Timezone is %1").arg(timeSettings.timezone)
                         width: parent.width
                         height: parent.height
                         verticalAlignment: Text.AlignVCenter
@@ -214,11 +214,19 @@ ApplicationPage {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
-                        on: timeSettings.isUsingTzAuto()
+                        on: timeSettings.automaticTimeZone
                         onToggled: {
-                            timeSettings.setTzAuto(isOn);
-                            currentTzText.text = qsTr("Current Timezone is %1").arg(timeSettings.getHumanReadableTz());
+                            timeSettings.automaticTimeZone = findMeToggleButton.on;
+                            currentTzText.text = qsTr("Current Timezone isal %1").arg(timeSettings.timezone);
                         }
+
+                        Connections {
+                            target: timeSettings
+                            onAutomaticTimeZoneChanged: {
+                                findMeToggleButton.on = timeSettings.automaticTimeZone
+                            }
+                        }
+
                     }
                 }
 
@@ -226,7 +234,7 @@ ApplicationPage {
                     id: manualTimezoneLabel
                     width: parent.width
                     source: "image://theme/settings/subheader"
-                    // visible: !findMeToggleButton.on
+                    //visible: !findMeToggleButton.on
                     Text{
                         id: manualTimezoneLabelText
                         anchors.left: parent.left
@@ -265,7 +273,7 @@ ApplicationPage {
                                 var saveSuccess = timeSettings.setTz(newTzTitle);
                                 if (saveSuccess)
                                 {
-                                    currentTzText.text = qsTr("Current Timezone is %1").arg(timeSettings.getHumanReadableTz());
+                                    currentTzText.text = qsTr("Current Timezone is ").arg(timeSettings.timezone);
                                     timeTimer.interval = 2000;
                                     findMeToggleButton.on = timeSettings.isUsingTzAuto();
                                 }
