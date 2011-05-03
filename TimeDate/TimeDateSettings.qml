@@ -83,7 +83,7 @@ ApplicationPage {
                         anchors.left: parent.left
                         anchors.leftMargin: 10
                         verticalAlignment: Text.AlignVCenter
-                        text: timeSettings.currentTime()
+                        text: timeSettings.flag24 ? Qt.formatTime(timeSettings.currentDateTime(), "hh:mm") : timeSettings.currentTime()
                         font.pixelSize: theme_fontPixelSizeLarge
                         height: parent.height
                         width: parent.width - 10
@@ -93,6 +93,7 @@ ApplicationPage {
                         anchors.fill: parent
                         onClicked: {
                             var coords = mapToItem(page.parent,mouseX,mouseY)
+			    timePicker.hr24 = timeSettings.flag24
                             timePicker.hours = timeSettings.currentHour();
                             timePicker.minutes = timeSettings.currentMinute();
                             timePicker.show(coords.x,coords.y);
@@ -123,6 +124,7 @@ ApplicationPage {
                         on: timeSettings.flag24
                         onToggled: {
                             timeSettings.flag24 = twentyfourhrtoggle.on
+			    timeTimer.interval = 1000
                             //twentyfourhrtoggle.on = timeSettings.flag24
                         }
                     }
@@ -144,6 +146,7 @@ ApplicationPage {
                     }
 
                     MeeGo.ToggleButton {
+			id: autoTimeToggle
                         on: timeSettings.automatic
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
@@ -153,7 +156,6 @@ ApplicationPage {
                             timeSettings.automatic = isOn;
                         }
                     }
-
                 }
 
 
@@ -241,7 +243,7 @@ ApplicationPage {
                     MeeGo.Button {
                         id: setTimeZoneButton
                         height: 40
-                       // width: 180
+                        // width: 180
                         anchors.right: parent.right
                         anchors.rightMargin: 10
                         anchors.verticalCenter: parent.verticalCenter
@@ -263,8 +265,9 @@ ApplicationPage {
                                 var saveSuccess = timeSettings.setTz(newTzTitle);
                                 if (saveSuccess)
                                 {
-                                    currentTzText.text = qsTr("Current Timezone is ").arg(timeSettings.getHumanReadableTz());
-                                    timeTimer.interval = 2000
+                                    currentTzText.text = qsTr("Current Timezone is %1").arg(timeSettings.getHumanReadableTz());
+                                    timeTimer.interval = 2000;
+                                    findMeToggleButton.on = timeSettings.isUsingTzAuto();
                                 }
 
                                 else
@@ -277,7 +280,6 @@ ApplicationPage {
                         }
                     }
                 }
-
             }
         }
 
@@ -288,7 +290,12 @@ ApplicationPage {
             repeat: true
             onTriggered: {
                 dateLabelText.text = timeSettings.currentDate()
-                timeLabelText.text = timeSettings.currentTime();
+
+                if (timeSettings.flag24)
+                    timeLabelText.text = Qt.formatTime(timeSettings.currentDateTime(), "hh:mm");
+                else
+                    timeLabelText.text = timeSettings.currentTime();
+
                 if(timeTimer.interval != 60000)
                     timeTimer.interval = 60000
             }
@@ -300,6 +307,7 @@ ApplicationPage {
             onAccepted: {
                 var time = timeSettings.time(timePicker.hours, timePicker.minutes, "00")
                 timeSettings.setTime(time);
+		autoTimeToggle.on = timeSettings.automatic
                 timeTimer.interval = 1000
             }
         }
@@ -313,16 +321,15 @@ ApplicationPage {
             }
         }
 
-		TimeSettings {
-			id: timeSettings
+        TimeSettings {
+            id: timeSettings
         }
 
-		///I hate using loaders
-		Loader {
-			id: timezoneSelectLoader
-			anchors.fill: parent
-			width: parent.width
-			height: parent.height
-		}
+        Loader {
+            id: timezoneSelectLoader
+            anchors.fill: parent
+            width: parent.width
+            height: parent.height
+        }
     }
 }

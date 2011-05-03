@@ -171,7 +171,7 @@ ApplicationPage {
                                     anchors.verticalCenter:  parent.verticalCenter
                                     Text {
                                         id: bodyText
-                                        text: "Enter Notification Summary: "
+                                        text: "Enter Notification Body: "
                                     }
 
                                     TextEdit{
@@ -196,7 +196,7 @@ ApplicationPage {
                                     anchors.verticalCenter:  parent.verticalCenter
                                     Text {
                                         id: imageText
-                                        text: "Enter Notification Summary: "
+                                        text: "Enter Notification Image: "
                                     }
 
                                     TextEdit{

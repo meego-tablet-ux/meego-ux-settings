@@ -46,6 +46,9 @@ signals:
     void automaticTimeZoneChanged(bool);
 
 public slots:
+
+    QDateTime currentDateTime() { return QDateTime::currentDateTime(); }
+
     QString currentDate()
     {
         QString date = QDateTime::currentDateTime().date().currentDate().toString(
