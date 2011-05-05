@@ -7,7 +7,6 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
 import MeeGo.Components 0.1 as MeeGo
 
 Column {
@@ -20,7 +19,7 @@ Column {
     property string key: ""
 
     Component.onCompleted: {
-        console.log("request  confirm dialog height: " + container.height)
+        console.log("request confirm dialog height: " + container.height)
     }
 
     Text {

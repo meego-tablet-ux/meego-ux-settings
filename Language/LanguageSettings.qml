@@ -7,10 +7,10 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Settings 0.1
 
-ApplicationPage {
+Labs.ApplicationPage {
     id: page
     title: qsTr("Language Settings")
 
@@ -43,7 +43,7 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    DropDown {
+                    Labs.DropDown {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
@@ -71,7 +71,7 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    DropDown {
+                    Labs.DropDown {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
@@ -99,7 +99,7 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    DropDown {
+                    Labs.DropDown {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
@@ -127,7 +127,7 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    DropDown {
+                    Labs.DropDown {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
@@ -177,7 +177,7 @@ ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    DropDown {
+                    Labs.DropDown {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10

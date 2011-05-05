@@ -1,5 +1,6 @@
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 
 Item {
     id: container
@@ -22,10 +23,10 @@ Item {
         timezonelist.filterOut(title);
         tzlistmodel.currentIndex = 0;
         tzlistmodel.highlight = highlighter;
-        inputElement.text = title;
+        searchBar.text = title;
     }
 
-    TimezoneListModel {
+    Labs.TimezoneListModel {
         id: timezonelist
     }
 
@@ -135,7 +136,7 @@ Item {
                             onClicked: {
                                 tzlistmodel.currentIndex = index;
                                 tzlistmodel.highlight = highlighter;
-                                inputElement.text = title;
+                                searchBar.text = title;
                             }
                         }
                     }
@@ -155,17 +156,12 @@ Item {
                     Button {
                         id: saveButton
                         height: 50
-                        width: 208
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
-                        active: ((tzlistmodel.currentItem != undefined)&&(inputElement.displayText != ""))
-                        bgSourceUp: "image://theme/btn_blue_up"
-                        bgSourceDn: "image://theme/btn_blue_dn"
-                        title: qsTr("Ok")
-                        font.pixelSize: theme_fontSizeLargest
-                        color: theme_buttonFontColor
+                        active: ((tzlistmodel.currentItem != undefined)&&(searchBar.displayText != ""))
+                        text: qsTr("Ok")
                         onClicked: {
-                            if((tzlistmodel.currentItem != undefined)&&(inputElement.displayText != ""))
+                            if((tzlistmodel.currentItem != undefined)&&(searchBar.displayText != ""))
                             {
                                 container.triggered(tzlistmodel.currentItem.tzCity, tzlistmodel.currentItem.tzTitle, tzlistmodel.currentItem.gmt);
                                 container.close();
@@ -178,11 +174,7 @@ Item {
                         width: 208
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        bgSourceUp: "image://theme/btn_red_up"
-                        bgSourceDn: "image://theme/btn_red_dn"
-                        title: qsTr("Cancel")
-                        font.pixelSize: theme_fontSizeLargest
-                        color: theme_buttonFontColor
+                        text: qsTr("Cancel")
                         onClicked: {
                             container.close();
                         }
@@ -190,46 +182,28 @@ Item {
                 }
             }
 
-            Image {
+            TextEntry {
                 id: searchBar
                 anchors.top: parent.top
                 anchors.topMargin: 10
                 anchors.right: parent.right
                 anchors.rightMargin: 40
                 width: parent.width - filterTitle.paintedWidth - 100
-                source: "image://theme/clock/bg_searchbox"
 
-                Image {
-                    id: searchIcon
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    anchors.verticalCenter: parent.verticalCenter
-                    source: "image://theme/clock/icn_search"
+                onTextChanged: {
+                    timezonelist.filterOut(searchBar.displayText);
+                    tzlistmodel.currentIndex = 0;
+                    tzlistmodel.highlight = highlighter;
                 }
-                TextInput {
-                    id: inputElement
-                    anchors.left: searchIcon.right
-                    anchors.top: parent.top
-                    height: parent.height
-                    width: parent.width - searchIcon.width - 30
-                    anchors.margins: 10
-                    font.pointSize: theme_fontSizeMedium
-                    color: theme_fontColorNormal
-                    focus: true
-                    onTextChanged: {
-                        timezonelist.filterOut(inputElement.displayText);
-                        tzlistmodel.currentIndex = 0;
-                        tzlistmodel.highlight = highlighter;
-                    }
-                    Keys.onReturnPressed: {
-                        if((tzlistmodel.currentItem != undefined)&&(inputElement.displayText != ""))
-                        {
-                            container.triggered(tzlistmodel.currentItem.tzCity, tzlistmodel.currentItem.tzTitle, tzlistmodel.currentItem.gmt);
-                            container.close();
-                        }
+                Keys.onReturnPressed: {
+                    if((tzlistmodel.currentItem != undefined)&&(searchBar.displayText != ""))
+                    {
+                        container.triggered(tzlistmodel.currentItem.tzCity, tzlistmodel.currentItem.tzTitle, tzlistmodel.currentItem.gmt);
+                        container.close();
                     }
                 }
             }
+
         }
     }
 }

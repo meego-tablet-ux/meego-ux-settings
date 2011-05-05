@@ -7,11 +7,11 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-ApplicationPage {
+Labs.ApplicationPage {
     id: notificationsPage
     title: qsTr("Notifications")
 
@@ -30,9 +30,9 @@ ApplicationPage {
             contentHeight: childrenRect.height
             anchors.fill: parent
             clip: true
-	    Column {
+            Column {
                 id: notificationColumn
-		width: parent.width
+                width: parent.width
                 height: childrenRect.height
                 spacing: 10
 
@@ -72,55 +72,55 @@ ApplicationPage {
                     }
                 }
 
-                    GridView{
-                        id: notificationsListView
-                        model: notificationModel
-                        delegate: notificationsDelegate
-			width: parent.width
-                        height: 500//childrenRect.height + 50
-			cellWidth: 360
-			cellHeight: 50
-                    }
+                GridView{
+                    id: notificationsListView
+                    model: notificationModel
+                    delegate: notificationsDelegate
+                    width: parent.width
+                    height: 500//childrenRect.height + 50
+                    cellWidth: 360
+                    cellHeight: 50
+                }
 
-                    Component{
-                        id:notificationsDelegate
-                       Button {
-                          id: buttonId
-                          title: name
+                Component{
+                    id:notificationsDelegate
+                    Labs.Button {
+                        id: buttonId
+                        title: name
 
-                            width: 350
-                            active: !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
+                        width: 350
+                        active: !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
 
-                            bgSourceUp: notificationTypes.isActive(type) ?  "image://theme/btn_blue_up" : "image://theme/btn_grey_up"
-                            bgSourceDn:  notificationTypes.isActive(type) ?  "image://theme/btn_blue_dn" : "image://theme/btn_grey_dn"
+                        bgSourceUp: notificationTypes.isActive(type) ?  "image://theme/btn_blue_up" : "image://theme/btn_grey_up"
+                        bgSourceDn:  notificationTypes.isActive(type) ?  "image://theme/btn_blue_dn" : "image://theme/btn_grey_dn"
 
-                            onClicked: {
+                        onClicked: {
 
-                                if (notificationTypes.isActive(type) == false)
+                            if (notificationTypes.isActive(type) == false)
+                            {
+                                if (!notificationTypes.maxNotifications())
                                 {
-                                    if (!notificationTypes.maxNotifications())
-                                    {
-                                        bgSourceUp = "image://theme/btn_blue_up"
-                                        bgSourceDn = "image://theme/btn_blue_dn"
-                                        notificationTypes.addType(type);
-                                    }
+                                    bgSourceUp = "image://theme/btn_blue_up"
+                                    bgSourceDn = "image://theme/btn_blue_dn"
+                                    notificationTypes.addType(type);
                                 }
-                                else
-                                {
-                                    bgSourceUp = "image://theme/btn_grey_up"
-                                    bgSourceDn = "image://theme/btn_grey_dn"
-                                    notificationTypes.removeType(type);
-                                }
-
                             }
-                            Connections {
-                                target: notificationTypes
-                                onNotificationNumberChanged: {
-                                    buttonId.active = !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
-                                }
+                            else
+                            {
+                                bgSourceUp = "image://theme/btn_grey_up"
+                                bgSourceDn = "image://theme/btn_grey_dn"
+                                notificationTypes.removeType(type);
+                            }
+
+                        }
+                        Connections {
+                            target: notificationTypes
+                            onNotificationNumberChanged: {
+                                buttonId.active = !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
                             }
                         }
-                    }                    
+                    }
+                }
             }
         }
     }

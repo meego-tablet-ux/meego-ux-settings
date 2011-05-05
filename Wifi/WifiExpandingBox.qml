@@ -7,13 +7,13 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Settings 0.1
 import MeeGo.Components 0.1 as MeeGo
 
 import "helper.js" as WifiHelper
 
-ExpandingBox {
+Labs.ExpandingBox {
     id: container
     //expandedHeight: detailsItem.height
     property NetworkListModel listModel: null
@@ -435,7 +435,7 @@ ExpandingBox {
                 Row {
                     height: childrenRect.height
                     spacing: 10
-                    CheckBox {
+                   Labs.CheckBox {
                         id: showPasswordCheckbox
                         visible: passwordGrid.passwordRequired
                         isChecked: true

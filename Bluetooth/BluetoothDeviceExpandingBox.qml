@@ -7,11 +7,11 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-ExpandingBox {
+Labs.ExpandingBox {
     id: container
     detailsComponent: capabilitiesComponent
 
@@ -28,12 +28,13 @@ ExpandingBox {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.margins: 10
-        source: "image://meegotheme/icons/settings/"+container.device.icon
+        source: "image://systemicon/"+container.device.icon
         height: container.containerHeight - 20
         fillMode: Image.PreserveAspectFit
         onStatusChanged: {
+            console.log("icon: " + icon)
             if(status == Image.Error) {
-		source = "image://meegotheme/icons/settings/device-bluetooth-default"
+                source = "image://image://systemicon/device-bluetooth-default"
             }
         }
     }
@@ -250,7 +251,7 @@ ExpandingBox {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    GConfItem {
+                    Labs.GConfItem {
                         id: btHacksGconf
                         defaultValue: false
                         key: "/meego/ux/settings/bluetoothhacks"

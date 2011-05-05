@@ -7,7 +7,7 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 import QtMultimediaKit 1.1
 
 Item {
@@ -33,7 +33,7 @@ Item {
 
         clip: true
 
-        PaintSpy {
+        Labs.PaintSpy {
             id: paintspy
 
             anchors.fill: parent
@@ -168,7 +168,7 @@ Item {
             }
         }
 
-        IconButton {
+        Labs.IconButton {
             anchors.centerIn: parent
 
             icon: "image://theme/camera/camera_lens_sm_up"

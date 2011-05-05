@@ -7,16 +7,16 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Media 0.1
 
-ApplicationPage {
+Labs.ApplicationPage {
     id: container
     title: qsTr("Personalize")
     anchors.fill: parent
 
-    ApplicationsModel {
+    Labs.ApplicationsModel {
         id: controlsModel
         type: "HomeConfig"
         directory: "/usr/share/meego-ux-appgrid/config"

@@ -1,9 +1,9 @@
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-ApplicationPage {
+Labs.ApplicationPage {
     id: container
     title: qsTr("Cellular Settings")
 
@@ -115,7 +115,7 @@ ApplicationPage {
                     text: qsTr("APN")
                 }
 
-                TextEntry {
+                Labs.TextEntry {
                     id: apn
                     width: parent.width / 3
                     text: cellularSettings.apn()
@@ -126,7 +126,7 @@ ApplicationPage {
                     text: qsTr("Username")
                 }
 
-                TextEntry {
+                Labs.TextEntry {
                     id: username
                     width: parent.width / 3
                     text: cellularSettings.username()
@@ -137,17 +137,17 @@ ApplicationPage {
                     text: qsTr("Password")
                 }
 
-                TextEntry {
+                Labs.TextEntry {
                     id: password
                     width: parent.width / 3
                     text: cellularSettings.password()
                 }
 
-                Button {
+                MeeGo.Button {
                     width: parent.width / 3
                     height: 50
-                    title: qsTr("Apply");
-
+                    text: qsTr("Apply");
+                    elideText: true
                     onClicked: {
                         cellularSettings.setApn(apn.text, username.text, password.text)
                         networkItem.apn = apn.text

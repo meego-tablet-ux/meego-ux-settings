@@ -7,7 +7,8 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 
 Item {
     id: container
@@ -24,10 +25,11 @@ Item {
         Button {
             id: colorStripButton
             width: parent.width/2 - 20
+            elideText: true
             height: parent.height * 0.75
-            title: qsTr("Pick a color")
+            text: qsTr("Pick a color")
             color: theme_buttonFontColor
-            font.pointSize: theme_fontSizeMedium
+            //font.pointSize: theme_fontSizeMedium
             onClicked: {
                 container.openColorstripCreator()
             }
@@ -35,10 +37,11 @@ Item {
         Button {
             id: galleryButton
             width: parent.width/2 - 20
+            elideText: true
             height: parent.height * 0.75
-            title: qsTr("Pick a photo")
+            text: qsTr("Pick a photo")
             color: theme_buttonFontColor
-            font.pointSize: theme_fontSizeMedium
+            //font.pointSize: theme_fontSizeMedium
             onClicked: {
                 container.openGallery()
             }

@@ -7,7 +7,7 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 
 Item {
     id: container
@@ -20,7 +20,7 @@ Item {
         id: thumbnailList
         anchors.fill: parent
         orientation: ListView.Horizontal
-        model: BackgroundModel { path: "~/.local/share/wallpapers/"}
+        model: Labs.BackgroundModel { path: "~/.local/share/wallpapers/"}
         delegate: Item {
             id: thumbnail
             width: height/2

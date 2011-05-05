@@ -43,8 +43,8 @@ void Components::registerTypes(const char *uri)
 	qmlRegisterType<TimeSettings>(uri, 0, 1,"TimeSettings");
 	qmlRegisterType<CellularSettings>(uri, 0, 1,"CellularSettingsModel");
 	qmlRegisterType<LocaleSettings>(uri, 0, 1,"LocaleSettings");
-        qmlRegisterType<NotificationTypes>(uri, 0, 1,"NotificationTypes");
-        qmlRegisterType<NotificationMaker>(uri, 0, 1,"NotificationMaker");
+	qmlRegisterType<NotificationTypes>(uri, 0, 1,"NotificationTypes");
+	qmlRegisterType<NotificationMaker>(uri, 0, 1,"NotificationMaker");
 }
 
 void Components::initializeEngine(QDeclarativeEngine *engine, const char *uri)
