@@ -11,9 +11,13 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-Labs.ExpandingBox {
+MeeGo.ExpandingBox {
     id: container
     detailsComponent: capabilitiesComponent
+
+    property int containerHeight: 80
+
+    height: containerHeight
 
     property string name: ""
     property bool connected: false

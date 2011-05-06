@@ -13,8 +13,12 @@ import MeeGo.Components 0.1 as MeeGo
 
 import "helper.js" as WifiHelper
 
-Labs.ExpandingBox {
+MeeGo.ExpandingBox {
     id: container
+
+    property int containerHeight: 80
+    height: containerHeight
+
     //expandedHeight: detailsItem.height
     property NetworkListModel listModel: null
     property QtObject networkItem: null

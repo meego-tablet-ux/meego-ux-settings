@@ -7,31 +7,35 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 import MeeGo.Settings 0.1
 
-Labs.ExpandingBox {
+ExpandingBox {
 	id: availableBluetoothItem
+
+	property int containerHeight: 80
+
+	height: containerHeight
 
 	property string deviceName
 	property string address
 	property string icon
 
-        Image {
-            id: bluetoothIcon
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.margins: 10
-            source: "image://systemicon/"+icon
-            height: availableBluetoothItem.containerHeight - 20
-            fillMode: Image.PreserveAspectFit
-            onStatusChanged: {
-                console.log("icon: " + icon)
-                if(status == Image.Error) {
-                    source = "image://systemicon/device-bluetooth-default"
-                }
+    Image {
+        id: bluetoothIcon
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.margins: 10
+        source: "image://meegotheme/icons/settings/"+icon
+        height: availableBluetoothItem.containerHeight - 20
+        fillMode: Image.PreserveAspectFit
+        onStatusChanged: {
+            console.log("icon: " + icon)
+            if(status == Image.Error) {
+                source = "image://meegotheme/icons/settings/device-bluetooth-default"
             }
         }
+    }
 
 	Text {
 		id: mainText
