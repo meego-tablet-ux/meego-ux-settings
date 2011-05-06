@@ -19,14 +19,14 @@ ExpandingBox {
 
 	property string deviceName
 	property string address
-	property string icon
+	property string icon: ""
 
     Image {
         id: bluetoothIcon
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.margins: 10
-        source: "image://meegotheme/icons/settings/"+icon
+        source: icon != "" ? "image://meegotheme/icons/settings/"+icon: "image://meegotheme/icons/settings/device-bluetooth-default"
         height: availableBluetoothItem.containerHeight - 20
         fillMode: Image.PreserveAspectFit
         onStatusChanged: {

@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 import QtMultimediaKit 1.1
 
 Item {
@@ -168,7 +169,7 @@ Item {
             }
         }
 
-        Labs.IconButton {
+        IconButton {
             anchors.centerIn: parent
 
             icon: "image://theme/camera/camera_lens_sm_up"

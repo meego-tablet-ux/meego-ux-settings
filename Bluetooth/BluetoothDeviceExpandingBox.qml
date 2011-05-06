@@ -32,11 +32,11 @@ MeeGo.ExpandingBox {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.margins: 10
-        source: "image://systemicon/"+container.device.icon
+        source: container.device.icon != "" ? "image://meegotheme/icons/settings/"+container.device.icon: "image://meegotheme/icons/settings/device-bluetooth-default"
         height: container.containerHeight - 20
         fillMode: Image.PreserveAspectFit
         onStatusChanged: {
-            console.log("icon: " + icon)
+            console.log("icon: " + container.device.icon)
             if(status == Image.Error) {
                 source = "image://image://systemicon/device-bluetooth-default"
             }
@@ -236,6 +236,14 @@ MeeGo.ExpandingBox {
                         onClicked: {
                             device.unpair();
                         }
+                    }
+
+                    Text {
+                        visible: btHacksGconf.value
+                        text: qsTr("Paired: %1").arg(container.device.paired)
+                        height: 50
+                        width: parent.width
+                        verticalAlignment: Text.AlignVCenter
                     }
 
                     Text {
