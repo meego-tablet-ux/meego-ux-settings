@@ -115,7 +115,7 @@ Labs.ApplicationPage {
                     text: qsTr("APN")
                 }
 
-                Labs.TextEntry {
+                MeeGo.TextEntry {
                     id: apn
                     width: parent.width / 3
                     text: cellularSettings.apn()
@@ -126,7 +126,7 @@ Labs.ApplicationPage {
                     text: qsTr("Username")
                 }
 
-                Labs.TextEntry {
+                MeeGo.TextEntry {
                     id: username
                     width: parent.width / 3
                     text: cellularSettings.username()
@@ -137,7 +137,7 @@ Labs.ApplicationPage {
                     text: qsTr("Password")
                 }
 
-                Labs.TextEntry {
+                MeeGo.TextEntry {
                     id: password
                     width: parent.width / 3
                     text: cellularSettings.password()
