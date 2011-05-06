@@ -28,7 +28,7 @@ Item {
             elideText: true
             height: parent.height * 0.75
             text: qsTr("Pick a color")
-            color: theme_buttonFontColor
+            //color: theme_buttonFontColor
             //font.pointSize: theme_fontSizeMedium
             onClicked: {
                 container.openColorstripCreator()
@@ -40,7 +40,7 @@ Item {
             elideText: true
             height: parent.height * 0.75
             text: qsTr("Pick a photo")
-            color: theme_buttonFontColor
+            //color: theme_buttonFontColor
             //font.pointSize: theme_fontSizeMedium
             onClicked: {
                 container.openGallery()
