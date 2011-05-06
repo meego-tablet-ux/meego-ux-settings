@@ -89,7 +89,7 @@ Labs.ApplicationPage{
                     elide: Text.ElideRight
                 }
 
-                MeeGo.ToggleButton {
+                ToggleButton {
                     id: tbPanel
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
