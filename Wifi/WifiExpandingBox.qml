@@ -439,7 +439,7 @@ MeeGo.ExpandingBox {
                 Row {
                     height: childrenRect.height
                     spacing: 10
-                   Labs.CheckBox {
+                   MeeGo.CheckBox {
                         id: showPasswordCheckbox
                         visible: passwordGrid.passwordRequired
                         isChecked: true
