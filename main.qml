@@ -12,15 +12,17 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as Ux
 import Qt.labs.gestures 2.0
 
-Labs.Window2 {
+Ux.Window {
 	id: scene
 	property variant allSettingsArray: [qsTr("All Settings")];
 
-	filterModel: allSettingsArray.concat(settingsModel.settingsApps)
-	filterPayload: settingsModel.settingsAppPaths
+	booksModel: allSettingsArray.concat(settingsModel.settingsApps)
+	booksPayload:
+	//filterModel: allSettingsArray.concat(settingsModel.settingsApps)
+	//filterPayload: settingsModel.settingsAppPaths
 	applicationPage: landingPageComponent
 
-	onFilterTriggered: {
+	onBookMenuTriggered: {
 		if(index == 0) {
 			scene.applicationPage = landingPageComponent
 			return;

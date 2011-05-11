@@ -7,11 +7,11 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 
 ListModel {
 
-	property QtObject desktopSettingsModel: ApplicationsModel {
+	property QtObject desktopSettingsModel: Labs.ApplicationsModel {
 			id: desktopSettingsModel
 			type: "ControlPanelApplet"
 			directories: ["/usr/share/meego-ux-settings/apps/"]
@@ -20,9 +20,11 @@ ListModel {
 
 	id: settingsModel
 
+	property Component declarativeComponent
 	property variant settingsApps: []
 	property variant settingsAppNames: []
 	property variant settingsAppPaths: []
+	property variant settingsAppComponents: []
 	property variant settingsTranslationPaths: []
 
 	function filter(filterValue) {
@@ -69,12 +71,16 @@ ListModel {
 		var icon = app.icon;
 		var path = app.value("MTS/Part");
 		var translationFile = app.value("MTS/Translation")
-		if(path=="") path = app.value("DCP/Part")
+		if(path=="") {
+			path = app.value("DCP/Part")
+		}
 		settingsApps = settingsApps.concat(title);
 		settingsAppPaths = settingsAppPaths.concat(path);
+		settingsAppComponents = settingsAppComponents.concat(Qt.createComponent(path))
 		settingsTranslationPaths = settingsTranslationPaths.concat(translationFile)
 		settingsAppNames = settingsAppNames.concat(name)
 		settingsModel.append({"title":title, "name": name, "path": path, "icon": icon,
 							  "translation": translationFile})
 	}
+
 }

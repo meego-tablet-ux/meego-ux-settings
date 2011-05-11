@@ -53,15 +53,17 @@ public slots:
 
     QString currentDate()
     {
+        QLocale locale;
         QString date = QDateTime::currentDateTime().date().currentDate().toString(
-                QLocale::system().dateFormat(QLocale::LongFormat));
+                locale.dateFormat(QLocale::LongFormat));
         qDebug()<<"date: " <<date;
         return date;
     }
     QString currentTime()
     {
+        QLocale locale;
         return QDateTime::currentDateTime().time().currentTime().toString(
-                QLocale::system().timeFormat(QLocale::ShortFormat));
+                locale.timeFormat(QLocale::ShortFormat));
     }
 
     QString currentHour()

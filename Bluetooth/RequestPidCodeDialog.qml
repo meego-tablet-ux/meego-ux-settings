@@ -29,6 +29,7 @@ Column {
         id: textInputField
         width: parent.width
         text: replyValue
+        forceActiveFocus: true
     }
 
     MeeGo.Button {

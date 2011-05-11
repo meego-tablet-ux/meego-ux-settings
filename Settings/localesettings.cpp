@@ -11,6 +11,7 @@
 #include <QDBusReply>
 #include <MGConfItem>
 #include <minputmethodnamespace.h>
+#include <QApplication>
 
 const QString VKBConfigurationPath("/usr/share/meegotouch/virtual-keyboard/layouts/");
 const QString VKBLayoutsFilterRule("*.xml");
@@ -94,13 +95,6 @@ void LocaleSettings::setLocale(QString locale)
     ///Set the current process's locale:
     qDebug()<<"setting local to "<<locale<<" or "<<m_locales[locale].name();
     qDebug()<<"from "<<QLocale::system().name();
-
-    QLocale::setDefault(m_locales[locale]);
-
-    QByteArray envvar = QLocale().name().toAscii() + ".utf8";
-
-    setenv("LANG",envvar.data(),1);
-    setenv("LC_ALL",envvar.data(),1);
 
     if(!QFile::exists(QDir::homePath() + "/.config/sysconfig/i18n"))
     {
