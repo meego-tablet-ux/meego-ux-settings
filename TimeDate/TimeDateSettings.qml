@@ -217,7 +217,7 @@ Labs.ApplicationPage {
                         on: timeSettings.automaticTimeZone
                         onToggled: {
                             timeSettings.automaticTimeZone = findMeToggleButton.on;
-                            currentTzText.text = qsTr("Current Timezone isal %1").arg(timeSettings.timezone);
+                            currentTzText.text = qsTr("Current Timezone is %1").arg(timeSettings.timezone);
                         }
 
                         Connections {
