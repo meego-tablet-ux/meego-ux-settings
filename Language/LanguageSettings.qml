@@ -43,7 +43,7 @@ Labs.ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    Labs.DropDown {
+                   /* Labs.DropDown {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
@@ -54,7 +54,7 @@ Labs.ApplicationPage {
                         onSelectionChanged: {
                             localeSettings.setLocale(data);
                         }
-                    }
+                    }*/
                 }
                 Image {
                     id: keyboardItem
@@ -71,7 +71,7 @@ Labs.ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    Labs.DropDown {
+                   /* Labs.DropDown {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
@@ -82,7 +82,7 @@ Labs.ApplicationPage {
                         onSelectionChanged: {
                             localeSettings.setLayout(data);
                         }
-                    }
+                    }*/
                 }
                 Image {
                     id: dateFormatItem
@@ -99,7 +99,7 @@ Labs.ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    Labs.DropDown {
+                    /*Labs.DropDown {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
@@ -110,7 +110,7 @@ Labs.ApplicationPage {
                         onSelectionChanged: {
                             localeSettings.setDateFormat(data);
                         }
-                    }
+                    }*/
                 }
                 Image {
                     id: timeFormatItem
@@ -127,7 +127,7 @@ Labs.ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    Labs.DropDown {
+                   /* Labs.DropDown {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
@@ -138,7 +138,7 @@ Labs.ApplicationPage {
                         onSelectionChanged: {
                             localeSettings.setTimeFormat(data);
                         }
-                    }
+                    }*/
                 }
                 /*Image {
                     id: weekStartsItem
@@ -177,7 +177,7 @@ Labs.ApplicationPage {
                         verticalAlignment: Text.AlignVCenter
                     }
 
-                    Labs.DropDown {
+                   /* Labs.DropDown {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
                         anchors.rightMargin: 10
@@ -188,7 +188,7 @@ Labs.ApplicationPage {
                         onSelectionChanged: {
                             localeSettings.setNumberFormat(data);
                         }
-                    }
+                    }*/
                 }
                 /*Image {
                     id: currencyItem

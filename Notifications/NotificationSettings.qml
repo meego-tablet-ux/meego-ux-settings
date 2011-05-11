@@ -84,9 +84,9 @@ Labs.ApplicationPage {
 
                 Component{
                     id:notificationsDelegate
-                    Labs.Button {
+                    MeeGo.Button {
                         id: buttonId
-                        title: name
+                        text: name
 
                         width: 350
                         active: !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
