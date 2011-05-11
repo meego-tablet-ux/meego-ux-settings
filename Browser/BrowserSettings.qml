@@ -7,10 +7,11 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-ApplicationPage {
+Labs.ApplicationPage {
     id: bsContainer
     title: qsTr("Browser")
     anchors.fill: parent
@@ -99,13 +100,13 @@ ApplicationPage {
         }// settingGroups column
 
         //Restore button
-        Button {
+        MeeGo.Button {
             id:restoreButton
             width: 240
             height: 60
-            title: qsTr("Restore to default")
+            text: qsTr("Restore to default")
 	    font.pixelSize: theme_fontPixelSizeLarge
-	    color: theme_buttonFontColor
+	    textColor: theme_buttonFontColor
             anchors.top: settingGroups.bottom
 	    anchors.topMargin: 20
             anchors.right: parent.right

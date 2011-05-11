@@ -7,7 +7,7 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1
 import MeeGo.Settings 0.1
 
 GroupBox {
@@ -54,8 +54,8 @@ GroupBox {
                 id: clearHisotryBtn
                 width: parent.width
                 height: 50
-								font.pixelSize: theme_fontPixelSizeLarge
-                title: qsTr("Clear Browsing History")
+                font.pixelSize: theme_fontPixelSizeLarge
+                text: qsTr("Clear Browsing History")
                 onClicked: {
                     var dlg = dialogComponent.createObject(container)
                     dlg.message = qsTr("Are you sure about clearing the browsing history?")
@@ -68,7 +68,7 @@ GroupBox {
                 width: parent.width
                 height: 50
 								font.pixelSize: theme_fontPixelSizeLarge
-                title: qsTr("Clear Download History")
+                text: qsTr("Clear Download History")
                 onClicked: {
                     var dlg = dialogComponent.createObject(container)
                     dlg.message = qsTr("Are you sure about clearing the download history?")
@@ -80,8 +80,8 @@ GroupBox {
                 id: clearCookieBtn
                 width: parent.width
                 height: 50
-								font.pixelSize: theme_fontPixelSizeLarge
-                title: qsTr("Clear Cookies and Site Data")
+                font.pixelSize: theme_fontPixelSizeLarge
+                text: qsTr("Clear Cookies and Site Data")
                 onClicked: {
                     var dlg = dialogComponent.createObject(container)
                     dlg.message = qsTr("Are you sure about clearing your cookies?")
@@ -93,8 +93,8 @@ GroupBox {
                 id: clearCacheBtn
                 width: parent.width
                 height: 50
-								font.pixelSize: theme_fontPixelSizeLarge
-                title: qsTr("Clear Caches")
+                font.pixelSize: theme_fontPixelSizeLarge
+                text: qsTr("Clear Caches")
                 onClicked: {
                     var dlg = dialogComponent.createObject(container)
                     dlg.message = qsTr("Are you sure about clearing your caches?")
@@ -106,8 +106,8 @@ GroupBox {
                 id: clearPasswordBtn
                 width: parent.width
                 height: 50
-                title: qsTr("Clear Saved Passwords")
-								font.pixelSize: theme_fontPixelSizeLarge
+                text: qsTr("Clear Saved Passwords")
+                font.pixelSize: theme_fontPixelSizeLarge
                 onClicked: {
                     var dlg = dialogComponent.createObject(container)
                     dlg.message = qsTr("Are you sure about clearing your saved passwords?")
@@ -119,7 +119,7 @@ GroupBox {
 //                id: clearFormDataBtn
 //                width: parent.width
 //                height: 50
-//                title: qsTr("Saved Auto-fill Form Data")
+//                text: qsTr("Saved Auto-fill Form Data")
 //                onClicked: {
 //                    var dlg = dialogComponent.createObject(container)
 //                    dlg.message = qsTr("Are you sure clearing form data?")
