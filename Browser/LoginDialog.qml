@@ -7,7 +7,7 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1
 Item {
     id: container
     visible:true
@@ -123,7 +123,7 @@ Item {
                 id: loginBtn
                 width: 190
                 height: 50
-                title: qsTr("OK")
+                text: qsTr("OK")
                 font.pixelSize: theme_fontPixelSizeLarge
                 onClicked: {
                     if(emailText.text == qsTr("") || passwordInputBox.text == qsTr(""))
@@ -137,7 +137,7 @@ Item {
             }
             Button {
                 id:cancelBtn
-                title: qsTr("Cancel")
+                text: qsTr("Cancel")
                 font.pixelSize: theme_fontPixelSizeLarge
                 width: 190
                 height: 50

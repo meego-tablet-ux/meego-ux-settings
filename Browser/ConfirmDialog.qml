@@ -7,7 +7,7 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1
 
 Item
 {
@@ -15,8 +15,8 @@ Item
 
     property alias title: titleText.text
     property alias message: msgText.text
-    property alias cancelText: cancelButton.title
-    property alias okText: okButton.title
+    property alias cancelText: cancelButton.text
+    property alias okText: okButton.text
 
     signal dialogResponse(bool accepted);
 
@@ -90,7 +90,7 @@ Item
                     id: okButton
                     width: 140
                     height: 45
-                    title: qsTr("OK")
+                    text: qsTr("OK")
                     font.pixelSize: theme_fontPixelSizeLarge
                     onClicked: {
                         container.visible=false
@@ -98,10 +98,10 @@ Item
                     }
                 }
                 Button {
-                    id:cancelButton
+                    id: cancelButton
                     width: 140
                     height: 45
-                    title: qsTr("Cancel")
+                    text: qsTr("Cancel")
                     font.pixelSize: theme_fontPixelSizeLarge
                     onClicked: {
                         container.visible=false
