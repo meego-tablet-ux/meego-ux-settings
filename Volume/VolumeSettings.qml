@@ -10,9 +10,9 @@ import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 
-Labs.ApplicationPage {
+MeeGo.AppPage {
     id: container
-    title: qsTr("Sound")
+    pageTitle: qsTr("Sound")
 
     MeeGo.VolumeControl {
         id: volumeControl
@@ -60,7 +60,7 @@ Labs.ApplicationPage {
         id: slider
         value: volumeControl.volume
         width: 400
-        anchors.centerIn: container.content
+        anchors.centerIn: parent
     }
 
     Image {

@@ -11,9 +11,9 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-Labs.ApplicationPage {
+MeeGo.AppPage{
     id: container
-    title: qsTr("Bluetooth")
+    pageTitle: qsTr("Bluetooth")
 
     BluetoothDevicesModel {
         id: bluetoothModel
@@ -22,7 +22,7 @@ Labs.ApplicationPage {
 
     Flickable {
         id: contentArea
-        parent: container.content
+        //parent: container.content
         anchors.fill: parent
         clip: true
         contentWidth: parent.width
@@ -170,7 +170,7 @@ Labs.ApplicationPage {
                         //width: 200
                         onClicked: {
                             if (poweredToggleButton.on)
-                                container.addApplicationPage(nearbyDevicesComponent);
+                                addPage(nearbyDevicesComponent);
                         }
                     }
                 }

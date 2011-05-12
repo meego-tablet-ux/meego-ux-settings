@@ -8,11 +8,12 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 import MeeGo.Settings 0.1
 
-Labs.ApplicationPage {
+AppPage {
     id: page
-    title: qsTr("Add New Device")
+    pageTitle: qsTr("Add New Device")
 
     property bool suppress: false
 

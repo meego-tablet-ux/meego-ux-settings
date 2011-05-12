@@ -12,10 +12,9 @@ import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 import "helper.js" as WifiHelper
 
-Labs.ApplicationPage {
+MeeGo.AppPage {
     id: container
-    title: qsTr("Connections")
-    anchors.fill: parent
+    pageTitle: qsTr("Connections")
 
     Component.onCompleted: {
         WifiHelper.connmanTechnologies["ethernet"] = qsTr("Ethernet");
@@ -31,7 +30,6 @@ Labs.ApplicationPage {
 
     Flickable {
         id: contentArea
-        parent: container.content
         anchors.fill: parent
         clip: true
         contentWidth: parent.width

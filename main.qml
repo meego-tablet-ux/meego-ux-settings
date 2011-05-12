@@ -13,25 +13,27 @@ import MeeGo.Components 0.1 as Ux
 import Qt.labs.gestures 2.0
 
 Ux.Window {
-	id: scene
+	id: window
 	property variant allSettingsArray: [qsTr("All Settings")];
+	property variant applicationData
 
-	booksModel: allSettingsArray.concat(settingsModel.settingsApps)
-	booksPayload:
+	bookMenuModel: allSettingsArray.concat(settingsModel.settingsApps)
+	automaticBookSwitching: false
 	//filterModel: allSettingsArray.concat(settingsModel.settingsApps)
 	//filterPayload: settingsModel.settingsAppPaths
-	applicationPage: landingPageComponent
+	Component.onCompleted: { switchBook(landingPageComponent) }
 
 	onBookMenuTriggered: {
+		console.log("book menu triggered ftw")
 		if(index == 0) {
-			scene.applicationPage = landingPageComponent
+			window.switchBook(landingPageComponent)
 			return;
 		}
 
 		translator.catalog = settingsModel.settingsTranslationPaths[index - 1]
 		topView = settingsModel.settingsAppPaths[index - 1]
 
-		//scene.applicationPage = Qt.createComponent(payloadFile);
+		//window.applicationPage = Qt.createComponent(payloadFile);
 	}
 
 	property string topView
@@ -42,18 +44,13 @@ Ux.Window {
 			console.log(topView.lastIndexOf("xml"))
 			if(topView.lastIndexOf("xml") == topView.length - 3) {
 				console.log("loading xml setting: " + topView)
-				scene.applicationData = topView
-				scene.applicationPage = declarativeComponent
+				window.applicationData = topView
+				window.switchBook(declarativeComponent)
 			}
 			else {
-				scene.applicationPage = Qt.createComponent(topView)
+				window.switchBook(Qt.createComponent(topView))
 			}
 		}
-	}
-
-	Component.onCompleted: {
-		console.log("mainWindow: " + mainWindow)
-		console.log("qApp: " + qApp)
 	}
 
 	Labs.Translator {
@@ -80,15 +77,15 @@ Ux.Window {
 				var page = cdata.split(",")[0];
 
 				if(page == "settings" || page == "") {
-				    scene.applicationPage = landingPageComponent
+					window.switchBook(landingPageComponent)
 				    return;
 				}
 
 				for(var i=0; i< settingsModel.settingsAppNames.length; i++) {
 					if(page == settingsModel.settingsAppNames[i]) {
 						var payloadFile  = settingsModel.settingsAppPaths[i]
-						scene.applicationData = cdata
-						scene.applicationPage = Qt.createComponent(payloadFile);
+						window.applicationData = cdata
+						window.switchBook(Qt.createComponent(payloadFile))
 					}
 				}
 			}
@@ -109,9 +106,9 @@ Ux.Window {
 
 	Component {
 		id: landingPageComponent
-		Labs.ApplicationPage {
+		Ux.AppPage {
 			id: landingPage
-			title: qsTr("Settings")
+			pageTitle: qsTr("Settings")
 
 			Component.onCompleted: {
 				topView=""
@@ -123,7 +120,7 @@ Ux.Window {
 
 			ListView {
 				id: listView
-				parent:  landingPage.content
+				//parent:  landingPage.content
 				anchors.fill: parent
 				model: settingsModel
 				clip: true
@@ -176,17 +173,16 @@ Ux.Window {
 							id: tapArea
 							onFinished: {
 								translator.catalog = model.translation
-								//scene.topView = model.path
+								//window.topView = model.path
 
 								///This is added because of influential people:
 								if(topView.lastIndexOf("xml") == topView.length - 3) {
 									console.log("loading xml setting: " + topView)
-									scene.applicationData = topView
-									scene.addApplicationPage(declarativeComponent)
-
+									window.applicationData = topView
+									window.addPage(declarativeComponent)
 								}
 								else {
-									scene.addApplicationPage(Qt.createComponent(model.path))
+									window.addPage(Qt.createComponent(model.path))
 								}
 							}
 						}

@@ -11,14 +11,15 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-Labs.ApplicationPage {
+MeeGo.AppPage {
     id: bsContainer
-    title: qsTr("Browser")
+    pageTitle: qsTr("Browser")
     anchors.fill: parent
 		
     BrowserSettingModel {
         id:settings
     }
+
     property int vkbheight: 0
     property variant current: bsContainer
     Connections {
@@ -34,11 +35,8 @@ Labs.ApplicationPage {
     Flickable
     {
         id: flickableContent
-        anchors.top:bsContainer.content.top
-        anchors.left: bsContainer.content.left
+        anchors.fill: parent
         contentHeight:settingGroups.height + restoreButton.height + 50
-        width:bsContainer.content.width
-        height: bsContainer.content.height
         z:-100
         Column
         {

@@ -415,7 +415,7 @@ MeeGo.ExpandingBox {
                         text:  qsTr("Setup")
                         visible: container.networkItem.type == "cellular"
                         onClicked: {
-                            page.addApplicationPage(cellularSettings)
+                           addPage(cellularSettings)
                         }
                     }
 

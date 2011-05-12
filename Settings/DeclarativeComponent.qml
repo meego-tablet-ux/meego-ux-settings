@@ -11,10 +11,10 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-Labs.ApplicationPage {
+MeeGo.AppPage {
 	id: container
 
-	property string source: applicationData
+	property string source: window.applicationData
 
 
 	DeclarativeSettingsModel {
@@ -73,13 +73,11 @@ Labs.ApplicationPage {
 	}
 
 	Flickable {
-		parent: container.content
 		contentHeight: column.height
 		anchors.fill: parent
 		interactive: true
 		Column {
 			id: column
-
 			anchors.fill: parent
 			spacing: 20
 		}

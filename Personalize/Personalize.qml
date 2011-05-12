@@ -11,10 +11,9 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Media 0.1
 
-Labs.ApplicationPage {
+MeeGo.AppPage {
     id: container
-    title: qsTr("Personalize")
-    anchors.fill: parent
+    pageTitle: qsTr("Personalize")
 
     Labs.ApplicationsModel {
         id: controlsModel
@@ -32,7 +31,7 @@ Labs.ApplicationPage {
 
     Item {
         id: personalizeContainer
-        anchors.fill: container.content
+        anchors.fill: parent
 
         function close() {
             mainWindow.goHome();

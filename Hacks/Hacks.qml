@@ -3,14 +3,14 @@ import MeeGo.Settings 0.1
 import MeeGo.Labs.Components 0.1
 import MeeGo.Components 0.1 as Ux
 
-ApplicationPage {
+Ux.AppPage {
     id: page
-    title:  qsTr("Devloper Hacks")
+    pageTitle:  qsTr("Devloper Hacks")
     //default property alias pagechildren: page.content
 
     Flickable {
-        parent:  page.content
-        contentHeight: contents.height + 500
+        //parent:  page.content
+        contentHeight: childrenRect.height
         anchors.fill: parent
         clip: true
 

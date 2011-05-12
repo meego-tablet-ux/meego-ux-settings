@@ -3,9 +3,9 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-Labs.ApplicationPage {
+MeeGo.AppPage {
     id: container
-    title: qsTr("Cellular Settings")
+    pageTitle: qsTr("Cellular Settings")
 
     property NetworkItemModel networkItem: null
 
@@ -13,7 +13,6 @@ Labs.ApplicationPage {
 
     Flickable {
         id: contentArea
-        parent: container.content
         anchors.fill: parent
         clip: true
         contentWidth: parent.width

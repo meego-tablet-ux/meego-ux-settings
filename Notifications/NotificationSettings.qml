@@ -11,7 +11,7 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 import MeeGo.Settings 0.1
 
-Labs.ApplicationPage {
+MeeGo.AppPage {
     id: notificationsPage
     title: qsTr("Notifications")
 
@@ -24,7 +24,7 @@ Labs.ApplicationPage {
     }
 
     Item {
-        anchors.fill: notificationsPage.content
+        anchors.fill: parent
 
         Flickable {
             contentHeight: childrenRect.height

@@ -11,12 +11,12 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1
 import MeeGo.Panels 0.1
 
-Labs.ApplicationPage{
+AppPage{
 
     id: container
 
-    title: qsTr("Panels")
-    anchors.fill: parent
+    pageTitle: qsTr("Panels")
+
 
     PanelProxyModel{
             id: panelModel
@@ -25,7 +25,6 @@ Labs.ApplicationPage{
 
     Item {
         id: contentArea
-        parent: container.content
         anchors.fill: parent
 //        width: scene.content.width
 //        height: scene.content.height
