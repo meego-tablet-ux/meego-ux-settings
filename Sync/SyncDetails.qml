@@ -234,7 +234,7 @@ Item {
         onProfileRemoved: {
             // Sync profile no longer exists return to main sync UI page.
 
-            scene.previousApplicationPage();
+            popPage();
         }
 
         onAuthenticationFailed: {

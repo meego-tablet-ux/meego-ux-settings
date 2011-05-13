@@ -23,101 +23,97 @@ MeeGo.AppPage {
         id: notificationModel
     }
 
-    Item {
+    Flickable {
+        contentHeight: childrenRect.height
         anchors.fill: parent
+        clip: true
+        Column {
+            id: notificationColumn
+            width: parent.width
+            height: childrenRect.height
+            spacing: 10
 
-        Flickable {
-            contentHeight: childrenRect.height
-            anchors.fill: parent
-            clip: true
-            Column {
-                id: notificationColumn
+            Image {
+                id: customizeableNotifications
                 width: parent.width
                 height: childrenRect.height
-                spacing: 10
+                source: "image://theme/settings/subheader"
 
-                Image {
-                    id: customizeableNotifications
+                Text{
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    text: qsTr("By default, phone and messaging notifications will be shown on the lockscreen.");
+                    font.pixelSize: theme_fontPixelSizeLargest3
+                    //height: parent.height
                     width: parent.width
-                    height: childrenRect.height
-                    source: "image://theme/settings/subheader"
-
-                    Text{
-                        anchors.left: parent.left
-                        anchors.leftMargin: 10
-                        text: qsTr("By default, phone and messaging notifications will be shown on the lockscreen.");
-                        font.pixelSize: theme_fontPixelSizeLargest3
-                        //height: parent.height
-                        width: parent.width
-                        //elide: Text.ElideRight
-                        wrapMode: Text.Wrap
-                        verticalAlignment: Text.AlignVCenter
-                    }
+                    //elide: Text.ElideRight
+                    wrapMode: Text.Wrap
+                    verticalAlignment: Text.AlignVCenter
                 }
-                Image {
-                    id: notificationsLabel
-                    source: "image://theme/pulldown_box"
-                    width: parent.width
+            }
+            Image {
+                id: notificationsLabel
+                source: "image://theme/pulldown_box"
+                width: parent.width
 
-                    Text {
-                        id: notificationsLabelText
-                        anchors.left: parent.left
-                        anchors.leftMargin: 10
-                        verticalAlignment: Text.AlignVCenter
-                        text: qsTr("You may select up to 4 additional notifications to receive on the lockscreen");
-                        font.pixelSize: theme_fontPixelSizeLargest2 //theme_fontPixelSizeLarge
-                        height: parent.height
-                        wrapMode: Text.Wrap
-                        width: parent.width - 10
-                    }
+                Text {
+                    id: notificationsLabelText
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    verticalAlignment: Text.AlignVCenter
+                    text: qsTr("You may select up to 4 additional notifications to receive on the lockscreen");
+                    font.pixelSize: theme_fontPixelSizeLargest2 //theme_fontPixelSizeLarge
+                    height: parent.height
+                    wrapMode: Text.Wrap
+                    width: parent.width - 10
                 }
+            }
 
-                GridView{
-                    id: notificationsListView
-                    model: notificationModel
-                    delegate: notificationsDelegate
-                    width: parent.width
-                    height: 500//childrenRect.height + 50
-                    cellWidth: 360
-                    cellHeight: 50
-                }
+            GridView{
+                id: notificationsListView
+                model: notificationModel
+                delegate: notificationsDelegate
+                width: parent.width
+                height: 500//childrenRect.height + 50
+                cellWidth: 360
+                cellHeight: 50
+            }
 
-                Component{
-                    id:notificationsDelegate
-                    MeeGo.Button {
-                        id: buttonId
-                        text: name
+            Component{
+                id:notificationsDelegate
+                MeeGo.Button {
+                    id: buttonId
+                    text: name
 
-                        width: 350
-                        active: !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
+                    width: 350
+                    active: !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
 
-                        bgSourceUp: notificationTypes.isActive(type) ?  "image://theme/btn_blue_up" : "image://theme/btn_grey_up"
-                        bgSourceDn:  notificationTypes.isActive(type) ?  "image://theme/btn_blue_dn" : "image://theme/btn_grey_dn"
+                    bgSourceUp: notificationTypes.isActive(type) ?  "image://theme/btn_blue_up" : "image://theme/btn_grey_up"
+                    bgSourceDn:  notificationTypes.isActive(type) ?  "image://theme/btn_blue_dn" : "image://theme/btn_grey_dn"
 
-                        onClicked: {
+                    onClicked: {
 
-                            if (notificationTypes.isActive(type) == false)
+                        if (notificationTypes.isActive(type) == false)
+                        {
+                            if (!notificationTypes.maxNotifications())
                             {
-                                if (!notificationTypes.maxNotifications())
-                                {
-                                    bgSourceUp = "image://theme/btn_blue_up"
-                                    bgSourceDn = "image://theme/btn_blue_dn"
-                                    notificationTypes.addType(type);
-                                }
+                                bgSourceUp = "image://theme/btn_blue_up"
+                                bgSourceDn = "image://theme/btn_blue_dn"
+                                notificationTypes.addType(type);
                             }
-                            else
-                            {
-                                bgSourceUp = "image://theme/btn_grey_up"
-                                bgSourceDn = "image://theme/btn_grey_dn"
-                                notificationTypes.removeType(type);
-                            }
-
                         }
-                        Connections {
-                            target: notificationTypes
-                            onNotificationNumberChanged: {
-                                buttonId.active = !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
-                            }
+                        else
+                        {
+                            bgSourceUp = "image://theme/btn_grey_up"
+                            bgSourceDn = "image://theme/btn_grey_dn"
+                            notificationTypes.removeType(type);
+                        }
+
+                    }
+                    Connections {
+                        target: notificationTypes
+                        onNotificationNumberChanged: {
+                            buttonId.active = !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
                         }
                     }
                 }

@@ -8,6 +8,7 @@
 
 import QtQuick 1.0
 import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 import MeeGo.Sync 0.1
 
 BorderImage {
@@ -35,10 +36,10 @@ BorderImage {
     Component {
         id: syncDetails
 
-        Labs.ApplicationPage {
+        AppPage {
             id: syncDetailsPage
             anchors.fill: parent
-            title: model.storage
+            pageTitle: model.storage
 
 //            onSearch: {
 //                    console.log("application search query: " + needle)
@@ -46,7 +47,6 @@ BorderImage {
 
             SyncDetails {
                 id: fnord
-                parent:   syncDetailsPage.content
                 icon:     model.image
                 storage:  model.storage
                 service:  model.displayName
@@ -76,7 +76,7 @@ BorderImage {
             if (username == "") {
                 theLoginDialog = cardMe.createObject(syncListData);
             } else {
-                appPage.addApplicationPage(syncDetails);
+                addPage(syncDetails);
             }
         }
 
@@ -87,7 +87,7 @@ BorderImage {
     function executeOnSignin(u, p) {
         theUsername = u;
         thePassword = p;
-        appPage.addApplicationPage(syncDetails);
+        addPage(syncDetails);
     }
 
     Component {
