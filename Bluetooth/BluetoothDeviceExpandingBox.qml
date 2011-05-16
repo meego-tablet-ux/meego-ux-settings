@@ -223,7 +223,7 @@ MeeGo.ExpandingBox {
                     Text {
                         text: qsTr("Manage")
                         height: 50
-                        width: 200
+                        width: parent.width
                     }
 
                     MeeGo.Button {
@@ -236,6 +236,13 @@ MeeGo.ExpandingBox {
                         onClicked: {
                             device.unpair();
                         }
+                    }
+
+                    Text {
+                        visible: btHacksGconf.value
+                        height: 50
+                        width: parent.width
+                        text: qsTr("Properties")
                     }
 
                     Text {
@@ -256,7 +263,15 @@ MeeGo.ExpandingBox {
 
                     Text {
                         visible: btHacksGconf.value
-                        text: qsTr("UUids: %1").arg(container.uuids)
+                        text: qsTr("Icon: %1").arg(container.device.icon)
+                        height: 50
+                        width: parent.width
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    Text {
+                        visible: btHacksGconf.value
+                        text: qsTr("UUIDs: %1").arg(container.uuids)
                         height: 100
                         wrapMode: Text.WrapAnywhere
                         width: parent.width
