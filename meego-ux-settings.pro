@@ -1,5 +1,5 @@
 VERSION = 0.3.1
-TEMPLATE = subdirs 
+TEMPLATE = subdirs
 
 CONFIG += ordered
 
@@ -8,14 +8,12 @@ TRANS_SOURCES = \
     Sync/FrameworkClient.cpp \
     Sync/UiPlugin.cpp \
     Sync/CalendarModel.cpp \
-    Sync/SharedCredentials.cpp \
     Sync/ContactsModel.cpp \
     Sync/StorageModel.cpp \
     Sync/AllVisibleProfilesModel.hpp \
     Sync/FrameworkClient.hpp \
     Sync/UiPlugin.hpp \
     Sync/CalendarModel.hpp \
-    Sync/SharedCredentials.hpp \
     Sync/ContactsModel.hpp \
     Sync/StorageModel.hpp
 
