@@ -9,7 +9,7 @@ CONFIG += link_pkgconfig \
     debug \
     warn_on
 
-PKGCONFIG += syncfwclient syncprofile libsignon-qt mlite
+PKGCONFIG += syncfwclient syncprofile mlite
 
 QT += declarative xml
 
@@ -18,13 +18,8 @@ HEADERS = \
     CalendarModel.hpp \
     ContactsModel.hpp \
     FrameworkClient.hpp \
-    RemoveCredentialsProcessor.hpp \
-    RetrieveCredentialsProcessor.hpp \
     ServiceInfo.hpp \
-    SharedCredentials.hpp \
-    SharedCredentialsProcessor.hpp \
     StorageModel.hpp \
-    StoreCredentialsProcessor.hpp \
     UiPlugin.hpp
 
 SOURCES = \
@@ -32,13 +27,8 @@ SOURCES = \
     CalendarModel.cpp \
     ContactsModel.cpp \
     FrameworkClient.cpp \
-    RemoveCredentialsProcessor.cpp \
-    RetrieveCredentialsProcessor.cpp \
     ServiceInfo.cpp \
-    SharedCredentials.cpp \
-    SharedCredentialsProcessor.cpp \
     StorageModel.cpp \
-    StoreCredentialsProcessor.cpp \
     UiPlugin.cpp
 
 OTHER_FILES += qmldir

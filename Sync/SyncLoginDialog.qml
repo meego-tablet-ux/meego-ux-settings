@@ -103,6 +103,10 @@ ModalDialog {
         }
     }
 
+    onRejected: {
+        popPage();
+    }
+
     Component.onCompleted: {
         dialog.show()
     }

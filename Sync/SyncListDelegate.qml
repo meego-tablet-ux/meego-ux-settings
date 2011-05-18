@@ -7,7 +7,6 @@
  */
 
 import QtQuick 1.0
-import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1
 import MeeGo.Sync 0.1
 
@@ -19,19 +18,17 @@ BorderImage {
     border.top: 5
     border.bottom: 5
 
-    // Once the list item is ready for use the opacity will change to 1 (opaque),
-    // and the MouseArea will become active.
-    opacity: ready ? 1 : 0.5
-
     property bool pressed: false
-    property string theUsername: username
-    property string thePassword: password
 
     height: {
         Math.max(serviceIcon.height, serviceLabel.height, scheduledStatus.height, arrowRight.height)
     }
 
     width: parent.width
+
+    Theme {
+        id: theme
+    }
 
     Component {
         id: syncDetails
@@ -51,8 +48,6 @@ BorderImage {
                 storage:  model.storage
                 service:  model.displayName
                 name:     model.name
-                username: theUsername
-                password: thePassword
             }
         }
     }
@@ -61,42 +56,11 @@ BorderImage {
         anchors.fill: parent
 
         onClicked: {
-            if (!ready) {
-                return;
-            }
-
-            // Set properties related to the selected sync service in our
-            // parent list for use in child pages.
-            theUsername = username;
-            thePassword = password;
-
-            // Check if credentials have already been set.  If not, pop
-            // up the login dialog, store the credentials, and schedule
-            // and start the sync.
-            if (username == "") {
-                theLoginDialog = cardMe.createObject(syncListData);
-            } else {
-                addPage(syncDetails);
-            }
+            addPage(syncDetails);
         }
 
-        onPressed:  parent.pressed = ready
+        onPressed:  parent.pressed = true
         onReleased: parent.pressed = false
-    }
-
-    function executeOnSignin(u, p) {
-        theUsername = u;
-        thePassword = p;
-        addPage(syncDetails);
-    }
-
-    Component {
-        id: cardMe
-
-        SyncLoginDialog {
-            serviceName: displayName
-            loginOwner: syncListData
-        }
     }
 
     Item {
@@ -118,8 +82,8 @@ BorderImage {
         anchors.verticalCenter: parent.verticalCenter
         x: 110  // Force alignment of all service labels
 
-        color: theme_fontColorNormal
-        font.pixelSize: theme_fontPixelSizeNormal
+        color: themefontColorNormal
+        font.pixelSize: theme.fontPixelSizeNormal
 
         //: Arg 1 is the sync service name (e.g. "Yahoo!") and arg 2 is the storage name (e.g. "Contacts" or "Calendar".
         text: qsTr("%1 %2").arg(displayName).arg(storage)

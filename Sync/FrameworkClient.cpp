@@ -7,9 +7,7 @@
  */
 
 #include "FrameworkClient.hpp"
-#include "SharedCredentials.hpp"
-#include "StoreCredentialsProcessor.hpp"
-#include "RemoveCredentialsProcessor.hpp"
+// #include "SharedCredentials.hpp"
 
 #include <SyncProfile.h>
 #include <ProfileManager.h>
@@ -38,8 +36,6 @@ MeeGo::Sync::FrameworkClient::FrameworkClient(QObject* parent)
   : QObject(parent)
   , m_sci()
   , m_pm()
-  , m_processor()
-  , m_cred()
   , m_scheduled(false)
   , m_status()
   , m_service()
@@ -69,6 +65,29 @@ MeeGo::Sync::FrameworkClient::FrameworkClient(QObject* parent)
 
 MeeGo::Sync::FrameworkClient::~FrameworkClient()
 {
+}
+
+QString
+MeeGo::Sync::FrameworkClient::syncValue(Buteo::SyncProfile * profile,
+					QString const & key)
+{
+  QStringList const values = profile->keyValues(key);
+
+  int const sz = values.size();
+
+  if (sz > 1) {
+    // Sanity check.  We're only using the first value, since we're
+    // only expecting to retrieve values with 1-to-1 mappings to
+    // their  // corresponding key.
+    qWarning() << "Multiple values detected for sync profile key\""
+	       << key << "in sync profile \"" << profile->name()
+	       << "\".  Only the first will be used.";
+  } else if (sz < 1) {
+    // No value set yet.
+    return QString();
+  }
+
+  return values[0];
 }
 
 bool
@@ -164,6 +183,7 @@ MeeGo::Sync::FrameworkClient::setUsername(QString s)
 {
   if (s != m_username) {
     m_username = s;
+    emit usernameChanged(s);
   }
 }
 
@@ -178,6 +198,7 @@ MeeGo::Sync::FrameworkClient::setPassword(QString s)
 {
   if (s != m_password) {
     m_password = s;
+    emit passwordChanged(s);
   }
 }
 
@@ -306,10 +327,15 @@ MeeGo::Sync::FrameworkClient::doPostInit(QString fuzzyTime,
 
   if (results.majorCode() == Buteo::SyncResults::SYNC_RESULT_INVALID
       || forceSync) {
-
     doInitialSync();  // Never been "synced".
 
   } else {
+    // Flip the recurring sync toggle as necessary.
+    QScopedPointer<Buteo::SyncProfile> profile(m_pm.syncProfile(m_name));
+
+    // Retrieve the username and password.
+    setUsername(syncValue(profile.data(), "Username"));
+    setPassword(syncValue(profile.data(), "Password"));
 
     // Display the status of the last sync.
     if (results.majorCode() == Buteo::SyncResults::SYNC_RESULT_SUCCESS) {
@@ -329,15 +355,12 @@ MeeGo::Sync::FrameworkClient::doPostInit(QString fuzzyTime,
       // another account that uses those same credentials.  For
       // example, the user could have updated the credentials for
       // Google Calendar because of an authentication failure.  We
-      // would not to immediately pop-up the login dialog if the last
-      // sync for Google Contacts had an authentication failure.  We'd
-      // want to use the updated shared credentials.  As such, we only
-      // pop up the login dialog *immediately* after an authentication
-      // failure.
+      // would not want to immediately pop-up the login dialog if the
+      // last sync for Google Contacts had an authentication failure.
+      // We'd want to use the updated shared credentials.  As such, we
+      // only pop up the login dialog *immediately* after an
+      // authentication failure.
     }
-
-    // Flip the recurring sync toggle as necessary.
-    QScopedPointer<Buteo::SyncProfile> profile(m_pm.syncProfile(m_name));
 
     if (profile->syncType() == Buteo::SyncProfile::SYNC_SCHEDULED)
       setScheduled(true);
@@ -350,32 +373,64 @@ MeeGo::Sync::FrameworkClient::doInitialSync()
   qDebug() << "INFO: Performing 'initial sync' procedure for profile:"
 	   << m_name;
 
-  StoreCredentialsProcessor * const processor =
-    new StoreCredentialsProcessor(m_username, m_password);
-  m_processor.reset(processor);
-
-  // Capture completion of credentials storage for subsequent sync
-  // profile processing.
-  connect(processor,
-	  SIGNAL(stored(quint32)),
-	  this,
-	  SLOT(credentialsStored(quint32)));
-
-  // Capture errors that occurred during credentials storage.
-  connect(processor,
-	  SIGNAL(error(const SignOn::Error &)),
-	  this,
-	  SLOT(credentialsError(const SignOn::Error &)));
-
-  if (m_cred.isNull()) {
-    m_cred.reset(new SharedCredentials);
+  if (m_username.isEmpty()) {
+    // No user name set yet.  Query the user for the username and
+    // password by popping up the login dialog.
+    emit authenticationFailed();
+    return;
   }
 
-  // Process credentials storage asynchronously.
-  m_cred->processCredentials(processor, m_provider);
+  // Store username and password in the sync profile.
 
-  // Profile will be updated with new username/password once
-  // credentials storage completes.
+  QScopedPointer<Buteo::SyncProfile> profile(m_pm.syncProfile(m_name));
+
+  profile->setKey("Username", m_username);
+  profile->setKey("Password", m_password);
+
+  // Either create a copy of the sync profile in the system directory
+  // (e.g. /etc/sync/...") that will ultimately be stored in the
+  // user's home directory (~/.sync/...), or update one that already
+  // exists in the user's home directory.
+
+  // @todo Can we create a top-level sync profile for Google that
+  //       contains both hcalendar and hcontacts storage sub-profiles?
+  //       Currently they are separate top-level sync profiles in the
+  //       system sync profile directory.
+
+  // Save changes to disk.
+  if (!m_sci.updateProfile(*profile)) {
+    //: Failed to update and store sync account/profile info on disk.
+    setStatus(tr("Unable to update sync profile"));
+  }
+
+  qDebug() << "Username: " << m_username;
+  // qDebug() << "Password: " << m_password;
+
+  // Enable recurring sync.
+  //
+  // The default sync interval is 60 minutes.
+  //
+  // @note Every hour was an arbitrary choice that seemed
+  //       reasonable.
+  //
+  // @todo The default interval should be configurable through a
+  //       configuration file (e.g. in /etc) so that vendors can
+  //       easily choose their own.
+
+  unsigned const MINUTES = 60;
+  Buteo::SyncSchedule schedule;
+  schedule.setInterval(MINUTES);
+
+  qDebug() << "INFO: Setting sync schedule to:" << schedule.toString();
+
+  // Set the schedule.
+  if (m_sci.setSyncSchedule(m_name, schedule)) {
+    setScheduled(true);
+    syncNow();
+  } else {
+    //: Attempt to set automatic sync schedule failed.
+    setStatus(tr("Sync scheduling failed"));
+  }
 }
 
 void
@@ -414,34 +469,42 @@ MeeGo::Sync::FrameworkClient::enableAutoSync(bool enable)
 void
 MeeGo::Sync::FrameworkClient::forgetProfile()
 {
-  // Remove the corresponding credentials before removing the profiles
-  // so that the credentials are not available in the profileChanged()
-  // slot in the StorageModel.
+  // Remove all profiles with matching SSO provider.
+  Buteo::ProfileManager::SearchCriteria criterion;
+  criterion.iType = Buteo::ProfileManager::SearchCriteria::EQUAL;
+  criterion.iKey = "Username";
+  criterion.iValue = m_username;
 
-  RemoveCredentialsProcessor * const processor =
-    new RemoveCredentialsProcessor;
-  m_processor.reset(processor);
+  QList<Buteo::ProfileManager::SearchCriteria> criteria;
+  criteria.append(criterion);
 
-  // Capture completion of credentials removal for subsequent sync
-  // profile processing.
-  connect(processor,
-	  SIGNAL(removed()),
-	  this,
-	  SLOT(credentialsRemoved()));
+  typedef QList<Buteo::SyncProfile*> list_type;
+  list_type profiles = m_pm.getSyncProfilesByData(criteria);
 
-  // Capture errors that occurred during credentials removal.
-  connect(processor,
-	  SIGNAL(error(const SignOn::Error &)),
-	  this,
-	  SLOT(credentialsError(const SignOn::Error &)));
+  int const count = profiles.size();
 
-  if (m_cred.isNull()) {
-    m_cred.reset(new SharedCredentials);
+  qDebug() << "INFO:" << count << "sync profiles will be removed.";
+
+  m_removalsPending = count;
+
+  list_type::const_iterator const end = profiles.end();
+  for (list_type::const_iterator i = profiles.begin(); i != end; ++i) {
+    // Buteo interface is busted.  It expects reference to non-const
+    // QString, so we can't pass temporaries to the removeProfile()
+    // method.  Explicitly instantiate a QString on the stack.  *sigh*
+    QString hack((*i)->name());
+
+    qDebug() << "INFO: Removing profile" << hack;
+
+    // Remove profile from disk
+    if (!m_sci.removeProfile(hack)) {
+      //: Displayed when removal of sync account information fails.
+      setStatus(tr("Unable to forget sync account!"));
+    }
   }
 
-  m_cred->processCredentials(processor, m_provider);
-
-  // Profile will be removed once credentials removal completes.
+  qDeleteAll(profiles);
+  profiles.clear();
 }
 
 void
@@ -525,7 +588,7 @@ MeeGo::Sync::FrameworkClient::resultsAvailable(
     MNotification n("Sync");
     n.setSummary(tr("%1 %2 sync failed").arg(m_service).arg(m_storage));
     n.setBody(e);
-    n.setImage("image://meegotheme/icons/settings/sync");
+    n.setImage("image://themedimage/icons/settings/sync");
     n.publish();
 
     // Pop up the login dialog on authentication failure.
@@ -564,7 +627,7 @@ MeeGo::Sync::FrameworkClient::profileChanged(QString id,
     qDebug() << "INFO: profile" << id << "removed.";
 
      if (--m_removalsPending == 0) {
-       // All profiles with same SSO provider have been removed.
+       // All profiles with shared credentials have been removed.
        emit profileRemoved(id);  // Force return to main screen.
      }
 
@@ -573,132 +636,6 @@ MeeGo::Sync::FrameworkClient::profileChanged(QString id,
   default:
     qWarning() << "WARNING: Unknown type ("
 	       << type << ") of profile change occured.";
-    break;
-  }
-}
-
-void
-MeeGo::Sync::FrameworkClient::credentialsStored(quint32)
-{
-  // Credentials have been stored.  Update the sync profile
-  // accordingly.
-
-  m_processor.reset();
-
-  QScopedPointer<Buteo::SyncProfile> profile(m_pm.syncProfile(m_name));
-
-  profile->setKey("Username", "sso-provider=" + m_provider);
-
-  // Either create a copy of the sync profile in the system directory
-  // (e.g. /etc/sync/...") that will ultimately be stored in the
-  // user's home directory (~/.sync/...), or update one that already
-  // exists in the user's home directory.
-
-  // @todo Can we create a top-level sync profile for Google that
-  //       contains both hcalendar and hcontacts storage sub-profiles?
-  //       Currently they are separate top-level sync profiles in the
-  //       system sync profile directory.
-
-  // Save changes to disk.
-  if (!m_sci.updateProfile(*profile)) {
-    //: Failed to update and store sync account/profile info on disk.
-    setStatus(tr("Unable to update sync profile"));
-  }
-
-  qDebug() << "Username: " << m_username;
-  // qDebug() << "Password: " << m_password;
-  qDebug() << "SSO Username: " << ("sso-provider=" + m_provider);
-
-  // Enable recurring sync.
-  //
-  // The default sync interval is 60 minutes.
-  //
-  // @note Every hour was an arbitrary choice that seemed
-  //       reasonable.
-  //
-  // @todo The default interval should be configurable through a
-  //       configuration file (e.g. in /etc) so that vendors can
-  //       easily choose their own.
-
-  unsigned const MINUTES = 60;
-  Buteo::SyncSchedule schedule;
-  schedule.setInterval(MINUTES);
-
-  qDebug() << "INFO: Setting sync schedule to:" << schedule.toString();
-
-  // Set the schedule.
-  if (m_sci.setSyncSchedule(m_name, schedule)) {
-    setScheduled(true);
-    syncNow();
-  } else {
-    //: Attempt to set automatic sync schedule failed.
-    setStatus(tr("Sync scheduling failed"));
-  }
-}
-
-void
-MeeGo::Sync::FrameworkClient::credentialsRemoved()
-{
-  // Credentials have been removed.  Now remove the corresponding sync
-  // profiles.
-
-  m_processor.reset();
-
-  // Remove all profiles with matching SSO provider.
-  Buteo::ProfileManager::SearchCriteria criterion;
-  criterion.iType = Buteo::ProfileManager::SearchCriteria::EQUAL;
-  criterion.iKey = "Username";
-  criterion.iValue = "sso-provider=" + m_provider;
-
-  QList<Buteo::ProfileManager::SearchCriteria> criteria;
-  criteria.append(criterion);
-
-  typedef QList<Buteo::SyncProfile*> list_type;
-  list_type profiles = m_pm.getSyncProfilesByData(criteria);
-
-  int const count = profiles.size();
-
-  qDebug() << "INFO:" << count << "sync profiles will be removed.";
-
-  m_removalsPending = count;
-
-  list_type::const_iterator const end = profiles.end();
-  for (list_type::const_iterator i = profiles.begin(); i != end; ++i) {
-    // Buteo interface is busted.  It expects reference to non-const
-    // QString, so we can't pass temporaries to the removeProfile()
-    // method.  Explicitly instantiate a QString on the stack.  *sigh*
-    QString hack((*i)->name());
-
-    qDebug() << "INFO: Removing profile" << hack;
-
-    // Remove profile from disk
-    if (!m_sci.removeProfile(hack)) {
-      //: Displayed when removal of sync account information fails.
-      setStatus(tr("Unable to forget sync account!"));
-    }
-  }
-
-  qDeleteAll(profiles);
-  profiles.clear();
-}
-
-void
-MeeGo::Sync::FrameworkClient::credentialsError(const SignOn::Error & e)
-{
-  m_processor.reset();
-
-  switch (e.type()) {
-  case SignOn::Error::StoreFailed:
-    //: Internal error.  Failed to store user supplied credentials in DB.
-    setStatus (tr("Failed to store credentials"));
-    break;
-  case SignOn::Error::RemoveFailed:
-    //: Displayed when clearing stored sync account credentials fails.
-    setStatus (tr("Failed to clear credentials"));
-    break;
-  default:
-    //: We're really not expecting any other kinds of cred errors.
-    setStatus(tr("Unknown credentials error"));
     break;
   }
 }

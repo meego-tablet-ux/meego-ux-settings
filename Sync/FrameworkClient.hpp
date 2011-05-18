@@ -9,12 +9,10 @@
 #ifndef MEEGO_SYNC_FW_CLIENT_HPP
 #define MEEGO_SYNC_FW_CLIENT_HPP
 
-#include "SharedCredentials.hpp"
 
 #include <QObject>
 #include <SyncClientInterface.h>
 #include <ProfileManager.h>
-#include <QScopedPointer>
 
 
 namespace MeeGo {
@@ -41,8 +39,8 @@ namespace MeeGo {
       Q_PROPERTY(QString service READ service WRITE setService)
       Q_PROPERTY(QString storage READ storage WRITE setStorage)
       Q_PROPERTY(QString name READ name WRITE setName)
-      Q_PROPERTY(QString username READ username WRITE setUsername)
-      Q_PROPERTY(QString password READ password WRITE setPassword)
+      Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
+      Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
 
     public:
 
@@ -118,6 +116,12 @@ namespace MeeGo {
       /// Signal emitted when the sync status has changed.
       void statusChanged(QString s);
 
+      /// Signal emitted when the sync account username has changed.
+      void usernameChanged(QString s);
+
+      /// Signal emitted when the sync account password has changed.
+      void passwordChanged(QString s);
+
       /// Signal emitted when the profile is removed.
       void profileRemoved(QString id);
 
@@ -139,21 +143,14 @@ namespace MeeGo {
       /// Detect profile changes.
       void profileChanged(QString id, int type, QString profile);
 
-      // ---
-
-      /// Detect credentials storage.
-      void credentialsStored(quint32 id);
-
-      /// Detect credentials removal.
-      void credentialsRemoved();
-
-      /// Detect credentials related errors.
-      void credentialsError(const SignOn::Error & e);
-
     private:
 
       /// Prevent copy construction and assignment.
       Q_DISABLE_COPY(FrameworkClient)
+
+      /// Retrieve value corresponding to @c key from sync profile.
+      QString syncValue(Buteo::SyncProfile * profile,
+			QString const & key);
 
       /// Schedule and start the initial sync.
       void doInitialSync();
@@ -175,12 +172,6 @@ namespace MeeGo {
 
       /// Buteo's profile management interface.
       Buteo::ProfileManager m_pm;
-
-      /// Credentials processing strategy currently in use.
-      QScopedPointer<SharedCredentialsProcessor> m_processor;
-
-      /// Credentials management object.
-      QScopedPointer<SharedCredentials> m_cred;
 
       /// Whether or not a sync schedule has been set.
       bool m_scheduled;

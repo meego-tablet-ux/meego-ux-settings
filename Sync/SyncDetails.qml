@@ -7,7 +7,6 @@
  */
 
 import QtQuick 1.0
-import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1
 import MeeGo.Sync 0.1
 
@@ -22,10 +21,16 @@ Item {
     property string service
     property string name
     property string username
-    property string password
+    property string password    
+    property variant theLoginDialog: null
 
-    Labs.FuzzyDateTime {
+
+    FuzzyDateTime {
         id: fuzz
+    }
+
+    Theme {
+        id: theme
     }
 
     // Our link to the underlying sync engine.
@@ -49,7 +54,6 @@ Item {
             syncMe.enabled = true;
         }
     }
-
 
     function executeOnSignin(u, p) {
         username = u;
@@ -111,8 +115,8 @@ Item {
 
                     Text {
                         id: serviceName
-                        color: theme_fontColorNormal
-                        font.pixelSize: theme_fontPixelSizeLarge
+                        color: theme.fontColorNormal
+                        font.pixelSize: theme.fontPixelSizeLarge
                         font.bold: true
                         // @todo Pull display name and storage profile name from C++ side.
                         //: Arg 1 is the name of the sync service (e.g. "Yahoo!") and arg 2 is the name of the storage (e.g. "Contacts" or "Calendar").
@@ -121,8 +125,8 @@ Item {
 
                     Text {
                         id: syncResult
-                        color: theme_fontColorNormal
-                        font.pixelSize: theme_fontPixelSizeNormal
+                        color: theme.fontColorNormal
+                        font.pixelSize: theme.fontPixelSizeNormal
                         text: bridge.status
                     }
 
@@ -155,8 +159,8 @@ Item {
                 Text {
                     id: syncToggleLabel
                     anchors.verticalCenter: syncToggleContainer.verticalCenter
-                    color: theme_fontColorNormal
-                    font.pixelSize: theme_fontPixelSizeLarge
+                    color: theme.fontColorNormal
+                    font.pixelSize: theme.fontPixelSizeLarge
                     //: Argument is sync storage (e.g. "Contacts" or "Calendar").
                     text: qsTr("Sync %1").arg(storage)
                 }
@@ -193,16 +197,16 @@ Item {
 
                 Text {
                     id: detailsLabel
-                    color: theme_fontColorNormal
-                    font.pixelSize: theme_fontPixelSizeLarge
+                    color: theme.fontColorNormal
+                    font.pixelSize: theme.fontPixelSizeLarge
                     font.bold: true
                     //: Title of "account details" area of page.
                     text: qsTr("Sync account details")
                 }
 
                 Text {
-                    color: theme_fontColorNormal
-                    font.pixelSize: theme_fontPixelSizeNormal
+                    color: theme.fontColorNormal
+                    font.pixelSize: theme.fontPixelSizeNormal
                     text: username
                 }
             }
@@ -233,7 +237,6 @@ Item {
         target: bridge
         onProfileRemoved: {
             // Sync profile no longer exists return to main sync UI page.
-
             popPage();
         }
 

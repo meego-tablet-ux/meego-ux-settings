@@ -14,7 +14,6 @@ Item {
 
     property alias model: syncListView.model
     property Item appPage
-    property variant theLoginDialog: null
 
     Component {
           id: syncStorageHeading

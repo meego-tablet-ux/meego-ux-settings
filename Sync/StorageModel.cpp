@@ -26,10 +26,7 @@ MeeGo::Sync::StorageModel::StorageModel(char const * storage_names[],
   roles[NameRole]        = "name"; // "id" is an existing QML property.
   roles[ImageRole]       = "image";
   roles[ActiveRole]      = "active";
-  roles[UsernameRole]    = "username";
-  roles[PasswordRole]    = "password";
   roles[StorageRole]     = "storage";
-  roles[Ready]           = "ready";
   setRoleNames(roles);
 
   // Construct list of visible sync services.
@@ -44,27 +41,6 @@ MeeGo::Sync::StorageModel::StorageModel(char const * storage_names[],
 
 MeeGo::Sync::StorageModel::~StorageModel()
 {
-}
-
-void
-MeeGo::Sync::StorageModel::serviceReady(QString id)
-{
-  int row = 0;
-
-  // Find the row containing ServiceInfo object with the updated
-  // credentials.
-  service_list_type::iterator const end = m_services.end();
-  service_list_type::iterator i;
-  for (i = m_services.begin(); i != end; ++i) {
-    if ((*i).profileName() == id) {
-      // Credentials have changed.  Update the QML ListView.
-      emit dataChanged(index(row, 0), index(row, 0));
-
-      return;
-    }
-
-    ++row;
-  }
 }
 
 void
@@ -150,17 +126,8 @@ MeeGo::Sync::StorageModel::data(QModelIndex const & index, int role) const
   case ActiveRole:
     return info.active();
 
-  case UsernameRole:
-    return info.username();
-
-  case PasswordRole:
-    return info.password();
-
   case StorageRole:
     return info.storage();
-
-  case Ready:
-    return info.ready();
 
   default:
     break;

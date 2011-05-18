@@ -46,6 +46,7 @@ namespace MeeGo
 
 	/// Sync profile Name/ID.
 	NameRole,
+
 	/// Service icon image associated with the sync profile.
 	ImageRole,
 
@@ -53,19 +54,8 @@ namespace MeeGo
 	/// for automatic syncing.
 	ActiveRole,
 
-	/// Username associated with the sync provider.
-	/// (e.g. Google).
-	UsernameRole,
-
-	/// Password associated with the sync provider.
-	PasswordRole,
-
 	/// Calendar, Contacts, etc.
-	StorageRole,
-
-	/// Whether or not a given Sync service item in the list is
-	/// ready for use.
-	Ready
+	StorageRole
       };
 
       StorageModel(char const * storage_names[], QObject * parent = 0);
@@ -76,9 +66,6 @@ namespace MeeGo
       virtual QVariant data(QModelIndex const & index, int role) const;
 
     private slots:
-
-      /// Detect credentials retrieval completion.
-      void serviceReady(QString id);
 
       /// Detect profile changes.
       void profileChanged(QString id, int type, QString profile);
