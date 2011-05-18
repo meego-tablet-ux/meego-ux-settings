@@ -158,10 +158,10 @@ Item {
                         height: 50
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
-                        active: ((tzlistmodel.currentItem != undefined)&&(searchBar.displayText != ""))
+                        active: ((tzlistmodel.currentItem != undefined)&&(searchBar.text != ""))
                         text: qsTr("Ok")
                         onClicked: {
-                            if((tzlistmodel.currentItem != undefined)&&(searchBar.displayText != ""))
+                            if((tzlistmodel.currentItem != undefined)&&(searchBar.text != ""))
                             {
                                 container.triggered(tzlistmodel.currentItem.tzCity, tzlistmodel.currentItem.tzTitle, tzlistmodel.currentItem.gmt);
                                 container.close();
@@ -191,12 +191,12 @@ Item {
                 width: parent.width - filterTitle.paintedWidth - 100
 
                 onTextChanged: {
-                    timezonelist.filterOut(searchBar.displayText);
+                    timezonelist.filterOut(searchBar.text);
                     tzlistmodel.currentIndex = 0;
                     tzlistmodel.highlight = highlighter;
                 }
                 Keys.onReturnPressed: {
-                    if((tzlistmodel.currentItem != undefined)&&(searchBar.displayText != ""))
+                    if((tzlistmodel.currentItem != undefined)&&(searchBar.text != ""))
                     {
                         container.triggered(tzlistmodel.currentItem.tzCity, tzlistmodel.currentItem.tzTitle, tzlistmodel.currentItem.gmt);
                         container.close();

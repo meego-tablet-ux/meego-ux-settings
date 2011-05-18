@@ -30,8 +30,7 @@ OTHER_FILES += \
     Notifications/*.qml \
     Settings/*.qml \
     Sync/*.qml \
-    TimeDate/*.qml \
-    Volume/*.qml \
+    General/*.qml \
     Wifi/*.js \
     Wifi/*.qml
 
@@ -49,7 +48,7 @@ QMAKE_EXTRA_TARGETS += dist
 
 SUBDIRS += Settings Sync Example Hacks
 
-qmlfiles.files += *.qml Wifi Volume Panels TimeDate Browser Language Personalize Notifications
+qmlfiles.files += *.qml Wifi General Panels Browser Language Personalize Notifications
 qmlfiles.path = $$INSTALL_ROOT/usr/share/$$TARGET
 
 bluetooth.files = Bluetooth/*.qml Bluetooth/helper.js
