@@ -10,9 +10,10 @@ import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
 
-MeeGo.AppPage {
+Item {
     id: container
-    pageTitle: qsTr("Sound")
+    width: parent.width
+    height: slider.height + 20
 
     MeeGo.VolumeControl {
         id: volumeControl
