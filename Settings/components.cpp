@@ -21,6 +21,7 @@
 #include "BrowserSettingModel.h"
 #include "notificationtypes.h"
 #include "notificationmaker.h"
+#include "backlightsetting.h"
 
 void Components::registerTypes(const char *uri)
 {
@@ -45,6 +46,8 @@ void Components::registerTypes(const char *uri)
 	qmlRegisterType<LocaleSettings>(uri, 0, 1,"LocaleSettings");
 	qmlRegisterType<NotificationTypes>(uri, 0, 1,"NotificationTypes");
 	qmlRegisterType<NotificationMaker>(uri, 0, 1,"NotificationMaker");
+
+        qmlRegisterType<BacklightSetting>(uri, 0, 1, "BacklightSetting");
 }
 
 void Components::initializeEngine(QDeclarativeEngine *engine, const char *uri)

@@ -32,7 +32,8 @@ SOURCES += components.cpp \
     cellularsettings.cpp \
     connectioncontext.cpp \
     notificationtypes.cpp \
-    notificationmaker.cpp
+    notificationmaker.cpp \
+    backlightsetting.cpp
 
 OTHER_FILES += qmldir \ 
     connectioncontext.xml
@@ -44,7 +45,8 @@ HEADERS += components.h \
     cellularsettings.h \
     connectioncontext.h \
     notificationtypes.h \
-    notificationmaker.h
+    notificationmaker.h \
+    backlightsetting.h
 
 qmldir.files += qmldir *.qml *.xml
 qmldir.path = $$[QT_INSTALL_IMPORTS]/MeeGo/Settings
