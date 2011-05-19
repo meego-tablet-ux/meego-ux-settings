@@ -31,6 +31,7 @@ ListModel {
 		settingsApps = []
 		settingsAppPaths = []
 		settingsModel.clear();
+		filterValue = filterValue.toLowerCase();
 		console.log("filter: " + filterValue)
 
 		for (var i=0; i < desktopSettingsModel.apps.length; i++) {

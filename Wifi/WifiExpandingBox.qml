@@ -220,6 +220,8 @@ MeeGo.ExpandingBox {
             width: parent.width
             height: childrenRect.height
 
+            property bool editable: container.networkItem.method == "dhcp" && container.networkItem.type != "cellular"
+
             MeeGo.Button {
                 id: disconnectButton
                 text: qsTr("Disconnect")
@@ -255,6 +257,7 @@ MeeGo.ExpandingBox {
                 model: [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]
                 payload: [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]
                 selectedIndex: networkItem.method == "dhcp" ? 0:1
+                replaceDropDownTitle: true
                 onTriggered: {
                     dropdown.method = index == 0 ? "dhcp":"static"
                 }
@@ -288,7 +291,7 @@ MeeGo.ExpandingBox {
 				id: ipaddyEdit
 				width: parent.width / 3
 				text: container.ipaddy
-				visible: container.method != "dhcp"
+				visible: editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 
@@ -299,7 +302,7 @@ MeeGo.ExpandingBox {
 
 			Text {
 				text: container.subnet
-				visible:  container.method == "dhcp"
+				visible:  !editable
 				width: parent.width / 3
 			}
 
@@ -307,7 +310,7 @@ MeeGo.ExpandingBox {
 				id: subnetEdit
 				width: parent.width / 3
 				text: container.subnet
-				visible: container.method != "dhcp"
+				visible: editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 			Text {
@@ -317,7 +320,7 @@ MeeGo.ExpandingBox {
 
 			Text {
 				text: container.gateway
-				visible:  container.method == "dhcp"
+				visible:  !editable
 				width: parent.width / 3
 			}
 
@@ -325,7 +328,7 @@ MeeGo.ExpandingBox {
 				id: gatewayEdit
 				width: parent.width / 3
 				text: container.gateway
-				visible: container.method != "dhcp"
+				visible: editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 			Text {
@@ -352,6 +355,34 @@ MeeGo.ExpandingBox {
 			Text {
 				width: parent.width / 3
 				text: container.hwaddy
+			}
+
+			Labs.GConfItem {
+				id: connectionsHacksGconf
+				defaultValue: false
+				key: "/meego/ux/settings/connectionshacks"
+			}
+
+			Text {
+				visible: connectionsHacksGconf.value
+				width: parent.width / 3
+				text: qsTr("Security: ")
+			}
+			Text {
+				visible: connectionsHacksGconf.value
+				width: parent.width / 3
+				text: container.networkItem.security
+			}
+
+			Text {
+				visible: connectionsHacksGconf.value
+				width: parent.width / 3
+				text: qsTr("Strength: ")
+			}
+			Text {
+				visible: connectionsHacksGconf.value
+				width: parent.width / 3
+				text: container.networkItem.strength
 			}
 
 			MeeGo.Button {
@@ -389,7 +420,7 @@ MeeGo.ExpandingBox {
             width: parent.width
             height: childrenRect.height
 
-            property bool passwordRequired: container.networkItem.type == "wifi" && container.security != "none"
+            property bool passwordRequired: container.networkItem.type == "wifi" && container.security != "none" && container.security != "ieee8021x"
 
             Column {
                 width:  parent.width
@@ -397,6 +428,7 @@ MeeGo.ExpandingBox {
                 Row {
                     height: childrenRect.height
                     spacing: 10
+
                     MeeGo.TextEntry {
                         id: passwordTextInput
                         textInput.echoMode: TextInput.Normal
@@ -439,7 +471,7 @@ MeeGo.ExpandingBox {
                 Row {
                     height: childrenRect.height
                     spacing: 10
-                   MeeGo.CheckBox {
+                    MeeGo.CheckBox {
                         id: showPasswordCheckbox
                         visible: passwordGrid.passwordRequired
                         isChecked: true
