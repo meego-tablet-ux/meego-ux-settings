@@ -115,7 +115,14 @@ Ux.Window {
 			}
 
 			onSearch: {
-				settingsModel.filter(needle)
+				if(settingsHacksGconf.value)
+					settingsModel.filter(needle)
+			}
+
+			Labs.GConfItem {
+				id: settingsHacksGconf
+				defaultValue: false
+				key: "/meego/ux/settings/settingshacks"
 			}
 
 			ListView {

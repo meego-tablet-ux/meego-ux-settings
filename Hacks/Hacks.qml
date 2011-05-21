@@ -77,39 +77,130 @@ Ux.AppPage {
                 }
             }
 
-            Image {
-                id: bluetoothHacks
-                source: "image://theme/pulldown_box"
+            Ux.ExpandingBox {
+
+                property int contentAreaHeight: 80
                 width: parent.width
+                height: contentAreaHeight
 
                 Text {
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    text: qsTr("bluetooth hacks:")
-                    width: 100
-                    height: parent.height
+                    text: qsTr("Settings Hacks")
+                    height: contentAreaHeight
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                Ux.ToggleButton {
-                    id: bthacksToggle
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    anchors.rightMargin: 10
-                    on: btHacksGconf.value
-                    onToggled: {
-                        btHacksGconf.value = bthacksToggle.on
-                    }
+                detailsComponent: Column {
+                    width: parent.width
 
-                    GConfItem {
-                        id: btHacksGconf
-                        key: "/meego/ux/settings/bluetoothhacks"
-                        onValueChanged: {
-                            bthacksToggle.on = btHacksGconf.value
+                    Image {
+                        id: settingsSearchHacks
+                        source: "image://theme/pulldown_box"
+                        width: parent.width
+
+                        Text {
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.leftMargin: 10
+                            text: qsTr("General Settings Hacks:")
+                            width: 100
+                            height: parent.height
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        Ux.ToggleButton {
+                            id: settingsHacksToggle
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+                            anchors.rightMargin: 10
+                            on: settingsHacksGconf.value
+                            onToggled: {
+                                settingsHacksGconf.value = settingsHacksToggle.on
+                            }
+
+							GConfItem {
+								id: settingsHacksGconf
+								defaultValue: false
+								key: "/meego/ux/settings/settingshacks"
+								onValueChanged: {
+									settingsHacksToggle.on = settingsHacksGconf.value
+								}
+							}
+						}
+					}
+
+                    Image {
+                        id: bluetoothHacks
+                        source: "image://theme/pulldown_box"
+                        width: parent.width
+
+                        Text {
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.leftMargin: 10
+                            text: qsTr("bluetooth hacks:")
+                            width: 100
+                            height: parent.height
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        Ux.ToggleButton {
+                            id: bthacksToggle
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+                            anchors.rightMargin: 10
+                            on: btHacksGconf.value
+                            onToggled: {
+                                btHacksGconf.value = bthacksToggle.on
+                            }
+
+                            GConfItem {
+                                id: btHacksGconf
+                                key: "/meego/ux/settings/bluetoothhacks"
+                                defaultValue: false
+                                onValueChanged: {
+                                    bthacksToggle.on = btHacksGconf.value
+                                }
+                            }
+
                         }
                     }
 
+                    Image {
+                        id: connectionsHacks
+                        source: "image://theme/pulldown_box"
+                        width: parent.width
+
+                        Text {
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.leftMargin: 10
+                            text: qsTr("Connections hacks:")
+                            width: 100
+                            height: parent.height
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        Ux.ToggleButton {
+                            id: connectionshacksToggle
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+                            anchors.rightMargin: 10
+                            on: connectionsHacksGconf.value
+                            onToggled: {
+                                connectionsHacksGconf.value = bthacksToggle.on
+                            }
+
+                            GConfItem {
+                                id: connectionsHacksGconf
+                                key: "/meego/ux/settings/connectionshacks"
+                                defaultValue: false
+                                onValueChanged: {
+                                    connectionshacksToggle.on = connectionsHacksGconf.value
+                                }
+                            }
+
+                        }
+                    }
                 }
             }
 

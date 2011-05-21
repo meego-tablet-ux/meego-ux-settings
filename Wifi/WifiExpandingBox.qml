@@ -270,12 +270,6 @@ MeeGo.ExpandingBox {
                 }
             }
 
-			/*Text {
-				id: dropdown
-				width: parent.width / 3
-				text: WifiHelper.IPv4Type[container.method]
-			}*/
-
 			Text {
 				width: parent.width / 3
 				text: qsTr("IP Address:")
@@ -283,7 +277,7 @@ MeeGo.ExpandingBox {
 
 			Text {
 				text: container.ipaddy
-				visible:  container.method == "dhcp"
+				visible:  !editable
 				width: parent.width / 3
 			}
 
@@ -351,10 +345,13 @@ MeeGo.ExpandingBox {
 			Text {
 				width: parent.width / 3
 				text: qsTr("Hardware Address:")
+				visible: container.networkItem.type != "cellular"
 			}
+
 			Text {
 				width: parent.width / 3
 				text: container.hwaddy
+				visible: container.networkItem.type != "cellular"
 			}
 
 			Labs.GConfItem {
