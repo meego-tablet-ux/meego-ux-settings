@@ -180,7 +180,7 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-                text: qsTr("Current Timezone is %1").arg(timeSettings.timezone)
+		text: qsTr("Current Time Zone is %1").arg(timeSettings.timezone)
                 width: parent.width
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
@@ -211,7 +211,7 @@ Item {
                 on: timeSettings.automaticTimeZone
                 onToggled: {
                     timeSettings.automaticTimeZone = findMeToggleButton.on;
-                    currentTzText.text = qsTr("Current Timezone is %1").arg(timeSettings.timezone);
+		    currentTzText.text = qsTr("Current Time Zone is %1").arg(timeSettings.timezone);
                 }
 
                 Connections {
@@ -233,7 +233,7 @@ Item {
                 id: manualTimezoneLabelText
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-                text: qsTr("Manual time zone selection");
+		text: qsTr("Manual Time Zone Selection");
                 font.pixelSize: theme_fontPixelSizeLarge
                 font.bold: true
                 height: parent.height
@@ -267,13 +267,13 @@ Item {
                         var saveSuccess = timeSettings.setTz(newTzTitle);
                         if (saveSuccess)
                         {
-                            currentTzText.text = qsTr("Current Timezone is ").arg(timeSettings.timezone);
+			    currentTzText.text = qsTr("Current Time Zone is ").arg(timeSettings.timezone);
                             timeTimer.interval = 2000;
                             findMeToggleButton.on = timeSettings.isUsingTzAuto();
                         }
 
                         else
-                            manualTimezoneLabelText.text = qsTr("Unable to set timezone manually");
+			    manualTimezoneLabelText.text = qsTr("Unable to set time zone manually");
                     }
 
                     onClose: {
