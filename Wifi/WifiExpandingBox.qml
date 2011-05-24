@@ -220,7 +220,7 @@ MeeGo.ExpandingBox {
             width: parent.width
             height: childrenRect.height
 
-            property bool editable: container.networkItem.method == "dhcp" && container.networkItem.type != "cellular"
+	    property bool editable: container.networkItem.method != "dhcp" && container.networkItem.type != "cellular"
 
             MeeGo.Button {
                 id: disconnectButton
@@ -291,7 +291,7 @@ MeeGo.ExpandingBox {
 				id: ipaddyEdit
 				width: parent.width / 3
 				text: container.ipaddy
-				visible: editable
+				visible: settingsGrid.editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 
@@ -302,7 +302,7 @@ MeeGo.ExpandingBox {
 
 			Text {
 				text: container.subnet
-				visible:  !editable
+				visible:  !settingsGrid.editable
 				width: parent.width / 3
 			}
 
@@ -310,7 +310,7 @@ MeeGo.ExpandingBox {
 				id: subnetEdit
 				width: parent.width / 3
 				text: container.subnet
-				visible: editable
+				visible: settingsGrid.editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 			Text {
@@ -320,7 +320,7 @@ MeeGo.ExpandingBox {
 
 			Text {
 				text: container.gateway
-				visible:  !editable
+				visible:  !settingsGrid.editable
 				width: parent.width / 3
 			}
 
@@ -328,7 +328,7 @@ MeeGo.ExpandingBox {
 				id: gatewayEdit
 				width: parent.width / 3
 				text: container.gateway
-				visible: editable
+				visible: settingsGrid.editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 			Text {

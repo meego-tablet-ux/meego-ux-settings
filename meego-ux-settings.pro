@@ -1,9 +1,9 @@
 VERSION = 0.3.1
 TEMPLATE = subdirs
 
-CONFIG += ordered
+CONFIG += ordered sync_settings
 
-TRANS_SOURCES = \
+sync_settings: TRANS_SOURCES = \
     Sync/AllVisibleProfilesModel.cpp \
     Sync/FrameworkClient.cpp \
     Sync/UiPlugin.cpp \
@@ -44,7 +44,8 @@ dist.commands += tar jcpvf $${PROJECT_NAME}-$${VERSION}.tar.bz2 $${PROJECT_NAME}
 QMAKE_EXTRA_TARGETS += dist
 
 
-SUBDIRS += Settings Sync Example Hacks
+SUBDIRS += Settings Example Hacks
+sync_settings:SUBDIRS += Sync
 
 qmlfiles.files += *.qml Wifi General Panels Browser Language Personalize Notifications
 qmlfiles.path = $$INSTALL_ROOT/usr/share/$$TARGET
@@ -58,4 +59,5 @@ sync.path = $$INSTALL_ROOT/usr/share/$$TARGET/Sync
 builtinsettings.files += apps/*.desktop
 builtinsettings.path = $$INSTALL_ROOT/usr/share/$$TARGET/apps/
 
-INSTALLS += qmlfiles builtinsettings bluetooth sync
+INSTALLS += qmlfiles builtinsettings bluetooth
+sync_settings:INSTALLS += sync
