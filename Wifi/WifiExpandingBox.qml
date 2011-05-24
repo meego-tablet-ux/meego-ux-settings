@@ -291,7 +291,7 @@ MeeGo.ExpandingBox {
 				id: ipaddyEdit
 				width: parent.width / 3
 				text: container.ipaddy
-				visible: settingsGrid.editable
+				visible: editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 
@@ -302,7 +302,7 @@ MeeGo.ExpandingBox {
 
 			Text {
 				text: container.subnet
-				visible:  !settingsGrid.editable
+				visible:  !editable
 				width: parent.width / 3
 			}
 
@@ -310,7 +310,7 @@ MeeGo.ExpandingBox {
 				id: subnetEdit
 				width: parent.width / 3
 				text: container.subnet
-				visible: settingsGrid.editable
+				visible: editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 			Text {
@@ -320,7 +320,7 @@ MeeGo.ExpandingBox {
 
 			Text {
 				text: container.gateway
-				visible:  !settingsGrid.editable
+				visible:  !editable
 				width: parent.width / 3
 			}
 
@@ -328,7 +328,7 @@ MeeGo.ExpandingBox {
 				id: gatewayEdit
 				width: parent.width / 3
 				text: container.gateway
-				visible: settingsGrid.editable
+				visible: editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 			Text {
