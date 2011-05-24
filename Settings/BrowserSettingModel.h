@@ -268,6 +268,8 @@ public Q_SLOTS:
 	// Return true if the removing list contains the given item
 	bool Contains(const QString& item);
 
+  void LaunchBrowser();
+
 signals:
 	void defaultRestored();
 	void pageOpenedOnStartupChanged(int type);

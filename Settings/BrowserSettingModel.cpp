@@ -10,6 +10,7 @@
 #include <gnome-keyring.h>
 #include <gnome-keyring-result.h>
 #include <QtAlgorithms>
+#include <QProcess>
 #include "BrowserSettingModel.h"
 
 static void free_data(void* data, void* userdata);
@@ -586,4 +587,7 @@ void BrowserSettingModel::setProxyPort(int port)
 		return;
 }
 
-
+void BrowserSettingModel::LaunchBrowser()
+{
+  QProcess::startDetached("/usr/bin/meego-app-browser");
+}
