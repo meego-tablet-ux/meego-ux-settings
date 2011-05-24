@@ -303,6 +303,7 @@ MeeGo.AppPage {
                 Repeater {
                     model: networkListModel
                     delegate: availableNetworkItem
+		    visible: container.x == 0
                 }
             }
         }
