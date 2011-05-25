@@ -9,6 +9,7 @@
 import Qt 4.7
 import MeeGo.Components 0.1
 import MeeGo.Settings 0.1
+import MeeGo.Bluetooth 0.1
 
 ExpandingBox {
 	id: availableBluetoothItem

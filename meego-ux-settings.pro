@@ -3,6 +3,10 @@ TEMPLATE = subdirs
 
 CONFIG += ordered sync_settings
 
+sync_settings {
+    DEFINES += SYNC_SETTINGS
+}
+
 sync_settings: TRANS_SOURCES = \
     Sync/AllVisibleProfilesModel.cpp \
     Sync/FrameworkClient.cpp \
