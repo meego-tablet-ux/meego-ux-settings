@@ -9,6 +9,7 @@
 import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Settings 0.1
+import MeeGo.Connman 0.1
 import MeeGo.Components 0.1 as MeeGo
 
 import "helper.js" as WifiHelper
@@ -220,7 +221,7 @@ MeeGo.ExpandingBox {
             width: parent.width
             height: childrenRect.height
 
-            property bool editable: container.networkItem.method == "dhcp" && container.networkItem.type != "cellular"
+	    property bool editable: container.networkItem.method != "dhcp" && container.networkItem.type != "cellular"
 
             MeeGo.Button {
                 id: disconnectButton

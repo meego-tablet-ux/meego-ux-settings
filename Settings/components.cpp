@@ -8,12 +8,6 @@
 
 #include "components.h"
 
-#include <nearbydevicesmodel.h>
-#include <bluetoothdevice.h>
-#include <bluetoothdevicemodel.h>
-#include <networklist.h>
-#include <networkitem.h>
-
 #include "localesettings.h"
 #include "cellularsettings.h"
 #include "timesettings.h"
@@ -25,11 +19,6 @@
 
 void Components::registerTypes(const char *uri)
 {
-	qmlRegisterType<NearbyDevicesModel>(uri,0,0,"NearbyDevicesModel");
-    qmlRegisterType<BluetoothDevice>(uri,0,0,"BluetoothDevice");
-    qmlRegisterType<BluetoothDevicesModel>(uri,0,0,"BluetoothDevicesModel");
-	qmlRegisterType<NetworkListModel>(uri,0,1,"NetworkListModel");
-	qmlRegisterType<NetworkItemModel>(uri,0,1,"NetworkItemModel");
 	qmlRegisterType<BrowserSettingModel>(uri, 0, 1, "BrowserSettingModel");
 
 	qmlRegisterType<TabletSettings::Group>(uri,0,1,"TabletSettingsGroup");
