@@ -13,7 +13,7 @@ import MeeGo.Settings 0.1
 
 MeeGo.AppPage {
     id: notificationsPage
-    title: qsTr("Notifications")
+    pageTitle: qsTr("Notifications")
 
     NotificationTypes{
         id: notificationTypes
