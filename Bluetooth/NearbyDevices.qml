@@ -26,6 +26,14 @@ AppPage {
         nearbyDevicesModel.discover(false);
     }
 
+    BluetoothDevicesModel {
+        id: btDevicesModel
+        property bool successFullPair: false
+        onDevicePaired: {
+            popPage();
+        }
+    }
+
     NearbyDevicesModel {
         id: nearbyDevicesModel
 
@@ -125,19 +133,18 @@ AppPage {
 						console.log(device + " model legacyPairing: " + model.legacyPairing)
 					}
 				}
+
+				Connections {
+					target: nearbyDevicesModel
+					onRelease: {
+						availableBluetoothItem.expanded = false
+					}
+				}
 			}
 		}
     }
 
-    Connections {
-        target: nearbyDevicesModel
-        onRelease: {
-            if(!suppress) {
-                page.suppress = true;
-                page.close()
-            }
-        }
-    }
+
 
     Component {
         id: requestPasskeyDialog

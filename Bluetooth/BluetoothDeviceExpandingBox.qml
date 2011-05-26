@@ -29,6 +29,8 @@ MeeGo.ExpandingBox {
     property BluetoothDevicesModel bluetoothdevicemodel
     property BluetoothDevice device: bluetoothdevicemodel.device(dbuspath)
 
+    visible: device.paired
+
     Image {
         id: bluetoothIcon
         anchors.top: parent.top
