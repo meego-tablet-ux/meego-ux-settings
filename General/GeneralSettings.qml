@@ -13,7 +13,7 @@ MeeGo.AppPage {
     Flickable {
         anchors.fill:  parent
         contentHeight: childrenRect.height
-        interactive: true
+        interactive: childrenRect.height > height
         clip: true
 
         Column {

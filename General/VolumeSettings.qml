@@ -13,7 +13,7 @@ import MeeGo.Components 0.1 as MeeGo
 Item {
     id: container
     width: parent.width
-    height: slider.height + 20
+    height: childrenRect.height
 
     MeeGo.VolumeControl {
         id: volumeControl
