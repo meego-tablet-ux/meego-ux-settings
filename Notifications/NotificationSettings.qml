@@ -74,7 +74,7 @@ MeeGo.AppPage {
                 model: notificationModel
                 delegate: notificationsDelegate
                 width: parent.width
-                height: 500//childrenRect.height + 50
+                height: childrenRect.height + 50
                 cellWidth: 360
                 cellHeight: 50
             }
@@ -89,7 +89,8 @@ MeeGo.AppPage {
                     active: !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
 
                     bgSourceUp: notificationTypes.isActive(type) ?  "image://theme/btn_blue_up" : "image://theme/btn_grey_up"
-                    bgSourceDn:  notificationTypes.isActive(type) ?  "image://theme/btn_blue_dn" : "image://theme/btn_grey_dn"
+                    bgSourceActive: bgSourceUp
+		    bgSourceDn:  notificationTypes.isActive(type) ?  "image://theme/btn_blue_dn" : "image://theme/btn_grey_dn"
 
                     onClicked: {
 
@@ -98,6 +99,7 @@ MeeGo.AppPage {
                             if (!notificationTypes.maxNotifications())
                             {
                                 bgSourceUp = "image://theme/btn_blue_up"
+				bgSourceActive = bgSourceUp
                                 bgSourceDn = "image://theme/btn_blue_dn"
                                 notificationTypes.addType(type);
                             }
@@ -105,6 +107,7 @@ MeeGo.AppPage {
                         else
                         {
                             bgSourceUp = "image://theme/btn_grey_up"
+			    bgSourceActive = bgSourceUp
                             bgSourceDn = "image://theme/btn_grey_dn"
                             notificationTypes.removeType(type);
                         }
