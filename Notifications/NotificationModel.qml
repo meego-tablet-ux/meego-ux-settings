@@ -19,7 +19,7 @@ ListModel {
         type: "im"
     }
     ListElement {
-        name: "Bluetooth Deviced Disconnected"
+        name: "Bluetooth Device Disconnected"
         type: "bluetooth.devicedisconnected"
     }
     ListElement {
