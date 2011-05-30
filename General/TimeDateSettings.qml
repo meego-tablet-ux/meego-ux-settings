@@ -316,6 +316,7 @@ Item {
     MeeGo.DatePicker{
         id: datePicker
         parent: scene.container
+        minYear: 1970
         onDateSelected: {
             timeSettings.setDate(date);
             timeTimer.interval = 1000
