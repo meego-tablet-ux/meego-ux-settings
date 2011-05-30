@@ -207,7 +207,7 @@ Item {
                 Text {
                     color: theme.fontColorNormal
                     font.pixelSize: theme.fontPixelSizeNormal
-                    text: username
+                    text: bridge.username
                 }
             }
 
