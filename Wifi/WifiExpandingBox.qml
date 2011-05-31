@@ -194,7 +194,7 @@ MeeGo.ExpandingBox {
                         networkItem.passphrase=""
                         networkItem.removeService();
                         container.expanded = false;
-                        container.detailsComponent =
+                        container.detailsComponent = passwordArea
                     }
                 }
                 MeeGo.Button {
