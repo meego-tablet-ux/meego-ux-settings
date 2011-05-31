@@ -171,7 +171,7 @@ Item {
                     on: bridge.scheduled
 
                     onToggled: {
-                        bridge.enableAutoSync(name, isOn);
+                        bridge.enableAutoSync(isOn);
                     }
                 }
             }
@@ -207,7 +207,7 @@ Item {
                 Text {
                     color: theme.fontColorNormal
                     font.pixelSize: theme.fontPixelSizeNormal
-                    text: username
+                    text: bridge.username
                 }
             }
 
