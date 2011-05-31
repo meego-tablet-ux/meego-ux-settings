@@ -171,7 +171,7 @@ Item {
                     on: bridge.scheduled
 
                     onToggled: {
-                        bridge.enableAutoSync(name, isOn);
+                        bridge.enableAutoSync(isOn);
                     }
                 }
             }
