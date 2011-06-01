@@ -59,7 +59,6 @@ MeeGo.ExpandingBox {
 
     Row {
         spacing: 10
-        anchors.left:  parent.left
         anchors.top:  parent.top
         anchors.topMargin: 10
         height: container.containerHeight

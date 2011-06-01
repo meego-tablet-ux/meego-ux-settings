@@ -297,7 +297,7 @@ MeeGo.AppPage {
                     visible: networkListModel.count == 0
                     text:  qsTr("No networks available")
                     font.pixelSize: theme_fontPixelSizeLarge
-                    height: parent.height
+                    height: 50
                     width: parent.width
                     elide: Text.ElideRight
                 }
@@ -305,7 +305,7 @@ MeeGo.AppPage {
                 Repeater {
                     model: networkListModel
                     delegate: availableNetworkItem
-		    visible: container.x == 0
+                    visible: container.x == 0
                 }
             }
         }

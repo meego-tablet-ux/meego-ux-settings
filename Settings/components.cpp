@@ -36,7 +36,7 @@ void Components::registerTypes(const char *uri)
 	qmlRegisterType<NotificationTypes>(uri, 0, 1,"NotificationTypes");
 	qmlRegisterType<NotificationMaker>(uri, 0, 1,"NotificationMaker");
 
-        qmlRegisterType<BacklightSetting>(uri, 0, 1, "BacklightSetting");
+	qmlRegisterType<BacklightSetting>(uri, 0, 1, "BacklightSetting");
 }
 
 void Components::initializeEngine(QDeclarativeEngine *engine, const char *uri)

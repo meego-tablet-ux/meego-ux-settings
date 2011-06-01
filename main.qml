@@ -61,11 +61,6 @@ Ux.Window {
 		id: settingsModel
 	}
 
-	Labs.ApplicationsModel {
-		id: declarativeAppsModel
-		directory: "/usr/lib/meego-ux-settings"
-	}
-
 	Connections {
 		target: mainWindow
 		onCall: {

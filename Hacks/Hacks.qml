@@ -5,7 +5,7 @@ import MeeGo.Components 0.1 as Ux
 
 Ux.AppPage {
     id: page
-    pageTitle:  qsTr("Devloper Hacks")
+    pageTitle:  qsTr("Developer Hacks")
     //default property alias pagechildren: page.content
 
     Flickable {

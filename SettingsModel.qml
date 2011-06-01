@@ -77,7 +77,7 @@ ListModel {
 		}
 		settingsApps = settingsApps.concat(title);
 		settingsAppPaths = settingsAppPaths.concat(path);
-		settingsAppComponents = settingsAppComponents.concat(Qt.createComponent(path))
+		//settingsAppComponents = settingsAppComponents.concat(Qt.createComponent(path))
 		settingsTranslationPaths = settingsTranslationPaths.concat(translationFile)
 		settingsAppNames = settingsAppNames.concat(name)
 		settingsModel.append({"title":title, "name": name, "path": path, "icon": icon,

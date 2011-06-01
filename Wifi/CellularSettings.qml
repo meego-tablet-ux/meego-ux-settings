@@ -1,8 +1,7 @@
 import Qt 4.7
-import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
-import MeeGo.Settings 0.1
 import MeeGo.Connman 0.1
+import MeeGo.Settings 0.1
 
 MeeGo.AppPage {
     id: container
@@ -53,7 +52,7 @@ MeeGo.AppPage {
                 width: parent.width
                 height: childrenRect.height
 
-                property string country
+                property string country: ""
                 property string provider: networkItem.name
                 property string apn: cellularSettings.apn;
 
@@ -63,14 +62,15 @@ MeeGo.AppPage {
 
                 MeeGo.DropDown {
                     id: countryDropdown
+                    width: 200
                     model: cellularSettings.countries()
                     payload: cellularSettings.countries()
+                    replaceDropDownTitle: true
+
                     onTriggered: {
                         var data = payload[index]
-                        country = data;
+                        dropDowns.country = data;
                         console.log("setting provider dropdownlist to: " + data)
-                        providerDropdown.model = cellularSettings.providers(data)
-                        providerDropdown.payload = cellularSettings.providers(data)
                     }
                 }
 
@@ -80,12 +80,14 @@ MeeGo.AppPage {
 
                 MeeGo.DropDown {
                     id: providerDropdown
-                    model: cellularSettings.providers("")
-                    //selectedIndex: cellularSettings.providers("").indexOf(provider)
+                    width: 200
+                    model: cellularSettings.providers(dropDowns.country)
+                    payload: cellularSettings.providers(dropDowns.country)
+                    replaceDropDownTitle: true
+                    selectedIndex: cellularSettings.providers(dropDowns.country).indexOf(dropDowns.provider)
                     onTriggered: {
-                        provider = payload[index]
-                        apnDropDown.model = cellularSettings.apns(country,provider)
-                        apnDropDown.payload = cellularSettings.apns(country,provider)
+                        dropDowns.provider = payload[index]
+                        console.log("setting provider to: " + dropDowns.provider)
                     }
                 }
 
@@ -95,12 +97,14 @@ MeeGo.AppPage {
 
                 MeeGo.DropDown {
                     id: apnDropDown
-                    model: cellularSettings.apns("","")
-                    payload: cellularSettings.apns("","")
-                    //selectedIndex: cellularSettings.apns("","").indexOf(apn)
+                    width: 200
+                    model: cellularSettings.apns(dropDowns.country,dropDowns.provider)
+                    payload: cellularSettings.apns(dropDowns.country,dropDowns.provider)
+                    replaceDropDownTitle: true
+                    selectedIndex: cellularSettings.apns(dropDowns.country,dropDowns.provider).indexOf(apn)
                     onTriggered: {
-                        apn = payload[index]
-                        cellularSettings.setApn(apn)
+                        dropDowns.apn = payload[index]
+                        cellularSettings.setApn(dropDowns.apn)
                     }
                 }
             }
@@ -118,7 +122,7 @@ MeeGo.AppPage {
                 MeeGo.TextEntry {
                     id: apn
                     width: parent.width / 3
-                    text: cellularSettings.apn()
+                    text: cellularSettings.apn
 
                 }
 

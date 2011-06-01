@@ -185,14 +185,26 @@ QStringList CellularSettings::providers(QString country)
 
     query.evaluateTo(&list);
 
+    foreach(QString item, list)
+    {
+        qDebug()<<"provider: "<<item;
+    }
+
     return list;
 }
 
 QStringList CellularSettings::apns(QString country, QString provider)
 {
+    ///FIXME: hackish:
+    provider = provider.replace("&","&amp;");
+
     QXmlQuery query;
     query.setFocus(QUrl("/usr/share/mobile-broadband-provider-info/serviceproviders.xml"));
-    query.setQuery("/serviceproviders/country[@code = '"+ country +"']/provider[name = '"+provider+"']/gsm/apn/@value[1]/string()");
+    QString queryString;
+    if(country == "")
+        queryString = "/serviceproviders/country/provider[name = '"+provider+"']/gsm/apn/@value[1]/string()";
+    else queryString = "/serviceproviders/country[@code = '"+ country +"']/provider[name = '"+provider+"']/gsm/apn/@value[1]/string()";
+    query.setQuery(queryString);
 
     QStringList list;
 
