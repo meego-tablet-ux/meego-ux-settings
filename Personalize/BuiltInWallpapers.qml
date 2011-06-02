@@ -37,6 +37,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 10
                 sourceSize.height: height
+                sourceSize.width: width
                 fillMode: Image.PreserveAspectCrop
                 source: uri
                 clip: true

@@ -23,18 +23,6 @@ Item {
         anchors.margins: 10
         spacing: 20
         Button {
-            id: colorStripButton
-            width: parent.width/2 - 20
-            elideText: true
-            height: parent.height * 0.75
-            text: qsTr("Pick a color")
-            //color: theme_buttonFontColor
-            //font.pointSize: theme_fontSizeMedium
-            onClicked: {
-                container.openColorstripCreator()
-            }
-        }
-        Button {
             id: galleryButton
             width: parent.width/2 - 20
             elideText: true

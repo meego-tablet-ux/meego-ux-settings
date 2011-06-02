@@ -8,82 +8,32 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
-import MeeGo.Components 0.1 as MeeGo
+import MeeGo.Components 0.1
 import MeeGo.Media 0.1
+import MeeGo.Panels 0.1
 
-MeeGo.AppPage {
+AppPage {
     id: container
     pageTitle: qsTr("Personalize")
-
-    Labs.ApplicationsModel {
-        id: controlsModel
-        type: "HomeConfig"
-        directory: "/usr/share/meego-ux-appgrid/config"
-    }
-
-    Component {
-        id: colorstripCreatorComponent
-        ColorstripCreator {
-            id: colorstripInstance
-            anchors.fill: parent
-        }
-    }
 
     Item {
         id: personalizeContainer
         anchors.fill: parent
 
-        function close() {
-            mainWindow.goHome();
-            container.close();
+        PanelProxyModel{
+                id: panelModel
+                sortType: PanelProxyModel.SortTypeDefaultIndex
         }
 
-        ListView {
-            id: listView
+        Flickable {
+            contentHeight: contentArea.height
             anchors.fill: parent
-            model: controlsModel.apps
-            clip: true
 
-            section.property: "msection"
-            section.criteria: ViewSection.FullString
-            section.delegate: Item {
-                id: sinstance
-                width: listView.width
-                height: 40
-
-                Text {
-                    anchors.fill: parent
-                    anchors.leftMargin: 10
-                    elide: Text.ElideRight
-                    color: "white"
-                    font.pointSize: 10
-                    font.bold: true
-                    verticalAlignment: Text.AlignVCenter
-                    text: {
-                        if (section == 0)
-                            sectionTitleWallpapers;
-                        else if (section == 1)
-                            sectionTitleClocks;
-                        else if (section == 2)
-                            sectionTitleWeather;
-                        else if (section == 3)
-                            sectionTitleCalendar;
-                        else if (section == 4)
-                            sectionTitleLocation;
-                    }
-                }
-                Rectangle {
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 1
-                    width: parent.width
-                    height: 1
-                    color: "black"
-                }
-            }
-            header: Column {
+            Column {
+                id: contentArea
                 width: parent.width
-                height: builtinWallpapers.height + customWallpapers.height + wallpaperTools.height
-                MeeGo.PhotoPicker {
+
+                PhotoPicker {
                     id: photoPicker
                     parent: personalizeContainer
                     property string selectedPhoto
@@ -108,56 +58,74 @@ MeeGo.AppPage {
                     width: parent.width
                     height: 200
                 }
+
                 CustomWallpapers {
                     id: customWallpapers
                     width: parent.width
                     opacity: height > 0 ? 1.0 : 0.0
                     height: list.count > 0 ? 200 : 0
                 }
+
                 WallpaperTools {
                     id: wallpaperTools
                     width: parent.width
                     height: 100
 
-                    onOpenColorstripCreator: {
-                        function onCreatedColorbars(colorbarPath) {
-                            var path = customWallpapers.model.copyImageToBackgrounds(colorbarPath);
-                            customWallpapers.model.activeWallpaper = path;
-                            mainWindow.goHome();
-                            personalizeContainer.close();
-                        }
-
-                        var cb = colorstripCreatorComponent.createObject(personalizeContainer)
-                        cb.scale = 1.0
-                        cb.opacity = 1.0
-                        cb.createdColorbars.connect(onCreatedColorbars)
-                    }
                     onOpenGallery: {
                         photoPicker.show();
                     }
                 }
-            }
 
-            delegate: Item {
-                id: dinstance
-                width:  listView.width
-
-                function close() {
-                    mainWindow.goHome();
-                    personalizeContainer.close();
+                Label {
+                    text: qsTr("Panels")
+                    width: parent.width
+                    height: 60
                 }
 
-                Component.onCompleted: {
-                    var component = Qt.createComponent(modelData.value("Desktop Entry/X-MEEGO-HOME-CONTROL-SOURCE"));
-                    var obj = component.createObject(dinstance);
-                    height = obj.height
-                    try
-                    {
-                        obj.desktop = modelData;
-                    }
-                    catch (err)
-                    {
-                        // Control file does not have a desktop property
+                Repeater {
+                    width: parent.width
+                    model: panelModel
+                    delegate:panelDelegate
+                    focus: true
+                }
+
+                Component {
+                    id: panelDelegate
+                    Item {
+                        width: parent.width;
+                        height: imgPanel.height
+
+                        Image {
+                            id: imgPanel
+                            source: "image://theme/settings/btn_settingentry_up"
+                            width: parent.width
+                        }
+
+                        Text {
+                            id: titleText
+                            text: displayName
+                            anchors.left: parent.left
+                            anchors.leftMargin: 20
+                            anchors.right: tbPanel.left
+                            anchors.rightMargin: 12
+                            color: theme_fontColorNormal
+                            font.pixelSize: theme_fontPixelSizeLarge
+                            anchors.verticalCenter: parent.verticalCenter
+                            wrapMode: Text.NoWrap
+                            elide: Text.ElideRight
+                        }
+
+                        ToggleButton {
+                            id: tbPanel
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+                            anchors.rightMargin: 20
+                            visible: allowHide
+                            on: isVisible
+                            onToggled: {
+                                panelObj.IsVisible = isOn;
+                            }
+                        }
                     }
                 }
             }
