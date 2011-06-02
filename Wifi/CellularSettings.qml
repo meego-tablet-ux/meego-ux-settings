@@ -37,7 +37,7 @@ MeeGo.AppPage {
 
                 MeeGo.ToggleButton {
                     id: manualApn
-                    on: true
+                    on: false
                     anchors.right: parent.right
                     anchors.rightMargin: 10
                     anchors.verticalCenter: parent.verticalCenter
@@ -105,6 +105,7 @@ MeeGo.AppPage {
                     onTriggered: {
                         dropDowns.apn = payload[index]
                         cellularSettings.setApn(dropDowns.apn)
+                        networkItem.apn = dropDowns.apn
                     }
                 }
             }

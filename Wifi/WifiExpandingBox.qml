@@ -253,7 +253,7 @@ MeeGo.ExpandingBox {
                 id: dropdown
                 width: parent.width / 3
                 property string method
-
+                visible: container.networkItem.type != "cellular"
                 model: [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]
                 payload: [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]
                 selectedIndex: networkItem.method == "dhcp" ? 0:1
@@ -268,6 +268,12 @@ MeeGo.ExpandingBox {
                         dropdown.selectedIndex = networkItem.method == "dhcp" ? 0:1
                     }
                 }
+            }
+
+            Text {
+                width: parent.width / 3
+                text: WifiHelper.IPv4Type["dhcp"]
+                visible: container.networkItem.type == "cellular"
             }
 
 			Text {
