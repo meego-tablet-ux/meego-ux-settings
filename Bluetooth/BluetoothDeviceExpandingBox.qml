@@ -93,15 +93,19 @@ MeeGo.ExpandingBox {
             elideText: true
             property bool connected: container.device.inputConnected
 
-            onConnectedChanged: {
-                console.log("Input connected changed (in qml land)");
+            Connections {
+                target: container.device
+                onInputConnectedChanged: {
+                    console.log("Input connected changed (in qml land)");
+                    connected = isConnected
 
-                if(connected){
-                    text = qsTr("Disconnect Input Device")
-                }
+                    if(connected){
+                        text = qsTr("Disconnect Input Device")
+                    }
 
-                else{
-                    text = qsTr("Connect Input Device")
+                    else{
+                        text = qsTr("Connect Input Device")
+                    }
                 }
             }
 
