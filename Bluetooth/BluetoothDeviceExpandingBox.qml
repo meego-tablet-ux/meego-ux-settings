@@ -91,7 +91,7 @@ MeeGo.ExpandingBox {
             height: 50
             text: connected ? qsTr("Disconnect Input Device"): qsTr("Connect Input Device")
             elideText: true
-            property bool connected: container.device.inputConnected
+            property alias connected: container.device.inputConnected
 
             onConnectedChanged: {
                 if(connected){
