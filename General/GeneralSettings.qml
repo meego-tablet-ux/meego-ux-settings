@@ -61,6 +61,42 @@ MeeGo.AppPage {
 
                 detailsComponent: VolumeSettings { }
             }
+
+            MeeGo.ExpandingBox {
+                id: backlightexpandingbox
+                property int containerHeight: 80
+                height: containerHeight
+
+                anchors.margins: 20
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                Text {
+                    text: qsTr ("Backlight Control")
+                    height: backlightexpandingbox.containerHeight
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                detailsComponent: BacklightSettings { }
+            }
+
+            MeeGo.ExpandingBox {
+                id: screensaverexpandingbox
+                property int containerHeight: 80
+                height: containerHeight
+
+                anchors.margins: 20
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                Text {
+                    text: qsTr ("Screen Saver")
+                    height: screensaverexpandingbox.containerHeight
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                detailsComponent: ScreensaverSettings { }
+            }
         }
     }
 }
