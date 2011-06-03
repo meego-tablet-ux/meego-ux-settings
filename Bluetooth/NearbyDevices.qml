@@ -99,6 +99,7 @@ AppPage {
 				width: nearbyDevicesList.width
 				deviceName: name
 				icon: model.icon
+				alias: model.alias
 
 				onExpandedChanged: {
 					console.log("pairing with device: " + model.address)

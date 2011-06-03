@@ -21,6 +21,7 @@ ExpandingBox {
 	property string deviceName
 	property string address
 	property string icon: ""
+	property string alias: ""
 
     Image {
         id: bluetoothIcon
@@ -44,5 +45,13 @@ ExpandingBox {
 		anchors.top: parent.top
 		anchors.left: bluetoothIcon.right
 		text: deviceName
+	}
+
+	Text {
+		id: aliasText
+		anchors.margins: 10
+		anchors.top: parent.top
+		anchors.left: mainText.right
+		text: qsTr("(%1)").arg(availableBluetoothItem.alias)
 	}
 }
