@@ -9,7 +9,7 @@
 import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as MeeGo
-import MeeGo.Settings 0.1
+import MeeGo.Connman 0.1
 
 Item {
     id: page
@@ -18,6 +18,10 @@ Item {
 
     Labs.TimezoneListModel {
         id: timezoneListModel
+    }
+
+    ClockModel {
+        id: clockModel
     }
 
     Column {
@@ -47,7 +51,7 @@ Item {
             width: parent.width
             Text {
                 id: dateLabelText
-                text: timeSettings.currentDate()
+                text: clockModel.currentDate()
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 anchors.top: parent.top
@@ -77,7 +81,7 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 verticalAlignment: Text.AlignVCenter
-                text: timeSettings.flag24 ? Qt.formatTime(timeSettings.currentDateTime(), "hh:mm") : timeSettings.currentTime()
+                text: clockModel.currentTime()
                 font.pixelSize: theme_fontPixelSizeLarge
                 height: parent.height
                 width: parent.width - 10
@@ -86,10 +90,11 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    var coords = mapToItem(page.parent,mouseX,mouseY)
-                    timePicker.hr24 = timeSettings.flag24
-                    timePicker.hours = timeSettings.currentHour();
-                    timePicker.minutes = timeSettings.currentMinute();
+                    var coords = mapToItem(page.parent,mouseX,mouseY);
+                    var date = new Date;
+                    timePicker.hr24 = true
+                    timePicker.hours = date.getHours();
+                    timePicker.minutes = date.getMinutes();
                     timePicker.show(coords.x,coords.y);
                 }
             }
@@ -115,11 +120,11 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                on: timeSettings.flag24
+                on: true //FIXME
                 onToggled: {
-                    timeSettings.flag24 = twentyfourhrtoggle.on
-                    timeTimer.interval = 1000
-                    //twentyfourhrtoggle.on = timeSettings.flag24
+                    //FIXME
+                    //timeSettings.flag24 = twentyfourhrtoggle.on
+                    //timeTimer.interval = 1000
                 }
             }
         }
@@ -141,13 +146,16 @@ Item {
 
             MeeGo.ToggleButton {
                 id: autoTimeToggle
-                on: timeSettings.automatic
+                on: clockModel.timeUpdates == "auto"
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 10
 
                 onToggled: {
-                    timeSettings.automatic = isOn;
+                    if (on)
+                        clockModel.timeUpdates == "auto"
+                    else
+                        clockModel.timeUpdates == "manual"
                 }
             }
         }
@@ -180,7 +188,7 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-		text: qsTr("Current Time Zone is %1").arg(timeSettings.timezone)
+		text: qsTr("Current Time Zone is %1").arg(clockModel.timezone)
                 width: parent.width
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
@@ -208,16 +216,19 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                on: timeSettings.automaticTimeZone
+                on: clockModel.timezoneUpdates == "auto"
                 onToggled: {
-                    timeSettings.automaticTimeZone = findMeToggleButton.on;
-		    currentTzText.text = qsTr("Current Time Zone is %1").arg(timeSettings.timezone);
+                    if (on)
+                        clockModel.timezoneUpdates == "auto";
+                    else
+                        clockModel.timezoneUpdates == "manual";
+                    currentTzText.text = qsTr("Current Time Zone is %1").arg(clockModel.timezone);
                 }
 
                 Connections {
-                    target: timeSettings
-                    onAutomaticTimeZoneChanged: {
-                        findMeToggleButton.on = timeSettings.automaticTimeZone
+                    target: clockModel
+                    onTimezoneUpdatesChanged: {
+                        findMeToggleButton.on = (clockModel.timezoneUpdates == "auto");
                     }
                 }
 
@@ -264,16 +275,10 @@ Item {
                 Connections {
                     target: timezoneSelectLoader.item
                     onTriggered: {
-                        var saveSuccess = timeSettings.setTz(newTzTitle);
-                        if (saveSuccess)
-                        {
-			    currentTzText.text = qsTr("Current Time Zone is ").arg(timeSettings.timezone);
-                            timeTimer.interval = 2000;
-                            findMeToggleButton.on = timeSettings.isUsingTzAuto();
-                        }
-
-                        else
-			    manualTimezoneLabelText.text = qsTr("Unable to set time zone manually");
+                        clockModel.timezone = newTzTitle;
+                        currentTzText.text = qsTr("Current Time Zone is ").arg(clockModel.timezone);
+                        timeTimer.interval = 2000;
+                        findMeToggleButton.on = (clockModel.timezoneUpdates == "auto");
                     }
 
                     onClose: {
@@ -290,12 +295,8 @@ Item {
         running: true
         repeat: true
         onTriggered: {
-            dateLabelText.text = timeSettings.currentDate()
-
-            if (timeSettings.flag24)
-                timeLabelText.text = Qt.formatTime(timeSettings.currentDateTime(), "hh:mm");
-            else
-                timeLabelText.text = timeSettings.currentTime();
+            dateLabelText.text = clockModel.currentDate()
+            timeLabelText.text = clockModel.currentTime();
 
             if(timeTimer.interval != 60000)
                 timeTimer.interval = 60000
@@ -306,9 +307,9 @@ Item {
         id: timePicker
         parent: scene.container
         onAccepted: {
-            var time = timeSettings.time(timePicker.hours, timePicker.minutes, "00")
-            timeSettings.setTime(time);
-            autoTimeToggle.on = timeSettings.automatic
+            var time = clockModel.time(timePicker.hours, timePicker.minutes);
+            clockModel.setTime(time);
+            autoTimeToggle.on = (clockModel.timeUpdates == "auto")
             timeTimer.interval = 1000
         }
     }
@@ -318,13 +319,9 @@ Item {
         parent: scene.container
         minYear: 1970
         onDateSelected: {
-            timeSettings.setDate(date);
+            clockModel.setDate(date);
             timeTimer.interval = 1000
         }
-    }
-
-    TimeSettings {
-        id: timeSettings
     }
 
     Loader {

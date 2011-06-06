@@ -10,7 +10,6 @@
 
 #include "localesettings.h"
 #include "cellularsettings.h"
-#include "timesettings.h"
 #include "declarativesettingsmodel.h"
 #include "BrowserSettingModel.h"
 #include "notificationtypes.h"
@@ -30,7 +29,6 @@ void Components::registerTypes(const char *uri)
 	qmlRegisterType<TabletSettings::Option>(uri,0,1,"TabletSettingsSelectionOption");
 
 	qmlRegisterType<DeclarativeSettingsModel>(uri,0,0,"DeclarativeSettingsModel");
-	qmlRegisterType<TimeSettings>(uri, 0, 1,"TimeSettings");
 	qmlRegisterType<CellularSettings>(uri, 0, 1,"CellularSettingsModel");
 	qmlRegisterType<LocaleSettings>(uri, 0, 1,"LocaleSettings");
 	qmlRegisterType<NotificationTypes>(uri, 0, 1,"NotificationTypes");

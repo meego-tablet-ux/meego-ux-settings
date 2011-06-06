@@ -11,7 +11,6 @@ CONFIG += qt \
 PKGCONFIG += bluetooth-qt \
 	connman-qt4 \
 	mlite \
-	timed \
 	gnome-keyring-1 \
 	gconf-2.0 \
 	ofono-qt \
@@ -26,7 +25,6 @@ MOC_DIR = .moc
 # Input
 SOURCES += components.cpp \
 	declarativesettingsmodel.cpp \
-    timesettings.cpp \
     BrowserSettingModel.cpp \
     localesettings.cpp \
     cellularsettings.cpp \
@@ -39,7 +37,6 @@ OTHER_FILES += qmldir \
     connectioncontext.xml
 HEADERS += components.h \ 
     declarativesettingsmodel.h \
-    timesettings.h \
     BrowserSettingModel.h \
     localesettings.h \
     cellularsettings.h \
