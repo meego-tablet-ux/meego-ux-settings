@@ -32,7 +32,7 @@ Item {
 
             Text {
                 id: autoText
-                text: qsTr("Set Brightness Automatically")
+                text: qsTr("Set brightness automatically")
             }
 
             MeeGo.ToggleButton {

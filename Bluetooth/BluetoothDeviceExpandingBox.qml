@@ -60,16 +60,16 @@ MeeGo.ExpandingBox {
         MeeGo.Button {
             width: parent.width
             height: 50
-            text: connected ? qsTr("Disconnect Audio"): qsTr("Connect Audio")
+            text: connected ? qsTr("Disconnect audio"): qsTr("Connect audio")
             property bool connected: container.device.audioConnected
 
             onConnectedChanged: {
                 if(connected){
-                    text = qsTr("Disconnect Audio")
+                    text = qsTr("Disconnect audio")
                 }
 
                 else{
-                    text = qsTr("Connect Audio")
+                    text = qsTr("Connect audio")
                 }
             }
 
@@ -89,7 +89,7 @@ MeeGo.ExpandingBox {
         MeeGo.Button {
             width: parent.width
             height: 50
-            text: connected ? qsTr("Disconnect Input Device"): qsTr("Connect Input Device")
+            text: connected ? qsTr("Disconnect input device"): qsTr("Connect input device")
             elideText: true
             property bool connected: container.device.inputConnected
 
@@ -100,11 +100,11 @@ MeeGo.ExpandingBox {
                     connected = isConnected
 
                     if(connected){
-                        text = qsTr("Disconnect Input Device")
+                        text = qsTr("Disconnect input device")
                     }
 
                     else{
-                        text = qsTr("Connect Input Device")
+                        text = qsTr("Connect input device")
                     }
                 }
             }
@@ -125,7 +125,7 @@ MeeGo.ExpandingBox {
         MeeGo.Button {
             width: parent.width
             height: 50
-            text: connected ? qsTr("Disconnect Internet"): qsTr("Connect Internet")
+            text: connected ? qsTr("Disconnect internet"): qsTr("Connect internet")
             elideText: true
             property bool connected: networkItem.state >= NetworkItemModel.StateReady
             property NetworkItemModel networkItem: networkListModel.service(container.device.name)
@@ -180,7 +180,7 @@ MeeGo.ExpandingBox {
                     property Item inputItem: null
 
                     Text {
-                        text: qsTr("Connect Actions")
+                        text: qsTr("Connect actions")
                         height: 50
                         width: 200
 
@@ -265,7 +265,7 @@ MeeGo.ExpandingBox {
 
                     Text {
                         visible: btHacksGconf.value
-                        text: qsTr("Hardware Address: %1").arg(container.hwaddy)
+                        text: qsTr("Hardware address: %1").arg(container.hwaddy)
                         height: 50
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter

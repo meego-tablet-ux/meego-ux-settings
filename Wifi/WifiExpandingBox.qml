@@ -235,7 +235,7 @@ MeeGo.ExpandingBox {
 
             MeeGo.Button {
                 id: removeConnection
-                text: qsTr("Remove Connection")
+                text: qsTr("Remove connection")
                 height: 50
                 width: parent.width / 3
                 elideText: true
@@ -297,7 +297,7 @@ MeeGo.ExpandingBox {
 
 			Text {
 				width: parent.width / 3
-				text: qsTr("Subnet Mask:")
+				text: qsTr("Subnet mask:")
 			}
 
 			Text {
@@ -350,7 +350,7 @@ MeeGo.ExpandingBox {
 			}
 			Text {
 				width: parent.width / 3
-				text: qsTr("Hardware Address:")
+				text: qsTr("Hardware address:")
 				visible: container.networkItem.type != "cellular"
 			}
 
@@ -486,7 +486,7 @@ MeeGo.ExpandingBox {
 
                     Text {
                         visible: passwordGrid.passwordRequired
-                        text: qsTr("Show Password")
+                        text: qsTr("Show password")
                         width: 100
                         height: showPasswordCheckbox.height
                         verticalAlignment: Text.AlignVCenter

@@ -62,7 +62,7 @@ MeeGo.AppPage {
                     anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.leftMargin: 10
-                    text: qsTr("Airplane Mode")
+                    text: qsTr("Airplane mode")
                     width: 100
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
@@ -95,7 +95,7 @@ MeeGo.AppPage {
                 Text{
                     anchors.left: parent.left
                     anchors.leftMargin: 10
-                    text: qsTr("Network Connections");
+                    text: qsTr("Network connections");
                     font.pixelSize: theme_fontPixelSizeLarge
                     height: parent.height
                     width: parent.width
@@ -194,7 +194,7 @@ MeeGo.AppPage {
                 Text{
                     anchors.left: parent.left
                     anchors.leftMargin: 10
-                    text: qsTr("Available Networks")
+                    text: qsTr("Available networks")
                     font.pixelSize: theme_fontPixelSizeLarge
                     height: parent.height
                     width: parent.width
@@ -203,7 +203,7 @@ MeeGo.AppPage {
                 }
 
                 MeeGo.Button {
-                    text: qsTr("Add Network")
+                    text: qsTr("Add network")
                     anchors.right:  parent.right
                     anchors.rightMargin: 10
                     height: parent.height - 10
@@ -217,7 +217,7 @@ MeeGo.AppPage {
                         id: addNetworkDialog
                         showAcceptButton: true
                         showCancelButton: true
-                        title: qsTr("Add Network")
+                        title: qsTr("Add network")
 
                         property string ssidHidden
                         property string securityHidden
@@ -231,7 +231,7 @@ MeeGo.AppPage {
                                 spacing: 10
                                 height: childrenRect.height
                                 Text {
-                                    text: qsTr("Network Name:")
+                                    text: qsTr("Network name:")
                                     verticalAlignment: Text.AlignVCenter
                                     height: ssidEntry.height
                                 }
@@ -247,7 +247,7 @@ MeeGo.AppPage {
                                 height: childrenRect.height
 
                                 Text {
-                                    text: qsTr("Security Type:")
+                                    text: qsTr("Security type:")
                                     verticalAlignment: Text.AlignVCenter
                                     height: ssidEntry.height
                                 }
@@ -269,7 +269,7 @@ MeeGo.AppPage {
                                 height: childrenRect.height
                                 visible: securityDropdown.selectedIndex > 0
                                 Text {
-                                    text: qsTr("Security Passphrase:")
+                                    text: qsTr("Security passphrase:")
                                     verticalAlignment: Text.AlignVCenter
                                     height: ssidEntry.height
                                 }

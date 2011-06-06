@@ -52,10 +52,11 @@ MeeGo.AppPage {
                 }
 
                 Text {
+                    // %1 is volume level percentage
                     text: qsTr("%1%").arg(volumeControl.volume)
                     height: volumeexpandingbox.containerHeight
                     anchors.right: parent.right
-                    anchors.rightMargin: 20
+                    anchors.rightMargin: 40
                     verticalAlignment: Text.AlignVCenter
                 }
 

@@ -153,7 +153,7 @@ MeeGo.AppPage{
                     Text{
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        text: qsTr("Paired Devices");
+                        text: qsTr("Paired devices");
                         font.pixelSize: theme_fontPixelSizeLarge
                         height: parent.height
                         width: parent.width
@@ -166,7 +166,7 @@ MeeGo.AppPage{
                         anchors.right: parent.right
                         anchors.rightMargin: 10
                         anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("Add Device")
+                        text: qsTr("Add device")
                         height: parent.height / 1.5
                         //width: 200
                         onClicked: {

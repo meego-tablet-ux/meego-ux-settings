@@ -27,7 +27,7 @@ MeeGo.AppPage {
                 source: "image://theme/settings/pulldown_box_2"
 
                 Text {
-                    text: qsTr("Manual APN Entry")
+                    text: qsTr("Manual APN entry")
                     width: 100
                     height: parent.height
                     anchors.left: parent.left
