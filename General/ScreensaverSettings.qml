@@ -37,15 +37,17 @@ Item {
 
             MeeGo.ToggleButton {
                 id: enabledToggle
-                on: true
+                on: backlightSettings.screenSaverTimeout > 0 ? true : false
                 onToggled: {
 
                     if (!enabledToggle.on)
                         backlightSettings.screenSaverTimeout = 0
                     else
                         {
-                        backlightSettings.screenSaverTimeout = 300
-                        screensaverSlider.value = backlightSettings.screenSaverTimeout / 60
+                        if (backlightSettings.screenSaverTimeout <= 0)
+                            backlightSettings.screenSaverTimeout = 300
+
+                        screensaverSlider.value = backlightSettings.screenSaverTimeout / 60                    
                     }
                 }
             }
@@ -77,7 +79,7 @@ Item {
                 width: 400
                 min: 1
                 max: 60
-                value: 0
+                value: backlightSettings.screenSaverTimeout / 60
                 textOverlayVisible: false
 
                 onSliderChanged: {
@@ -131,10 +133,5 @@ Item {
                 }
             ]
         }
-    }
-
-    Component.onCompleted: {
-        enabledToggle.on = backlightSettings.screenSaverTimeout > 0
-        screensaverSlider.value = backlightSettings.screenSaverTimeout / 60
     }
 }
