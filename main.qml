@@ -78,6 +78,7 @@ Ux.Window {
 
 				for(var i=0; i< settingsModel.settingsAppNames.length; i++) {
 					if(page == settingsModel.settingsAppNames[i]) {
+						translator.catalog = settingsModel.settingsTranslationPaths[i]
 						var payloadFile  = settingsModel.settingsAppPaths[i]
 						window.applicationData = cdata
 						window.switchBook(Qt.createComponent(payloadFile))

@@ -37,7 +37,7 @@ Item {
 
             MeeGo.ToggleButton {
                 id: autoToggle
-                on: true
+                on: backlightSettings.automatic
                 onToggled: {
                     backlightSettings.automatic = autoToggle.on
                 }
@@ -68,7 +68,7 @@ Item {
             MeeGo.Slider {
                 id: backlightSlider
                 width: 400
-                value: 0
+                value: backlightSettings.manualValue
                 textOverlayVisible: false
 
                 onSliderChanged: {
@@ -124,10 +124,5 @@ Item {
                 }
             ]
         }
-    }
-
-    Component.onCompleted: {
-        autoToggle.on = backlightSettings.automatic
-        backlightSlider.value = backlightSettings.manualValue
     }
 }

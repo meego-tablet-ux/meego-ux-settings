@@ -5,14 +5,26 @@ BacklightSetting::BacklightSetting(QObject *parent) :
 {
     m_automaticItem = new MGConfItem("/meego/ux/AutomaticBacklightControl", this);
     connect(m_automaticItem, SIGNAL(valueChanged()), this, SLOT(automaticItemUpdated()));
+
+    if (m_automaticItem->value().isNull())
+        m_automaticItem->set(true);
+
     automaticItemUpdated();
 
     m_manualValueItem = new MGConfItem("/meego/ux/ManualBacklightValue", this);
     connect(m_manualValueItem, SIGNAL(valueChanged()), this, SLOT(manualValueItemUpdated()));
+
+    if (m_manualValueItem->value().isNull())
+        m_manualValueItem->set(50);
+
     manualValueItemUpdated();
 
     m_screenSaverTimeoutItem = new MGConfItem("/meego/ux/ScreenSaverTimeout", this);
     connect(m_screenSaverTimeoutItem, SIGNAL(valueChanged()), this, SLOT(screenSaverTimeoutItemUpdated()));
+
+    if (m_screenSaverTimeoutItem->value().isNull())
+        m_screenSaverTimeoutItem->set(300);
+
     screenSaverTimeoutItemUpdated();
 }
 
