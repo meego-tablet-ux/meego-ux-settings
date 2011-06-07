@@ -96,7 +96,7 @@ MeeGo.AppPage {
                     anchors.rightMargin: 10
                     width: 400
                     titleColor: "black"
-                    model: [qsTr("Open New Tab age"), qsTr("Reopen last visited pages")] //settings.searchEngineList
+                    model: [qsTr("Open new tab page"), qsTr("Reopen last visited pages")] //settings.searchEngineList
                     onTriggered: {
                         settings.pageOpenedOnStartup = index ? BrowserSettingModel.OpenLastSessionPages : BrowserSettingModel.OpenDefaultPages
                     }
