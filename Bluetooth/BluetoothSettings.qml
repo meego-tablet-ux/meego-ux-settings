@@ -76,7 +76,6 @@ MeeGo.AppPage{
                         on: bluetoothModel.powered
                         onToggled: {
                             bluetoothModel.powered = poweredToggleButton.on;
-                            addNewDeviceButton.active = poweredToggleButton.on;
                         }
 
                         Connections {
@@ -163,6 +162,7 @@ MeeGo.AppPage{
 
                     MeeGo.Button {
                         id: addNewDeviceButton
+                        active: poweredToggleButton.on
                         anchors.right: parent.right
                         anchors.rightMargin: 10
                         anchors.verticalCenter: parent.verticalCenter
