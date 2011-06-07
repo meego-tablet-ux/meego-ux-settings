@@ -30,7 +30,7 @@ MeeGo.AppPage {
                 detailsComponent: TimeDateSettings { }
 
                 Text {
-                    text: qsTr ("Time and Date")
+                    text: qsTr ("Time and date")
                     height: timedateexpandingbox.containerHeight
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -73,7 +73,7 @@ MeeGo.AppPage {
                 anchors.right: parent.right
 
                 Text {
-                    text: qsTr ("Backlight Control")
+                    text: qsTr ("Backlight control")
                     height: backlightexpandingbox.containerHeight
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -91,7 +91,7 @@ MeeGo.AppPage {
                 anchors.right: parent.right
 
                 Text {
-                    text: qsTr ("Screen Saver")
+                    text: qsTr ("Screen saver")
                     height: screensaverexpandingbox.containerHeight
                     verticalAlignment: Text.AlignVCenter
                 }
