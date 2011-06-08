@@ -41,6 +41,8 @@ MeeGo.ExpandingBox {
     /// a service is the default route or not:
     property bool defaultRoute: false
 
+    property bool finished: false
+
     Component.onCompleted: {
         WifiHelper.connmanSecurityType["wpa"] = qsTr("WPA");
         WifiHelper.connmanSecurityType["rsn"] = qsTr("WPA2");
@@ -51,10 +53,12 @@ MeeGo.ExpandingBox {
 
         WifiHelper.IPv4Type["dhcp"] = qsTr("DHCP")
         WifiHelper.IPv4Type["static"] = qsTr("Static")
+
+        finished = true;
     }
 
     onSecurityChanged: {
-        securityText.text = WifiHelper.connmanSecurityType[container.security]
+        //securityText.text = container.connmanArray[container.security]
     }
 
     Row {
@@ -113,6 +117,7 @@ MeeGo.ExpandingBox {
 
             Text {
                 id: securityText
+                text: finished ? WifiHelper.connmanSecurityType[container.security] : ""
             }
         }
     }
@@ -255,9 +260,9 @@ MeeGo.ExpandingBox {
                 width: parent.width / 3
                 property string method
                 visible: container.networkItem.type != "cellular"
-                model: [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]
-                payload: [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]
-                selectedIndex: networkItem.method == "dhcp" ? 0:1
+                model: finished ? [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]: []
+                payload: finished ? [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]: []
+                selectedIndex: finished && networkItem.method == "dhcp" ? 0:1
                 replaceDropDownTitle: true
                 onTriggered: {
                     dropdown.method = index == 0 ? "dhcp":"static"
@@ -273,7 +278,7 @@ MeeGo.ExpandingBox {
 
             Text {
                 width: parent.width / 3
-                text: WifiHelper.IPv4Type["dhcp"]
+                text: finished ? WifiHelper.IPv4Type["dhcp"] : ""
                 visible: container.networkItem.type == "cellular"
             }
 

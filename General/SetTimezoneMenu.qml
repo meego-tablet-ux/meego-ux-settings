@@ -122,7 +122,7 @@ Item {
                         }
                         Text {
                             //text: "(" + qsTr("GMT") + " " + ((gmtoffset < 0)?"":"+") + gmtoffset + ")"
-			    text: (gmtoffset < 0) ? (qsTr("(GMT %1%2)").arg(gmtoffset).arg(":00") :
+                            text: (gmtoffset < 0) ? (qsTr("(GMT %1%2)").arg(gmtoffset).arg(":00") :
 qsTr("(GMT +%1%2)").arg(gmtoffset).arg(":00"))
                             anchors.right: timerect.right
                             anchors.verticalCenter: parent.verticalCenter

@@ -18,6 +18,8 @@ MeeGo.AppPage {
     id: container
     pageTitle: qsTr("Connections")
 
+    property bool finished: false
+
     Component.onCompleted: {
         WifiHelper.connmanTechnologies["ethernet"] = qsTr("Ethernet");
         WifiHelper.connmanTechnologies["wifi"] = qsTr("Wi-Fi");
@@ -28,6 +30,8 @@ MeeGo.AppPage {
         WifiHelper.connmanSecurityType["wpa"] = qsTr("WPA");
         WifiHelper.connmanSecurityType["rsn"] = qsTr("WPA2");
         WifiHelper.connmanSecurityType["wep"] = qsTr("WEP");
+
+        finished = true;
     }
 
     Flickable {
@@ -129,7 +133,7 @@ MeeGo.AppPage {
                                 anchors.top: parent.top
                                 anchors.left: parent.left
                                 anchors.leftMargin: 10
-                                text: WifiHelper.connmanTechnologies[modelData]
+                                text: finished ? WifiHelper.connmanTechnologies[modelData]: ""
                                 width: 100
                                 height: parent.height
                                 verticalAlignment: Text.AlignVCenter
