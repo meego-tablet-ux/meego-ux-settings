@@ -10,7 +10,7 @@ import Qt 4.7
 import MeeGo.Settings 0.1
 import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1 as Ux
-import Qt.labs.gestures 2.0
+import MeeGo.Ux.Gestures 0.1
 
 Ux.Window {
 	id: window

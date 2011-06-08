@@ -72,7 +72,8 @@ MeeGo.ExpandingBox {
 
         Rectangle {
             id: checkboxFiller
-            anchors.fill:  checkbox
+            width:  checkbox.width
+            height: checkbox.height
             //anchors.verticalCenter: parent.verticalCenter
             color: "transparent"
             visible:  !checkbox.visible
