@@ -303,7 +303,7 @@ private:
 private:
 	QMap<BrowserSettingType, const char*> keynames_;
 	GConfClient* client_;
-	int gconf_connection_id_;
+        guint gconf_connection_id_;
 
 	// Properties
 	PageOpenedType pageOpenedOnStartup_;
