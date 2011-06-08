@@ -16,7 +16,7 @@
 static void free_data(void* data, void* userdata);
 
 BrowserSettingModel::BrowserSettingModel(QObject* parent) : QObject(parent),
-	client_(NULL)
+    client_(NULL), gconf_connection_id_(0)
 {
 	qDebug() << "Initialize BrowserSetting Model ... ";
 
@@ -196,7 +196,7 @@ void BrowserSettingModel::OnGConfSettingChanged(GConfClient* client,
 				guint cnxn_id, GConfEntry* entry, gpointer data)
 {
 		BrowserSettingModel* model = static_cast<BrowserSettingModel*>(data);
-		const QMap<BrowserSettingType, const char*>& keynames = model->keynames();
+                const QMap<BrowserSettingType, const char*>& keynames = model->keynames();
 		if(g_strcmp0(entry->key, keynames[BrowserSettingModel::kSyncStatus]) == 0)
 		{
 				int status = gconf_client_get_int(client, entry->key, NULL);
