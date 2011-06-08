@@ -371,10 +371,9 @@ void BrowserSettingModel::SetGConfDefaultValues()
 	setShowBookmarkBar(true);
 	setDefaultSearchEngine("Google");
 
-//	QStringList engines;
-//	engines << "Google";
-//	setSearchEngineList(engines);
-	useHttpProxyChanged(false);
+        QStringList engines("Google");
+        setSearchEngineList(engines);
+        setUseProxyHost(false);
 
 	setAllowJavascript(true);
 	setAllowCookies(true);

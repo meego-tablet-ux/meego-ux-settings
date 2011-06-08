@@ -541,5 +541,8 @@ MeeGo.AppPage {
         onUseHttpProxyChanged: {
             proxyToggleButton.on = settings.useHttpProxy
         }
+        onDefaultRestored: {
+            searchEngineDropDown.model = settings.searchEngineList;
+        }
     }
 }
