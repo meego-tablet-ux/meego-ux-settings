@@ -16,8 +16,12 @@ Ux.Window {
     id: window
     property variant allSettingsArray: [qsTr("All Settings")];
     property variant applicationData
+    property string topView
 
-    property string currentBookKey: "currentBook" //T_IGNOREME
+    property string currentBookKey: "currentBook" //The settings book the user user is using T_IGNOREME
+    property string bookMenuVisKey: "bookMenuVis" //If the book menu is visible or not T_IGNOREME
+
+    property bool restoreFinished: !mainSaveRestoreState.restoreRequired
 
     bookMenuModel: allSettingsArray.concat(settingsModel.settingsApps)
     automaticBookSwitching: false
@@ -25,12 +29,18 @@ Ux.Window {
     Component.onCompleted: {
         switchBook(landingPageComponent);
         if(mainSaveRestoreState.restoreRequired) {
-            topView = mainSaveRestoreState.value(currentBookKey)
+            topView = mainSaveRestoreState.value(currentBookKey);
+            if(mainSaveRestoreState.value(bookMenuVisKey) == "true") {
+                bookMenu.show();
+            }
+            restoreFinished = true;
+        } else {
+            mainSaveRestoreState.setValue(bookMenuVisKey,false);
+            mainSaveRestoreState.sync();
         }
     }
 
     onBookMenuTriggered: {
-        //console.log("book menu triggered ftw")
         if(index == 0) {
             window.switchBook(landingPageComponent)
             return;
@@ -44,12 +54,8 @@ Ux.Window {
         //window.applicationPage = Qt.createComponent(payloadFile);
     }
 
-    property string topView
-
     onTopViewChanged: {
-
         if(topView != "") {
-
             console.log(topView.lastIndexOf("xml"))
             if(topView.lastIndexOf("xml") == topView.length - 3) {
                 console.log("loading xml setting: " + topView)
@@ -73,8 +79,10 @@ Ux.Window {
     Ux.SaveRestoreState {
         id: mainSaveRestoreState
         onSaveRequired: {
-
-            sync();
+            if(restoreFinished) {
+                setValue(bookMenuVisKey,bookMenu.visible);
+                sync();
+            }
         }
     }
 
@@ -126,6 +134,13 @@ Ux.Window {
 
             Component.onCompleted: {
                 topView=""
+            }
+
+            onActivated: {
+                if(window.restoreFinished) {
+                    landingPageState.setValue(window.currentBookKey,"");
+                    landingPageState.sync();
+                }
             }
 
             onSearch: {
