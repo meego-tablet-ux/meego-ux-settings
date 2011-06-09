@@ -19,7 +19,6 @@ Ux.Window {
     property string topView
 
     property string currentBookKey: "currentBook" //The settings book the user user is using T_IGNOREME
-    property string bookMenuVisKey: "bookMenuVis" //If the book menu is visible or not T_IGNOREME
 
     property bool restoreFinished: !mainSaveRestoreState.restoreRequired
 
@@ -30,12 +29,8 @@ Ux.Window {
         switchBook(landingPageComponent);
         if(mainSaveRestoreState.restoreRequired) {
             topView = mainSaveRestoreState.value(currentBookKey);
-            if(mainSaveRestoreState.value(bookMenuVisKey) == "true") {
-                bookMenu.show();
-            }
             restoreFinished = true;
         } else {
-            mainSaveRestoreState.setValue(bookMenuVisKey,false);
             mainSaveRestoreState.sync();
         }
     }
@@ -78,12 +73,6 @@ Ux.Window {
 
     Ux.SaveRestoreState {
         id: mainSaveRestoreState
-        onSaveRequired: {
-            if(restoreFinished) {
-                setValue(bookMenuVisKey,bookMenu.visible);
-                sync();
-            }
-        }
     }
 
     Connections {
