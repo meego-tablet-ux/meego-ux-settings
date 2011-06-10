@@ -13,80 +13,94 @@ import MeeGo.Components 0.1 as Ux
 import MeeGo.Ux.Gestures 0.1
 
 Ux.Window {
-	id: window
-	property variant allSettingsArray: [qsTr("All Settings")];
-	property variant applicationData
+    id: window
+    property variant allSettingsArray: [qsTr("All Settings")];
+    property variant applicationData
+    property string topView
 
-	bookMenuModel: allSettingsArray.concat(settingsModel.settingsApps)
-	automaticBookSwitching: false
-	//filterModel: allSettingsArray.concat(settingsModel.settingsApps)
-	//filterPayload: settingsModel.settingsAppPaths
-	Component.onCompleted: { switchBook(landingPageComponent) }
+    property string currentBookKey: "currentBook" //The settings book the user user is using T_IGNOREME
 
-	onBookMenuTriggered: {
-		console.log("book menu triggered ftw")
-		if(index == 0) {
-			window.switchBook(landingPageComponent)
-			return;
-		}
+    property bool restoreFinished: !mainSaveRestoreState.restoreRequired
 
-		translator.catalog = settingsModel.settingsTranslationPaths[index - 1]
-		topView = settingsModel.settingsAppPaths[index - 1]
+    bookMenuModel: allSettingsArray.concat(settingsModel.settingsApps)
+    automaticBookSwitching: false
 
-		//window.applicationPage = Qt.createComponent(payloadFile);
-	}
+    Component.onCompleted: {
+        switchBook(landingPageComponent);
+        if(mainSaveRestoreState.restoreRequired) {
+            topView = mainSaveRestoreState.value(currentBookKey);
+            restoreFinished = true;
+        } else {
+            mainSaveRestoreState.sync();
+        }
+    }
 
-	property string topView
+    onBookMenuTriggered: {
+        if(index == 0) {
+            window.switchBook(landingPageComponent)
+            return;
+        }
 
-	onTopViewChanged: {
-		if(topView != "") {
+        translator.catalog = settingsModel.settingsTranslationPaths[index - 1]
+        topView = settingsModel.settingsAppPaths[index - 1]
+        mainSaveRestoreState.setValue(currentBookKey,topView);
+        mainSaveRestoreState.sync();
 
-			console.log(topView.lastIndexOf("xml"))
-			if(topView.lastIndexOf("xml") == topView.length - 3) {
-				console.log("loading xml setting: " + topView)
-				window.applicationData = topView
-				window.switchBook(declarativeComponent)
-			}
-			else {
-				window.switchBook(Qt.createComponent(topView))
-			}
-		}
-	}
+        //window.applicationPage = Qt.createComponent(payloadFile);
+    }
 
-	Labs.Translator {
-		id: translator
-	}
+    onTopViewChanged: {
+        if(topView != "") {
+            console.log(topView.lastIndexOf("xml"))
+            if(topView.lastIndexOf("xml") == topView.length - 3) {
+                console.log("loading xml setting: " + topView)
+                window.applicationData = topView
+                window.switchBook(declarativeComponent)
+            }
+            else {
+                window.switchBook(Qt.createComponent(topView))
+            }
+        }
+    }
 
-	SettingsModel {
-		id: settingsModel
-	}
+    Labs.Translator {
+        id: translator
+    }
 
-	Connections {
-		target: mainWindow
-		onCall: {
-			var cmd = parameters[0];
-			var cdata = parameters[1];
+    SettingsModel {
+        id: settingsModel
+    }
 
-			console.log("Remote Call: " + cmd + " - " + cdata);
-			if (cmd == "showPage")	{
-				var page = cdata.split(",")[0];
+    Ux.SaveRestoreState {
+        id: mainSaveRestoreState
+    }
 
-				if(page == "settings" || page == "") {
-					window.switchBook(landingPageComponent)
-				    return;
-				}
+    Connections {
+        target: mainWindow
+        onCall: {
+            var cmd = parameters[0];
+            var cdata = parameters[1];
 
-				for(var i=0; i< settingsModel.settingsAppNames.length; i++) {
-					if(page == settingsModel.settingsAppNames[i]) {
-						translator.catalog = settingsModel.settingsTranslationPaths[i]
-						var payloadFile  = settingsModel.settingsAppPaths[i]
-						window.applicationData = cdata
-						window.switchBook(Qt.createComponent(payloadFile))
-					}
-				}
-			}
-		}
-	}
+            console.log("Remote Call: " + cmd + " - " + cdata);
+            if (cmd == "showPage")	{
+                var page = cdata.split(",")[0];
+
+                if(page == "settings" || page == "") {
+                    window.switchBook(landingPageComponent)
+                    return;
+                }
+
+                for(var i=0; i< settingsModel.settingsAppNames.length; i++) {
+                    if(page == settingsModel.settingsAppNames[i]) {
+                        translator.catalog = settingsModel.settingsTranslationPaths[i]
+                        var payloadFile  = settingsModel.settingsAppPaths[i]
+                        window.applicationData = cdata
+                        window.switchBook(Qt.createComponent(payloadFile))
+                    }
+                }
+            }
+        }
+    }
 
     Loader {
         id: dialogLoader
@@ -100,125 +114,148 @@ Ux.Window {
         }
     }
 
-	Component {
-		id: landingPageComponent
-		Ux.AppPage {
-			id: landingPage
-			pageTitle: qsTr("Settings")
+    Component {
+        id: landingPageComponent
+        Ux.AppPage {
+            id: landingPage
+            property string scrollDownAmount: "landingScrollAmount" //T_IGNOREME
+            pageTitle: qsTr("Settings")
 
-			Component.onCompleted: {
-				topView=""
-			}
+            Component.onCompleted: {
+                topView=""
+            }
 
-			onSearch: {
-				if(settingsHacksGconf.value)
-					settingsModel.filter(needle)
-			}
+            onActivated: {
+                if(window.restoreFinished) {
+                    landingPageState.setValue(window.currentBookKey,"");
+                    landingPageState.sync();
+                }
+            }
 
-			Labs.GConfItem {
-				id: settingsHacksGconf
-				defaultValue: false
-				key: "/meego/ux/settings/settingshacks"
-			}
+            onSearch: {
+                if(settingsHacksGconf.value)
+                    settingsModel.filter(needle)
+            }
 
-			ListView {
-				id: listView
-				//parent:  landingPage.content
-				anchors.fill: parent
-				model: settingsModel
-				clip: true
-				delegate: BorderImage {
-					id: container
-					source: "image://theme/settings/btn_settingentry_up"
-					border.left: 5; border.top: 5
-					border.right: 5; border.bottom: 5
+            Labs.GConfItem {
+                id: settingsHacksGconf
+                defaultValue: false
+                key: "/meego/ux/settings/settingshacks"
+            }
 
-					//height: 50
-					width: parent.width
+            Ux.SaveRestoreState {
+                id: landingPageState
+                onSaveRequired: {
+                    setValue(landingPage.scrollDownAmount,listView.contentY);
+                    sync();
+                }
+            }
 
-					BorderImage {
-						id: icon
-						anchors.left: parent.left
-						anchors.leftMargin: 20
-						anchors.verticalCenter: parent.verticalCenter
-						source: model.icon != "image://systemicon/" ? model.icon: "image://meegotheme/icons/settings/everyday-settings"
-						onStatusChanged: {
-						    if(icon.status == Image.Ready) {
-								console.log("image width: " + width + " height: " + height)
-						    }
-						    if(icon.status == Image.Error) {
-								///fallback
-								icon.source =  "image://meegotheme/icons/settings/everyday-settings"
-						    }
-						}
+            ListView {
+                id: listView
+                //parent:  landingPage.content
+                anchors.fill: parent
+                model: settingsModel
+                clip: true
+                Component.onCompleted: {
+                    listView.contentY = landingPageState.restoreRequired ? landingPageState.value(landingPage.scrollDownAmount) : 0;
+                }
 
-						Component.onCompleted: {
-							console.log("app: " + model.title + " icon: " + model.icon + " src: " + icon.source)
-						}
+                delegate: BorderImage {
+                    id: container
+                    source: "image://theme/settings/btn_settingentry_up"
+                    border.left: 5; border.top: 5
+                    border.right: 5; border.bottom: 5
 
-					}
+                    //height: 50
+                    width: parent.width
 
-					Text {
-						anchors.left: icon.right
-						anchors.leftMargin: 20
-						anchors.verticalCenter: parent.verticalCenter
-						width: 200
-						text: model.title
-						height: 30
-						font.pixelSize: theme_fontPixelSizeLarge
-					}
+                    BorderImage {
+                        id: icon
+                        anchors.left: parent.left
+                        anchors.leftMargin: 20
+                        anchors.verticalCenter: parent.verticalCenter
+                        source: model.icon != "image://systemicon/" ? model.icon: "image://meegotheme/icons/settings/everyday-settings"
+                        onStatusChanged: {
+                            if(icon.status == Image.Ready) {
+                                console.log("image width: " + width + " height: " + height)
+                            }
+                            if(icon.status == Image.Error) {
+                                ///fallback
+                                icon.source =  "image://meegotheme/icons/settings/everyday-settings"
+                            }
+                        }
 
-					GestureArea {
-						//id: mouseArea
-						anchors.fill: parent
+                        Component.onCompleted: {
+                            console.log("app: " + model.title + " icon: " + model.icon + " src: " + icon.source)
+                        }
 
-						Tap {
-							id: tapArea
-							onFinished: {
-								translator.catalog = model.translation
-								//window.topView = model.path
+                    }
 
-								///This is added because of influential people:
-								if(topView.lastIndexOf("xml") == topView.length - 3) {
-									console.log("loading xml setting: " + topView)
-									window.applicationData = topView
-									window.addPage(declarativeComponent)
-								}
-								else {
-									window.addPage(Qt.createComponent(model.path))
-								}
-							}
-						}
-					}
+                    Text {
+                        anchors.left: icon.right
+                        anchors.leftMargin: 20
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: 200
+                        text: model.title
+                        height: 30
+                        font.pixelSize: theme_fontPixelSizeLarge
+                    }
 
-					MouseArea {
-						id: mouseArea
-						anchors.fill:  parent
-					}
+                    GestureArea {
+                        //id: mouseArea
+                        anchors.fill: parent
 
-					states: [
-						State {
-							name: "pressed"
-							PropertyChanges {
-								target: container
-								source: "image://theme/settings/btn_settingentry_dn"
-							}
-							when: mouseArea.pressed
-						},
-						State {
-							name: "normal"
-							PropertyChanges {
-								target: container
-								source: "image://theme/settings/btn_settingentry_up"
-							}
-							when: !mouseArea.pressed
-						}
-					]
+                        Tap {
+                            id: tapArea
+                            onFinished: {
+                                translator.catalog = model.translation
+                                //window.topView = model.path
 
-				}
-			}
+                                landingPageState.setValue(window.currentBookKey,model.path);
+                                landingPageState.sync();
 
-		}
-	}
+                                ///This is added because of influential people:
+                                if(topView.lastIndexOf("xml") == topView.length - 3) {
+                                    console.log("loading xml setting: " + topView)
+                                    window.applicationData = topView
+                                    window.addPage(declarativeComponent)
+                                }
+                                else {
+                                    window.addPage(Qt.createComponent(model.path))
+                                }
+                            }
+                        }
+                    }
+
+                    MouseArea {
+                        id: mouseArea
+                        anchors.fill:  parent
+                    }
+
+                    states: [
+                        State {
+                            name: "pressed"
+                            PropertyChanges {
+                                target: container
+                                source: "image://theme/settings/btn_settingentry_dn"
+                            }
+                            when: mouseArea.pressed
+                        },
+                        State {
+                            name: "normal"
+                            PropertyChanges {
+                                target: container
+                                source: "image://theme/settings/btn_settingentry_up"
+                            }
+                            when: !mouseArea.pressed
+                        }
+                    ]
+
+                }
+            }
+
+        }
+    }
 }
 
