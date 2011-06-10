@@ -95,6 +95,7 @@ MeeGo.AppPage {
                     anchors.right: parent.right
                     anchors.rightMargin: 10
                     width: 400
+                    height: parent.height - 30
                     titleColor: "black"
                     model: [qsTr("Open new tab page"), qsTr("Reopen last visited pages")] //settings.searchEngineList
                     onTriggered: {
@@ -124,6 +125,7 @@ MeeGo.AppPage {
                     anchors.right: parent.right
                     anchors.rightMargin: 10
                     width: 400
+                    height: parent.height - 30
                     titleColor: "black"
                     model: settings.searchEngineList
                     onTriggered: {
