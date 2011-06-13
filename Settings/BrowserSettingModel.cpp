@@ -365,7 +365,7 @@ void BrowserSettingModel::Initialize()
 
 void BrowserSettingModel::SetGConfDefaultValues()
 {
-	setPageOpenedOnStartup(BrowserSettingModel::OpenDefaultPages);
+	setPageOpenedOnStartup(BrowserSettingModel::OpenLastSessionPages);
 	setNewTabIsHomePage(true);
 	setHomePage("http://meego.com");
 	setShowBookmarkBar(true);

@@ -76,37 +76,7 @@ MeeGo.AppPage {
         {
             id: settingGroups
             width: parent.width
-            Image {
-                id: startupSetting
-                source: "image://theme/pulldown_box"
-                width: parent.width
-                Text {
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    text: qsTr("On start up")
-                    width: Math.min(paintedWidth, parent.width - startUpDropDown.width -10)
-                    height: parent.height
-                    verticalAlignment: Text.AlignVCenter
-                }
-                MeeGo.DropDown {
-                    id: startUpDropDown
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    anchors.rightMargin: 10
-                    width: 400
-                    height: parent.height - 30
-                    titleColor: "black"
-                    model: [qsTr("Open new tab page"), qsTr("Reopen last visited pages")] //settings.searchEngineList
-                    onTriggered: {
-                        settings.pageOpenedOnStartup = index ? BrowserSettingModel.OpenLastSessionPages : BrowserSettingModel.OpenDefaultPages
-                    }
-                    Component.onCompleted: {
-                        selectedIndex = settings.pageOpenedOnStartup == BrowserSettingModel.OpenDefaultPages ? 0 : 1;
-                        selectedTitle = model[selectedIndex]
-                    }
-                }
-            }
+            
             Image {
                 source: "image://theme/pulldown_box"
                 width: parent.width
@@ -508,10 +478,6 @@ MeeGo.AppPage {
     }
     Connections {
         target: settings
-        onPageOpenedOnStartupChanged: {
-            startUpDropDown.selectedIndex = settings.pageOpenedOnStartup == BrowserSettingModel.OpenDefaultPages ? 0 : 1;
-            startUpDropDown.selectedTitle = startUpDropDown.model[startUpDropDown.selectedIndex]
-        }
         onDefaultSearchEngineChanged: {
             var conut = settings.searchEngineList.length;
             searchEngineDropDown.selectedTitle = settings.defaultSearchEngine;
