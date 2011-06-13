@@ -264,9 +264,7 @@ MeeGo.ExpandingBox {
                 payload: finished ? [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]: []
                 selectedIndex: finished && networkItem.method == "dhcp" ? 0:1
                 replaceDropDownTitle: true
-                onTriggered: {
-                    dropdown.method = index == 0 ? "dhcp":"static"
-                }
+                method: selectedIndex == 0 ? "dhcp":"static"
 
                 Connections {
                     target: networkItem
@@ -415,7 +413,11 @@ MeeGo.ExpandingBox {
 				width: parent.width / 3
 				elideText: true
 				onClicked: {
-					container.expanded = false;
+                                        container.expanded = false
+                                        dropdown.selectedIndex = networkItem.method == "dhcp" ? 0:1
+                                        ipaddyEdit.text = networkItem.ipaddress
+                                        subnetEdit.text = networkItem.netmask
+                                        gatewayEdit.text = networkItem.gateway
 				}
 			}
 		}
