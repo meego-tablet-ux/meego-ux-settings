@@ -17,7 +17,7 @@ import "helper.js" as WifiHelper
 MeeGo.ExpandingBox {
     id: container
 
-    property int containerHeight: 80
+    property int containerHeight: headerArea.height
     height: containerHeight
 
     //expandedHeight: detailsItem.height
@@ -62,10 +62,11 @@ MeeGo.ExpandingBox {
     }
 
     Row {
+        id: headerArea
         spacing: 10
         anchors.top:  parent.top
         anchors.topMargin: 10
-        height: container.containerHeight
+        height: childrenRect.height
 
         Image {
             id: checkbox
