@@ -12,11 +12,12 @@ MeeGo.AppPage {
 
     Flickable {
         anchors.fill:  parent
-        contentHeight: childrenRect.height
+        contentHeight: contents.height
         interactive: true
         clip: true
 
         Column {
+            id: contents
             width:  parent.width
 
             MeeGo.ExpandingBox {
