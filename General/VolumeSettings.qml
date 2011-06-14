@@ -8,14 +8,15 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
-import MeeGo.Components 0.1 as MeeGo
+import MeeGo.Ux.Components.Indicators 0.1
+import MeeGo.Ux.Components.Common 0.1 as MeeGo
 
 Item {
     id: container
     width: parent.width
-    height: childrenRect.height
+    height: childrenRect.height + 50
 
-    MeeGo.VolumeControl {
+    VolumeControl {
         id: volumeControl
         onVolumeChanged: {
             slider.value = volumeControl.volume

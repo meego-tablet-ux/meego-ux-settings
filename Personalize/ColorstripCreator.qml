@@ -172,8 +172,8 @@ Item {
         IconButton {
             anchors.centerIn: parent
 
-            icon: "image://theme/camera/camera_lens_sm_up"
-            iconDown: "image://theme/camera/camera_lens_sm_dn"
+            icon: "image://themedimage/images/camera/camera_lens_sm_up"
+            iconDown: "image://themedimage/images/camera/camera_lens_sm_dn"
 
             onClicked: {
                 // always create in portrait so the vertical bars will scale/crop right

@@ -1,16 +1,19 @@
 import Qt 4.7
-import MeeGo.Components 0.1 as MeeGo
+import MeeGo.Ux.Components.Common 0.1
+import MeeGo.Ux.Components.Indicators 0.1
+
+//import MeeGo.Components 0.1
 import MeeGo.Settings 0.1
 
-MeeGo.AppPage {
+AppPage {
     id: page
     pageTitle: qsTr("General")
 
-    MeeGo.VolumeControl {
+    VolumeControl {
         id: volumeControl
     }
 
-    Flickable {
+     Flickable {
         anchors.fill:  parent
         contentHeight: contents.height
         interactive: true
@@ -20,7 +23,7 @@ MeeGo.AppPage {
             id: contents
             width:  parent.width
 
-            MeeGo.ExpandingBox {
+            ExpandingBox {
                 id: timedateexpandingbox
                 property int containerHeight: 80
                 height: containerHeight
@@ -37,7 +40,7 @@ MeeGo.AppPage {
                 }
             }
 
-            MeeGo.ExpandingBox {
+            ExpandingBox {
                 id: volumeexpandingbox
                 property int containerHeight: 80
                 height: containerHeight
@@ -64,7 +67,7 @@ MeeGo.AppPage {
                 detailsComponent: VolumeSettings { }
             }
 
-            MeeGo.ExpandingBox {
+            ExpandingBox {
                 id: backlightexpandingbox
                 property int containerHeight: 80
                 height: containerHeight
@@ -82,7 +85,7 @@ MeeGo.AppPage {
                 detailsComponent: BacklightSettings { }
             }
 
-            MeeGo.ExpandingBox {
+            ExpandingBox {
                 id: screensaverexpandingbox
                 property int containerHeight: 80
                 height: containerHeight
@@ -99,6 +102,7 @@ MeeGo.AppPage {
 
                 detailsComponent: ScreensaverSettings { }
             }
+
         }
     }
 }

@@ -17,8 +17,9 @@ import "helper.js" as WifiHelper
 MeeGo.ExpandingBox {
     id: container
 
-    property int containerHeight: headerArea.height
-    height: containerHeight
+    property alias containerHeight: headerArea.height
+    headerContent: headerArea
+    buttonHeight: containerHeight
 
     //expandedHeight: detailsItem.height
     property NetworkListModel listModel: null

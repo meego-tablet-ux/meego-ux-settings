@@ -8,7 +8,8 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
-import MeeGo.Components 0.1 as MeeGo
+import MeeGo.Ux.Components.Common 0.1
+import MeeGo.Ux.Components.DateTime 0.1
 import MeeGo.Connman 0.1
 
 Item {
@@ -31,7 +32,7 @@ Item {
         Image {
             id: whatTimeisItLabel
             width: parent.width
-            source: "image://theme/settings/subheader"
+            source: "image://themedimage/images/settings/subheader"
 
             Text{
                 anchors.left: parent.left
@@ -47,7 +48,7 @@ Item {
 
         Image {
             id: dateLabel
-            source: "image://theme/pulldown_box"
+            source: "image://themedimage/images/pulldown_box"
             width: parent.width
             Text {
                 id: dateLabelText
@@ -73,7 +74,7 @@ Item {
 
         Image {
             id: timeLabel
-            source: "image://theme/pulldown_box"
+            source: "image://themedimage/images/pulldown_box"
             width: parent.width
 
             Text {
@@ -102,7 +103,7 @@ Item {
 
         Image {
             id: twelveHourToggle
-            source: "image://theme/pulldown_box"
+            source: "image://themedimage/images/pulldown_box"
             width: parent.width
 
             Text {
@@ -115,7 +116,7 @@ Item {
                 verticalAlignment: Text.AlignVCenter
             }
 
-            MeeGo.ToggleButton {
+            ToggleButton {
                 id: twentyfourhrtoggle
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
@@ -131,7 +132,7 @@ Item {
 
         Image {
             id: automagicTimeToggle
-            source: "image://theme/pulldown_box"
+            source: "image://themedimage/images/pulldown_box"
             width: parent.width
 
             Text {
@@ -144,7 +145,7 @@ Item {
                 verticalAlignment: Text.AlignVCenter
             }
 
-            MeeGo.ToggleButton {
+            ToggleButton {
                 id: autoTimeToggle
                 on: clockModel.timeUpdates == "auto"
                 anchors.verticalCenter: parent.verticalCenter
@@ -164,7 +165,7 @@ Item {
         Image {
             id: whereAreYouLabel
             width: parent.width
-            source: "image://theme/settings/subheader"
+            source: "image://themedimage/images/settings/subheader"
 
             Text{
                 anchors.left: parent.left
@@ -180,7 +181,7 @@ Item {
 
         Image {
             id: currentTz
-            source: "image://theme/pulldown_box"
+            source: "image://themedimage/images/pulldown_box"
             width: parent.width
 
             Text {
@@ -197,7 +198,7 @@ Item {
 
         Image {
             id: findMeToggle
-            source: "image://theme/pulldown_box"
+            source: "image://themedimage/images/pulldown_box"
             width: parent.width
 
             Text {
@@ -211,7 +212,7 @@ Item {
                 verticalAlignment: Text.AlignVCenter
             }
 
-            MeeGo.ToggleButton {
+            ToggleButton {
                 id: findMeToggleButton
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
@@ -238,7 +239,7 @@ Item {
         Image {
             id: manualTimezoneLabel
             width: parent.width
-            source: "image://theme/settings/subheader"
+            source: "image://themedimage/images/settings/subheader"
             //visible: !findMeToggleButton.on
             Text{
                 id: manualTimezoneLabelText
@@ -253,7 +254,7 @@ Item {
                 verticalAlignment: Text.AlignVCenter
             }
 
-            MeeGo.Button {
+            Button {
                 id: setTimeZoneButton
                 height: 40
                 // width: 180
@@ -261,8 +262,8 @@ Item {
                 anchors.rightMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
                 //active: !findMeToggleButton.on
-                //bgSourceUp: "image://theme/btn_blue_up"
-                //bgSourceDn: "image://theme/btn_blue_dn"
+                //bgSourceUp: "image://themedimage/images/btn_blue_up"
+                //bgSourceDn: "image://themedimage/images/btn_blue_dn"
                 text: qsTr("Set Time Zone")
                 //font.pixelSize: theme_fontSizeLargest
                 //color: theme_buttonFontColor
@@ -303,7 +304,7 @@ Item {
         }
     }
 
-    MeeGo.TimePicker {
+    TimePicker {
         id: timePicker
         //parent: scene.container
         onAccepted: {
@@ -314,7 +315,7 @@ Item {
         }
     }
 
-    MeeGo.DatePicker{
+    DatePicker{
         id: datePicker
         //parent: scene.container
         minYear: 1970
