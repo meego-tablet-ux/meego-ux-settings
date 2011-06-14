@@ -71,7 +71,7 @@ MeeGo.ExpandingBox {
         Image {
             id: checkbox
             //anchors.verticalCenter: parent.verticalCenter
-            source:  "image://theme/btn_tickbox_dn"
+            source:  "image://themedimage/images/btn_tickbox_dn"
             visible:  container.defaultRoute
         }
 
@@ -87,21 +87,21 @@ MeeGo.ExpandingBox {
 
         Image {
             id: signalIndicator
-            source: "image://theme/icn_networks"
+            source: "image://themedimage/images/icn_networks"
 
             states:  [
                 State {
                     when: statusint >= NetworkItemModel.StateReady
                     PropertyChanges {
                         target: signalIndicator
-                        source: "image://theme/icn_networks_connected"
+                        source: "image://themedimage/images/icn_networks_connected"
                     }
                 },
                 State {
                     when: statusint < NetworkItemModel.StateReady
                     PropertyChanges {
                         target: signalIndicator
-                        source: "image://theme/icn_networks"
+                        source: "image://themedimage/images/icn_networks"
                     }
                 }
 

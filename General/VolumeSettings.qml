@@ -27,7 +27,7 @@ Item {
         anchors.left: slider.right
         anchors.verticalCenter: slider.verticalCenter
         anchors.leftMargin: 20
-        source: "image://theme/settings/icn_sound_high"
+        source: "image://themedimage/images/settings/icn_sound_high"
         MouseArea {
             anchors.fill: parent
             onClicked: {
@@ -66,7 +66,7 @@ Item {
 
     Image {
         id: volumeImage
-        source: "image://theme/settings/icn_sound_low"
+        source: "image://themedimage/images/settings/icn_sound_low"
         anchors.right: slider.left
         anchors.verticalCenter: slider.verticalCenter
 

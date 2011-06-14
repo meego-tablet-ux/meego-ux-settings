@@ -37,7 +37,7 @@ MeeGo.AppPage {
                 id: customizeableNotifications
                 width: parent.width
                 height: childrenRect.height
-                source: "image://theme/settings/subheader"
+                source: "image://themedimage/images/settings/subheader"
 
                 Text{
                     anchors.left: parent.left
@@ -53,7 +53,7 @@ MeeGo.AppPage {
             }
             Image {
                 id: notificationsLabel
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
 
                 Text {
@@ -88,9 +88,9 @@ MeeGo.AppPage {
                     width: 350
                     active: !notificationTypes.maxNotifications() || notificationTypes.isActive(type)
 
-                    bgSourceUp: notificationTypes.isActive(type) ?  "image://theme/btn_blue_up" : "image://theme/btn_grey_up"
+                    bgSourceUp: notificationTypes.isActive(type) ?  "image://themedimage/images/btn_blue_up" : "image://themedimage/images/btn_grey_up"
                     bgSourceActive: bgSourceUp
-		    bgSourceDn:  notificationTypes.isActive(type) ?  "image://theme/btn_blue_dn" : "image://theme/btn_grey_dn"
+            bgSourceDn:  notificationTypes.isActive(type) ?  "image://themedimage/images/btn_blue_dn" : "image://themedimage/images/btn_grey_dn"
 
                     onClicked: {
 
@@ -98,17 +98,17 @@ MeeGo.AppPage {
                         {
                             if (!notificationTypes.maxNotifications())
                             {
-                                bgSourceUp = "image://theme/btn_blue_up"
+                                bgSourceUp = "image://themedimage/images/btn_blue_up"
 				bgSourceActive = bgSourceUp
-                                bgSourceDn = "image://theme/btn_blue_dn"
+								bgSourceDn = "image://themedimage/images/btn_blue_dn"
                                 notificationTypes.addType(type);
                             }
                         }
                         else
                         {
-                            bgSourceUp = "image://theme/btn_grey_up"
+                            bgSourceUp = "image://themedimage/images/btn_grey_up"
 			    bgSourceActive = bgSourceUp
-                            bgSourceDn = "image://theme/btn_grey_dn"
+							bgSourceDn = "image://themedimage/images/btn_grey_dn"
                             notificationTypes.removeType(type);
                         }
 

@@ -78,7 +78,7 @@ MeeGo.AppPage {
             width: parent.width
             
             Image {
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 Text {
                     anchors.top: parent.top
@@ -114,7 +114,7 @@ MeeGo.AppPage {
                 }
             }
             Image {
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 Text {
                     anchors.top: parent.top
@@ -138,7 +138,7 @@ MeeGo.AppPage {
             }
 
             Image {
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 Text {
                     anchors.top: parent.top
@@ -161,7 +161,7 @@ MeeGo.AppPage {
                 }
             }
             Image {
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 Text {
                     anchors.top: parent.top
@@ -184,7 +184,7 @@ MeeGo.AppPage {
                 }
             }
             Image {
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 Text {
                     anchors.top: parent.top
@@ -208,7 +208,7 @@ MeeGo.AppPage {
                 }
             }
             Image {
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 Text {
                     anchors.top: parent.top
@@ -232,7 +232,7 @@ MeeGo.AppPage {
                 }
             }
             Image {
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 Text {
                     anchors.top: parent.top
@@ -255,7 +255,7 @@ MeeGo.AppPage {
                 }
             }
             Image {
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 Text {
                     anchors.top: parent.top
@@ -278,7 +278,7 @@ MeeGo.AppPage {
                 }
             }
             Image {
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 visible: proxyToggleButton.on
                 Text {
@@ -333,11 +333,11 @@ MeeGo.AppPage {
                 }
             }
             Image {
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 height:  privacyColumn.height + 20
                 Image {
-                    source: "image://theme/pulldown_box"
+                    source: "image://themedimage/images/pulldown_box"
                     width: parent.width
                     anchors.bottom: parent.bottom
                 }
@@ -414,7 +414,7 @@ MeeGo.AppPage {
             // Button to launcher browser
             Image {
                 id: launchBtn
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
                 height: startupSetting.height
                 Image {
@@ -450,7 +450,7 @@ MeeGo.AppPage {
                         name: "pressed"
                         PropertyChanges {
                             target: launchBtn
-                            source: "image://theme/settings/btn_settingentry_dn"
+                            source: "image://themedimage/images/settings/btn_settingentry_dn"
                         }
                         when: mouseArea.pressed
                     },
@@ -458,7 +458,7 @@ MeeGo.AppPage {
                         name: "normal"
                         PropertyChanges {
                             target: launchBtn
-                            source: "image://theme/pulldown_box"
+                            source: "image://themedimage/images/pulldown_box"
                         }
                         when: !mouseArea.pressed
                     }

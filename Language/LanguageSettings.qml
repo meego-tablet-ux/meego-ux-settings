@@ -28,7 +28,7 @@ AppPage {
 
             Image {
                 id: languageItem
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
 
                 Text {
@@ -56,7 +56,7 @@ AppPage {
             }
             Image {
                 id: keyboardItem
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
 
                 Text {
@@ -84,7 +84,7 @@ AppPage {
             }
             Image {
                 id: dateFormatItem
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
 
                 Text {
@@ -112,7 +112,7 @@ AppPage {
             }
             Image {
                 id: timeFormatItem
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
 
                 Text {
@@ -140,7 +140,7 @@ AppPage {
             }
             /*Image {
                     id: weekStartsItem
-                    source: "image://theme/pulldown_box"
+                    source: "image://themedimage/images/pulldown_box"
                     width: parent.width
 
                     Text {
@@ -162,7 +162,7 @@ AppPage {
                 }*/
             Image {
                 id: numberFormatItem
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
 
                 Text {
@@ -190,7 +190,7 @@ AppPage {
             }
             /*Image {
                     id: currencyItem
-                    source: "image://theme/pulldown_box"
+                    source: "image://themedimage/images/pulldown_box"
                     width: parent.width
 
                     Text {
@@ -212,7 +212,7 @@ AppPage {
                 }
                 Image {
                     id: currencyFormatItem
-                    source: "image://theme/pulldown_box"
+                    source: "image://themedimage/images/pulldown_box"
                     width: parent.width
 
                     Text {
@@ -234,7 +234,7 @@ AppPage {
                 }
                 Image {
                     id: measurementsItem
-                    source: "image://theme/pulldown_box"
+                    source: "image://themedimage/images/pulldown_box"
                     width: parent.width
 
                     Text {

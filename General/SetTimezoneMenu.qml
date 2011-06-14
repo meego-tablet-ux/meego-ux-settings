@@ -61,7 +61,7 @@ Item {
             id: menu
             width:parent.width - 100
             height: parent.height -100
-            source: "image://theme/bg_application_p"
+            source: "image://themedimage/images/bg_application_p"
             anchors.centerIn: parent
             MouseArea {
                 anchors.fill: parent
@@ -92,7 +92,7 @@ Item {
                 anchors.leftMargin: 40
                 height: parent.height - buttons.height - 30
                 width: parent.width - 80
-                source: "image://theme/clock/bg_grooved_area"
+                source: "image://themedimage/images/clock/bg_grooved_area"
                 ListView {
                     id: tzlistmodel
                     anchors.fill: parent
@@ -106,7 +106,7 @@ Item {
                         property int gmt: gmtoffset
                         property string tzCity : city
                         property string tzTitle: title
-                        source: "image://theme/clock/bg_list_item"
+                        source: "image://themedimage/images/clock/bg_list_item"
                         height: 30
                         width: parent.width
                         Text {

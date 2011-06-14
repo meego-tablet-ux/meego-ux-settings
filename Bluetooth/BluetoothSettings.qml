@@ -35,7 +35,7 @@ MeeGo.AppPage{
 
             Image {
                 width: parent.width
-                source: "image://theme/settings/subheader"
+                source: "image://themedimage/images/settings/subheader"
                 visible: !bluetoothModel.adapterPresent
                 Text{
                     anchors.left: parent.left
@@ -55,7 +55,7 @@ MeeGo.AppPage{
 
                 Image {
                     id: offlineArea
-                    source: "image://theme/settings/pulldown_box_2"
+                    source: "image://themedimage/images/settings/pulldown_box_2"
                     width: parent.width
                     Text {
                         id: airplaneLabel
@@ -91,7 +91,7 @@ MeeGo.AppPage{
                 Image {
                     id: bluetoothToggleGrid
                     width: parent.width
-                    source: "image://theme/settings/pulldown_box_2"
+                    source: "image://themedimage/images/settings/pulldown_box_2"
 
                     Text {
                         id: discoverableLabel
@@ -147,7 +147,7 @@ MeeGo.AppPage{
                 Image {
                     id: devicesLabel
                     width: parent.width
-                    source: "image://theme/settings/subheader"
+                    source: "image://themedimage/images/settings/subheader"
 
                     Text{
                         anchors.left: parent.left

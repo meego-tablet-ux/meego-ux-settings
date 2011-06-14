@@ -59,7 +59,7 @@ MeeGo.AppPage {
 
             Image {
                 id: offlineArea
-                source: "image://theme/settings/pulldown_box_2"
+                source: "image://themedimage/images/settings/pulldown_box_2"
                 width: parent.width
                 Text {
                     id: airplaneLabel
@@ -94,7 +94,7 @@ MeeGo.AppPage {
             Image {
                 id: networkConnectionsLabel
                 width: parent.width
-                source: "image://theme/settings/subheader"
+                source: "image://themedimage/images/settings/subheader"
 
                 Text{
                     anchors.left: parent.left
@@ -116,7 +116,7 @@ MeeGo.AppPage {
                 Image {
                     id: gridBackground
                     anchors.fill: technologiesGrid
-                    source: "image://theme/settings/pulldown_box_2"
+                    source: "image://themedimage/images/settings/pulldown_box_2"
                 }
 
                 Grid {
@@ -162,7 +162,7 @@ MeeGo.AppPage {
                             }
 
                             Image {
-                                source: "image://theme/icn_toolbar_button_divider"
+                                source: "image://themedimage/images/icn_toolbar_button_divider"
                                 height: parent.height
                                 anchors.left: dtoggle.right
                                 anchors.leftMargin: 5
@@ -194,7 +194,7 @@ MeeGo.AppPage {
             Image {
                 id: availableNetworksLabel
                 width: parent.width
-                source: "image://theme/settings/subheader"
+                source: "image://themedimage/images/settings/subheader"
                 Text{
                     anchors.left: parent.left
                     anchors.leftMargin: 10

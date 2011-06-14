@@ -97,7 +97,7 @@ AppPage {
 
                         Image {
                             id: imgPanel
-                            source: "image://theme/settings/btn_settingentry_up"
+                            source: "image://themedimage/images/settings/btn_settingentry_up"
                             width: parent.width
                         }
 

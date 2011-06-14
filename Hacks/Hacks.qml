@@ -20,7 +20,7 @@ Ux.AppPage {
 
             Image {
                 id: languageItem
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
 
                 Text {
@@ -43,7 +43,7 @@ Ux.AppPage {
 
             Image {
                 id: homeItem
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
 
                 Text {
@@ -94,7 +94,7 @@ Ux.AppPage {
 
                     Image {
                         id: settingsSearchHacks
-                        source: "image://theme/pulldown_box"
+                        source: "image://themedimage/images/pulldown_box"
                         width: parent.width
 
                         Text {
@@ -130,7 +130,7 @@ Ux.AppPage {
 
                     Image {
                         id: bluetoothHacks
-                        source: "image://theme/pulldown_box"
+                        source: "image://themedimage/images/pulldown_box"
                         width: parent.width
 
                         Text {
@@ -167,7 +167,7 @@ Ux.AppPage {
 
                     Image {
                         id: connectionsHacks
-                        source: "image://theme/pulldown_box"
+                        source: "image://themedimage/images/pulldown_box"
                         width: parent.width
 
                         Text {
@@ -206,7 +206,7 @@ Ux.AppPage {
 
             Image {
                 id: gpsSettings
-                source: "image://theme/pulldown_box"
+                source: "image://themedimage/images/pulldown_box"
                 width: parent.width
 
                 Text {
@@ -248,7 +248,7 @@ Ux.AppPage {
 
             Image {
                 id: notificationMakerBar
-                source: "image://theme/settings/subheader"
+                source: "image://themedimage/images/settings/subheader"
                 width: parent.width
 
                 Ux.ExpandingBox {
@@ -268,7 +268,7 @@ Ux.AppPage {
                             spacing: 10
                             Image {
                                 id: notificationItem
-                                source: "image://theme/settings/subheader"
+                                source: "image://themedimage/images/settings/subheader"
                                 width: parent.width
                                 height: 60
 
@@ -302,7 +302,7 @@ Ux.AppPage {
 
                             Image {
                                 id: summaryItem
-                                source: "image://theme/settings/subheader"
+                                source: "image://themedimage/images/settings/subheader"
                                 width: parent.width
                                 height: 50
 
@@ -326,7 +326,7 @@ Ux.AppPage {
                             }
                             Image {
                                 id: bodyItem
-                                source: "image://theme/settings/subheader"
+                                source: "image://themedimage/images/settings/subheader"
                                 width: parent.width
                                 height: 50
 
@@ -351,7 +351,7 @@ Ux.AppPage {
 
                             Image {
                                 id: imageItem
-                                source: "image://theme/settings/subheader"
+                                source: "image://themedimage/images/settings/subheader"
                                 width: parent.width
                                 height: 50
 
@@ -379,8 +379,8 @@ Ux.AppPage {
                                 text: "Make Notification"
                                 height: 40
                                 anchors.topMargin: 10
-                                bgSourceUp: "image://theme/btn_blue_up"
-                                bgSourceDn: "image://theme/btn_blue_dn"
+                                bgSourceUp: "image://themedimage/images/btn_blue_up"
+                                bgSourceDn: "image://themedimage/images/btn_blue_dn"
                                 onClicked: {
                                     notificationMaker.makeNotification(typeDropdown.eventTypeText, summaryInput.text, bodyInput.text, imageInput.text);
 

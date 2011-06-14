@@ -89,7 +89,7 @@ MeeGo.AppPage {
 		id: booleans
 
         Image {
-            source: "image://theme/settings/pulldown_box_2"
+            source: "image://themedimage/images/settings/pulldown_box_2"
 			property string key: ""
 			property string title: ""
 			property bool value
@@ -121,7 +121,7 @@ MeeGo.AppPage {
 		id: integers
 
         Image {
-            source: "image://theme/settings/pulldown_box_2"
+            source: "image://themedimage/images/settings/pulldown_box_2"
             id: integersContainer
 			property string key: ""
 			property string title: ""
@@ -159,7 +159,7 @@ MeeGo.AppPage {
 		id: textEdits
 		Image {
 			width: parent.width
-			source: "image://theme/settings/pulldown_box_2"
+			source: "image://themedimage/images/settings/pulldown_box_2"
 
 			id: textEditsContainer
 			property string key: ""
