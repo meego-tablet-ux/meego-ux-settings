@@ -305,7 +305,7 @@ Item {
 
     MeeGo.TimePicker {
         id: timePicker
-        parent: scene.container
+        //parent: scene.container
         onAccepted: {
             var time = clockModel.time(timePicker.hours, timePicker.minutes);
             clockModel.setTime(time);
@@ -316,7 +316,7 @@ Item {
 
     MeeGo.DatePicker{
         id: datePicker
-        parent: scene.container
+        //parent: scene.container
         minYear: 1970
         onDateSelected: {
             clockModel.setDate(date);
