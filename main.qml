@@ -9,7 +9,8 @@
 import Qt 4.7
 import MeeGo.Settings 0.1
 import MeeGo.Labs.Components 0.1 as Labs
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Ux.Components.Common 0.1 as Ux
+import MeeGo.Ux.Kernel 0.1
 import MeeGo.Ux.Gestures 0.1
 
 Ux.Window {
@@ -71,7 +72,7 @@ Ux.Window {
         id: settingsModel
     }
 
-    Ux.SaveRestoreState {
+    SaveRestoreState {
         id: mainSaveRestoreState
     }
 
@@ -143,7 +144,7 @@ Ux.Window {
                 key: "/meego/ux/settings/settingshacks"
             }
 
-            Ux.SaveRestoreState {
+            SaveRestoreState {
                 id: landingPageState
                 onSaveRequired: {
                     setValue(landingPage.scrollDownAmount,listView.contentY);
@@ -161,13 +162,9 @@ Ux.Window {
                     listView.contentY = landingPageState.restoreRequired ? landingPageState.value(landingPage.scrollDownAmount) : 0;
                 }
 
-                delegate: BorderImage {
+                delegate: Ux.ThemeImage {
                     id: container
-                    source: "image://theme/settings/btn_settingentry_up"
-                    border.left: 5; border.top: 5
-                    border.right: 5; border.bottom: 5
-
-                    //height: 50
+                    source: "image://themedimage/images/settings/btn_settingentry_up"
                     width: parent.width
 
                     BorderImage {
@@ -238,7 +235,7 @@ Ux.Window {
                             name: "pressed"
                             PropertyChanges {
                                 target: container
-                                source: "image://theme/settings/btn_settingentry_dn"
+                                source: "image://themedimage/images/settings/btn_settingentry_dn"
                             }
                             when: mouseArea.pressed
                         },
@@ -246,7 +243,7 @@ Ux.Window {
                             name: "normal"
                             PropertyChanges {
                                 target: container
-                                source: "image://theme/settings/btn_settingentry_up"
+                                source: "image://themedimage/images/settings/btn_settingentry_up"
                             }
                             when: !mouseArea.pressed
                         }
