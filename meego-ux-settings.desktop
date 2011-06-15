@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Settings
+Name[qps]=Šé††ïñgš
+Icon=meego-app-settings
+Exec=meego-qml-launcher --opengl --fullscreen --app meego-ux-settings
+X-MEEGO-CORE-UX=true

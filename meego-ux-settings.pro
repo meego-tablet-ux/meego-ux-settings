@@ -62,5 +62,8 @@ sync.path = $$INSTALL_ROOT/usr/share/$$TARGET/Sync
 builtinsettings.files += apps/*.desktop
 builtinsettings.path = $$INSTALL_ROOT/usr/share/$$TARGET/apps/
 
-INSTALLS += qmlfiles builtinsettings bluetooth
+desktop.files = meego-ux-settings.desktop
+desktop.path = $$INSTALL_ROOT/usr/share/applications/
+
+INSTALLS += qmlfiles builtinsettings bluetooth desktop
 sync_settings:INSTALLS += sync
