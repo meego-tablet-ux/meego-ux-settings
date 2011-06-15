@@ -1,8 +1,7 @@
 import Qt 4.7
-import MeeGo.Ux.Components.Common 0.1
-import MeeGo.Ux.Components.Indicators 0.1
-
-//import MeeGo.Components 0.1
+/*import MeeGo.Ux.Components.Common 0.1
+import MeeGo.Ux.Components.Indicators 0.1*/
+import MeeGo.Components 0.1
 import MeeGo.Settings 0.1
 
 AppPage {
@@ -57,7 +56,7 @@ AppPage {
 
                 Text {
                     // %1 is volume level percentage
-                    text: qsTr("%1%").arg(volumeControl.volume)
+                    text: qsTr("%1%","%1 is volume level percentage").arg(volumeControl.volume)
                     height: volumeexpandingbox.containerHeight
                     anchors.right: parent.right
                     anchors.rightMargin: 40

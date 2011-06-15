@@ -35,6 +35,8 @@ Window {
         }
     }
 
+    VolumeControl { }
+
     onBookMenuTriggered: {
         if(index == 0) {
             window.switchBook(landingPageComponent)
