@@ -9,11 +9,10 @@
 import Qt 4.7
 import MeeGo.Settings 0.1
 import MeeGo.Labs.Components 0.1 as Labs
-import MeeGo.Ux.Components.Common 0.1 as Ux
-import MeeGo.Ux.Kernel 0.1
+import MeeGo.Components 0.1
 import MeeGo.Ux.Gestures 0.1
 
-Ux.Window {
+Window {
     id: window
     property variant allSettingsArray: [qsTr("All Settings")];
     property variant applicationData
@@ -117,7 +116,7 @@ Ux.Window {
 
     Component {
         id: landingPageComponent
-        Ux.AppPage {
+        AppPage {
             id: landingPage
             property string scrollDownAmount: "landingScrollAmount" //T_IGNOREME
             pageTitle: qsTr("Settings")
@@ -162,7 +161,7 @@ Ux.Window {
                     listView.contentY = landingPageState.restoreRequired ? landingPageState.value(landingPage.scrollDownAmount) : 0;
                 }
 
-                delegate: Ux.ThemeImage {
+                delegate: ThemeImage {
                     id: container
                     source: "image://themedimage/images/settings/btn_settingentry_up"
                     width: parent.width
@@ -219,7 +218,12 @@ Ux.Window {
                                     window.addPage(declarativeComponent)
                                 }
                                 else {
-                                    window.addPage(Qt.createComponent(model.path))
+                                    var component = Qt.createComponent(model.path)
+                                    if(component.status == Component.Error) {
+                                        console.log("error loading settings page: " + component.errorString())
+                                    }
+
+                                    window.addPage(component)
                                 }
                             }
                         }
