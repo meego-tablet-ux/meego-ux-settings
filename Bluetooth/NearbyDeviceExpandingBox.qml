@@ -15,7 +15,7 @@ ExpandingBox {
 	id: availableBluetoothItem
 
 	property int containerHeight: 80
-
+	//lazyCreation: true
 	height: containerHeight
 
 	property string deviceName
