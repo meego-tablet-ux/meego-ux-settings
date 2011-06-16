@@ -14,6 +14,7 @@ Item {
 
     SyncList {
         id: syncAllProfilesList
-        model: AllVisibleSyncProfilesModel {}
+        model: SyncEvoStorageModel {}
+        // model: AllVisibleSyncProfilesModel {}
     }
 }
