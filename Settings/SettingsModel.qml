@@ -72,6 +72,13 @@ ListModel {
 		var icon = app.icon;
 		var path = app.value("MTS/Part");
 		var translationFile = app.value("MTS/Translation")
+		var section = app.value("MTS/Section")
+
+		var sectionMap = [];
+		sectionMap["Settings"] = qsTr("Settings")
+		sectionMap["Application"] = qsTr("Application")
+		sectionMap[""] = qsTr("Application")
+
 		if(path=="") {
 			path = app.value("DCP/Part")
 		}
@@ -80,8 +87,8 @@ ListModel {
 		//settingsAppComponents = settingsAppComponents.concat(Qt.createComponent(path))
 		settingsTranslationPaths = settingsTranslationPaths.concat(translationFile)
 		settingsAppNames = settingsAppNames.concat(name)
-		settingsModel.append({"title":title, "name": name, "path": path, "icon": icon,
-							  "translation": translationFile})
+		settingsModel.append({ "title":title, "name": name, "path": path, "icon": icon,
+							 "translation": translationFile, "section": sectionMap[section] })
 	}
 
 }
