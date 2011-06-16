@@ -3,5 +3,6 @@ Type=ControlPanelApplet
 Name=Declarative Example
 Icon=
 
-[DCP]
+[MTS]
 Part=/usr/share/meego-ux-settings/Example/declarativeexample.xml
+Section=Settings

@@ -5,3 +5,4 @@ Icon=icn_everyday_setting
 
 [MTS]
 Part=/usr/share/meego-ux-settings/Notifications/NotificationSettings.qml
+Section=Settings

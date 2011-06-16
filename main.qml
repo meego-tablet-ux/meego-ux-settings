@@ -14,6 +14,7 @@ import MeeGo.Ux.Gestures 0.1
 
 Window {
     id: window
+
     property variant allSettingsArray: [qsTr("All Settings")];
     property variant applicationData
     property string topView
@@ -22,11 +23,12 @@ Window {
 
     property bool restoreFinished: !mainSaveRestoreState.restoreRequired
 
-    bookMenuModel: allSettingsArray.concat(settingsModel.settingsApps)
+    //bookMenuModel: allSettingsArray.concat(settingsModel.settingsApps)
+    bookMenuModel: settingsModel
     automaticBookSwitching: false
+    bookMenuActive: false
 
     Component.onCompleted: {
-        switchBook(landingPageComponent);
         if(mainSaveRestoreState.restoreRequired) {
             topView = mainSaveRestoreState.value(currentBookKey);
             restoreFinished = true;
@@ -35,16 +37,9 @@ Window {
         }
     }
 
-    VolumeControl { }
-
     onBookMenuTriggered: {
-        if(index == 0) {
-            window.switchBook(landingPageComponent)
-            return;
-        }
-
-        translator.catalog = settingsModel.settingsTranslationPaths[index - 1]
-        topView = settingsModel.settingsAppPaths[index - 1]
+        translator.catalog = settingsModel.settingsTranslationPaths[index]
+        topView = settingsModel.settingsAppPaths[index]
         mainSaveRestoreState.setValue(currentBookKey,topView);
         mainSaveRestoreState.sync();
 

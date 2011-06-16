@@ -5,3 +5,4 @@ Icon=datetime
 
 [MTS]
 Part=/usr/share/meego-ux-settings/General/GeneralSettings.qml
+Section=Settings

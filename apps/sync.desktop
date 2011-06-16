@@ -28,3 +28,4 @@ Icon=sync
 
 [MTS]
 Part=/usr/share/meego-ux-settings/Sync/SyncMain.qml
+Section=Settings

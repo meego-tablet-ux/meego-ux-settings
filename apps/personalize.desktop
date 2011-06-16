@@ -28,3 +28,4 @@ Icon=personalize
 
 [MTS]
 Part=/usr/share/meego-ux-settings/Personalize/Personalize.qml
+Section=Settings
