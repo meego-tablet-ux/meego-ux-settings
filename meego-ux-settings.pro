@@ -1,7 +1,7 @@
 VERSION = 0.3.10
 TEMPLATE = subdirs
 
-CONFIG += ordered sync_settings
+CONFIG += ordered
 
 sync_settings {
     DEFINES += SYNC_SETTINGS
