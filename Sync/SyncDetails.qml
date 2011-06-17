@@ -34,8 +34,7 @@ Item {
     }
 
     // Our link to the underlying sync engine.
-    // SyncFwClient {
-    SyncEvoSyncFwClient {
+    SyncFwClient {
         id: bridge
 
         service:  container.service   // Needed for credentials removal.
