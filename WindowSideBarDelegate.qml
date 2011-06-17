@@ -35,10 +35,8 @@ Item {
 
         property bool isSelected: (delegateParent.selectedIndex == index)
 
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
+        width: parent.width
+
         height: 50  //TODO: may be different
 
         ThemeImage {

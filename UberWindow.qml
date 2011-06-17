@@ -988,10 +988,10 @@ Item {
             Item {
                 id: overlayArea
                 z: -1
-            y: pageStack.pageUsingFullScreen ? pageStack.y : pageStack.y + window.barsHeight
+                y: pageStack.pageUsingFullScreen ? pageStack.y : pageStack.y + window.barsHeight
 
                 width: parent.width
-            height: pageStack.pageUsingFullScreen ? pageStack.height : pageStack.height - window.barsHeight
+                height: pageStack.pageUsingFullScreen ? pageStack.height : pageStack.height - window.barsHeight
             } //end overlayArea
         } //end contentBackground
 

@@ -11,31 +11,27 @@ import MeeGo.Ux.Kernel 0.1
 import MeeGo.Ux.Gestures 0.1
 import MeeGo.Ux.Components.Common 0.1
 
-Column {
+ListView {
     id: delegateParent
 
-    property alias model: repeater.model
-    property alias delegate: repeater.delegate
     property int selectedIndex
 
     signal triggered ( int index )
 
-    width: delegate.width
+    width: parent.width
+    height: parent.height
 
     property int    maxTextWidth: 0
     property int    maxIconWidth: 0
     property bool   firstSection: true
     property string sectionValue: ""
 
-    ListView {
-        id: repeater
-        section.property: "section"
+    section.property: "section"
         section.delegate: WindowSideBarSectionDelegate { }
         section.criteria: ViewSection.FullString
 
-        delegate:  WindowSideBarDelegate {
-            id: delegate
-            onTriggered: { delegateParent.triggered(index) }
-        }
+    delegate:  WindowSideBarDelegate {
+        id: delegate
+        onTriggered: { delegateParent.triggered(index) }
     }
 }
