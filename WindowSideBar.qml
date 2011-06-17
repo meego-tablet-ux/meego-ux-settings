@@ -27,8 +27,8 @@ ListView {
     property string sectionValue: ""
 
     section.property: "section"
-        section.delegate: WindowSideBarSectionDelegate { }
-        section.criteria: ViewSection.FullString
+    section.delegate: WindowSideBarSectionDelegate { }
+    section.criteria: ViewSection.FullString
 
     delegate:  WindowSideBarDelegate {
         id: delegate

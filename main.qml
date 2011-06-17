@@ -15,6 +15,7 @@ import MeeGo.Ux.Gestures 0.1
 UberWindow {
     id: window
 
+    toolBarTitle: qsTr("Settings")
     property variant allSettingsArray: [qsTr("All Settings")];
     property variant applicationData
     property string topView
