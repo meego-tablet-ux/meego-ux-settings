@@ -223,41 +223,84 @@ MeeGo.AppPage {
                         showCancelButton: true
                         title: qsTr("Add network")
 
+                        sizeHintHeight: securityDropdown.selectedIndex > 0 ? 365 : 300  //Expand item height: itemHeight + margin
+                        verticalOffset: securityDropdown.selectedIndex > 0 ? 65 : 0     //Keep dialog top position, expand from bottom
+
+                        topMargin: 20
+                        leftMargin: 20
+                        rightMargin: 20
+
                         property string ssidHidden
                         property string securityHidden
                         property string securityPassphrase: ""
+                        property int itemHeight: 55
+                        property bool showSecurityPassphrase: securityDropdown.selectedIndex > 0
 
-                        content: Column {
-                            anchors.centerIn: parent
-                            width: childrenRect.width
+                        content: Item {
+                            anchors.fill: parent
 
-                            Row {
-                                spacing: 10
-                                height: childrenRect.height
+                            Item {
+                                id: leftItems
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                anchors.left: parent.left
+                                width: Math.max(networkName.width, securityType.width, securityPassphrase.width)
+
                                 Text {
+                                    id: networkName
+                                    anchors.top: parent.top
                                     text: qsTr("Network name:")
                                     verticalAlignment: Text.AlignVCenter
-                                    height: ssidEntry.height
+                                    height: addNetworkDialog.itemHeight
                                 }
+
+                                Text {
+                                    id: securityType
+                                    anchors.top: networkName.bottom
+                                    anchors.topMargin: 10
+                                    text: qsTr("Security type:")
+                                    verticalAlignment: Text.AlignVCenter
+                                    height: addNetworkDialog.itemHeight
+                                }
+
+                                Text {
+                                    id: securityPassphrase
+                                    visible: addNetworkDialog.showSecurityPassphrase
+                                    anchors.top: securityType.bottom
+                                    anchors.topMargin: 10
+                                    text: qsTr("Security passphrase:")
+                                    verticalAlignment: Text.AlignVCenter
+                                    height: addNetworkDialog.itemHeight
+                                }
+
+                            }
+
+                            Item {
+                                id: rightItems
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                anchors.left: leftItems.right
+                                anchors.leftMargin: 10
+                                anchors.right: parent.right
 
                                 MeeGo.TextEntry {
                                     id: ssidEntry
+                                    anchors.top: parent.top
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
+                                    height: addNetworkDialog.itemHeight
+
                                     onTextChanged: addNetworkDialog.ssidHidden = text
-                                }
-                            }
-
-                            Row {
-                                spacing: 10
-                                height: childrenRect.height
-
-                                Text {
-                                    text: qsTr("Security type:")
-                                    verticalAlignment: Text.AlignVCenter
-                                    height: ssidEntry.height
                                 }
 
                                 MeeGo.DropDown {
                                     id: securityDropdown
+                                    anchors.top: ssidEntry.bottom
+                                    anchors.topMargin: 10
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
+                                    height: addNetworkDialog.itemHeight
+
                                     model: [ qsTr("none"), qsTr("WPA"), qsTr("WPA2"), qsTr("wep") ]
                                     payload: ["none", "wpa", "rsn", "wep"]
                                     selectedTitle: model[selectedIndex]
@@ -267,22 +310,19 @@ MeeGo.AppPage {
                                         addNetworkDialog.securityHidden = payload[selectedIndex]
                                     }
                                 }
-                            }
-                            Row {
-                                spacing: 10
-                                height: childrenRect.height
-                                visible: securityDropdown.selectedIndex > 0
-                                Text {
-                                    text: qsTr("Security passphrase:")
-                                    verticalAlignment: Text.AlignVCenter
-                                    height: ssidEntry.height
-                                }
 
                                 MeeGo.TextEntry {
                                     id: passPhraseEntry
+                                    visible: addNetworkDialog.showSecurityPassphrase
+                                    anchors.top: securityDropdown.bottom
+                                    anchors.topMargin: 10
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
+                                    height: addNetworkDialog.itemHeight
+
+                                    textInput.inputMethodHints: Qt.ImhNoAutoUppercase
                                     onTextChanged: addNetworkDialog.securityPassphrase = text
                                 }
-
                             }
                         }
                         onAccepted: {
