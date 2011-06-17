@@ -18,7 +18,6 @@ MeeGo.ExpandingBox {
     id: container
 
     property alias containerHeight: headerArea.height
-    headerContent: headerArea
     buttonHeight: containerHeight
 
     //expandedHeight: detailsItem.height
@@ -64,6 +63,7 @@ MeeGo.ExpandingBox {
 
     Row {
         id: headerArea
+        parent: container.headerContent
         spacing: 10
         anchors.top:  parent.top
         anchors.topMargin: 10
