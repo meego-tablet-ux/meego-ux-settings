@@ -418,10 +418,15 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetReports(QDBusPendingCallWatcher *c
   setStatusFromLastReport();
 
   /* Give the user a chance to re-enter username/password in case there was a 401 or a 403 */
-  if (m_lastReport.contains("status") &&
-    (401 == m_lastReport["status"].toUInt() ||
-     403 == m_lastReport["status"].toUInt()))
-    emit authenticationFailed();
+  if (m_lastReport.contains("status")) {
+    unsigned int errorCode = m_lastReport["status"].toUInt();
+
+    if (errorCode >= 10000 && errorCode <= 10599)
+      errorCode -= 10000;
+
+    if (401 == errorCode || 403 == errorCode)
+      emit authenticationFailed();
+  }
 }
 
 /*
