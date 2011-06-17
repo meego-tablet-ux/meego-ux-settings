@@ -11,8 +11,6 @@
 #include "CalendarModel.hpp"
 #include "ContactsModel.hpp"
 #include "AllVisibleProfilesModel.hpp"
-#include "SyncEvoStorageModel.h"
-#include "SyncEvoFrameworkClient.h"
 
 #include <qdeclarative.h>
 
@@ -30,13 +28,6 @@ MeeGo::Sync::UiPlugin::registerTypes(char const * uri)
 				   MINOR_VERSION,
 				   "SyncFwClient");
 
-  // Register the class the exposes the sync operations to the QML
-  // with the metatype system.
-  qmlRegisterType<SyncEvoFrameworkClient>(uri,
-				   MAJOR_VERSION,
-				   MINOR_VERSION,
-				   "SyncEvoSyncFwClient");
-
   // ... and similarly for our sync service list models.
   qmlRegisterType<CalendarModel>(uri,
 				 MAJOR_VERSION,
@@ -52,12 +43,6 @@ MeeGo::Sync::UiPlugin::registerTypes(char const * uri)
 					   MAJOR_VERSION,
 					   MINOR_VERSION,
 					   "AllVisibleSyncProfilesModel");
-
-  qmlRegisterType<SyncEvoStorageModel>(uri,
-					   MAJOR_VERSION,
-					   MINOR_VERSION,
-					   "SyncEvoStorageModel");
-
 }
 
 
