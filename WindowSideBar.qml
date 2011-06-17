@@ -27,8 +27,11 @@ Column {
     property bool   firstSection: true
     property string sectionValue: ""
 
-    Repeater {
+    ListView {
         id: repeater
+        section.property: "section"
+        section.delegate: WindowSideBarSectionDelegate { }
+        section.criteria: ViewSection.FullString
 
         delegate:  WindowSideBarDelegate {
             id: delegate

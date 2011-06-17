@@ -24,60 +24,11 @@ Item {
 
     //width:  bookBarIconArea.width + bookBarText.width + 10*3
     width:  parent.width
-    height: sectionDelegate.height + itemDelegate.height
+    height: itemDelegate.height
 
     onExpandChanged: {
         console.log("expand changed to: " + expand)
     }
-
-    Item {
-        id: sectionDelegate
-        anchors.left:  parent.left
-        anchors.right:  parent.right
-        anchors.top:  parent.top
-        height: visible ? 50 : 0 //TODO: may be different
-
-        visible: true
-
-        ThemeImage {
-            id: sectionImage
-
-            anchors {
-                left: parent.left
-                right:parent.right
-            }
-            height: sectionDelegate.height
-
-            source: "image://themedimage/widgets/common/header/header-inverted-small-top"
-
-            LayoutTextItem {
-                id: sectionText
-
-                anchors.fill:  parent
-                anchors.margins:  10
-
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment:Text.AlignLeft
-                elide: Text.ElideRight
-
-                text: model.section
-                font.pixelSize: theme.fontPixelSizeLarge
-
-                Component.onCompleted: {
-                    if (model.section != delegateParent.sectionValue) {
-                        delegateParent.sectionValue = model.section
-                        sectionImage.source = delegateParent.firstSection ? "image://themedimage/widgets/common/header/header-inverted-small-top"
-                                                                          : "image://themedimage/widgets/common/header/header-inverted-small"
-                        delegateParent.firstSection = false
-                        sectionDelegate.visible = true
-                    }
-                    else {
-                        sectionDelegate.visible = false
-                    }
-                }
-            }
-        }
-    } //end sectionDelegate
 
     Item {
         id: itemDelegate
@@ -87,7 +38,6 @@ Item {
         anchors {
             left: parent.left
             right: parent.right
-            top: sectionDelegate.bottom
         }
         height: 50  //TODO: may be different
 
@@ -111,7 +61,7 @@ Item {
             }
 
             source: "image://themedimage/widgets/common/dividers/divider-horizontal-double"
-            visible: ! sectionDelegate.visible
+
         }
 
         Item {

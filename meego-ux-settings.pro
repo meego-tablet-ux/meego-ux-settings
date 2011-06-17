@@ -22,7 +22,7 @@ sync_settings: TRANS_SOURCES = \
     Sync/StorageModel.hpp
 
 OTHER_FILES += \
-    main.qml \
+    *.qml \
     Bluetooth/*.js \
     Bluetooth/*.qml \
     Browser/*.qml \
