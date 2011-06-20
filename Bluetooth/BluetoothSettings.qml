@@ -21,190 +21,181 @@ MeeGo.AppPage{
         discoverableTimeout: 180 ///three minutes
     }
 
-    Flickable {
-        id: contentArea
-        //parent: container.content
-        anchors.fill: parent
-        clip: true
-        contentWidth: parent.width
-        contentHeight: contents.height
+    Column {
+        id: contents
+        width: parent.width
+
+        Image {
+            width: parent.width
+            source: "image://themedimage/images/settings/subheader"
+            visible: !bluetoothModel.adapterPresent
+            Text{
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                text: qsTr("No bluetooth adapter present");
+                font.pixelSize: theme_fontPixelSizeLarge
+                height: parent.height
+                width: parent.width
+                elide: Text.ElideRight
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
 
         Column {
-            id: contents
             width: parent.width
+            visible: bluetoothModel.adapterPresent
 
             Image {
+                id: offlineArea
+                source: "image://themedimage/images/settings/pulldown_box_2"
+                width: parent.width
+                Text {
+                    id: airplaneLabel
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    text: qsTr("Bluetooth")
+                    width: 100
+                    height: parent.height
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                MeeGo.ToggleButton {
+                    id: poweredToggleButton
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    on: bluetoothModel.powered
+                    onToggled: {
+                        bluetoothModel.powered = poweredToggleButton.on;
+                    }
+
+                    Connections {
+                        target: bluetoothModel
+                        onPoweredChanged: {
+                            if(!bluetoothModel.powered) discoverableTimer.stop();
+                            poweredToggleButton.on = bluetoothModel.powered;
+                        }
+                    }
+                }
+            }
+
+            Image {
+                id: bluetoothToggleGrid
+                width: parent.width
+                source: "image://themedimage/images/settings/pulldown_box_2"
+
+                Text {
+                    id: discoverableLabel
+                    text: qsTr("Discoverable (%1)").arg(timeRemaining)
+                    width: 100
+                    height: parent.height
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    verticalAlignment: Text.AlignVCenter
+                    property int timeRemaining: bluetoothModel.discoverableTimeout
+                    states: [
+                        State {
+                            PropertyChanges {
+                                target: discoverableLabel
+                                text: qsTr("Discoverable for %1 second(s)", "").arg(timeRemaining)
+                            }
+                            when: bluetoothModel.discoverable && discoverableLable.timeRemaining > 0
+                        }
+                    ]
+
+                    Timer {
+                        id: discoverableTimer
+                        interval: 5000
+                        repeat: true
+                        onTriggered: {
+                            discoverableLabel.timeRemaining -= 5
+                        }
+                    }
+
+                }
+
+                MeeGo.ToggleButton {
+                    id: visibilityToggleButton
+                    anchors.right: parent.right;
+                    anchors.rightMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    on: bluetoothModel.discoverable
+                    onToggled: {
+                        bluetoothModel.discoverable = visibilityToggleButton.on
+                    }
+
+                    Connections {
+                        target: bluetoothModel
+                        onDiscoverableChanged: {
+                            visibilityToggleButton.on = bluetoothModel.discoverable
+                            if(bluetoothModel.discoverable) discoverableTimer.start();
+                            else discoverableTimer.stop();
+                        }
+                    }
+                }
+            }
+
+            Image {
+                id: devicesLabel
                 width: parent.width
                 source: "image://themedimage/images/settings/subheader"
-                visible: !bluetoothModel.adapterPresent
+
                 Text{
                     anchors.left: parent.left
                     anchors.leftMargin: 10
-                    text: qsTr("No bluetooth adapter present");
+                    text: qsTr("Paired devices");
                     font.pixelSize: theme_fontPixelSizeLarge
                     height: parent.height
                     width: parent.width
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                 }
+
+                MeeGo.Button {
+                    id: addNewDeviceButton
+                    active: poweredToggleButton.on
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Add device")
+                    height: parent.height / 1.5
+                    //width: 200
+                    onClicked: {
+                        if (poweredToggleButton.on)
+                            addPage(nearbyDevicesComponent);
+                    }
+                }
+            }
+
+
+
+            Component {
+                id: nearbyDevicesComponent
+                NearbyDevices { }
             }
 
             Column {
+                id: deviceList
                 width: parent.width
-                visible: bluetoothModel.adapterPresent
-
-                Image {
-                    id: offlineArea
-                    source: "image://themedimage/images/settings/pulldown_box_2"
-                    width: parent.width
-                    Text {
-                        id: airplaneLabel
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-                        anchors.leftMargin: 10
-                        text: qsTr("Bluetooth")
-                        width: 100
-                        height: parent.height
-                        verticalAlignment: Text.AlignVCenter
-                    }
-
-                    MeeGo.ToggleButton {
-                        id: poweredToggleButton
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        anchors.rightMargin: 10
-                        on: bluetoothModel.powered
-                        onToggled: {
-                            bluetoothModel.powered = poweredToggleButton.on;
-                        }
+                spacing: 2
+                Repeater {
+                    model: bluetoothModel
+                    delegate: BluetoothDeviceExpandingBox {
+                        name: model.name
+                        width: deviceList.width
+                        hwaddy: model.address
+                        dbuspath: model.path
+                        uuids: model.profiles
+                        bluetoothdevicemodel: bluetoothModel
 
                         Connections {
                             target: bluetoothModel
-                            onPoweredChanged: {
-                                if(!bluetoothModel.powered) discoverableTimer.stop();
-                                poweredToggleButton.on = bluetoothModel.powered;
-                            }
-                        }
-                    } 
-                }
-
-                Image {
-                    id: bluetoothToggleGrid
-                    width: parent.width
-                    source: "image://themedimage/images/settings/pulldown_box_2"
-
-                    Text {
-                        id: discoverableLabel
-                        text: qsTr("Discoverable (%1)").arg(timeRemaining)
-                        width: 100
-                        height: parent.height
-                        anchors.left: parent.left
-                        anchors.leftMargin: 10
-                        verticalAlignment: Text.AlignVCenter
-                        property int timeRemaining: bluetoothModel.discoverableTimeout
-                        states: [
-                            State {
-                                PropertyChanges {
-                                    target: discoverableLabel
-                                    text: qsTr("Discoverable for %1 second(s)", "").arg(timeRemaining)
-                                }
-                                when: bluetoothModel.discoverable && discoverableLable.timeRemaining > 0
-                            }
-                        ]
-
-                        Timer {
-                            id: discoverableTimer
-                            interval: 5000
-                            repeat: true
-                            onTriggered: {
-                                discoverableLabel.timeRemaining -= 5
-                            }
-                        }
-
-                    }
-
-                    MeeGo.ToggleButton {
-                        id: visibilityToggleButton
-                        anchors.right: parent.right;
-                        anchors.rightMargin: 10
-                        anchors.verticalCenter: parent.verticalCenter
-                        on: bluetoothModel.discoverable
-                        onToggled: {
-                            bluetoothModel.discoverable = visibilityToggleButton.on
-                        }
-
-                        Connections {
-                            target: bluetoothModel
-                            onDiscoverableChanged: {
-                                visibilityToggleButton.on = bluetoothModel.discoverable
-                                if(bluetoothModel.discoverable) discoverableTimer.start();
-                                else discoverableTimer.stop();
-                            }
-                        }
-                    }
-                }
-
-                Image {
-                    id: devicesLabel
-                    width: parent.width
-                    source: "image://themedimage/images/settings/subheader"
-
-                    Text{
-                        anchors.left: parent.left
-                        anchors.leftMargin: 10
-                        text: qsTr("Paired devices");
-                        font.pixelSize: theme_fontPixelSizeLarge
-                        height: parent.height
-                        width: parent.width
-                        elide: Text.ElideRight
-                        verticalAlignment: Text.AlignVCenter
-                    }
-
-                    MeeGo.Button {
-                        id: addNewDeviceButton
-                        active: poweredToggleButton.on
-                        anchors.right: parent.right
-                        anchors.rightMargin: 10
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("Add device")
-                        height: parent.height / 1.5
-                        //width: 200
-                        onClicked: {
-                            if (poweredToggleButton.on)
-                                addPage(nearbyDevicesComponent);
-                        }
-                    }
-                }
-
-
-
-                Component {
-                    id: nearbyDevicesComponent
-                    NearbyDevices { }
-                }
-
-                Column {
-                    id: deviceList
-                    width: parent.width
-                    spacing: 2
-                    Repeater {
-                        model: bluetoothModel
-                        delegate: BluetoothDeviceExpandingBox {
-                            name: model.name
-                            width: deviceList.width
-                            hwaddy: model.address
-                            dbuspath: model.path
-                            uuids: model.profiles
-                            bluetoothdevicemodel: bluetoothModel
-
-                            Connections {
-                                target: bluetoothModel
-                                onDevicePaired: {
-                                    console.log("new paired device address:" + device.address + "==" + model.address)
-                                    if(device.address == model.address){
-                                        expanded=true;
-                                        device.trusted = true
-                                    }
+                            onDevicePaired: {
+                                console.log("new paired device address:" + device.address + "==" + model.address)
+                                if(device.address == model.address){
+                                    expanded=true;
+                                    device.trusted = true
                                 }
                             }
                         }

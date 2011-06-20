@@ -26,7 +26,7 @@ ListModel {
 	property variant settingsAppPaths: []
 	property variant settingsAppComponents: []
 	property variant settingsTranslationPaths: []
-        property int firstSectionNextIndex: 0
+	property int firstSectionNextIndex: 0
 
 	function filter(filterValue) {
 		settingsApps = []
@@ -89,14 +89,19 @@ ListModel {
 		settingsTranslationPaths = settingsTranslationPaths.concat(translationFile)
 		settingsAppNames = settingsAppNames.concat(name)
 
-                var index;
-                if (section == "Settings")
-                    index = firstSectionNextIndex++;
-                else
-                    index = settingsModel.count
 
-                settingsModel.insert(index, { "index": settingsModel.count, "title":title, "name": name, "path": path, "icon": icon,
-                                                                         "translation": translationFile, "section": sectionMap[section] })
+                if (section == "Settings") {
+                    settingsModel.insert(firstSectionNextIndex++, { "index": firstSectionNextIndex-1,
+                                         "title":title, "name": name,
+                                         "path": path, "icon": icon, "translation": translationFile,
+                                         "section": sectionMap[section] })
+                }
+                else
+                    settingsModel.append({ "index": settingsModel.count, "title":title, "name": name,
+                                         "path": path, "icon": icon, "translation": translationFile,
+                                         "section": sectionMap[section] })
+
+
 	}
 
 }

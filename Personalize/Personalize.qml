@@ -25,110 +25,106 @@ AppPage {
                 sortType: PanelProxyModel.SortTypeDefaultIndex
         }
 
-        Flickable {
-            contentHeight: contentArea.height
-            anchors.fill: parent
+        Column {
+            id: contentArea
+            width: parent.width
 
-            Column {
-                id: contentArea
+            PhotoPicker {
+                id: photoPicker
+                parent: personalizeContainer
+                property string selectedPhoto
+
+                albumSelectionMode: false
+                onPhotoSelected: {
+                    selectedPhoto = uri.split("file://")[1];
+                }
+                onAccepted: {
+                    if (selectedPhoto)
+                    {
+                        var path = customWallpapers.model.copyImageToBackgrounds(selectedPhoto);
+                        customWallpapers.model.activeWallpaper = path;
+                        mainWindow.goHome();
+                        personalizeContainer.close();
+                    }
+                }
+            }
+
+            BuiltInWallpapers {
+                id: builtinWallpapers
                 width: parent.width
+                height: 200
+            }
 
-                PhotoPicker {
-                    id: photoPicker
-                    parent: personalizeContainer
-                    property string selectedPhoto
+            CustomWallpapers {
+                id: customWallpapers
+                width: parent.width
+                opacity: height > 0 ? 1.0 : 0.0
+                height: list.count > 0 ? 200 : 0
+            }
 
-                    albumSelectionMode: false
-                    onPhotoSelected: {
-                        selectedPhoto = uri.split("file://")[1];
+            WallpaperTools {
+                id: wallpaperTools
+                width: parent.width
+                height: 100
+
+                onOpenGallery: {
+                    photoPicker.show();
+                }
+            }
+
+            Label {
+                text: qsTr("Panels")
+                width: parent.width
+                height: 60
+            }
+
+            Repeater {
+                width: parent.width
+                model: panelModel
+                delegate:panelDelegate
+                focus: true
+            }
+
+            Component {
+                id: panelDelegate
+                Item {
+                    width: parent.width;
+                    height: imgPanel.height
+
+                    Image {
+                        id: imgPanel
+                        source: "image://themedimage/images/settings/btn_settingentry_up"
+                        width: parent.width
                     }
-                    onAccepted: {
-                        if (selectedPhoto)
-                        {
-                            var path = customWallpapers.model.copyImageToBackgrounds(selectedPhoto);
-                            customWallpapers.model.activeWallpaper = path;
-                            mainWindow.goHome();
-                            personalizeContainer.close();
-                        }
+
+                    Text {
+                        id: titleText
+                        text: displayName
+                        anchors.left: parent.left
+                        anchors.leftMargin: 20
+                        anchors.right: tbPanel.left
+                        anchors.rightMargin: 12
+                        color: theme_fontColorNormal
+                        font.pixelSize: theme_fontPixelSizeLarge
+                        anchors.verticalCenter: parent.verticalCenter
+                        wrapMode: Text.NoWrap
+                        elide: Text.ElideRight
                     }
-                }
 
-                BuiltInWallpapers {
-                    id: builtinWallpapers
-                    width: parent.width
-                    height: 200
-                }
-
-                CustomWallpapers {
-                    id: customWallpapers
-                    width: parent.width
-                    opacity: height > 0 ? 1.0 : 0.0
-                    height: list.count > 0 ? 200 : 0
-                }
-
-                WallpaperTools {
-                    id: wallpaperTools
-                    width: parent.width
-                    height: 100
-
-                    onOpenGallery: {
-                        photoPicker.show();
-                    }
-                }
-
-                Label {
-                    text: qsTr("Panels")
-                    width: parent.width
-                    height: 60
-                }
-
-                Repeater {
-                    width: parent.width
-                    model: panelModel
-                    delegate:panelDelegate
-                    focus: true
-                }
-
-                Component {
-                    id: panelDelegate
-                    Item {
-                        width: parent.width;
-                        height: imgPanel.height
-
-                        Image {
-                            id: imgPanel
-                            source: "image://themedimage/images/settings/btn_settingentry_up"
-                            width: parent.width
-                        }
-
-                        Text {
-                            id: titleText
-                            text: displayName
-                            anchors.left: parent.left
-                            anchors.leftMargin: 20
-                            anchors.right: tbPanel.left
-                            anchors.rightMargin: 12
-                            color: theme_fontColorNormal
-                            font.pixelSize: theme_fontPixelSizeLarge
-                            anchors.verticalCenter: parent.verticalCenter
-                            wrapMode: Text.NoWrap
-                            elide: Text.ElideRight
-                        }
-
-                        ToggleButton {
-                            id: tbPanel
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.right: parent.right
-                            anchors.rightMargin: 20
-                            visible: allowHide
-                            on: isVisible
-                            onToggled: {
-                                panelObj.IsVisible = isOn;
-                            }
+                    ToggleButton {
+                        id: tbPanel
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: 20
+                        visible: allowHide
+                        on: isVisible
+                        onToggled: {
+                            panelObj.IsVisible = isOn;
                         }
                     }
                 }
             }
         }
+
     }
 }
