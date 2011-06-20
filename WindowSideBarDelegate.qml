@@ -24,31 +24,88 @@ Item {
 
     //width:  bookBarIconArea.width + bookBarText.width + 10*3
     width:  parent.width
-    height: itemDelegate.height
+    height: sectionDelegate.height + itemDelegate.height
 
     onExpandChanged: {
         console.log("expand changed to: " + expand)
     }
 
     Item {
+        id: sectionDelegate
+        anchors.left:  parent.left
+        anchors.right:  parent.right
+        anchors.top:  parent.top
+        height: visible ? 50 : 0 //TODO: may be different
+
+        visible: true
+
+        ThemeImage {
+            id: sectionImage
+
+            anchors {
+                left: parent.left
+                right:parent.right
+            }
+            height: sectionDelegate.height
+
+            source: "image://themedimage/widgets/common/header/header-inverted-small-top"
+
+            LayoutTextItem {
+                id: sectionText
+
+                anchors.fill:  parent
+                anchors.margins:  10
+
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment:Text.AlignLeft
+                elide: Text.ElideRight
+
+                text: model.section
+                font.pixelSize: theme.fontPixelSizeLarge
+
+                Component.onCompleted: {
+                    if ((model.section != "") && (model.section != delegateParent.sectionValue)) {
+                        delegateParent.sectionValue = model.section
+                        if (0 == index) {
+                            sectionImage.source = "image://themedimage/widgets/common/header/header-inverted-small-top"
+                        }
+                        else {
+                            sectionImage.source = "image://themedimage/widgets/common/header/header-inverted-small"
+                        }
+                        sectionDelegate.visible = true
+                    }
+                    else {
+                        sectionDelegate.visible = false
+                    }
+                }
+            }
+        }
+    } //end sectionDelegate
+
+    Item {
         id: itemDelegate
 
         property bool isSelected: (delegateParent.selectedIndex == index)
+        property bool isActive: bool
 
-        width: parent.width
-
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: sectionDelegate.bottom
+        }
         height: 50  //TODO: may be different
 
         ThemeImage {
+            id: itemBackground
             anchors.fill: parent
 
-            source: "image://themedimage/widgets/common/action-item/action-item-background-active"
-            visible: itemDelegate.isSelected
-            opacity:  0.1
+            source: itemDelegate.isActive ? "image://themedimage/widgets/common/action-item/action-item-background-active"
+                                          : "image://themedimage/widgets/common/action-item/action-item-background-selected"
+            visible: itemDelegate.isSelected || itemDelegate.isActive
         }
 
         ThemeImage {
-            id: bookBarBackground
+            id: itemDivider
 
             anchors {
                 top:  parent.top
@@ -59,7 +116,7 @@ Item {
             }
 
             source: "image://themedimage/widgets/common/dividers/divider-horizontal-double"
-
+            visible: ! sectionDelegate.visible
         }
 
         Item {
@@ -104,7 +161,7 @@ Item {
             elide: Text.ElideRight
 
             text: model.name
-            color: itemDelegate.isSelected ? "#2fa7d4" : "#3d3d3d"
+            color: itemDelegate.isActive ? "white" : (itemDelegate.isSelected ? "#2fa7d4" : "#3d3d3d")
 
             Component.onCompleted: {
                 if (bookBarText.width > delegateParent.maxTextWidth) {
@@ -113,14 +170,44 @@ Item {
             }
         }
 
-        MouseArea {
+        GestureArea {
             anchors.fill: itemDelegate
-            onClicked: {
-                console.log("Clicked item", index)
-                delegateParent.selectedIndex = index
-                triggered(index)
+            acceptUnhandledEvents: false
+
+            Tap {
+                onFinished: {
+                    delegateParent.selectedIndex = index
+                    itemDelegate.isActive = false
+                    triggered( index )
+                }
+
+                onStarted:  { itemDelegate.isActive = true }
+                onCanceled: { itemDelegate.isActive = false }
+            }
+
+            TapAndHold {
+                onFinished: {
+                    delegateParent.selectedIndex = index
+                    itemDelegate.isActive = false
+                    triggered( index )
+                }
+
+                onStarted:  { itemDelegate.isActive = true }
+                onCanceled: { itemDelegate.isActive = false }
+            }
+
+            Swipe {
+                onStarted:  { itemDelegate.isActive = false }
+                onCanceled: { itemDelegate.isActive = false }
+                onFinished: { itemDelegate.isActive = false }
+            }
+            Pan {
+                onStarted:  { itemDelegate.isActive = false }
+                onCanceled: { itemDelegate.isActive = false }
+                onFinished: { itemDelegate.isActive = false }
             }
         }
+
 
     } //end itemDelegate
 }
