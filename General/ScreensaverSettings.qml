@@ -68,7 +68,7 @@ Item {
                 }
 
                 Text {
-                    text: qsTr("%1 Minute(s)", "", screensaverSlider.value)
+                    text: qsTr("%1 Minute(s)").arg(screensaverSlider.value)
                     anchors.left: sliderText.right
                     anchors.leftMargin: 10
                 }
