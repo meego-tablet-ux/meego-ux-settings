@@ -26,6 +26,7 @@ ListModel {
 	property variant settingsAppPaths: []
 	property variant settingsAppComponents: []
 	property variant settingsTranslationPaths: []
+        property int firstSectionNextIndex: 0
 
 	function filter(filterValue) {
 		settingsApps = []
@@ -87,8 +88,15 @@ ListModel {
 		//settingsAppComponents = settingsAppComponents.concat(Qt.createComponent(path))
 		settingsTranslationPaths = settingsTranslationPaths.concat(translationFile)
 		settingsAppNames = settingsAppNames.concat(name)
-		settingsModel.append({ "title":title, "name": name, "path": path, "icon": icon,
-							 "translation": translationFile, "section": sectionMap[section] })
+
+                var index;
+                if (section == "Settings")
+                    index = firstSectionNextIndex++;
+                else
+                    index = settingsModel.count
+
+                settingsModel.insert(index, { "index": settingsModel.count, "title":title, "name": name, "path": path, "icon": icon,
+                                                                         "translation": translationFile, "section": sectionMap[section] })
 	}
 
 }
