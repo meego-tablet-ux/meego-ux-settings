@@ -220,7 +220,7 @@ MeeGo::Sync::SyncEvoStorageModel::maybeAddToList(const QString &configName, cons
 
       /* If the source has "sync" defined ... */
       if (itr.value().contains("sync")) {
-        SyncEvoStorageModelItem newItem = SyncEvoStorageModelItem(configName, SyncEvoStatic::storageTypes()[itr.key()], config[""], itr.value(), isTemplate);
+        SyncEvoStorageModelItem newItem = SyncEvoStorageModelItem(configName, itr.key(), config[""], itr.value(), isTemplate);
 
         bool replace = false;
         int storageTypeIdx = -1;

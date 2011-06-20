@@ -26,25 +26,6 @@ MeeGo::Sync::SyncEvoStatic::storageTypes()
 }
 
 /*
- * Hash table containing the reverse of "recognized" storage types, a.k.a configs.
- */
-QHash<QString, QString>
-MeeGo::Sync::SyncEvoStatic::reverseStorageTypes()
-{
-  static QHash<QString, QString> reverseConfigNames;
-
-  if (reverseConfigNames.isEmpty()) {
-    reverseConfigNames[QObject::tr("Contacts")]             = "source/addressbook";
-    reverseConfigNames[QObject::tr("Appointments")]         = "source/calendar";
-    reverseConfigNames[QObject::tr("Tasks")]                = "source/todo";
-    reverseConfigNames[QObject::tr("Memo")]                 = "source/memo";
-    reverseConfigNames[QObject::tr("Appointments & Tasks")] = "source/calendar+todo";
-  }
-
-  return reverseConfigNames;
-}
-
-/*
  * Initialize the type library for the Syncevolution D-Bus service
  */
 void

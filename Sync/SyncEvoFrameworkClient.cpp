@@ -20,6 +20,11 @@
    ((c)[""].contains("syncURL")) && \
    ((c)[""]["syncURL"].startsWith("local://")))
 
+#define IS_WEBDAV_CONFIG(c) \
+  (((c).contains("")) && \
+   ((c)[""].contains("peerType")) && \
+   ((c)[""]["peerType"] == "WebDAV"))
+
 MeeGo::Sync::SyncEvoFrameworkClient::SyncEvoFrameworkClient(QObject* parent)
   : QObject(parent)
   , m_serverInterface(new OrgSyncevolutionServerInterface("org.syncevolution", "/org/syncevolution/Server", QDBusConnection::sessionBus(), this))
@@ -127,9 +132,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::storage() const
 void
 MeeGo::Sync::SyncEvoFrameworkClient::setStorage(QString s)
 {
-  if (s != m_storage) {
-    m_storage = s;
-  }
+  Q_UNUSED(s)
 }
 
 QString
@@ -141,8 +144,13 @@ MeeGo::Sync::SyncEvoFrameworkClient::name() const
 void
 MeeGo::Sync::SyncEvoFrameworkClient::setName(QString s)
 {
-  if (s != m_name) {
-    m_name = s;
+  QStringList ls = s.split(QString(QChar('\0')));
+  if (2 == ls.count()) {
+    if (ls[0] != m_name)
+      m_name = ls[0];
+
+    if (ls[1] != m_storage)
+      m_storage = ls[1];
 
     /*
      * Once we know the service name (== the config in syncevo lingo) we can get the detais and the last known status
@@ -151,9 +159,9 @@ MeeGo::Sync::SyncEvoFrameworkClient::setName(QString s)
       SyncEvoStatic::dbusCall(
         QList<QProperty>()
           << QProperty("DBusFunctionName", "GetConfig")
-          << QProperty("ConfigName", s),
+          << QProperty("ConfigName", m_name),
         this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-        m_serverInterface->GetConfig(s, false));
+        m_serverInterface->GetConfig(m_name, false));
 
       /*
        * Has to be done sync so the report is available for when lastSyncTime() is called by the UI - otherwise
@@ -162,9 +170,9 @@ MeeGo::Sync::SyncEvoFrameworkClient::setName(QString s)
       SyncEvoStatic::dbusCall(
         QList<QProperty>()
           << QProperty("DBusFunctionName", "GetReports")
-          << QProperty("ConfigName", s),
+          << QProperty("ConfigName", m_name),
         this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-        m_serverInterface->GetReports(s, 0, 1))->waitForFinished();
+        m_serverInterface->GetReports(m_name, 0, 1))->waitForFinished();
     }
   }
 }
@@ -495,7 +503,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
         break;
 
       case Sync:
-        if (m_config[""].contains("peerType") && "WebDAV" == m_config[""]["peerType"]) {
+        if (IS_WEBDAV_CONFIG(m_config)) {
           detachProps << QProperty("WebDAVConfig", true);
           performDetach = true;
         }
@@ -506,7 +514,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
                 << QProperty("DBusFunctionName", "Sync")
                 << QProperty("ConfigName", m_name),
               this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-              m_sessionInterface->Sync(QString(), m_config[SyncEvoStatic::reverseStorageTypes()[m_storage]]));
+              m_sessionInterface->Sync(QString(), m_config[m_storage]));
         }
         break;
 
@@ -610,7 +618,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSessionDetach(QDBusPendingCallWatcher
 {
   /* WebDAV mode requires a second session for accomplishing the same thing */
   if (call->property("WebDAVConfig").isValid() && call->property("WebDAVConfig").toBool()) {
-    if (m_config[""].contains("peerType") && "WebDAV" == m_config[""]["peerType"]) {
+    if (IS_WEBDAV_CONFIG(m_config)) {
       m_config = makeLocalConfig();
     }
     m_inProgress = false;
@@ -741,7 +749,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::performAction()
           ? IS_LOCAL_CONFIG(m_config)
             ? "source-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
             : m_name
-          : (m_config[""].contains("peerType") && "WebDAV" == m_config[""]["peerType"])
+          : (IS_WEBDAV_CONFIG(m_config))
             ? "source-config@" + m_name.toLower()
             : m_name;
 
