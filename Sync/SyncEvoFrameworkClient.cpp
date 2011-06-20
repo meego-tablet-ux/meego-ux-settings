@@ -15,6 +15,11 @@
 #include "SyncEvoFrameworkClient.h"
 #include "SyncEvoStatic.h"
 
+#define IS_LOCAL_CONFIG(c) \
+  (((c).contains("")) && \
+   ((c)[""].contains("syncURL")) && \
+   ((c)[""]["syncURL"].startsWith("local://")))
+
 MeeGo::Sync::SyncEvoFrameworkClient::SyncEvoFrameworkClient(QObject* parent)
   : QObject(parent)
   , m_serverInterface(new OrgSyncevolutionServerInterface("org.syncevolution", "/org/syncevolution/Server", QDBusConnection::sessionBus(), this))
@@ -183,7 +188,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::setUsername(QString s)
   if (s != m_username) {
     m_username = s;
     /* Don't save the username to a local config */
-    if (!m_config[""]["syncURL"].startsWith("local://"))
+    if (!IS_LOCAL_CONFIG(m_config))
       m_config[""]["username"] = s;
     emit usernameChanged(s);
   }
@@ -201,7 +206,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::setPassword(QString s)
   if (s != m_password) {
     m_password = s;
     /* Don't save the password to a local config */
-    if (!m_config[""]["syncURL"].startsWith("local://"))
+    if (!IS_LOCAL_CONFIG(m_config))
       m_config[""]["password"] = s;
     emit passwordChanged(s);
   }
@@ -320,22 +325,20 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
     /* An error retrieving the config ... */
     SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
 
-    if (!((call->property("TryTemplate").isValid() && call->property("TryTemplate").toBool()) || m_error)) {
+    if (!((call->property("TriedTemplate").isValid() && call->property("TriedTemplate").toBool()) || m_error)) {
       /* If we haven't tried retrieving the template config yet, let's do that first */
       SyncEvoStatic::dbusCall(
         QList<QProperty>()
           << QProperty("DBusFunctionName", "GetConfig")
           << QProperty("ConfigName", m_name)
-          << QProperty("TryTemplate", true),
+          << QProperty("TriedTemplate", true),
         this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
         m_serverInterface->GetConfig(m_name, true));
-      return;
     }
     else {
       /* We should never get here (TM) */
       emit profileRemoved(m_name);
       m_error = true;
-      return;
     }
   }
   else {
@@ -345,9 +348,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
       m_config = reply.argumentAt<0>();
 
     /* Check if this is a local config and, if so, retrieve the source config */
-    if (theConfig.contains("") && 
-        theConfig[""].contains("syncURL") &&
-        theConfig[""]["syncURL"].startsWith("local://")) {
+    if (IS_LOCAL_CONFIG(theConfig)) {
 
       QString sourceConfig =
         "source-config" + 
@@ -360,6 +361,17 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
           << QProperty("ConfigName", m_name),
         this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
         m_serverInterface->GetConfig(sourceConfig, false));
+    }
+    else 
+    if (!sessionActions.isEmpty() && sessionActions.head() == SaveWebDAVLoginInfo) {
+      theConfig[""]["username"] = m_username;
+      theConfig[""]["password"] = m_password;
+      SyncEvoStatic::dbusCall(
+        QList<QProperty>()
+          << QProperty("DBusFunctionName", "SetConfig")
+          << QProperty("ConfigName", m_name),
+        this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+        m_sessionInterface->SetConfig(false, false, theConfig));
     }
     else {
       /* Grab the interesting data from the retrieved config */
@@ -468,7 +480,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
 
     switch(sessionActions.head()) {
       case Forget:
-        if (m_config[""]["syncURL"].startsWith("local://")) {
+        if (IS_LOCAL_CONFIG(m_config)) {
           m_config[""].remove("syncURL");
           detachProps << QProperty("WebDAVConfig", true);
         }
@@ -496,6 +508,10 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
               this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
               m_sessionInterface->Sync(QString(), m_config[SyncEvoStatic::reverseStorageTypes()[m_storage]]));
         }
+        break;
+
+      case SaveWebDAVLoginInfo:
+        performDetach = true;
         break;
     }
 
@@ -555,22 +571,33 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleStartSession(QDBusPendingCallWatcher 
     /*
      * FIXME: Magic value we need to pass
      */
-    if (!m_config[""]["syncURL"].startsWith("local://"))
+    if (!IS_LOCAL_CONFIG(m_config))
       m_config[""]["preventSlowSync"] = "0";
 
-    /*
-     * Currently, we always call SetConfig before doing anything else with the session, passing in an empty config
-     * when attempting to forget, and the current config otherwise
-     */
-    SyncEvoStatic::dbusCall(
-      QList<QProperty>()
-        << QProperty("DBusFunctionName", "SetConfig")
-        << QProperty("ConfigName", m_name),
-      this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-      m_sessionInterface->SetConfig(false, false,
-        Forget == sessionActions.head()
-          ? QStringMultiMap()
-          : m_config));
+    if (sessionActions.head() == SaveWebDAVLoginInfo) {
+      SyncEvoStatic::dbusCall(
+        QList<QProperty>()
+          << QProperty("DBusFunctionName", "GetConfig")
+          << QProperty("WebDAVConfig", true)
+          << QProperty("ConfigName", m_name),
+        this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+        m_sessionInterface->GetConfig(false));
+    }
+    else {
+      /*
+       * If we're not saving WebDAV log info, we call SetConfig before doing anything else with the session, passing in an
+       * empty config when attempting to forget, and the current config otherwise
+       */
+      SyncEvoStatic::dbusCall(
+        QList<QProperty>()
+          << QProperty("DBusFunctionName", "SetConfig")
+          << QProperty("ConfigName", m_name),
+        this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+        m_sessionInterface->SetConfig(false, false,
+          Forget == sessionActions.head()
+            ? QStringMultiMap()
+            : m_config));
+    }
   }
 }
 
@@ -708,13 +735,15 @@ MeeGo::Sync::SyncEvoFrameworkClient::performAction()
     m_inProgress = true;
 
     QString sessionName = 
-      sessionActions.head() == Forget
-        ? m_config[""]["syncURL"].startsWith("local://")
-          ? "source-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
-          : m_name
-        : (m_config[""].contains("peerType") && "WebDAV" == m_config[""]["peerType"])
-          ? "source-config@" + m_name.toLower()
-          : m_name;
+      sessionActions.head() == SaveWebDAVLoginInfo
+        ? "source-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
+        : sessionActions.head() == Forget
+          ? IS_LOCAL_CONFIG(m_config)
+            ? "source-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
+            : m_name
+          : (m_config[""].contains("peerType") && "WebDAV" == m_config[""]["peerType"])
+            ? "source-config@" + m_name.toLower()
+            : m_name;
 
     SyncEvoStatic::dbusCall(
       QList<QProperty>()
@@ -731,6 +760,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::performAction()
 void
 MeeGo::Sync::SyncEvoFrameworkClient::performAction(SessionAction action)
 {
+  if (Sync == action && IS_LOCAL_CONFIG(m_config))
+    sessionActions.enqueue(SaveWebDAVLoginInfo);
   sessionActions.enqueue(action);
   performAction();
 }

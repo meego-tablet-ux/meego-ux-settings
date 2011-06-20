@@ -310,6 +310,10 @@ MeeGo::Sync::SyncEvoStorageModel::getInsertIndex(const SyncEvoStorageModelItem &
 void
 MeeGo::Sync::SyncEvoStorageModel::serviceOwnerChanged(const QString &name, const QString &oldOwner, const QString &newOwner)
 {
+  Q_UNUSED(name)
+  Q_UNUSED(oldOwner)
+  Q_UNUSED(newOwner)
+
   if (name == m_serverDBusName) {
     emit serviceHasDied();
     m_error = true;
