@@ -95,8 +95,7 @@ MeeGo::Sync::SyncEvoStorageModel::data(QModelIndex const & index, int role) cons
         break;
 
       case ImageRole:
-        if (m_l[row].header().contains("IconURI"))
-          retVal = m_l[row].header()["IconURI"];
+        retVal = m_l[row].iconURI();
         break;
 
       case ActiveRole:

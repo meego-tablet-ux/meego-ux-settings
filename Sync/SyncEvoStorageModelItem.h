@@ -19,6 +19,9 @@ namespace MeeGo {
       /// Internal data for config (configname\0source)
       QString name() const;
 
+      /// URI for icon
+      QString iconURI() const;
+
       /// Friendly name of config
       QString displayName() const;
 
