@@ -487,7 +487,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
         setStatus(tr("Unable to forget sync account!"));
         break;
 
-      case RememberAutoSync:
+      case Sync:
+      case SaveWebDAVLoginInfo:
         setStatus(tr("Sync aborted"));
         break;
 
@@ -496,7 +497,6 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
     }
   }
   else {
-    bool performDetach = false;
     QList<QProperty> detachProps;
     detachProps
       << QProperty("DBusFunctionName", "Session::Detach")
@@ -510,18 +510,11 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
         }
         else
           emit profileRemoved(m_name);
-        performDetach = true;
-        break;
-
-      case RememberAutoSync:
-        /* The session has fulfilled its purpose. Detach. */
-        performDetach = true;
         break;
 
       case Sync:
         if (IS_WEBDAV_CONFIG(m_config)) {
           detachProps << QProperty("WebDAVConfig", true);
-          performDetach = true;
         }
         else {
           if (!m_error)
@@ -531,17 +524,17 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
                 << QProperty("ConfigName", m_name),
               this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
               m_sessionInterface->Sync(QString(), m_config[m_storage]));
+          /* Do not detach from session until sync is complete */
+          return;
         }
         break;
 
-      case SaveWebDAVLoginInfo:
-        performDetach = true;
+      default:
         break;
     }
 
-    if (performDetach && !m_error)
-      SyncEvoStatic::dbusCall(
-        detachProps,
+    if (!m_error)
+      SyncEvoStatic::dbusCall(detachProps,
         this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
         m_sessionInterface->Detach());
   }
