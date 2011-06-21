@@ -129,6 +129,9 @@ MeeGo::Sync::SyncEvoFrameworkClient::storage() const
   return m_storage;
 }
 
+/*
+ * This function is not really used
+ */
 void
 MeeGo::Sync::SyncEvoFrameworkClient::setStorage(QString s)
 {
@@ -141,6 +144,9 @@ MeeGo::Sync::SyncEvoFrameworkClient::name() const
   return m_name;
 }
 
+/*
+ * Acquire the data identifying what config/source the user wishes to sync from the model
+ */
 void
 MeeGo::Sync::SyncEvoFrameworkClient::setName(QString s)
 {
@@ -153,7 +159,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::setName(QString s)
       m_storage = ls[1];
 
     /*
-     * Once we know the service name (== the config in syncevo lingo) we can get the detais and the last known status
+     * Once we know the service name (== the config in syncevo lingo) and the storage (== the source) we can get the
+     * detais and the last known status
      */
     if (!m_error) {
       SyncEvoStatic::dbusCall(
@@ -322,6 +329,10 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleAbort(QDBusPendingCallWatcher *call)
  * Once retrieved, we set the name, username, password, and scheduled properties. If username and/or password are
  * absent, we emit the authenticationFailed() signal, which causes a login dialog to be popped, giving us the
  * opportunity to acquire a username/password from the user.
+ *
+ * If GetConfig was called as part of a SaveWebDAVLoginInfo action, the configuration we have received is the
+ * source configuration, and its username and password fields must be updated, and the updated configuration
+ * must be written back.
  */
 void
 MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *call)
@@ -372,6 +383,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
     }
     else 
     if (!sessionActions.isEmpty() && sessionActions.head() == SaveWebDAVLoginInfo) {
+      /* Update WebDAV login information and re-save the source config */
       theConfig[""]["username"] = m_username;
       theConfig[""]["password"] = m_password;
       SyncEvoStatic::dbusCall(
@@ -450,11 +462,15 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetReports(QDBusPendingCallWatcher *c
 }
 
 /*
- * SetConfig is called at the start of any session-based activity. There are currently 3 session-based tasks:
+ * SetConfig is called at the start of any session-based activity. There are currently 4 session-based tasks:
+ *
  * 1. When forgetting a profile, the config is set to blank (QStringMultiMap()).
  * 2. When a sync is performed, SetConfig is called first, to save the possible username/password update.
  * 3. When autoSync is toggled, the autoSync field must be saved.
- * The call watcher's "ErrorMessage" property is used in case of a D-Bus error. It depends on which of the above three
+ * 4. Before performing a sync on a WebDAV-based configuration, the username and the password must be saved to the
+ * source config.
+ *
+ * The call watcher's "ErrorMessage" property is used in case of a D-Bus error. It depends on which of the above four
  * reasons has caused this call and may be set when making this call.
  */
 void
@@ -546,7 +562,9 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSync(QDBusPendingCallWatcher *call)
 }
 
 /*
- * Upon StartSession, we perform the next step, which (currently always) is SetConfig. D-Bus call.
+ * Upon StartSession, we perform the next step, which is SetConfig, unless we're starting a WebDAV-based Sync, in
+ * which case we first save the username/password to the source config, and then start a second session for the actual
+ * sync.
  * The use cases currently handled:
  * 1. Sync:
  *    StartSession -> SetConfig(m_config) -> Sync -> Detach (when the sync completes, not when the Sync call returns)
@@ -554,6 +572,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSync(QDBusPendingCallWatcher *call)
  *    StartSession -> SetConfig(m_config, after having updated its autoSync flag) -> Detach
  * 3. Forget:
  *    StartSession -> SetConfig(empty config) -> Detach
+ * 4. SaveWebDAVLoginInfo:
+ *    StartSession -> GetConfig -> SetConfig(retrieved config + username/password) -> Detach
  */
 void
 MeeGo::Sync::SyncEvoFrameworkClient::handleStartSession(QDBusPendingCallWatcher *call)

@@ -16,7 +16,7 @@ namespace MeeGo {
     public:
       SyncEvoStorageModelItem(const QString &name, const QString &storage, const QStringMap &header, const QStringMap &storageInfo, bool isTemplate);
 
-      /// Name of config
+      /// Internal data for config (configname\0source)
       QString name() const;
 
       /// Friendly name of config
