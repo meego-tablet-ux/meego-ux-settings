@@ -18,10 +18,10 @@ namespace MeeGo {
     public:
       /* user-friendly names of storage types are retrieved from syncevo source name strings */
       static QHash<QString, QString> storageTypes();
-
+#if (0)
       /* User-friendly strings for HTTP status codes - why is there no library for this? */
       static QHash<int, QString> httpStatusCodes();
-
+#endif /* (0) */
       /* register D-Bus types - ugly */
       static void init();
 

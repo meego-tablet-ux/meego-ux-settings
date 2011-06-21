@@ -288,23 +288,19 @@ MeeGo::Sync::SyncEvoFrameworkClient::setStatusFromLastReport(const QString &fuzz
   if (m_lastReport.contains("status")) {
     int status = m_lastReport["status"].toUInt();
 
-    if (200 == status)
-      statusMessage = tr("Last sync %1").arg(
-        fuzzyTime.isEmpty()
-          ? lastSyncTime().toString("yyyy-MM-dd hh:mm:ss.zzz")
-          : fuzzyTime);
-    else {
-      QString failure =
-        SyncEvoStatic::httpStatusCodes().contains(status)
-          ? SyncEvoStatic::httpStatusCodes()[status]
-          : 20017 == status
-            ? tr("Sync aborted")
-            : m_lastReport.contains("error")
-              ? m_lastReport["error"]
-              : m_lastReport["status"];
-
-      statusMessage = tr("Last sync failed: %1").arg(failure);
-    }
+    statusMessage =
+      (200 == status)
+        ? tr("Last sync %1").arg(
+          fuzzyTime.isEmpty()
+            ? lastSyncTime().toString("yyyy-MM-dd hh:mm:ss.zzz")
+            : fuzzyTime)
+        :
+      (20017 == status)
+        ? tr("Sync aborted")
+        : tr("Last sync failed: %1").arg(
+            (401 == status || 403 == status || 10401 == status || 10403 == status)
+              ? tr("authentication failure")
+              : tr("internal error"));
   }
 
   setStatus(statusMessage);
