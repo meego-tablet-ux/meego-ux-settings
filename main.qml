@@ -24,10 +24,10 @@ Window {
 
     property bool restoreFinished: !mainSaveRestoreState.restoreRequired
 
-    //bookMenuModel: allSettingsArray.concat(settingsModel.settingsApps)
-    bookMenuModel: settingsModel
+    bookMenuModel: settingsModel.settingsApps
+    //bookMenuModel: settingsModel
     automaticBookSwitching: false
-    bookMenuActive: false
+    //bookMenuActive: false
 
     Component.onCompleted: {
         if(mainSaveRestoreState.restoreRequired) {
