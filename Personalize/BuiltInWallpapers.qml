@@ -14,15 +14,14 @@ Item {
 
     property alias list: thumbnailList
 
-    Labs.BackgroundModel {
-        id: builtInWallpapersModel
-    }
+    Labs.BackgroundModel { id: builtInWallpapersModel }
 
     ListView {
         id: thumbnailList
-        anchors.fill: parent
+        anchors.fill:  parent
         orientation: ListView.Horizontal
         model: builtInWallpapersModel
+        clip: true
         delegate: Item {
             id: thumbnail
             width: height/2

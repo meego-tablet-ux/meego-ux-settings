@@ -85,7 +85,9 @@ MeeGo.AppPage {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     text: qsTr("Default search engine")
-                    width: Math.min(paintedWidth, parent.width - searchEngineDropDown.width - 10)
+                    anchors.right:  searchEngineDropDown.left
+                    anchors.rightMargin: 10
+                    wrapMode: Text.WordWrap
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -121,7 +123,9 @@ MeeGo.AppPage {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     text: qsTr("Show bookmarks bar")
-                    width: Math.min(paintedWidth, parent.width - bookmarkToggleButton.width - 10)
+                    anchors.right:  bookmarkToggleButton.left
+                    anchors.rightMargin: 10
+                    wrapMode: Text.WordWrap
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -145,7 +149,9 @@ MeeGo.AppPage {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     text: qsTr("Offer to save passwords")
-                    width: Math.min(paintedWidth, parent.width - passwordToggleButton.width - 10)
+                    anchors.right:  passwordToggleButton.left
+                    anchors.rightMargin: 10
+                    wrapMode: Text.WordWrap
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -168,7 +174,9 @@ MeeGo.AppPage {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     text: qsTr("Allow JavaScript")
-                    width: Math.min(paintedWidth, parent.width - javascriptToggleButton.width - 10)
+                    anchors.right:  javascriptToggleButton.left
+                    anchors.rightMargin: 10
+                    wrapMode: Text.WordWrap
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -191,7 +199,9 @@ MeeGo.AppPage {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     text: qsTr("Allow Images")
-                    width: Math.min(paintedWidth, parent.width-imageToggleButton.width)
+                    anchors.right:  imageToggleButton.left
+                    anchors.rightMargin: 10
+                    wrapMode: Text.WordWrap
                     elide: Text.ElideNone
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
@@ -215,8 +225,9 @@ MeeGo.AppPage {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     text: qsTr("Allow Cookies")
-                    width: Math.min(paintedWidth, parent.width-cookiesToggleButton.width)
-                    elide: Text.ElideNone
+                    anchors.right:  cookiesToggleButton.left
+                    anchors.rightMargin: 10
+                    wrapMode: Text.WordWrap
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -239,7 +250,9 @@ MeeGo.AppPage {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     text: qsTr("Block popups")
-                    width: Math.min(paintedWidth, parent.width - popupsToggleButton.width - 10)
+                    anchors.right:  popupsToggleButton.left
+                    anchors.rightMargin: 10
+                    wrapMode: Text.WordWrap
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -262,7 +275,9 @@ MeeGo.AppPage {
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     text: qsTr("Use HTTP proxy")
-                    width: Math.min(paintedWidth, parent.width - proxyToggleButton.width - 10)
+                    anchors.right:  proxyToggleButton.left
+                    anchors.rightMargin: 10
+                    wrapMode: Text.WordWrap
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -287,6 +302,7 @@ MeeGo.AppPage {
                     anchors.leftMargin: 10
                     text: qsTr("HTTP Proxy details")
                     width: Math.min(paintedWidth, parent.width - proxyBox.width - dotChar.width - portBox.width - 10)
+                    wrapMode: Text.WordWrap
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -428,6 +444,7 @@ MeeGo.AppPage {
                     anchors.leftMargin: 10
                     text: qsTr("Go to Browser")
                     width: 100
+                    elide: Text.ElideRight
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                 }
