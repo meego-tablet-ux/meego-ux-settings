@@ -14,6 +14,8 @@ import MeeGo.Settings 0.1
 MeeGo.AppPage {
 	id: container
 
+	height: column.height
+
 	property string source: window.applicationData
 
 
@@ -72,16 +74,11 @@ MeeGo.AppPage {
 		}
 	}
 
-	Flickable {
-		contentHeight: column.height
-		anchors.fill: parent
-		interactive: true
-		Column {
-			id: column
-			anchors.fill: parent
-			spacing: 20
-		}
+	Column {
+		id: column
+		width: parent.width
 	}
+
 
 
 

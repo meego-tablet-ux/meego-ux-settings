@@ -15,7 +15,7 @@ import MeeGo.Bluetooth 0.1
 MeeGo.AppPage{
     id: container
     pageTitle: qsTr("Bluetooth")
-
+    height: contents.height + 10
     BluetoothDevicesModel {
         id: bluetoothModel
         discoverableTimeout: 180 ///three minutes

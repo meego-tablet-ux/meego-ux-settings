@@ -39,12 +39,10 @@ Window {
     }
 
     onBookMenuTriggered: {
-        translator.catalog = settingsModel.settingsTranslationPaths[index]
-        topView = settingsModel.settingsAppPaths[index]
+        translator.catalog = settingsModel.get(index).translation
+        topView = settingsModel.get(index).path
         mainSaveRestoreState.setValue(currentBookKey,topView);
         mainSaveRestoreState.sync();
-
-        //window.applicationPage = Qt.createComponent(payloadFile);
     }
 
     onTopViewChanged: {
@@ -56,7 +54,12 @@ Window {
                 window.switchBook(declarativeComponent)
             }
             else {
-                window.switchBook(Qt.createComponent(topView))
+
+                var component = Qt.createComponent(topView)
+                if(component.status == Component.Error) {
+                    console.log("error loading settings page: " + component.errorString())
+                }
+                window.switchBook(component)
             }
         }
     }

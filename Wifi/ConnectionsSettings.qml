@@ -17,7 +17,7 @@ import "helper.js" as WifiHelper
 MeeGo.AppPage {
     id: container
     pageTitle: qsTr("Connections")
-
+    height: contents.height + 10
     property bool finished: false
 
     Component.onCompleted: {

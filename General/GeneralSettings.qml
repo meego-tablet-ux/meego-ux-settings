@@ -7,6 +7,7 @@ import MeeGo.Settings 0.1
 AppPage {
     id: page
     pageTitle: qsTr("General")
+    height: contents.height + 10
 
     VolumeControl {
         id: volumeControl

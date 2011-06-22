@@ -15,6 +15,7 @@ import MeeGo.Panels 0.1
 AppPage {
     id: container
     pageTitle: qsTr("Personalize")
+    height: contentArea.height + 10
 
     PanelProxyModel{
         id: panelModel
