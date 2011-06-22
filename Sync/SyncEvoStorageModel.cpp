@@ -205,8 +205,7 @@ MeeGo::Sync::SyncEvoStorageModel::maybeAddToList(const QString &configName, cons
     return;
 
   /* Not interested if this is not "ConsumerReady" */
-  if (config[""].contains("ConsumerReady"))
-    if (config[""]["ConsumerReady"] != "1")
+  if (!config[""].contains("ConsumerReady") || config[""]["ConsumerReady"] != "1")
       return;
 
   /* For each source associated with this config ... */
