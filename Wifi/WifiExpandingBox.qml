@@ -111,17 +111,21 @@ MeeGo.ExpandingBox {
 
         Column {
             spacing: 5
-            width: childrenRect.width
+            width: parent.width
             Text {
                 id: mainText
                 text: status == "" ? ssid:(ssid + " - " + status)
                 font.pixelSize: theme_fontPixelSizeLarge
+                width:  parent.width
+                elide: Text.ElideRight
             }
 
             Text {
                 id: securityText
                 text: finished ? WifiHelper.connmanSecurityType[container.security] : ""
                 font.pixelSize: theme_fontPixelSizeLarge
+                width: parent.width
+                elide: Text.ElideRight
             }
         }
     }

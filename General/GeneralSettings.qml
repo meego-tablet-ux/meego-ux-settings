@@ -26,11 +26,7 @@ AppPage {
 
             detailsComponent: TimeDateSettings { }
 
-            Text {
-                text: qsTr ("Time and date")
-                height: timedateexpandingbox.containerHeight
-                verticalAlignment: Text.AlignVCenter
-            }
+            titleText:  qsTr ("Time and date")
         }
 
         ExpandingBox {
@@ -42,11 +38,7 @@ AppPage {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            Text {
-                text: qsTr ("Sound")
-                height: volumeexpandingbox.containerHeight
-                verticalAlignment: Text.AlignVCenter
-            }
+            titleText: qsTr ("Sound")
 
             Text {
                 // %1 is volume level percentage
@@ -69,12 +61,7 @@ AppPage {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            Text {
-                text: qsTr ("Backlight control")
-                height: backlightexpandingbox.containerHeight
-                verticalAlignment: Text.AlignVCenter
-            }
-
+            titleText: qsTr ("Backlight control")
             detailsComponent: BacklightSettings { }
         }
 
@@ -87,11 +74,7 @@ AppPage {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            Text {
-                text: qsTr ("Screen saver")
-                height: screensaverexpandingbox.containerHeight
-                verticalAlignment: Text.AlignVCenter
-            }
+            titleText: qsTr ("Screen saver")
 
             detailsComponent: ScreensaverSettings { }
         }

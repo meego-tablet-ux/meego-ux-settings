@@ -38,7 +38,7 @@ MeeGo.AppPage {
            showAcceptButton: true
            cancelButtonText: qsTr( "No" )
            acceptButtonText: qsTr( "Yes" )
-	   width: parent.width/2
+           width: parent.width/2
            height: decorationHeight + dlgContent.paintedHeight + 20
       	   property alias message: dlgContent.text
            property string data: ""

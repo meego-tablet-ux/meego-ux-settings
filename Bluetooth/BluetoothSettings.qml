@@ -54,8 +54,10 @@ MeeGo.AppPage{
                     anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.leftMargin: 10
+                    anchors.right: poweredToggleButton.left
+                    anchors.rightMargin: 10
                     text: qsTr("Bluetooth")
-                    width: 100
+                    elide:  Text.ElideRight
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -87,8 +89,10 @@ MeeGo.AppPage{
 
                 Text {
                     id: discoverableLabel
-                    text: qsTr("Discoverable (%1)").arg(timeRemaining)
-                    width: 100
+                    text: qsTr("Discoverable (%1)", "This should be 'Discoverable' with no args")
+                    anchors.right: visibilityToggleButton.left
+                    anchors.rightMargin: 10
+                    elide: Text.ElideRight
                     height: parent.height
                     anchors.left: parent.left
                     anchors.leftMargin: 10

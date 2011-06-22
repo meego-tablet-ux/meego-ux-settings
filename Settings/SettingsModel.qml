@@ -77,8 +77,8 @@ ListModel {
 
 		var sectionMap = [];
 		sectionMap["Settings"] = qsTr("Settings")
-		sectionMap["Application"] = qsTr("Application")
-		sectionMap[""] = qsTr("Application")
+		sectionMap["Applications"] = qsTr("Application","should actually by 'Applications'")
+		sectionMap[""] = qsTr("Application","should actually by 'Applications'")
 
 		if(path=="") {
 			path = app.value("DCP/Part")
@@ -92,12 +92,12 @@ ListModel {
 
                 if (section == "Settings") {
                     settingsModel.insert(firstSectionNextIndex++, { "index": firstSectionNextIndex-1,
-                                         "title":title, "name": name,
+                                         "id": name, "name": title,
                                          "path": path, "icon": icon, "translation": translationFile,
                                          "section": sectionMap[section] })
                 }
                 else
-                    settingsModel.append({ "index": settingsModel.count, "title":title, "name": name,
+                    settingsModel.append({ "index": settingsModel.count, "id": name, "name": title,
                                          "path": path, "icon": icon, "translation": translationFile,
                                          "section": sectionMap[section] })
 

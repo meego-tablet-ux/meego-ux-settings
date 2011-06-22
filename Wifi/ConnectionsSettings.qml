@@ -244,6 +244,7 @@ MeeGo.AppPage {
                                 text: qsTr("Network name:")
                                 verticalAlignment: Text.AlignVCenter
                                 height: addNetworkDialog.itemHeight
+
                             }
 
                             Text {
