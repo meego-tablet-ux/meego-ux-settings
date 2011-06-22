@@ -13,7 +13,6 @@ import MeeGo.Settings 0.1
 MeeGo.AppPage {
     id: bsContainer
     pageTitle: qsTr("Browser")
-    //height: settingGroups.height + 10
 
     property int vkbheight: 0
     property variant current: bsContainer
