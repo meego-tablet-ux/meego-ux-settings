@@ -97,12 +97,12 @@ ListModel {
 								 "section": sectionMap[section] })
 		}
 		else
-			settingsModel.append({ "index": settingsModel.count, "id": name, "name": title,
+			settingsModel.append({ "index": settingsModel.count+1, "id": name, "name": title,
 								 "path": path, "icon": icon, "translation": translationFile,
 								 "section": sectionMap[section] })
 
 		for(var i=0;i<settingsModel.count; i++) {
-			console.log("(%1)|(%2) %3 - %4".arg(i).arg(settingsModel.get(i)).arg(settingsModel.get(i).id).arg(settingsModel.get(i).section))
+			console.log("(%1)|(%2) %3 - '%4''".arg(i).arg(settingsModel.get(i).index).arg(settingsModel.get(i).id).arg(settingsModel.get(i).section))
 		}
 
 	}
