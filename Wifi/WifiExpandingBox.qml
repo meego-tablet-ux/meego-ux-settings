@@ -43,6 +43,27 @@ MeeGo.ExpandingBox {
 
     property bool finished: false
 
+    property variant signalIndicatorIcons: ["wifi-signal-weak", "wifi-signal-good", "wifi-signal-strong",
+                                            "wifi-signal-weak-connected", "wifi-signal-good-connected", "wifi-signal-strong-connected",
+                                            "wifi-secure-signal-weak", "wifi-secure-signal-good", "wifi-secure-signal-strong",
+                                            "wifi-secure-signal-weak-connected", "wifi-secure-signal-good-connected", "wifi-secure-signal-strong-connected"]
+
+    property int signalIndicatorIconIndex: getSignalIndicatorIconIndex()
+
+    function getSignalIndicatorIconIndex() {
+        var index = 0;
+
+        //Caclulates index offsets
+        index += container.statusint < NetworkItemModel.StateReady ? 0:3
+        index += container.security == "" || container.security == "none" ? 0:6
+        index += container.networkItem.strength <= 0 ||container.networkItem.strength > 100 ? 0 : Math.ceil(container.networkItem.strength/100 * 3) - 1
+
+        if (index < signalIndicatorIcons.length)
+            return index;
+        else
+            return 0;
+    }
+
     Component.onCompleted: {
         WifiHelper.connmanSecurityType["wpa"] = qsTr("WPA");
         WifiHelper.connmanSecurityType["rsn"] = qsTr("WPA2");
@@ -88,25 +109,7 @@ MeeGo.ExpandingBox {
 
         Image {
             id: signalIndicator
-            source: "image://themedimage/images/icn_networks"
-
-            states:  [
-                State {
-                    when: statusint >= NetworkItemModel.StateReady
-                    PropertyChanges {
-                        target: signalIndicator
-                        source: "image://themedimage/images/icn_networks_connected"
-                    }
-                },
-                State {
-                    when: statusint < NetworkItemModel.StateReady
-                    PropertyChanges {
-                        target: signalIndicator
-                        source: "image://themedimage/images/icn_networks"
-                    }
-                }
-
-            ]
+            source: "image://themedimage/icons/settings/" + signalIndicatorIcons[signalIndicatorIconIndex]
         }
 
         Column {

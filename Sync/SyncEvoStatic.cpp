@@ -16,32 +16,18 @@ MeeGo::Sync::SyncEvoStatic::storageTypes()
 
   if (niceConfigNames.isEmpty()) {
     niceConfigNames["source/addressbook"]   = QObject::tr("Contacts");
-    niceConfigNames["source/calendar"]      = QObject::tr("Appointments");
+    niceConfigNames["source/calendar"]      = QObject::tr("Calendar");
+/*
+ * FIXME: These need new strings
+ */
+#if (0)
     niceConfigNames["source/todo"]          = QObject::tr("Tasks");
     niceConfigNames["source/memo"]          = QObject::tr("Memo");
-    niceConfigNames["source/calendar+todo"] = QObject::tr("Appointments & Tasks");
+    niceConfigNames["source/calendar+todo"] = QObject::tr("Calendar & Tasks");
+#endif /* (0) */
   }
 
   return niceConfigNames;
-}
-
-/*
- * Hash table containing the reverse of "recognized" storage types, a.k.a configs.
- */
-QHash<QString, QString>
-MeeGo::Sync::SyncEvoStatic::reverseStorageTypes()
-{
-  static QHash<QString, QString> reverseConfigNames;
-
-  if (reverseConfigNames.isEmpty()) {
-    reverseConfigNames[QObject::tr("Contacts")]             = "source/addressbook";
-    reverseConfigNames[QObject::tr("Appointments")]         = "source/calendar";
-    reverseConfigNames[QObject::tr("Tasks")]                = "source/todo";
-    reverseConfigNames[QObject::tr("Memo")]                 = "source/memo";
-    reverseConfigNames[QObject::tr("Appointments & Tasks")] = "source/calendar+todo";
-  }
-
-  return reverseConfigNames;
 }
 
 /*
@@ -57,7 +43,10 @@ MeeGo::Sync::SyncEvoStatic::init()
     needsInit = false;
   }
 }
-
+/*
+ * FIXME: Needs new strings
+ */
+#if (0)
 QHash<int, QString>
 MeeGo::Sync::SyncEvoStatic::httpStatusCodes()
 {
@@ -123,7 +112,7 @@ MeeGo::Sync::SyncEvoStatic::httpStatusCodes()
 
   return codes;
 }
-
+#endif /* (0) */
 /*
  * Async D-Bus call with properties.
  *

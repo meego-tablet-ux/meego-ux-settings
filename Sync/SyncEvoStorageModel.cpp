@@ -95,8 +95,7 @@ MeeGo::Sync::SyncEvoStorageModel::data(QModelIndex const & index, int role) cons
         break;
 
       case ImageRole:
-        if (m_l[row].header().contains("IconURI"))
-          retVal = m_l[row].header()["IconURI"];
+        retVal = m_l[row].iconURI();
         break;
 
       case ActiveRole:
@@ -206,8 +205,7 @@ MeeGo::Sync::SyncEvoStorageModel::maybeAddToList(const QString &configName, cons
     return;
 
   /* Not interested if this is not "ConsumerReady" */
-  if (config[""].contains("ConsumerReady"))
-    if (config[""]["ConsumerReady"] != "1")
+  if (!config[""].contains("ConsumerReady") || config[""]["ConsumerReady"] != "1")
       return;
 
   /* For each source associated with this config ... */
@@ -220,7 +218,7 @@ MeeGo::Sync::SyncEvoStorageModel::maybeAddToList(const QString &configName, cons
 
       /* If the source has "sync" defined ... */
       if (itr.value().contains("sync")) {
-        SyncEvoStorageModelItem newItem = SyncEvoStorageModelItem(configName, SyncEvoStatic::storageTypes()[itr.key()], config[""], itr.value(), isTemplate);
+        SyncEvoStorageModelItem newItem = SyncEvoStorageModelItem(configName, itr.key(), config[""], itr.value(), isTemplate);
 
         bool replace = false;
         int storageTypeIdx = -1;
@@ -310,6 +308,10 @@ MeeGo::Sync::SyncEvoStorageModel::getInsertIndex(const SyncEvoStorageModelItem &
 void
 MeeGo::Sync::SyncEvoStorageModel::serviceOwnerChanged(const QString &name, const QString &oldOwner, const QString &newOwner)
 {
+  Q_UNUSED(name)
+  Q_UNUSED(oldOwner)
+  Q_UNUSED(newOwner)
+
   if (name == m_serverDBusName) {
     emit serviceHasDied();
     m_error = true;

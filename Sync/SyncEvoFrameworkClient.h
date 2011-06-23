@@ -179,8 +179,10 @@ namespace MeeGo {
       enum SessionAction {
         Sync,
         Forget,
-        RememberAutoSync
+        RememberAutoSync,
+        SaveWebDAVLoginInfo
       };
+
       void performAction(SessionAction action);
       void performAction();
       void nextAction();

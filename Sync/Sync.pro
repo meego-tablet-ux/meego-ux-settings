@@ -9,7 +9,7 @@ CONFIG += link_pkgconfig \
     debug \
     warn_on
 
-PKGCONFIG += syncfwclient syncprofile mlite
+PKGCONFIG += syncfwclient syncprofile mlite syncevolution-qt-dbus
 
 QT += declarative xml
 
@@ -20,6 +20,11 @@ HEADERS = \
     FrameworkClient.hpp \
     ServiceInfo.hpp \
     StorageModel.hpp \
+    QProperty.h \
+    SyncEvoFrameworkClient.h \
+    SyncEvoStatic.h \
+    SyncEvoStorageModel.h \
+    SyncEvoStorageModelItem.h \
     UiPlugin.hpp
 
 SOURCES = \
@@ -29,6 +34,11 @@ SOURCES = \
     FrameworkClient.cpp \
     ServiceInfo.cpp \
     StorageModel.cpp \
+    QProperty.cpp \
+    SyncEvoFrameworkClient.cpp \
+    SyncEvoStatic.cpp \
+    SyncEvoStorageModel.cpp \
+    SyncEvoStorageModelItem.cpp \
     UiPlugin.cpp
 
 OTHER_FILES += qmldir

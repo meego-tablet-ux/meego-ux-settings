@@ -1,3 +1,4 @@
+#include "SyncEvoStatic.h"
 #include "SyncEvoStorageModelItem.h"
 
 MeeGo::Sync::SyncEvoStorageModelItem::SyncEvoStorageModelItem(const QString &name, const QString &storage, const QStringMap &header, const QStringMap &storageInfo, bool isTemplate)
@@ -25,15 +26,23 @@ MeeGo::Sync::SyncEvoStorageModelItem::displayName() const
 }
 
 QString
+MeeGo::Sync::SyncEvoStorageModelItem::iconURI() const
+{
+  return (m_header.contains("IconURI") && !m_header["IconURI"].isEmpty())
+    ? m_header["IconURI"]
+    : "image://themedimage/icons/services/generic";
+}
+
+QString
 MeeGo::Sync::SyncEvoStorageModelItem::name() const
 {
-  return m_name;
+  return m_name + QString(QChar('\0')) + m_storage;
 }
 
 QString
 MeeGo::Sync::SyncEvoStorageModelItem::storage() const
 {
-  return m_storage;
+  return SyncEvoStatic::storageTypes()[m_storage];
 }
 
 QStringMap

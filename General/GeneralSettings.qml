@@ -18,6 +18,19 @@ AppPage {
         width:  parent.width
 
         ExpandingBox {
+            id: languageexpandingbox
+            property int containerHeight: 80
+            height: containerHeight
+            anchors.margins: 20
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            detailsComponent: LanguageSettings { }
+
+            titleText: qsTr ("Language")              
+        }
+
+        ExpandingBox {
             id: timedateexpandingbox
             property int containerHeight: 80
             height: containerHeight
