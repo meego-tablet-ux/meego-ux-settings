@@ -19,8 +19,35 @@ MeeGo.AppPage {
         id: notificationTypes
     }
 
-    NotificationModel{
+    //Added definition of notification model here to get around
+    //i18n issues w/ the qsTr of the strings being in a different file
+    ListModel {
         id: notificationModel
+
+        ListElement {
+            name: QT_TR_NOOP("App Update")
+            type: "app.update"
+        }
+        ListElement {
+            name: QT_TR_NOOP("New IM")
+            type: "im"
+        }
+        ListElement {
+            name: QT_TR_NOOP("Bluetooth Device Disconnected")
+            type: "bluetooth.devicedisconnected"
+        }
+        ListElement {
+            name: QT_TR_NOOP("New Email")
+            type: "email.arrived"
+        }
+        ListElement {
+            name: QT_TR_NOOP("Social Web Friend Request")
+            type: "social.friendrequest"
+        }
+        ListElement {
+            name: QT_TR_NOOP("Download Completed")
+            type: "transfer.complete"
+        }
     }
 
     Flickable {
@@ -83,7 +110,7 @@ MeeGo.AppPage {
                 id:notificationsDelegate
                 MeeGo.Button {
                     id: buttonId
-                    text: name
+                    text: qsTr(name)
 
                     width: 350
                     active: !notificationTypes.maxNotifications() || notificationTypes.isActive(type)

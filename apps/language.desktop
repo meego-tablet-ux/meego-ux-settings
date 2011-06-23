@@ -28,3 +28,4 @@ Icon=datetime
 
 [MTS]
 Part=/usr/share/meego-ux-settings/Language/LanguageSettings.qml
+Section=Applications

@@ -154,9 +154,9 @@ Item {
 
                 onToggled: {
                     if (on)
-                        clockModel.timeUpdates == "auto"
+                        clockModel.timeUpdates = "auto"
                     else
-                        clockModel.timeUpdates == "manual"
+                        clockModel.timeUpdates = "manual"
                 }
             }
         }
@@ -220,9 +220,9 @@ Item {
                 on: clockModel.timezoneUpdates == "auto"
                 onToggled: {
                     if (on)
-                        clockModel.timezoneUpdates == "auto";
+                        clockModel.timezoneUpdates = "auto";
                     else
-                        clockModel.timezoneUpdates == "manual";
+                        clockModel.timezoneUpdates = "manual";
                     currentTzText.text = qsTr("Current Time Zone is %1").arg(clockModel.timezone);
                 }
 

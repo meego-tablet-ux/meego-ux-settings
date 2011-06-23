@@ -28,3 +28,4 @@ Icon=bluetooth
 
 [MTS]
 Part=/usr/share/meego-ux-settings/Bluetooth/BluetoothSettings.qml
+Section=Settings

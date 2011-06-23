@@ -1,7 +1,31 @@
 [Desktop Entry]
 Type=ControlPanelApplet
 Name=General
+Name[zh_TW]=一般
+Name[zh_CN]=常规
+Name[tr]=Genel
+Name[sv]=Allmänt
+Name[ru]=Общие
+Name[pt_PT]=Geral
+Name[pt_BR]=Geral
+Name[pl]=Ogólne
+Name[no]=General
+Name[nl]=Algemeen
+Name[ko]=일반
+Name[ja]=一般
+Name[it]=Generale
+Name[hu]=Általános
+Name[fr]=Général
+Name[fi]=Yleinen
+Name[es]=General
+Name[en_US]=General
+Name[en_GB]=General
+Name[el]=Γενικά
+Name[de]=Allgemein
+Name[da]=Generelt
+Name[cs]=Obecné
 Icon=datetime
 
 [MTS]
 Part=/usr/share/meego-ux-settings/General/GeneralSettings.qml
+Section=Settings

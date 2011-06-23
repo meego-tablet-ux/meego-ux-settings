@@ -28,3 +28,4 @@ Icon=networks
 
 [MTS]
 Part=/usr/share/meego-ux-settings/Wifi/ConnectionsSettings.qml
+Section=Settings

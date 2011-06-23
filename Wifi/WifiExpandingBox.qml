@@ -18,7 +18,6 @@ MeeGo.ExpandingBox {
     id: container
 
     property alias containerHeight: headerArea.height
-    headerContent: headerArea
     buttonHeight: containerHeight
 
     //expandedHeight: detailsItem.height
@@ -64,6 +63,7 @@ MeeGo.ExpandingBox {
 
     Row {
         id: headerArea
+        parent: container.headerContent
         spacing: 10
         anchors.top:  parent.top
         anchors.topMargin: 10
@@ -111,15 +111,21 @@ MeeGo.ExpandingBox {
 
         Column {
             spacing: 5
-            width: childrenRect.width
+            width: parent.width
             Text {
                 id: mainText
                 text: status == "" ? ssid:(ssid + " - " + status)
+                font.pixelSize: theme_fontPixelSizeLarge
+                width:  parent.width
+                elide: Text.ElideRight
             }
 
             Text {
                 id: securityText
                 text: finished ? WifiHelper.connmanSecurityType[container.security] : ""
+                font.pixelSize: theme_fontPixelSizeLarge
+                width: parent.width
+                elide: Text.ElideRight
             }
         }
     }
@@ -183,6 +189,7 @@ MeeGo.ExpandingBox {
 
             Text {
                 text: qsTr("Do you want to remove %1 ?  This action will forget any passwords and you will no longer be automatically connected to %2").arg(networkItem.name).arg(networkItem.name);
+                font.pixelSize: theme_fontPixelSizeLarge
                 wrapMode: Text.WordWrap
                 height: paintedHeight
                 width: parent.width
@@ -497,6 +504,7 @@ MeeGo.ExpandingBox {
                     Text {
                         visible: passwordGrid.passwordRequired
                         text: qsTr("Show password")
+                        font.pixelSize: theme_fontPixelSizeLarge
                         width: 100
                         height: showPasswordCheckbox.height
                         verticalAlignment: Text.AlignVCenter

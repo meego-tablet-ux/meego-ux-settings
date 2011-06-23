@@ -28,3 +28,4 @@ Icon=web
 
 [MTS]
 Part=/usr/share/meego-ux-settings/Browser/BrowserSettings.qml
+Section=Settings

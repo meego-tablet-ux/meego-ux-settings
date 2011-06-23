@@ -26,6 +26,7 @@ ListModel {
 	property variant settingsAppPaths: []
 	property variant settingsAppComponents: []
 	property variant settingsTranslationPaths: []
+	property int firstSectionNextIndex: 0
 
 	function filter(filterValue) {
 		settingsApps = []
@@ -72,6 +73,13 @@ ListModel {
 		var icon = app.icon;
 		var path = app.value("MTS/Part");
 		var translationFile = app.value("MTS/Translation")
+		var section = app.value("MTS/Section")
+
+		var sectionMap = [];
+		sectionMap["Settings"] = qsTr("Settings")
+		sectionMap["Applications"] = qsTr("Application","should actually by 'Applications'")
+		sectionMap[""] = qsTr("Application","should actually by 'Applications'")
+
 		if(path=="") {
 			path = app.value("DCP/Part")
 		}
@@ -80,8 +88,23 @@ ListModel {
 		//settingsAppComponents = settingsAppComponents.concat(Qt.createComponent(path))
 		settingsTranslationPaths = settingsTranslationPaths.concat(translationFile)
 		settingsAppNames = settingsAppNames.concat(name)
-		settingsModel.append({"title":title, "name": name, "path": path, "icon": icon,
-							  "translation": translationFile})
+
+
+		if (section == "Settings") {
+			settingsModel.insert(firstSectionNextIndex++, { "index": firstSectionNextIndex-1,
+								 "id": name, "name": title,
+								 "path": path, "icon": icon, "translation": translationFile,
+								 "section": sectionMap[section] })
+		}
+		else
+			settingsModel.append({ "index": settingsModel.count, "id": name, "name": title,
+								 "path": path, "icon": icon, "translation": translationFile,
+								 "section": sectionMap[section] })
+
+		for(var i=0;i<settingsModel.count; i++) {
+			console.log("(%1)|(%2) %3 - %4".arg(i).arg(settingsModel.get(i)).arg(settingsModel.get(i).id).arg(settingsModel.get(i).section))
+		}
+
 	}
 
 }

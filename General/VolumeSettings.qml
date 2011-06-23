@@ -8,8 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
-import MeeGo.Ux.Components.Indicators 0.1
-import MeeGo.Ux.Components.Common 0.1 as MeeGo
+import MeeGo.Components 0.1
 
 Item {
     id: container
@@ -58,7 +57,7 @@ Item {
         }
     }
 
-    MeeGo.Slider {
+    Slider {
         id: slider
         value: volumeControl.volume
         width: 400

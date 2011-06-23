@@ -9,12 +9,13 @@
 import Qt 4.7
 import MeeGo.Settings 0.1
 import MeeGo.Labs.Components 0.1 as Labs
-import MeeGo.Ux.Components.Common 0.1 as Ux
-import MeeGo.Ux.Kernel 0.1
+import MeeGo.Components 0.1
 import MeeGo.Ux.Gestures 0.1
 
-Ux.Window {
+Window {
     id: window
+
+    toolBarTitle: qsTr("Settings")
     property variant allSettingsArray: [qsTr("All Settings")];
     property variant applicationData
     property string topView
@@ -23,11 +24,12 @@ Ux.Window {
 
     property bool restoreFinished: !mainSaveRestoreState.restoreRequired
 
-    bookMenuModel: allSettingsArray.concat(settingsModel.settingsApps)
+    //bookMenuModel: settingsModel.settingsApps
+    bookMenuModel: settingsModel
     automaticBookSwitching: false
+    bookMenuActive: false
 
     Component.onCompleted: {
-        switchBook(landingPageComponent);
         if(mainSaveRestoreState.restoreRequired) {
             topView = mainSaveRestoreState.value(currentBookKey);
             restoreFinished = true;
@@ -37,17 +39,10 @@ Ux.Window {
     }
 
     onBookMenuTriggered: {
-        if(index == 0) {
-            window.switchBook(landingPageComponent)
-            return;
-        }
-
-        translator.catalog = settingsModel.settingsTranslationPaths[index - 1]
-        topView = settingsModel.settingsAppPaths[index - 1]
+        translator.catalog = settingsModel.get(index).translation
+        topView = settingsModel.get(index).path
         mainSaveRestoreState.setValue(currentBookKey,topView);
         mainSaveRestoreState.sync();
-
-        //window.applicationPage = Qt.createComponent(payloadFile);
     }
 
     onTopViewChanged: {
@@ -59,7 +54,12 @@ Ux.Window {
                 window.switchBook(declarativeComponent)
             }
             else {
-                window.switchBook(Qt.createComponent(topView))
+
+                var component = Qt.createComponent(topView)
+                if(component.status == Component.Error) {
+                    console.log("error loading settings page: " + component.errorString())
+                }
+                window.switchBook(component)
             }
         }
     }
@@ -117,7 +117,7 @@ Ux.Window {
 
     Component {
         id: landingPageComponent
-        Ux.AppPage {
+        AppPage {
             id: landingPage
             property string scrollDownAmount: "landingScrollAmount" //T_IGNOREME
             pageTitle: qsTr("Settings")
@@ -162,7 +162,7 @@ Ux.Window {
                     listView.contentY = landingPageState.restoreRequired ? landingPageState.value(landingPage.scrollDownAmount) : 0;
                 }
 
-                delegate: Ux.ThemeImage {
+                delegate: ThemeImage {
                     id: container
                     source: "image://themedimage/images/settings/btn_settingentry_up"
                     width: parent.width
@@ -219,7 +219,12 @@ Ux.Window {
                                     window.addPage(declarativeComponent)
                                 }
                                 else {
-                                    window.addPage(Qt.createComponent(model.path))
+                                    var component = Qt.createComponent(model.path)
+                                    if(component.status == Component.Error) {
+                                        console.log("error loading settings page: " + component.errorString())
+                                    }
+
+                                    window.addPage(component)
                                 }
                             }
                         }

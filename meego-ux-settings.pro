@@ -1,4 +1,4 @@
-VERSION = 0.3.7
+VERSION = 0.4.0
 TEMPLATE = subdirs
 
 CONFIG += ordered sync_settings
@@ -22,7 +22,7 @@ sync_settings: TRANS_SOURCES = \
     Sync/StorageModel.hpp
 
 OTHER_FILES += \
-    main.qml \
+    *.qml \
     Bluetooth/*.js \
     Bluetooth/*.qml \
     Browser/*.qml \
