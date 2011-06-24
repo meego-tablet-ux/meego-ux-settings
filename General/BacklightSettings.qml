@@ -33,6 +33,7 @@ Item {
             Text {
                 id: autoText
                 text: qsTr("Set brightness automatically")
+		font.pixelSize: theme_fontPixelSizeLarge
             }
 
             MeeGo.ToggleButton {
