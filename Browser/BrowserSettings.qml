@@ -14,6 +14,7 @@ MeeGo.AppPage {
     id: bsContainer
     pageTitle: qsTr("Browser")
 
+    height: settingGroups
     property int vkbheight: 0
     property variant current: bsContainer
 

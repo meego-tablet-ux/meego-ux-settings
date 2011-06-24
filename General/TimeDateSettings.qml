@@ -306,8 +306,9 @@ Item {
 
     TimePicker {
         id: timePicker
-        //parent: scene.container
+
         onAccepted: {
+            clockModel.timeUpdates = "manual"
             var time = clockModel.time(timePicker.hours, timePicker.minutes);
             clockModel.setTime(time);
             autoTimeToggle.on = (clockModel.timeUpdates == "auto")
@@ -317,7 +318,7 @@ Item {
 
     DatePicker{
         id: datePicker
-        //parent: scene.container
+
         minYear: 1970
         onDateSelected: {
             clockModel.setDate(date);
