@@ -40,12 +40,14 @@ MeeGo.AppPage {
         move: Transition {
             NumberAnimation {
                 properties: "y"
+                duration: 500
                 easing.type: Easing.OutBounce
             }
         }
         add: Transition {
             NumberAnimation {
-                properties: "opacity"
+                properties: "height"
+                duration: 500
                 easing.type: Easing.OutBounce
             }
         }

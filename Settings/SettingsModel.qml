@@ -50,12 +50,29 @@ ListModel {
 
 	Component.onCompleted: {
 		console.log("number of settings: " + desktopSettingsModel.apps.length)
+
+		var sortedList=[];
+
+		///presort the array:
 		for (var i=0; i < desktopSettingsModel.apps.length; i++) {
 			var app = desktopSettingsModel.apps[i];
 
-			appendApp(app)
+			var section = app.value("MTS/Section")
+
+			if (section == "Settings") {
+				sortedList.splice(settingsModel.firstSectionNextIndex++,0,app)
+			}
+			else {
+				console.log("pushing"+ app.name)
+				var len = sortedList.push(app)
+				console.log("at pos " + len)
+			}
 		}
 
+		for(var i=0; i < sortedList.length; i++) {
+			console.log("appending: %1 %2/%3".arg(sortedList[i].name).arg(i).arg(sortedList.length))
+			appendApp(sortedList[i])
+		}
 	}
 
 	function appendApp(app)
@@ -89,22 +106,9 @@ ListModel {
 		settingsTranslationPaths = settingsTranslationPaths.concat(translationFile)
 		settingsAppNames = settingsAppNames.concat(name)
 
-
-		if (section == "Settings") {
-			settingsModel.insert(firstSectionNextIndex++, { "index": firstSectionNextIndex-1,
-								 "id": name, "name": title,
-								 "path": path, "icon": icon, "translation": translationFile,
-								 "section": sectionMap[section] })
-		}
-		else
-			settingsModel.append({ "index": settingsModel.count+1, "id": name, "name": title,
-								 "path": path, "icon": icon, "translation": translationFile,
-								 "section": sectionMap[section] })
-
-		for(var i=0;i<settingsModel.count; i++) {
-			console.log("(%1)|(%2) %3 - '%4''".arg(i).arg(settingsModel.get(i).index).arg(settingsModel.get(i).id).arg(settingsModel.get(i).section))
-		}
-
+		settingsModel.append({ "id": name, "name": title,
+							 "path": path, "icon": icon, "translation": translationFile,
+							 "section": sectionMap[section] })
 	}
 
 }

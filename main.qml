@@ -15,7 +15,17 @@ import MeeGo.Ux.Gestures 0.1
 Window {
     id: window
 
-    toolBarTitle: qsTr("Settings")
+    property bool retranslate: true
+
+    Connections {
+        target:  mainWindow
+        onRetranslateUi: {
+            window.retranslate = !window.retranslate
+            window.retranslate = !window.retranslate
+        }
+    }
+
+    toolBarTitle: window.retranslate ? qsTr("Settings"): ""
     property variant allSettingsArray: [qsTr("All Settings")];
     property variant applicationData
     property string topView
@@ -93,10 +103,10 @@ Window {
 
                 for(var i=0; i< settingsModel.settingsAppNames.length; i++) {
                     if(page == settingsModel.settingsAppNames[i]) {
-                        translator.catalog = settingsModel.settingsTranslationPaths[i]
-                        var payloadFile  = settingsModel.settingsAppPaths[i]
+                        translator.catalog = settingsModel.get(i).translation
+                        var payloadFile  = settingsModel.get(i).path
                         window.applicationData = cdata
-                        window.switchBook(Qt.createComponent(payloadFile))
+                        topView = payloadFile
                     }
                 }
             }

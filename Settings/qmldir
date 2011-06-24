@@ -1,4 +1,5 @@
 plugin Settings
 SettingsModel 0.1 SettingsModel.qml
+SettingsTr 0.1 SettingsTr.qml
 DeclarativeComponent 0.1 DeclarativeComponent.qml
 
