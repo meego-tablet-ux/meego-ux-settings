@@ -26,7 +26,6 @@ OTHER_FILES += \
     Bluetooth/*.js \
     Bluetooth/*.qml \
     Browser/*.qml \
-    Language/*.qml \
     Personalize/*.qml \
     Notifications/*.qml \
     Settings/*.qml \
