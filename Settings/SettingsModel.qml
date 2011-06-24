@@ -63,14 +63,11 @@ ListModel {
 				sortedList.splice(settingsModel.firstSectionNextIndex++,0,app)
 			}
 			else {
-				console.log("pushing"+ app.name)
 				var len = sortedList.push(app)
-				console.log("at pos " + len)
 			}
 		}
 
 		for(var i=0; i < sortedList.length; i++) {
-			console.log("appending: %1 %2/%3".arg(sortedList[i].name).arg(i).arg(sortedList.length))
 			appendApp(sortedList[i])
 		}
 	}
