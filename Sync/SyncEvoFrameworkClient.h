@@ -169,6 +169,7 @@ namespace MeeGo {
       void handleAbort(QDBusPendingCallWatcher *call);
       void handleSync(QDBusPendingCallWatcher *call);
       void handleSessionDetach(QDBusPendingCallWatcher *call);
+      void handleGetStatus(QDBusPendingCallWatcher *call);
 
       /*
        * Since actions are performed asynchronously, a queue is used to keep track of what to do next.
@@ -244,6 +245,9 @@ namespace MeeGo {
 
       /// Syncevo server D-Bus unique name
       QString m_serverDBusName;
+
+      /// Whether the current session is ready for use
+      bool m_sessionIsReady;
     };
 
   }
