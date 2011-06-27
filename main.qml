@@ -12,7 +12,7 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1
 import MeeGo.Ux.Gestures 0.1
 
-Window {
+UberWindow {
     id: window
 
     property bool retranslate: true
