@@ -189,7 +189,7 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-		text: qsTr("Current Time Zone is %1").arg(clockModel.timezone)
+                text: qsTr("Current Time Zone is %1").arg(timezoneListModel.getLocationName(clockModel.timezone))
                 width: parent.width
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter

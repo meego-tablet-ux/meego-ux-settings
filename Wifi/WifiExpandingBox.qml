@@ -44,9 +44,9 @@ MeeGo.ExpandingBox {
     property bool finished: false
 
     property variant signalIndicatorIcons: ["wifi-signal-weak", "wifi-signal-good", "wifi-signal-strong",
-                                            "wifi-signal-weak-connected", "wifi-signal-good-connected", "wifi-signal-strong-connected",
-                                            "wifi-secure-signal-weak", "wifi-secure-signal-good", "wifi-secure-signal-strong",
-                                            "wifi-secure-signal-weak-connected", "wifi-secure-signal-good-connected", "wifi-secure-signal-strong-connected"]
+        "wifi-signal-weak-connected", "wifi-signal-good-connected", "wifi-signal-strong-connected",
+        "wifi-secure-signal-weak", "wifi-secure-signal-good", "wifi-secure-signal-strong",
+        "wifi-secure-signal-weak-connected", "wifi-secure-signal-good-connected", "wifi-secure-signal-strong-connected"]
 
     property int signalIndicatorIconIndex: getSignalIndicatorIconIndex()
 
@@ -109,7 +109,11 @@ MeeGo.ExpandingBox {
 
         Image {
             id: signalIndicator
-            source: "image://themedimage/icons/settings/" + signalIndicatorIcons[signalIndicatorIconIndex]
+            source: {
+                if(networkItem.type == "wifi" || networkItem.type == "cellular")
+                    return "image://themedimage/icons/settings/" + signalIndicatorIcons[signalIndicatorIconIndex]
+                else return "image://themedimage/icons/settings/wifi-signal-strong-connected"
+            }
         }
 
         Column {
