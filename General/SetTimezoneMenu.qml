@@ -2,213 +2,142 @@ import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Ux.Components.Common 0.1
 
-Item {
-    id: container
-    anchors.fill:parent
+ModalDialog {
+    id: dialog
 
-    property alias menuWidth: menu.width
-    property alias menuHeight: menu.height
-    property variant model: undefined
+    height: parent.height - 150
 
-    property alias menuOpacity: menu.opacity
+    title : qsTr("Set Time Zone")
 
-    property int itemHeight: 50
+    showAcceptButton: true
+    showCancelButton: true
+    acceptButtonEnabled: (tzlistmodel.currentItem != undefined)&&(searchBar.text != "")
+
     property bool embedded: false
     property bool landscape: true
+    property variant model: undefined
+    property int itemHeight: 45
 
-    signal triggered(string c_name, string newTzTitle, int c_gmt)
+    signal triggered(string newTzTitle)
     signal close()
 
-    function initialize(title, gmt) {
-        timezonelist.filterOut(title);
-        tzlistmodel.currentIndex = 0;
-        tzlistmodel.highlight = highlighter;
-        searchBar.text = title;
+    function initAndShow(title) {
+
+        if (title != undefined) {
+            timezonelist.filterOut(title);
+            tzlistmodel.currentIndex = 0;
+            searchBar.text = title;
+        }
+        else {
+            tzlistmodel.currentIndex = -1;
+            searchBar.text = "";
+        }
+
+        dialog.show();
     }
 
-    Labs.TimezoneListModel {
-        id: timezonelist
-    }
-
-    Component {
-        id: highlighter	
-        Rectangle {
-            color: "green"
-            width: 200
-            height: 40
+    function handleAccept() {
+        if((tzlistmodel.currentItem != undefined)&&(searchBar.text != ""))
+        {
+            dialog.triggered(tzlistmodel.currentItem.tzTitle);
+            dialog.close();
         }
     }
 
-    Component {
-        id: highlighteroff
-        Rectangle {
-            color: "transparent"
+    onAccepted: handleAccept()
+    onRejected: close()
+
+    content: Item {
+        id: container
+        anchors.fill:parent
+        anchors.margins: 20
+
+        Labs.TimezoneListModel {
+            id: timezonelist
         }
-    }
 
-    Rectangle {
-        id: fog
-        anchors.fill: parent
-        color: theme_dialogFogColor
-        opacity: theme_dialogFogOpacity
-    }
+        Text {
+            id: filterTitle
+            anchors.top: parent.top
+            anchors.left: parent.left
+            height:  55
+            verticalAlignment: Text.AlignVCenter
+            text: qsTr("Filter list")
+            font.pixelSize: theme_fontPixelSizeLarge
+        }
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: container.close()
+        TextEntry {
+            id: searchBar
+            anchors.top: parent.top
+            anchors.left: filterTitle.right
+            anchors.leftMargin: 10
+            anchors.right: parent.right
+
+            width: parent.width - filterTitle.paintedWidth
+            height: 55
+
+            onTextChanged: {
+                timezonelist.filterOut(searchBar.text);
+                tzlistmodel.currentIndex = 0;
+            }
+            Keys.onReturnPressed: {
+                dialog.handleAccept()
+            }
+        }
 
         Image {
-            id: menu
-            width:parent.width - 100
-            height: parent.height -100
-            source: "image://themedimage/images/bg_application_p"
-            anchors.centerIn: parent
-            MouseArea {
+            id: timezones
+            anchors.top: searchBar.bottom
+            anchors.topMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            source: "image://themedimage/images/clock/bg_grooved_area"
+            ListView {
+                id: tzlistmodel
                 anchors.fill: parent
-                onClicked: {}
-            }
+                clip: true
+                z: -1
+                model: timezonelist
 
-            Text {
-                id: filterTitle
-                anchors.right: searchBar.left
-                anchors.rightMargin: 10
-                anchors.top: parent.top
-                anchors.topMargin: 20
-                anchors.left: parent.left
-                anchors.leftMargin: 40
-                text: qsTr("Filter list")
-		font.pixelSize: theme_fontPixelSizeLarge
-                font.weight: Font.DemiBold
-                style: Text.Raised
-                styleColor: "white"
-            }
+                delegate: Image {
+                    id: timerect
+                    property int gmt: gmtoffset
+                    property string tzTitle: title
+                    source: "image://themedimage/images/clock/bg_list_item"
+                    height: itemHeight
+                    width: parent.width
 
-            Image {
-                id: timezones
-                anchors.top: searchBar.bottom
-                anchors.topMargin: 10
-                anchors.bottom: buttons.top
-                anchors.left: parent.left
-                anchors.bottomMargin: 10
-                anchors.leftMargin: 40
-                height: parent.height - buttons.height - 30
-                width: parent.width - 80
-                source: "image://themedimage/images/clock/bg_grooved_area"
-                ListView {
-                    id: tzlistmodel
-                    anchors.fill: parent
-                    clip: true
-                    z: -1
-                    model: timezonelist
-                    highlight: highlighteroff
-                    highlightMoveDuration: 1
-                    delegate: Image {
-                        id: timerect
-                        property int gmt: gmtoffset
-                        property string tzCity : city
-                        property string tzTitle: title
-                        source: "image://themedimage/images/clock/bg_list_item"
-                        height: 30
-                        width: parent.width
-                        Text {
-                            text: title
-                            anchors.left: timerect.left
-                            anchors.verticalCenter: parent.verticalCenter
-                            color: theme_fontColorNormal
-                            font.pixelSize: theme_fontPixelSizeLarge
-                            font.bold: false
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            wrapMode: Text.WordWrap
-                        }
-                        Text {
-                            //text: "(" + qsTr("GMT") + " " + ((gmtoffset < 0)?"":"+") + gmtoffset + ")"
-                            text: (gmtoffset < 0) ? qsTr("(GMT %1%2)").arg(gmtoffset).arg(":00") :
-qsTr("(GMT +%1%2)").arg(gmtoffset).arg(":00")
-				font.pixelSize: theme_fontPixelSizeLarge
-                            anchors.right: timerect.right
-                            anchors.verticalCenter: parent.verticalCenter
-                            color: theme_fontColorNormal
-                            font.pointSize: theme_fontSizeMedium
-                            font.bold: false
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            wrapMode: Text.WordWrap
-                        }
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                tzlistmodel.currentIndex = index;
-                                tzlistmodel.highlight = highlighter;
-                                searchBar.text = title;
-                            }
-                        }
-                    }
-                }
-            }
-
-            Item {
-                id: buttons
-                height: 80
-                width: parent.width
-                anchors.bottom: parent.bottom
-                Rectangle {
-                    width: timezones.width
-                    height: parent.height
-                    anchors.centerIn: parent
-                    color: "transparent"
-                    Button {
-                        id: saveButton
-                        height: 50
-			width: 160
-                        anchors.left: parent.left
+                    Text {
+                        text: locationname
+                        anchors.left: timerect.left
+                        anchors.leftMargin: 15
                         anchors.verticalCenter: parent.verticalCenter
-                        active: ((tzlistmodel.currentItem != undefined)&&(searchBar.text != ""))
-                        text: qsTr("Ok")
-                        onClicked: {
-                            if((tzlistmodel.currentItem != undefined)&&(searchBar.text != ""))
-                            {
-                                container.triggered(tzlistmodel.currentItem.tzCity, tzlistmodel.currentItem.tzTitle, tzlistmodel.currentItem.gmt);
-                                container.close();
-                            }
-                        }
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: theme_fontPixelSizeLarge
                     }
-                    Button {
-                        id: cancelButton
-                        height: 50
-                        width: 160
-                        anchors.right: parent.right
+                    /*Text {
+                        text: (gmtoffset < 0) ? qsTr("(GMT %1%2)").arg(gmtoffset).arg(":00") : qsTr("(GMT +%1%2)").arg(gmtoffset).arg(":00")
+                        anchors.right: timerect.right
+                        anchors.rightMargin: 15
                         anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("Cancel")
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
+                        font.pixelSize: theme_fontPixelSizeLarge
+                    }*/
+                    MouseArea {
+                        anchors.fill: parent
                         onClicked: {
-                            container.close();
+                            tzlistmodel.currentIndex = index;
+                            searchBar.text = locationname;
                         }
                     }
                 }
             }
-
-            TextEntry {
-                id: searchBar
-                anchors.top: parent.top
-                anchors.topMargin: 10
-                anchors.right: parent.right
-                anchors.rightMargin: 40
-                width: parent.width - filterTitle.paintedWidth - 100
-
-                onTextChanged: {
-                    timezonelist.filterOut(searchBar.text);
-                    tzlistmodel.currentIndex = 0;
-                    tzlistmodel.highlight = highlighter;
-                }
-                Keys.onReturnPressed: {
-                    if((tzlistmodel.currentItem != undefined)&&(searchBar.text != ""))
-                    {
-                        container.triggered(tzlistmodel.currentItem.tzCity, tzlistmodel.currentItem.tzTitle, tzlistmodel.currentItem.gmt);
-                        container.close();
-                    }
-                }
-            }
-
         }
     }
 }

@@ -252,14 +252,13 @@ Item {
             id: manualTimezoneLabel
             width: parent.width
             source: "image://themedimage/images/settings/subheader"
-            //visible: !findMeToggleButton.on
+            visible: !findMeToggleButton.on
             Text{
                 id: manualTimezoneLabelText
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 text: qsTr("Manual time zone selection");
                 font.pixelSize: theme_fontPixelSizeLarge
-                font.bold: true
                 height: parent.height
                 width: parent.width
                 elide: Text.ElideRight
@@ -269,34 +268,13 @@ Item {
             Button {
                 id: setTimeZoneButton
                 height: 40
-                // width: 180
                 anchors.right: parent.right
                 anchors.rightMargin: 10
                 anchors.verticalCenter: parent.verticalCenter
-                //active: !findMeToggleButton.on
-                //bgSourceUp: "image://themedimage/images/btn_blue_up"
-                //bgSourceDn: "image://themedimage/images/btn_blue_dn"
                 text: qsTr("Set Time Zone")
-                //font.pixelSize: theme_fontSizeLargest
-                //color: theme_buttonFontColor
-                //visible: !findMeToggleButton.on
 
                 onClicked: {
-                    timezoneSelectLoader.source = "SetTimezoneMenu.qml"
-                }
-
-                Connections {
-                    target: timezoneSelectLoader.item
-                    onTriggered: {
-                        clockModel.timezone = newTzTitle;
- 
-                        timeTimer.interval = 2000;
-                        findMeToggleButton.on = (clockModel.timezoneUpdates == "auto");
-                    }
-
-                    onClose: {
-                        timezoneSelectLoader.sourceComponent = undefined
-                    }
+                    timezoneMenu.initAndShow()
                 }
             }
         }
@@ -338,11 +316,12 @@ Item {
         }
     }
 
-    Loader {
-        id: timezoneSelectLoader
-        anchors.fill: parent
-        width: parent.width
-        height: parent.height
-    }
+    SetTimezoneMenu {
+        id: timezoneMenu
 
+        onTriggered: {
+            clockModel.timezone = newTzTitle;
+            timeTimer.interval = 2000;
+        }
+    }
 }
