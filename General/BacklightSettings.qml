@@ -22,7 +22,8 @@ Item {
 
     Column{
         id: backlightColumn
-        anchors.centerIn: parent
+        anchors.left: parent.left
+        anchors.leftMargin: 10
         width: childrenRect.width
         spacing: 20
 
@@ -65,18 +66,31 @@ Item {
                 }
             }
 
-            MeeGo.Slider {
-                id: backlightSlider
-                width: 400
-                value: backlightSettings.manualValue
-                textOverlayVisible: false
+            Row {
+                height: backlightSlider.height + 50
 
-                onSliderChanged: {
-                    backlightSettings.manualValue = backlightSlider.value
-                    backlightSlider.value = backlightSettings.manualValue
+                Image {
+                    source: "image://themedimage/widgets/common/brightness-slider/brightness-min"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                MeeGo.Slider {
+                    id: backlightSlider
+                    width: backlightItem.width / 2
+                    value: backlightSettings.manualValue
+                    textOverlayVisible: false
+
+                    onSliderChanged: {
+                        backlightSettings.manualValue = backlightSlider.value
+                        backlightSlider.value = backlightSettings.manualValue
+                    }
+                }
+
+                Image {
+                    source: "image://themedimage/widgets/common/brightness-slider/brightness-max"
+                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
-
 
             states: [
                 State {

@@ -22,7 +22,8 @@ Item {
 
     Column{
         id: screensaverColumn
-        anchors.centerIn: parent
+        anchors.left: parent.left
+        anchors.leftMargin: 10
         width: childrenRect.width
         spacing: 20
 

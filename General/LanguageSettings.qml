@@ -20,18 +20,17 @@ Item {
 
     Labs.LocaleListModel { id: localeModel }
 
-                DropDown {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    model: localeModel.displayLocales()
-                    payload: localeModel.locales()
-                    selectedIndex: localeModel.indexOf(localehelper.locale)
-                    width: parent.width
-                    height: 50
+    DropDown {
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        model: localeModel.displayLocales()
+        payload: localeModel.locales()
+        selectedIndex: localeModel.indexOf(localehelper.locale)
 
-                   onTriggered: {
-                        localehelper.locale = payload[index]
-                   }
-                }
+        onTriggered: {
+            localehelper.locale = payload[index]
+        }
+    }
 }
 

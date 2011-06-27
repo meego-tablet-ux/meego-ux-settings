@@ -18,7 +18,7 @@ MeeGo.ExpandingBox {
     id: container
 
     property alias containerHeight: headerArea.height
-    buttonHeight: containerHeight
+    height: containerHeight
 
     //expandedHeight: detailsItem.height
     property NetworkListModel listModel: null
@@ -89,6 +89,8 @@ MeeGo.ExpandingBox {
         anchors.top:  parent.top
         anchors.topMargin: 10
         height: childrenRect.height
+        anchors.left: parent.left
+        anchors.leftMargin: 10
 
         Image {
             id: checkbox
@@ -239,6 +241,8 @@ MeeGo.ExpandingBox {
             spacing: 15
             columns: 2
             anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.leftMargin: 10
             width: parent.width
             height: childrenRect.height
 
