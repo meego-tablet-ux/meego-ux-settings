@@ -143,8 +143,10 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.leftMargin: 10
+                anchors.right: autoTimeToggle.left
+                anchors.rightMargin: 10
                 text: qsTr("Set date and time automatically")
-                width: 100
+                wrapMode: Text.WordWrap
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
             }
@@ -218,9 +220,12 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.leftMargin: 10
+                anchors.right:  findMeToggleButton.left
+                anchors.rightMargin: 10
                 text: qsTr("Find me and keep my location updated")
+                wrapMode: Text.WordWrap
                 font.pixelSize: theme_fontPixelSizeLarge
-		width: parent.width
+
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
             }
