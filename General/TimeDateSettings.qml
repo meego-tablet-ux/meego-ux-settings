@@ -111,7 +111,8 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 text: qsTr("24 hour clock")
-                width: 100
+                font.pixelSize: theme_fontPixelSizeLarge
+		width: 100
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
             }
@@ -157,6 +158,12 @@ Item {
                         clockModel.timeUpdates = "auto"
                     else
                         clockModel.timeUpdates = "manual"
+ }
+		Connections {
+                    target: clockModel
+                    onTimeUpdatesChanged: {
+                        autoTimeToggle.on = (clockModel.timeUpdates == "auto");
+                    }
                 }
             }
         }
@@ -189,8 +196,10 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-                text: qsTr("Current Time Zone is %1").arg(timezoneListModel.getLocationName(clockModel.timezone))
+                text: qsTr("Current time zone is %1").arg(timezoneListModel.getLocationName(clockModel.timezone))
                 width: parent.width
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                font.pixelSize: theme_fontPixelSizeLarge
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
             }
@@ -207,7 +216,8 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 text: qsTr("Find me and keep my location updated")
-                width: parent.width
+                font.pixelSize: theme_fontPixelSizeLarge
+		width: parent.width
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
             }
@@ -223,7 +233,6 @@ Item {
                         clockModel.timezoneUpdates = "auto";
                     else
                         clockModel.timezoneUpdates = "manual";
-                    currentTzText.text = qsTr("Current Time Zone is %1").arg(clockModel.timezone);
                 }
 
                 Connections {
@@ -277,7 +286,7 @@ Item {
                     target: timezoneSelectLoader.item
                     onTriggered: {
                         clockModel.timezone = newTzTitle;
-                        currentTzText.text = qsTr("Current Time Zone is ").arg(clockModel.timezone);
+ 
                         timeTimer.interval = 2000;
                         findMeToggleButton.on = (clockModel.timezoneUpdates == "auto");
                     }
@@ -286,6 +295,13 @@ Item {
                         timezoneSelectLoader.sourceComponent = undefined
                     }
                 }
+		Connections {
+		    target: clockModel
+                    onTimezoneChanged: {
+                        currentTzText.text = qsTr("Current Time Zone is %1").arg(clockModel.timezone);
+                    }
+
+		}
             }
         }
     }
@@ -296,7 +312,7 @@ Item {
         running: true
         repeat: true
         onTriggered: {
-            dateLabelText.text = clockModel.currentDate()
+            dateLabelText.text = clockModel.currentDate();
             timeLabelText.text = clockModel.currentTime();
 
             if(timeTimer.interval != 60000)
@@ -321,7 +337,7 @@ Item {
 
         minYear: 1970
         onDateSelected: {
-            clockModel.setDate(date);
+            clockModel.setDate(datePicker.selectedDate);
             timeTimer.interval = 1000
         }
     }

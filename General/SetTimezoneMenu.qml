@@ -77,6 +77,7 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 40
                 text: qsTr("Filter list")
+		font.pixelSize: theme_fontPixelSizeLarge
                 font.weight: Font.DemiBold
                 style: Text.Raised
                 styleColor: "white"
@@ -114,7 +115,7 @@ Item {
                             anchors.left: timerect.left
                             anchors.verticalCenter: parent.verticalCenter
                             color: theme_fontColorNormal
-                            font.pointSize: theme_fontSizeMedium
+                            font.pixelSize: theme_fontPixelSizeLarge
                             font.bold: false
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
@@ -124,6 +125,7 @@ Item {
                             //text: "(" + qsTr("GMT") + " " + ((gmtoffset < 0)?"":"+") + gmtoffset + ")"
                             text: (gmtoffset < 0) ? qsTr("(GMT %1%2)").arg(gmtoffset).arg(":00") :
 qsTr("(GMT +%1%2)").arg(gmtoffset).arg(":00")
+				font.pixelSize: theme_fontPixelSizeLarge
                             anchors.right: timerect.right
                             anchors.verticalCenter: parent.verticalCenter
                             color: theme_fontColorNormal
@@ -158,6 +160,7 @@ qsTr("(GMT +%1%2)").arg(gmtoffset).arg(":00")
                     Button {
                         id: saveButton
                         height: 50
+			width: 160
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
                         active: ((tzlistmodel.currentItem != undefined)&&(searchBar.text != ""))
@@ -173,7 +176,7 @@ qsTr("(GMT +%1%2)").arg(gmtoffset).arg(":00")
                     Button {
                         id: cancelButton
                         height: 50
-                        width: 208
+                        width: 160
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
                         text: qsTr("Cancel")

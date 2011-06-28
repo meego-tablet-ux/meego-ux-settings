@@ -90,7 +90,7 @@ MeeGo.AppPage {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                width: 400
+                //width: 400
                 height: parent.height - 30
                 titleColor: "black"
                 model: settings.searchEngineList

@@ -17,7 +17,7 @@ import "helper.js" as WifiHelper
 MeeGo.ExpandingBox {
     id: container
 
-    property alias containerHeight: headerArea.height
+    property alias containerHeight: 80
     height: containerHeight
 
     //expandedHeight: detailsItem.height
@@ -94,7 +94,7 @@ MeeGo.ExpandingBox {
 
         Image {
             id: checkbox
-            //anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenter: parent.verticalCenter
             source:  "image://themedimage/images/btn_tickbox_dn"
             visible:  container.defaultRoute
         }
@@ -120,12 +120,13 @@ MeeGo.ExpandingBox {
 
         Column {
             spacing: 5
+            anchors.verticalCenter: parent.verticalCenter
             width: parent.width
             Text {
                 id: mainText
                 text: status == "" ? ssid:(ssid + " - " + status)
                 font.pixelSize: theme_fontPixelSizeLarge
-                width:  parent.width
+                width:  container.width - 40
                 elide: Text.ElideRight
             }
 
