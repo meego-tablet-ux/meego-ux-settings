@@ -130,6 +130,7 @@ Item {
                 on: locale.timeFormat == Locale.TimeFull24
                 onToggled: {
                     locale.timeFormat = twentyfourhrtoggle.on ? Locale.TimeFull24 : Locale.TimeFull12
+                    timeTimer.interval = 1000
                 }
             }
         }
