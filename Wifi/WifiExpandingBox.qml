@@ -276,7 +276,7 @@ MeeGo.ExpandingBox {
             Text {
                 id: connectByLabel
                 text: qsTr("Connect by:")
-                width: Math.min(settingsGrid.width, connectByLabel.paintedWidth)
+                width: Math.min(settingsGrid.width / 2, connectByLabel.paintedWidth)
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
@@ -308,7 +308,7 @@ MeeGo.ExpandingBox {
 			Text {
 				id: ipaddyLabel
 				text: qsTr("IP Address:")
-				width: Math.min(settingsGrid.width, ipaddyLabel.paintedWidth)
+				width: Math.min(settingsGrid.width / 2, ipaddyLabel.paintedWidth)
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
@@ -329,7 +329,7 @@ MeeGo.ExpandingBox {
 			Text {
 				id: subnetMaskLabel
 				text: qsTr("Subnet mask:")
-				width: Math.min(settingsGrid.width, subnetMaskLabel.paintedWidth)
+				width: Math.min(settingsGrid.width / 2, subnetMaskLabel.paintedWidth)
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
@@ -349,7 +349,7 @@ MeeGo.ExpandingBox {
 			Text {
 				id: gatewayLabel
 				text: qsTr("Gateway")
-				width: Math.min(settingsGrid.width, gatewayLabel.paintedWidth)
+				width: Math.min(settingsGrid.width / 2, gatewayLabel.paintedWidth)
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
@@ -369,7 +369,7 @@ MeeGo.ExpandingBox {
 			Text {
 				id: dnsLabel
 				text: qsTr("DNS:")
-				width: Math.min(settingsGrid.width, dnsLabel.paintedWidth)
+				width: Math.min(settingsGrid.width / 2, dnsLabel.paintedWidth)
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 			Grid {
@@ -390,7 +390,7 @@ MeeGo.ExpandingBox {
 				id: hwaddyLabel
 				text: qsTr("Hardware address:")
 				visible: container.networkItem.type != "cellular"
-				width: Math.min(settingsGrid.width, hwaddyLabel.paintedWidth)
+				width: Math.min(settingsGrid.width / 2, hwaddyLabel.paintedWidth)
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
@@ -410,7 +410,7 @@ MeeGo.ExpandingBox {
 				id: securityLabel
 				visible: connectionsHacksGconf.value
 				text: qsTr("Security: ")
-				width: Math.min(settingsGrid.width, securityLabel.paintedWidth)
+				width: Math.min(settingsGrid.width / 2, securityLabel.paintedWidth)
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 			Text {
@@ -422,7 +422,7 @@ MeeGo.ExpandingBox {
 			Text {
 				id: strengthLabel
 				visible: connectionsHacksGconf.value
-				width: Math.min(settingsGrid.width, strengthLabel.paintedWidth)
+				width: Math.min(settingsGrid.width / 2, strengthLabel.paintedWidth)
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 				text: qsTr("Strength: ")
 			}
