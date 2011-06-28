@@ -62,7 +62,9 @@ MeeGo.AppPage {
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 text: qsTr("Airplane mode")
-                width: 100
+                anchors.right:  airplaneToggle.left
+                anchors.rightMargin: 10
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
             }
@@ -98,7 +100,7 @@ MeeGo.AppPage {
                 font.pixelSize: theme_fontPixelSizeLarge
                 height: parent.height
                 width: parent.width
-                elide: Text.ElideRight
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 verticalAlignment: Text.AlignVCenter
             }
         }
@@ -129,7 +131,9 @@ MeeGo.AppPage {
                             anchors.left: parent.left
                             anchors.leftMargin: 10
                             text: finished ? WifiHelper.connmanTechnologies[modelData]: ""
-                            width: 100
+                            anchors.right:  dtoggle.left
+                            anchors.rightMargin: 10
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             height: parent.height
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -196,18 +200,21 @@ MeeGo.AppPage {
                 text: qsTr("Available networks")
                 font.pixelSize: theme_fontPixelSizeLarge
                 height: parent.height
-                width: parent.width
+                anchors.right:  addNetworkButton.left
+                anchors.rightMargin: 10
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
             }
 
             MeeGo.Button {
+                id: addNetworkButton
                 text: qsTr("Add network")
                 anchors.right:  parent.right
                 anchors.rightMargin: 10
                 height: parent.height - 10
                 anchors.verticalCenter: parent.verticalCenter
-                //visible: false
+
                 onClicked: {
                     addNetworkDialog.show()
                 }
@@ -234,7 +241,6 @@ MeeGo.AppPage {
                     content: Row {
                         id: dialogContent
                         spacing: 10
-                        width: parent.width
 
                         Column {
                             id: leftItems

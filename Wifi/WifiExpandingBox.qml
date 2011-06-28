@@ -274,7 +274,10 @@ MeeGo.ExpandingBox {
             }
 
             Text {
+                id: connectByLabel
                 text: qsTr("Connect by:")
+                width: Math.min(settingsGrid.width, connectByLabel.paintedWidth)
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
             MeeGo.DropDown {
@@ -303,8 +306,10 @@ MeeGo.ExpandingBox {
             }
 
 			Text {
-				width: parent.width / 3
+				id: ipaddyLabel
 				text: qsTr("IP Address:")
+				width: Math.min(settingsGrid.width, ipaddyLabel.paintedWidth)
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
 			Text {
@@ -322,8 +327,10 @@ MeeGo.ExpandingBox {
 			}
 
 			Text {
-				width: parent.width / 3
+				id: subnetMaskLabel
 				text: qsTr("Subnet mask:")
+				width: Math.min(settingsGrid.width, subnetMaskLabel.paintedWidth)
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
 			Text {
@@ -340,8 +347,10 @@ MeeGo.ExpandingBox {
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 			Text {
-				width: parent.width / 3
+				id: gatewayLabel
 				text: qsTr("Gateway")
+				width: Math.min(settingsGrid.width, gatewayLabel.paintedWidth)
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
 			Text {
@@ -358,7 +367,10 @@ MeeGo.ExpandingBox {
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 			Text {
+				id: dnsLabel
 				text: qsTr("DNS:")
+				width: Math.min(settingsGrid.width, dnsLabel.paintedWidth)
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 			Grid {
 				id: nameserverstextedit
@@ -375,9 +387,11 @@ MeeGo.ExpandingBox {
 
 			}
 			Text {
-				width: parent.width / 3
+				id: hwaddyLabel
 				text: qsTr("Hardware address:")
 				visible: container.networkItem.type != "cellular"
+				width: Math.min(settingsGrid.width, hwaddyLabel.paintedWidth)
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
 			Text {
@@ -393,19 +407,23 @@ MeeGo.ExpandingBox {
 			}
 
 			Text {
+				id: securityLabel
 				visible: connectionsHacksGconf.value
-				width: parent.width / 3
 				text: qsTr("Security: ")
+				width: Math.min(settingsGrid.width, securityLabel.paintedWidth)
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 			Text {
 				visible: connectionsHacksGconf.value
 				width: parent.width / 3
-				text: container.networkItem.security
+				text: WifiHelper.connmanSecurityType[container.security]
 			}
 
 			Text {
+				id: strengthLabel
 				visible: connectionsHacksGconf.value
-				width: parent.width / 3
+				width: Math.min(settingsGrid.width, strengthLabel.paintedWidth)
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 				text: qsTr("Strength: ")
 			}
 			Text {
@@ -435,11 +453,11 @@ MeeGo.ExpandingBox {
 				width: parent.width / 3
 				elideText: true
 				onClicked: {
-                                        container.expanded = false
-                                        dropdown.selectedIndex = networkItem.method == "dhcp" ? 0:1
-                                        ipaddyEdit.text = networkItem.ipaddress
-                                        subnetEdit.text = networkItem.netmask
-                                        gatewayEdit.text = networkItem.gateway
+					container.expanded = false
+					dropdown.selectedIndex = networkItem.method == "dhcp" ? 0:1
+					ipaddyEdit.text = networkItem.ipaddress
+					subnetEdit.text = networkItem.netmask
+					gatewayEdit.text = networkItem.gateway
 				}
 			}
 		}
