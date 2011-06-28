@@ -21,6 +21,10 @@ Item {
         id: timezoneListModel
     }
 
+    Labs.Locale {
+        id: locale
+    }
+
     ClockModel {
         id: clockModel
     }
@@ -110,9 +114,10 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.leftMargin: 10
+                anchors.right: twentyfourhrtoggle.left
+                anchors.rightMargin: 10
                 text: qsTr("24 hour clock")
                 font.pixelSize: theme_fontPixelSizeLarge
-		width: 100
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
             }
@@ -122,11 +127,9 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                on: true //FIXME
+                on: locale.timeFormat == Locale.TimeFull24
                 onToggled: {
-                    //FIXME
-                    //timeSettings.flag24 = twentyfourhrtoggle.on
-                    //timeTimer.interval = 1000
+                    locale.timeFormat = twentyfourhrtoggle.on ? Locale.TimeFull24 : Locale.TimeFull12
                 }
             }
         }
@@ -254,7 +257,7 @@ Item {
                 id: manualTimezoneLabelText
                 anchors.left: parent.left
                 anchors.leftMargin: 10
-		text: qsTr("Manual Time Zone Selection");
+                text: qsTr("Manual time zone selection");
                 font.pixelSize: theme_fontPixelSizeLarge
                 font.bold: true
                 height: parent.height
@@ -295,13 +298,6 @@ Item {
                         timezoneSelectLoader.sourceComponent = undefined
                     }
                 }
-		Connections {
-		    target: clockModel
-                    onTimezoneChanged: {
-                        currentTzText.text = qsTr("Current Time Zone is %1").arg(clockModel.timezone);
-                    }
-
-		}
             }
         }
     }
