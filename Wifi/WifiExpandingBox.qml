@@ -17,7 +17,7 @@ import "helper.js" as WifiHelper
 MeeGo.ExpandingBox {
     id: container
 
-    property alias containerHeight: 80
+    property int containerHeight: 80
     height: containerHeight
 
     //expandedHeight: detailsItem.height

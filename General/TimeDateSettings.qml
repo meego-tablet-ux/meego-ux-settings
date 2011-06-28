@@ -21,7 +21,7 @@ Item {
         id: timezoneListModel
     }
 
-    Labs.Locale {
+    Labs.LocaleHelper {
         id: locale
     }
 
