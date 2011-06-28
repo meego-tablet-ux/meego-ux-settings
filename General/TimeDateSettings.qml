@@ -127,9 +127,9 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                on: locale.timeFormat == Locale.TimeFull24
+                on: locale.timeFormat == Labs.LocaleHelper.TimeFormat24
                 onToggled: {
-                    locale.timeFormat = twentyfourhrtoggle.on ? Locale.TimeFull24 : Locale.TimeFull12
+                    locale.timeFormat = twentyfourhrtoggle.on ? Labs.LocaleHelper.TimeFormat24 : Labs.LocaleHelper.TimeFormat12
                     timeTimer.interval = 1000
                 }
             }
