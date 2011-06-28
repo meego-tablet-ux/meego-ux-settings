@@ -133,7 +133,7 @@ MeeGo.AppPage {
                             text: finished ? WifiHelper.connmanTechnologies[modelData]: ""
                             anchors.right:  dtoggle.left
                             anchors.rightMargin: 10
-                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            elide: Text.ElideRight
                             height: parent.height
                             verticalAlignment: Text.AlignVCenter
                         }
