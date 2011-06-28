@@ -43,13 +43,17 @@ Item {
         username: container.username  // To be potentially stored.
         password: container.password
 
+        onLastSyncTimeChanged: {
+          bridge.setFuzzyTime(fuzz.getFuzzy(bridge.lastSyncTime));
+        }
+
         Component.onCompleted: {
             // Display the last time a successful sync occurred, or how the last sync failed or
             // perform an initial sync if one has not been run.
 
             // @todo Not happy that I have to go through QML to get a fuzzy time string.
 
-            bridge.doPostInit(fuzz.getFuzzy(bridge.lastSyncTime(name)), false);
+            bridge.doPostInit(fuzz.getFuzzy(bridge.lastSyncTime), false);
 
             syncMe.enabled = true;
         }

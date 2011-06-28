@@ -45,6 +45,7 @@ namespace MeeGo {
       Q_PROPERTY(QString name READ name WRITE setName)
       Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
       Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
+      Q_PROPERTY(QDateTime lastSyncTime READ lastSyncTime NOTIFY lastSyncTimeChanged)
 
     public:
 
@@ -92,7 +93,7 @@ namespace MeeGo {
       void setPassword(QString s);
 
       /// Get the last time a sync occured.
-      Q_INVOKABLE QDateTime lastSyncTime();
+      QDateTime lastSyncTime();
 
       // Set the status message to the last time a sync occurred, or
       // perform an initial sync if one has not been run.
@@ -101,6 +102,8 @@ namespace MeeGo {
       //       directly through a C++ call.
       Q_INVOKABLE void doPostInit(QString fuzzyTime,
 				  bool forceSync);
+
+      Q_INVOKABLE void setFuzzyTime(QString fuzzyTime);
 
       /// Explicitly run a sync now.
       Q_INVOKABLE void syncNow();
@@ -112,6 +115,9 @@ namespace MeeGo {
       Q_INVOKABLE void forgetProfile();
 
     signals:
+
+      /// Notify of changes to the last sync time
+      void lastSyncTimeChanged(QDateTime s);
 
       /// Signal emitted when the sync 'scheduled' flag has
       /// changed.
@@ -156,7 +162,7 @@ namespace MeeGo {
       void setScheduled(bool s);
 
       /// Update the status from the last available report. Use the "fuzzy time" if available.
-      void setStatusFromLastReport(const QString &fuzzyTime = QString());
+      void setStatusFromLastReport(const QString &fuzzyTime = QString(), bool initalStatus = false);
 
       /// Create a local config for WebDAV based stuff.
       QStringMultiMap makeLocalConfig();
@@ -181,13 +187,15 @@ namespace MeeGo {
         Sync,
         Forget,
         RememberAutoSync,
-        SaveWebDAVLoginInfo
+        SaveWebDAVLoginInfo,
+        GetInitialStatus
       };
 
       void performAction(SessionAction action);
       void performAction();
       void nextAction();
       QString contextSessionName() const;
+      QDateTime timeFromReport(const QStringMap &report);
 
     private:
 
@@ -228,6 +236,9 @@ namespace MeeGo {
       /// Stringified sync status.
       QString m_status;
 
+      /// Whether the status is masked
+      bool m_statusIsMasked;
+
       /// Sync service name (e.g. "Google").
       QString m_service;
 
@@ -248,8 +259,10 @@ namespace MeeGo {
 
       /// Whether the current session is ready for use
       bool m_sessionIsReady;
-    };
 
+      /// Fuzzy time received from QML
+      QString m_fuzzyTime;
+    };
   }
 }
 

@@ -33,6 +33,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::SyncEvoFrameworkClient(QObject* parent)
   , m_error(false)
   , m_scheduled(false)
   , m_status()
+  , m_statusIsMasked(true)
   , m_service()
   , m_storage()
   , m_name()
@@ -61,6 +62,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::SyncEvoFrameworkClient(QObject* parent)
       SIGNAL(serviceOwnerChanged(const QString &, const QString &, const QString &)),
       this,
       SLOT(serviceOwnerChanged(const QString &, const QString &, const QString &)));
+
+    performAction(GetInitialStatus);
   }
 }
 
@@ -95,7 +98,12 @@ MeeGo::Sync::SyncEvoFrameworkClient::setScheduled(bool s)
 QString
 MeeGo::Sync::SyncEvoFrameworkClient::status() const
 {
-  return m_status;
+  QString ret = m_status;
+
+  if (m_statusIsMasked)
+    ret = tr("Sync started");
+
+  return ret;
 }
 
 void
@@ -228,14 +236,28 @@ MeeGo::Sync::SyncEvoFrameworkClient::setPassword(QString s)
 }
 
 QDateTime
-MeeGo::Sync::SyncEvoFrameworkClient::lastSyncTime()
+MeeGo::Sync::SyncEvoFrameworkClient::timeFromReport(const QStringMap &report)
 {
   QDateTime ret = QDateTime();
 
-  if (m_lastReport.contains("end"))
-    ret = QDateTime::fromMSecsSinceEpoch(((qint64)m_lastReport["end"].toUInt()) * 1000);
+  if (report.contains("end"))
+    ret = QDateTime::fromMSecsSinceEpoch(((qint64)report["end"].toUInt()) * 1000);
 
   return ret;
+}
+
+QDateTime
+MeeGo::Sync::SyncEvoFrameworkClient::lastSyncTime()
+{
+  QDateTime ret = timeFromReport(m_lastReport);
+
+  return ret;
+}
+
+void
+MeeGo::Sync::SyncEvoFrameworkClient::setFuzzyTime(QString fuzzyTime)
+{
+  setStatusFromLastReport(fuzzyTime);
 }
 
 void
@@ -281,19 +303,29 @@ MeeGo::Sync::SyncEvoFrameworkClient::enableAutoSync(bool enable)
  * aborted from the UI except if the config is removed while the sync is in progress.
  */
 void
-MeeGo::Sync::SyncEvoFrameworkClient::setStatusFromLastReport(const QString &fuzzyTime)
+MeeGo::Sync::SyncEvoFrameworkClient::setStatusFromLastReport(const QString &fuzzyTime, bool initialStatus)
 {
+  if (!fuzzyTime.isEmpty())
+    m_fuzzyTime = fuzzyTime;
+
   QString statusMessage = tr("Unknown sync status");
 
   if (m_lastReport.contains("status")) {
     int status = m_lastReport["status"].toUInt();
 
+    if (200 == status && initialStatus) {
+      if (m_fuzzyTime.isEmpty()) {
+        emit statusChanged(m_status);
+        return;
+      }
+    }
+
     statusMessage =
       (200 == status)
         ? tr("Last sync %1").arg(
-          fuzzyTime.isEmpty()
+          m_fuzzyTime.isEmpty()
             ? lastSyncTime().toString("yyyy-MM-dd hh:mm:ss.zzz")
-            : fuzzyTime)
+            : m_fuzzyTime)
         :
       (20017 == status)
         ? tr("Sync aborted")
@@ -303,6 +335,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::setStatusFromLastReport(const QString &fuzz
               : tr("internal error"));
   }
 
+  if (initialStatus && statusMessage == m_status)
+    emit statusChanged(m_status);
   setStatus(statusMessage);
 }
 
@@ -424,6 +458,11 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
 void
 MeeGo::Sync::SyncEvoFrameworkClient::handleGetReports(QDBusPendingCallWatcher *call)
 {
+  bool initialStatus = 
+    (sessionActions.count() > 0 && 
+     GetInitialStatus == sessionActions.head() &&
+     call->property("InitialStatus").isValid() && 
+     call->property("InitialStatus").toBool() == true);
   QDBusPendingReply<QArrayOfStringMap> reply = *call;
 
   /* Clear the last report */
@@ -434,8 +473,13 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetReports(QDBusPendingCallWatcher *c
   else {
     QArrayOfStringMap reports = reply.argumentAt<0>();
 
-    if (reports.count() > 0)
+    if (reports.count() > 0) {
+      QDateTime oldLastSyncTime = timeFromReport(m_lastReport);
+      QDateTime newLastSyncTime = timeFromReport(reports[0]);
       m_lastReport = reports[0];
+      if (newLastSyncTime != oldLastSyncTime)
+        emit lastSyncTimeChanged(newLastSyncTime);
+    }
   }
 
   /* Even if the report retrieval fails, the PendingCallWatcher may have an "Error" field.
@@ -443,7 +487,19 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetReports(QDBusPendingCallWatcher *c
   if (!m_lastReport.contains("status") && call->property("Error").isValid())
     m_lastReport["status"] = call->property("Error").toString();
 
-  setStatusFromLastReport();
+  
+  if (initialStatus) {
+    m_statusIsMasked = false;
+    if (!m_error)
+      SyncEvoStatic::dbusCall(
+        QList<QProperty>()
+          << QProperty("DBusFunctionName", "Session::Detach")
+          << QProperty("ConfigName", m_name),
+        this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+        m_sessionInterface->Detach());
+  }
+
+  setStatusFromLastReport(QString(), initialStatus);
 
   /* Give the user a chance to re-enter username/password in case there was a 401 or a 403 */
   if (m_lastReport.contains("status")) {
@@ -669,7 +725,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::makeLocalConfig()
 void
 MeeGo::Sync::SyncEvoFrameworkClient::asyncCallFinished(QDBusPendingCallWatcher *call)
 {
-  if (call->property("ConfigName").toString() == m_name) {
+  if (call->property("ConfigName").toString() == m_name ||
+      (call->property("InitialStatus").isValid() && call->property("InitialStatus").toBool())) {
     if ("GetConfig" == DBUS_CALL_FUNCTION_NAME(call))
       handleGetConfig(call);
     else
@@ -702,8 +759,6 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
 {
   Q_UNUSED(sources)
 
-  QString displayStatus = tr("Syncing now...");
-
   if (!m_sessionIsReady && status == "idle") {
     // Session has become ready for action
     m_sessionIsReady = true;
@@ -722,6 +777,30 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
           << QProperty("ConfigName", m_name),
         this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
         m_sessionInterface->GetConfig(false));
+    }
+    else
+    if (sessionActions.count() > 0 && sessionActions.head() == GetInitialStatus) {
+      if (m_name.isEmpty()) {
+        m_statusIsMasked = false;
+        emit statusChanged(m_status);
+        if (!m_error)
+          SyncEvoStatic::dbusCall(
+            QList<QProperty>()
+              << QProperty("DBusFunctionName", "Session::Detach")
+              << QProperty("ConfigName", m_name),
+            this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+            m_sessionInterface->Detach());
+      }
+      else
+      if (!m_error) {
+        SyncEvoStatic::dbusCall(
+          QList<QProperty>()
+            << QProperty("DBusFunctionName", "GetReports")
+            << QProperty("InitialStatus", true)
+            << QProperty("ConfigName", m_name),
+          this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+          m_serverInterface->GetReports(m_name, 0, 1));
+      }
     }
     else {
       /*
@@ -742,6 +821,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
   else
   /* Only interesting if something is going on */
   if (status != "idle") {
+    QString displayStatus = tr("Syncing now...");
+
     /* If we're done ... */
     if ("done" == status) {
       /* ... the session is useless, so Detach */
@@ -773,8 +854,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
             m_serverInterface->GetReports(m_name, 0, 1));
       }
     }
+    setStatus(displayStatus);
   }
-  setStatus(displayStatus);
 }
 
 /*
@@ -784,13 +865,17 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
 void
 MeeGo::Sync::SyncEvoFrameworkClient::performAction()
 {
-  if (!(m_inProgress || m_error || m_name.isEmpty())) {
-    m_inProgress = true;
+  if (!(m_inProgress || m_error)) {
+    QString sessionName;
 
-    QString sessionName = 
-      sessionActions.head() == SaveWebDAVLoginInfo
-        ? "source-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
-        : sessionActions.head() == Forget
+    if (m_name.isEmpty() && sessionActions.head() == GetInitialStatus)
+      sessionName = "";
+    else
+      sessionName = 
+        sessionActions.head() == SaveWebDAVLoginInfo
+          ? "source-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
+          :
+        sessionActions.head() == Forget
           ? IS_LOCAL_CONFIG(m_config)
             ? "source-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
             : m_name
@@ -798,14 +883,18 @@ MeeGo::Sync::SyncEvoFrameworkClient::performAction()
             ? "source-config@" + m_name.toLower()
             : m_name;
 
-    m_sessionIsReady = false;
+    if (!sessionName.isNull()) {
+      m_inProgress = true;
+      m_sessionIsReady = false;
 
-    SyncEvoStatic::dbusCall(
-      QList<QProperty>()
-        << QProperty("DBusFunctionName", "StartSession")
-        << QProperty("ConfigName", m_name),
-      this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-      m_serverInterface->StartSession(sessionName));
+      SyncEvoStatic::dbusCall(
+        QList<QProperty>()
+          << QProperty("DBusFunctionName", "StartSession")
+          << QProperty("InitialStatus", (sessionName == ""))
+          << QProperty("ConfigName", m_name),
+        this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+        m_serverInterface->StartSession(sessionName));
+    }
   }
 }
 
