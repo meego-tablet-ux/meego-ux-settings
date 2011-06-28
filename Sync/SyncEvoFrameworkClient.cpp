@@ -512,16 +512,24 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
         if (IS_WEBDAV_CONFIG(m_config)) {
           detachProps << QProperty("WebDAVConfig", true);
         }
-        else {
-          if (!m_error)
+        else
+        if (!m_error) {
+          QStringMap whatToSync;
+          QStringList ls = m_storage.split("/");
+
+          if (m_config[m_storage].contains("sync") && 2 == ls.count()) {
+            whatToSync[ls[1]] = m_config[m_storage]["sync"];
+
             SyncEvoStatic::dbusCall(
               QList<QProperty>()
                 << QProperty("DBusFunctionName", "Sync")
                 << QProperty("ConfigName", m_name),
               this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-              m_sessionInterface->Sync(QString(), m_config[m_storage]));
-          /* Do not detach from session until sync is complete */
-          return;
+              m_sessionInterface->Sync(QString(), whatToSync));
+
+            /* Do not detach from session until sync is complete */
+            return;
+          }
         }
         break;
 
