@@ -134,6 +134,7 @@ MeeGo.ExpandingBox {
                 id: securityText
                 text: finished ? WifiHelper.connmanSecurityType[container.security] : ""
                 font.pixelSize: theme_fontPixelSizeLarge
+                visible: text != ""
                 width: parent.width
                 elide: Text.ElideRight
             }
