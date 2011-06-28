@@ -24,6 +24,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: 10
+        width: parent.width / 2
         model: localeModel.displayLocales()
         payload: localeModel.locales()
         selectedIndex: localeModel.indexOf(localehelper.locale)
