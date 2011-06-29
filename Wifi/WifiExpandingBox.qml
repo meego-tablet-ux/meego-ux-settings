@@ -294,7 +294,9 @@ MeeGo.ExpandingBox {
                 Connections {
                     target: networkItem
                     onMethodChanged: {
+                        settingsGrid.editable = networkItem.method != "dhcp" && networkItem.type != "cellular"
                         dropdown.selectedIndex = networkItem.method == "dhcp" ? 0:1
+                        dropdown.method = dropdown.selectedIndex == 0 ? "dhcp":"static"
                     }
                 }
             }
