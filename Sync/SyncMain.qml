@@ -16,8 +16,13 @@ AppPage {
     //: The title of the Sync UI displayed to the user.
     pageTitle: qsTr("Sync Settings")
 
-    AllVisibleSyncProfiles {
-        syncParentPage: appContainer
-        anchors.fill: parent
+    Column {
+      id: servicesList
+      width: parent.width
+
+      Repeater {
+        model: AllVisibleSyncProfilesModel {}
+        delegate: SyncListDelegate {}
+      }
     }
 }
