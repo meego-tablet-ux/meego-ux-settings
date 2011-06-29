@@ -34,7 +34,7 @@ Item {
             Text {
                 id: autoText
                 text: qsTr("Screen Saver Enabled")
-		font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme_fontPixelSizeLarge
             }
 
             MeeGo.ToggleButton {
@@ -67,12 +67,12 @@ Item {
                 Text {
                     id: sliderText
                     text: qsTr("Screen Saver Timeout")
-		    font.pixelSize: theme_fontPixelSizeLarge
+                    font.pixelSize: theme_fontPixelSizeLarge
                 }
 
                 Text {
-                    text: qsTr("%1 Minute(s)").arg(screensaverSlider.value)
-		    font.pixelSize: theme_fontPixelSizeLarge
+                    text: qsTr("%n Minute(s)","time in minutes",screensaverSlider.value)
+                    font.pixelSize: theme_fontPixelSizeLarge
                     anchors.left: sliderText.right
                     anchors.leftMargin: 10
                 }

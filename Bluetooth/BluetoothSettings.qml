@@ -89,7 +89,7 @@ MeeGo.AppPage{
 
                 Text {
                     id: discoverableLabel
-                    text: qsTr("Discoverable (%1)", "This should be 'Discoverable' with no args")
+                    text: qsTr("Discoverable")
                     anchors.right: visibilityToggleButton.left
                     anchors.rightMargin: 10
                     elide: Text.ElideRight
@@ -102,7 +102,7 @@ MeeGo.AppPage{
                         State {
                             PropertyChanges {
                                 target: discoverableLabel
-                                text: qsTr("Discoverable for %1 second(s)", "").arg(timeRemaining)
+                                text: qsTr("Discoverable for %n, second(s)", "",timeRemaining)
                             }
                             when: bluetoothModel.discoverable && discoverableLable.timeRemaining > 0
                         }

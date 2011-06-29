@@ -61,7 +61,7 @@ Item {
                 }
 
                 Text {
-                    text: qsTr("%1%").arg(backlightSlider.value)
+                    text: qsTr("%1%","slider value percentage").arg(backlightSlider.value)
                     anchors.left: sliderText.right
                     anchors.leftMargin: 10
                 }
