@@ -22,6 +22,7 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
         text: qsTr("Enter the following code on %1").arg(deviceName)
         width: parent.width
+        wrapMode: Text.WordWrap
         height: 30
     }
 

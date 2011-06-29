@@ -151,8 +151,9 @@ MeeGo.AppPage{
                     text: qsTr("Paired devices");
                     font.pixelSize: theme_fontPixelSizeLarge
                     height: parent.height
-                    width: parent.width
-                    elide: Text.ElideRight
+                    anchors.right: addNewDeviceButton.left
+                    anchors.rightMargin: 10
+                    wrapMode: Text.WordWrap
                     verticalAlignment: Text.AlignVCenter
                 }
 

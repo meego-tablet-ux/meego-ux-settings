@@ -182,7 +182,8 @@ MeeGo.ExpandingBox {
                     Text {
                         text: qsTr("Connect actions")
                         height: 50
-                        width: 200
+                        width: parent.width
+                        elide: Text.ElideRight
 
                         Component.onCompleted: {
                             console.log("text created first!!! " + container.device.name)
@@ -234,6 +235,7 @@ MeeGo.ExpandingBox {
                         text: qsTr("Manage")
                         height: 50
                         width: parent.width
+                        elide: Text.ElideRight
                     }
 
                     MeeGo.Button {
@@ -252,6 +254,7 @@ MeeGo.ExpandingBox {
                         visible: btHacksGconf.value
                         height: 50
                         width: parent.width
+                        elide: Text.ElideRight
                         text: qsTr("Properties")
                     }
 
@@ -260,6 +263,7 @@ MeeGo.ExpandingBox {
                         text: qsTr("Paired: %1").arg(container.device.paired)
                         height: 50
                         width: parent.width
+                        wrapMode: Text.WordWrap
                         verticalAlignment: Text.AlignVCenter
                     }
 
@@ -268,6 +272,7 @@ MeeGo.ExpandingBox {
                         text: qsTr("Hardware address: %1").arg(container.hwaddy)
                         height: 50
                         width: parent.width
+                        wrapMode: Text.WrapAnywhere
                         verticalAlignment: Text.AlignVCenter
                     }
 
@@ -276,6 +281,7 @@ MeeGo.ExpandingBox {
                         text: qsTr("Icon: %1").arg(container.device.icon)
                         height: 50
                         width: parent.width
+                        wrapMode: Text.WrapAnywhere
                         verticalAlignment: Text.AlignVCenter
                     }
 
