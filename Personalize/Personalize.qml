@@ -92,7 +92,7 @@ AppPage {
                     text: displayName
                     anchors.left: parent.left
                     anchors.leftMargin: 20
-                    anchors.right: tbPanel.left
+                    anchors.right: tbPanel.visible ? tbPanel.left : tbText.left
                     anchors.rightMargin: 12
                     color: theme_fontColorNormal
                     font.pixelSize: theme_fontPixelSizeLarge
@@ -101,7 +101,6 @@ AppPage {
                     elide: Text.ElideRight
                     height: parent.height
                 }
-
                 ToggleButton {
                     id: tbPanel
                     anchors.verticalCenter: parent.verticalCenter
@@ -112,6 +111,15 @@ AppPage {
                     onToggled: {
                         panelObj.IsVisible = isOn;
                     }
+                }
+                Text {
+                    id: tbText
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    visible: !allowHide
+                    color: theme_fontColorInactive
+                    font.pixelSize: theme_fontPixelSizeNormal
+                    text: qsTr("You can't turn off this panel")
                 }
             }
         }
