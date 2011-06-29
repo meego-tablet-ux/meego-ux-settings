@@ -15,6 +15,7 @@ AppPage {
     id: appContainer
     //: The title of the Sync UI displayed to the user.
     pageTitle: qsTr("Sync Settings")
+    height: servicesList.height
 
     Column {
       id: servicesList
