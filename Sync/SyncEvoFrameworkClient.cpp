@@ -101,7 +101,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::status() const
   QString ret = m_status;
 
   if (m_statusIsMasked)
-    ret = tr("Sync started");
+    ret = "";
 
   return ret;
 }
@@ -376,13 +376,23 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
 
     if (!((call->property("TriedTemplate").isValid() && call->property("TriedTemplate").toBool()) || m_error)) {
       /* If we haven't tried retrieving the template config yet, let's do that first */
-      SyncEvoStatic::dbusCall(
-        QList<QProperty>()
-          << QProperty("DBusFunctionName", "GetConfig")
-          << QProperty("ConfigName", m_name)
-          << QProperty("TriedTemplate", true),
-        this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-        m_serverInterface->GetConfig(m_name, true));
+      if (call->property("ContextConfig").isValid() && call->property("ContextConfig").toBool())
+        SyncEvoStatic::dbusCall(
+          QList<QProperty>()
+            << QProperty("DBusFunctionName", "GetConfig")
+            << QProperty("ContextConfig", true)
+            << QProperty("ConfigName", m_name)
+            << QProperty("TriedTemplate", true),
+          this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+          m_serverInterface->GetConfig(m_name.toLower() + "@" + m_name.toLower(), true));
+      else
+        SyncEvoStatic::dbusCall(
+          QList<QProperty>()
+            << QProperty("DBusFunctionName", "GetConfig")
+            << QProperty("ConfigName", m_name)
+            << QProperty("TriedTemplate", true),
+          this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+          m_serverInterface->GetConfig(m_name, true));
     }
     else {
       /* We should never get here (TM) */
@@ -393,8 +403,16 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
   else {
     QStringMultiMap theConfig = reply.argumentAt<0>();
 
-    if (!(call->property("WebDAVConfig").isValid() && call->property("WebDAVConfig").toBool()))
-      m_config = reply.argumentAt<0>();
+    if (!(call->property("WebDAVConfig").isValid() && call->property("WebDAVConfig").toBool())) {
+      if (call->property("CreateLocalConfig").isValid() && call->property("CreateLocalConfig").toBool()) {
+        m_config = makeLocalConfig(theConfig);
+        m_inProgress = false;
+        performAction();
+        return;
+      }
+      else
+        m_config = reply.argumentAt<0>();
+    }
 
     /* Check if this is a local config and, if so, retrieve the source config */
     if (IS_LOCAL_CONFIG(theConfig)) {
@@ -410,6 +428,18 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
           << QProperty("ConfigName", m_name),
         this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
         m_serverInterface->GetConfig(sourceConfig, false));
+    }
+    else
+    if (IS_WEBDAV_CONFIG(theConfig) &&
+        !(call->property("WebDAVConfig").isValid() && call->property("WebDAVConfig").toBool()) &&
+        !(call->property("ContextConfig").isValid() && call->property("ContextConfig").toBool())) {
+      SyncEvoStatic::dbusCall(
+        QList<QProperty>()
+          << QProperty("DBusFunctionName", "GetConfig")
+          << QProperty("ContextConfig", true)
+          << QProperty("ConfigName", m_name),
+        this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+        m_serverInterface->GetConfig(m_name.toLower() + "@" + m_name.toLower(), false));
     }
     else 
     if (!sessionActions.isEmpty() && sessionActions.head() == SaveWebDAVLoginInfo) {
@@ -581,7 +611,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
                 << QProperty("DBusFunctionName", "Sync")
                 << QProperty("ConfigName", m_name),
               this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-              m_sessionInterface->Sync(QString(), whatToSync));
+              m_sessionInterface->Sync("none", whatToSync));
 
             /* Do not detach from session until sync is complete */
             return;
@@ -681,38 +711,63 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSessionDetach(QDBusPendingCallWatcher
   /* WebDAV mode requires a second session for accomplishing the same thing */
   if (call->property("WebDAVConfig").isValid() && call->property("WebDAVConfig").toBool()) {
     if (IS_WEBDAV_CONFIG(m_config)) {
-      m_config = makeLocalConfig();
+      if (!m_error)
+        SyncEvoStatic::dbusCall(
+          QList<QProperty>()
+            << QProperty("DBusFunctionName", "GetConfig")
+            << QProperty("CreateLocalConfig", true)
+            << QProperty("TriedTemplate", true)
+            << QProperty("ConfigName", m_name),
+          this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+          m_serverInterface->GetConfig("SyncEvolution_client", true));
     }
-    m_inProgress = false;
-    performAction();
+    else {
+      m_inProgress = false;
+      performAction();
+    }
   }
   else
     nextAction();
 }
 
 /*
- * Define a local configuration
+ * Define a local configuration based ono the SyncEvolution_client@default configuration.
  */
 QStringMultiMap
-MeeGo::Sync::SyncEvoFrameworkClient::makeLocalConfig()
+MeeGo::Sync::SyncEvoFrameworkClient::makeLocalConfig(const QStringMultiMap &templateConfig)
 {
-  QStringMultiMap newConfig;
+  QStringMultiMap newConfig = templateConfig;
 
   newConfig[""]["ConsumerReady"] = "1";
-  newConfig[""]["PeerIsClient"] = "1";
   newConfig[""]["PeerName"] = m_service;
   newConfig[""]["syncURL"] = "local://@" + m_name.toLower();
 
-  /* Copy all the sources from the config and convert them to syncevolution sources */
-  QMapIterator<QString, QStringMap> itr(m_config);
-  while(itr.hasNext()) {
+  if (newConfig[""].contains("username"))
+    newConfig[""].remove("username");
+
+  if (newConfig[""].contains("password"))
+    newConfig[""].remove("password");
+
+  QMutableMapIterator<QString, QStringMap> itr(newConfig);
+  while (itr.hasNext()) {
     itr.next();
     if (itr.key().startsWith("source/")) {
-      QString sourceType = itr.key().right(itr.key().length() - 7 /* strlen("source/") */);
-
-      newConfig[itr.key()]["backend"] = sourceType;
-      newConfig[itr.key()]["sync"] = "two-way";
-      newConfig[itr.key()]["uri"] = sourceType;
+      if (!m_config.contains(itr.key())) {
+        itr.remove();
+      }
+      else {
+        if (m_config[itr.key()].contains("sync")) {
+          QStringMap templateSource = itr.value();
+          templateSource["sync"] = m_config[itr.key()]["sync"];
+          itr.setValue(templateSource);
+        }
+        else
+        if (itr.value().contains("sync")) {
+          QStringMap templateSource = itr.value();
+          templateSource.remove("Sync");
+          itr.setValue(templateSource);
+        }
+      }
     }
   }
 

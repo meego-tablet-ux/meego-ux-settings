@@ -165,7 +165,7 @@ namespace MeeGo {
       void setStatusFromLastReport(const QString &fuzzyTime = QString(), bool initalStatus = false);
 
       /// Create a local config for WebDAV based stuff.
-      QStringMultiMap makeLocalConfig();
+      QStringMultiMap makeLocalConfig(const QStringMultiMap &templateConfig);
 
       /// asynchronous D-Bus call handlers dispatched from asyncCallFinished()
       void handleGetConfig(QDBusPendingCallWatcher *call);
