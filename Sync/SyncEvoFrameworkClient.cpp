@@ -418,7 +418,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
     if (IS_LOCAL_CONFIG(theConfig)) {
 
       QString sourceConfig =
-        "source-config" + 
+        "target-config" + 
         theConfig[""]["syncURL"].right(theConfig[""]["syncURL"].length() - 8/*strlen("local://")*/);
 
       SyncEvoStatic::dbusCall(
@@ -928,14 +928,14 @@ MeeGo::Sync::SyncEvoFrameworkClient::performAction()
     else
       sessionName = 
         sessionActions.head() == SaveWebDAVLoginInfo
-          ? "source-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
+          ? "target-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
           :
         sessionActions.head() == Forget
           ? IS_LOCAL_CONFIG(m_config)
-            ? "source-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
+            ? "target-config" + m_config[""]["syncURL"].right(m_config[""]["syncURL"].length() - 8/*strlen("local://")*/)
             : m_name
           : (IS_WEBDAV_CONFIG(m_config))
-            ? "source-config@" + m_name.toLower()
+            ? "target-config@" + m_name.toLower()
             : m_name;
 
     if (!sessionName.isNull()) {
