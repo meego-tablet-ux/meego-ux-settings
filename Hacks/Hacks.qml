@@ -241,10 +241,10 @@ Ux.AppPage {
                 }*/
         }
 
-        Item {
+        Image {
             id: notificationMakerBar
+            source: "image://themedimage/images/settings/subheader"
             width: parent.width
-            height: expandingBox.height
 
             Ux.ExpandingBox {
                 id: expandingBox
@@ -252,6 +252,7 @@ Ux.AppPage {
                 width: parent.width
                 titleText: "Notification Maker"
                 titleTextColor: "black"
+                anchors.centerIn:  parent
                 detailsComponent: notificationMakerComponent
 
                 Component {
