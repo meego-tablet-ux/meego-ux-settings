@@ -56,7 +56,7 @@ Item {
             width: parent.width
             Text {
                 id: dateLabelText
-                text: clockModel.currentDate()
+                text: locale.currentDate(Labs.LocaleHelper.DateFullLong)
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 anchors.top: parent.top
@@ -86,7 +86,7 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 verticalAlignment: Text.AlignVCenter
-                text: clockModel.currentTime()
+                text: locale.currentTime(Labs.LocaleHelper.TimeFull)
                 font.pixelSize: theme_fontPixelSizeLarge
                 height: parent.height
                 width: parent.width - 10
@@ -292,8 +292,8 @@ Item {
         running: true
         repeat: true
         onTriggered: {
-            dateLabelText.text = clockModel.currentDate();
-            timeLabelText.text = clockModel.currentTime();
+            dateLabelText.text = locale.currentDate(Labs.LocaleHelper.DateFullLong);
+            timeLabelText.text = locale.currentTime(Labs.LocaleHelper.TimeFull);
 
             if(timeTimer.interval != 60000)
                 timeTimer.interval = 60000
