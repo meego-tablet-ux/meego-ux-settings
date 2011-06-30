@@ -24,12 +24,11 @@ Item {
         id: screensaverColumn
         anchors.left: parent.left
         anchors.leftMargin: 10
-        width: parent.width
+        width: childrenRect.width
         spacing: 20
 
         Row {
             id: enabledRow
-            anchors.horizontalCenter: parent.horizontalCenter
             spacing: 20
 
             Text {
@@ -59,12 +58,11 @@ Item {
         Column {
             id: sliderColumn
             visible: enabledToggle.on
-            width: parent.width
+            height: childrenRect.height
 
             Item {
                 width: childrenRect.width
-                height: sliderText.height
-                anchors.horizontalCenter: parent.horizontalCenter
+                height: sliderText.paintedHeight
 
                 Text {
                     id: sliderText
@@ -82,7 +80,6 @@ Item {
 
             MeeGo.Slider {
                 id: screensaverSlider
-                anchors.horizontalCenter: parent.horizontalCenter
                 width: 400
                 min: 1
                 max: 60
