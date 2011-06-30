@@ -44,6 +44,7 @@ AppPage {
                 color: theme.fontColorHighlight
                 elide: Text.ElideRight
                 anchors.left: parent.left
+                anchors.leftMargin: 5
                 anchors.right: btnIcon.left
                 anchors.rightMargin: 10
                 height: parent.height
@@ -93,6 +94,7 @@ AppPage {
                     color: theme.fontColorHighlight
                     elide: Text.ElideRight
                     anchors.left: parent.left
+                    anchors.leftMargin: 5
                     anchors.right: volPercentage.left
                     anchors.rightMargin: 5
                     anchors.verticalCenter: parent.verticalCenter
@@ -130,6 +132,7 @@ AppPage {
                 color: theme.fontColorHighlight
                 elide: Text.ElideRight
                 anchors.left: parent.left
+                anchors.leftMargin: 5
                 verticalAlignment: Text.AlignVCenter
             }
             BacklightSettings {
@@ -154,6 +157,7 @@ AppPage {
                 color: theme.fontColorHighlight
                 elide: Text.ElideRight
                 anchors.left: parent.left
+                anchors.leftMargin: 5
                 verticalAlignment: Text.AlignVCenter
             }
 
