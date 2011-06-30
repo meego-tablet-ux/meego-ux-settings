@@ -11,6 +11,7 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1
 import MeeGo.Media 0.1
 import MeeGo.Panels 0.1
+import MeeGo.Settings 0.1
 
 AppPage {
     id: container
@@ -81,11 +82,12 @@ AppPage {
 
         Component {
             id: panelDelegate
-            Image {
-                    id: imgPanel
-                    source: "image://themedimage/images/settings/btn_settingentry_up"
-                    width: parent.width
+            Item {
+                id: imgPanel
+                width: parent.width
+                height: theme_listBackgroundPixelHeightOne
 
+                ListSeparator {visible: index > 0}
 
                 Text {
                     id: titleText
@@ -116,6 +118,7 @@ AppPage {
                     id: tbText
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
+                    anchors.rightMargin: 20
                     visible: !allowHide
                     color: theme_fontColorInactive
                     font.pixelSize: theme_fontPixelSizeNormal
