@@ -72,6 +72,34 @@ ListModel {
 		}
 	}
 
+	Connections {
+		target: desktopSettingsModel
+		onAppsChanged: {
+
+			settingsModel.clear();
+
+			var sortedList=[];
+
+			///presort the array:
+			for (var i=0; i < desktopSettingsModel.apps.length; i++) {
+				var app = desktopSettingsModel.apps[i];
+
+				var section = app.value("MTS/Section")
+
+				if (section == "Settings") {
+					sortedList.splice(settingsModel.firstSectionNextIndex++,0,app)
+				}
+				else {
+					var len = sortedList.push(app)
+				}
+			}
+
+			for(var i=0; i < sortedList.length; i++) {
+				appendApp(sortedList[i])
+			}
+		}
+	}
+
 	function appendApp(app)
 	{
 		var title = app.title
