@@ -8,18 +8,8 @@ sync_settings {
 }
 
 sync_settings: TRANS_SOURCES = \
-    Sync/AllVisibleProfilesModel.cpp \
-    Sync/FrameworkClient.cpp \
-    Sync/UiPlugin.cpp \
-    Sync/CalendarModel.cpp \
-    Sync/ContactsModel.cpp \
-    Sync/StorageModel.cpp \
-    Sync/AllVisibleProfilesModel.hpp \
-    Sync/FrameworkClient.hpp \
-    Sync/UiPlugin.hpp \
-    Sync/CalendarModel.hpp \
-    Sync/ContactsModel.hpp \
-    Sync/StorageModel.hpp
+    Sync/SyncEvoFrameworkClient.cpp \
+    Sync/SyncEvoStatic.cpp
 
 OTHER_FILES += \
     *.qml \
