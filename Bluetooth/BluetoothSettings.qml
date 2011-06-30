@@ -84,6 +84,7 @@ MeeGo.AppPage{
 
             Image {
                 id: bluetoothToggleGrid
+                visible: false
                 width: parent.width
                 source: "image://themedimage/images/settings/pulldown_box_2"
 
