@@ -308,6 +308,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::setStatusFromLastReport(const QString &fuzz
   if (!fuzzyTime.isEmpty())
     m_fuzzyTime = fuzzyTime;
 
+  //: Status message: Displayed when an unknown/unhandled error occurs.
   QString statusMessage = tr("Unknown sync status");
 
   if (m_lastReport.contains("status")) {
@@ -322,16 +323,21 @@ MeeGo::Sync::SyncEvoFrameworkClient::setStatusFromLastReport(const QString &fuzz
 
     statusMessage =
       (200 == status)
+        //: Arg 1 is a "fuzzy time", e.g. "2 min ago".
         ? tr("Last sync %1").arg(
           m_fuzzyTime.isEmpty()
             ? lastSyncTime().toString("yyyy-MM-dd hh:mm:ss.zzz")
             : m_fuzzyTime)
         :
       (20017 == status)
+        //: Sync explicitly stopped.
         ? tr("Sync aborted")
+        //: Arg 1 is a brief sync error description, e.g. "connection failed".
         : tr("Last sync failed: %1").arg(
             (401 == status || 403 == status || 10401 == status || 10403 == status)
+              //: Authentication failure occurred during sync.
               ? tr("authentication failure")
+              //: Internal error occurred during sync.
               : tr("internal error"));
   }
 
@@ -567,11 +573,13 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
 
     switch (sessionActions.head()) {
       case Forget:
+        //: Displayed when removal of sync account information fails.
         setStatus(tr("Unable to forget sync account!"));
         break;
 
       case Sync:
       case SaveWebDAVLoginInfo:
+        //: Sync explicitly stopped.
         setStatus(tr("Sync aborted"));
         break;
 
@@ -883,6 +891,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
   else
   /* Only interesting if something is going on */
   if (status != "idle") {
+    //: Status message: Sync in-progress
     QString displayStatus = tr("Syncing now...");
 
     /* If we're done ... */
@@ -899,6 +908,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
 
       /* ... and decide on the status */
       if (0 == error)
+        //: Status message: Sync job completed
         displayStatus = tr("Sync completed");
       else {
         /*
