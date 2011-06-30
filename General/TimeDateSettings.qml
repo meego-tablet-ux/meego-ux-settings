@@ -15,7 +15,7 @@ import MeeGo.Connman 0.1
 Item {
     id: page
     width: parent.width
-    height: childrenRect.height
+    height: timeDateItem.height
 
     Labs.TimezoneListModel {
         id: timezoneListModel
