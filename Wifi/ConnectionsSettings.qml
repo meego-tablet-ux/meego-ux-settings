@@ -52,9 +52,9 @@ MeeGo.AppPage {
             }
         }
 
-        Item {
+        Image {
             id: offlineArea
-            height: theme_listBackgroundPixelHeightOne
+            source: "image://themedimage/images/settings/pulldown_box_2"
             width: parent.width
             Text {
                 id: airplaneLabel
