@@ -7,23 +7,17 @@
  */
 
 import QtQuick 1.0
-import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1
 import MeeGo.Sync 0.1
 
 AppPage {
-    id: appContainer
+    id: syncPage
     //: The title of the Sync UI displayed to the user.
     pageTitle: qsTr("Sync Settings")
-    height: servicesList.height
+    height: window.height - window.barsHeight - window.topDecorationHeight
 
-    Column {
-      id: servicesList
-      width: parent.width
-
-      Repeater {
-        model: AllVisibleSyncProfilesModel {}
-        delegate: SyncListDelegate {}
-      }
+    SyncList {
+      id: syncAllProfilesList
+      anchors.fill: parent
     }
 }

@@ -20,9 +20,7 @@ BorderImage {
 
     property bool pressed: false
 
-    height: {
-        Math.max(serviceIcon.height, serviceLabel.height, scheduledStatus.height, arrowRight.height)
-    }
+    height: Math.max(serviceIcon.height, serviceLabel.height, scheduledStatus.height, arrowRight.height)
 
     width: parent.width
 
