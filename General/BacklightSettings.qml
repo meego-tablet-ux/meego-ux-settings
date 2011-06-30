@@ -54,16 +54,20 @@ Item {
 
         Column {
             id: sliderColumn
+            anchors.left: parent.left
+            anchors.right: parent.right
+
             visible: !autoToggle.on
-            anchors.horizontalCenter: parent.horizontalCenter
 
             Item {
-                width: childrenRect.width
+                width: parent.width
                 height: sliderText.paintedHeight
 
                 Text {
                     id: sliderText
                     text: qsTr("Brightness")
+                    font.pixelSize: theme_fontPixelSizeLarge
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
 
                 Text {
@@ -73,18 +77,24 @@ Item {
                 }
             }
 
-            Row {
+            Item {
+                width: parent.width
                 height: backlightSlider.height + 50
 
                 Image {
+                    id: minImage
                     source: "image://themedimage/widgets/common/brightness-slider/brightness-min"
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
                 }
 
                 MeeGo.Slider {
                     id: backlightSlider
                     width: backlightItem.width / 2
                     value: backlightSettings.manualValue
+                    anchors.left: minImage.right
+                    anchors.right: maxImage.left
+                    anchors.verticalCenter: parent.verticalCenter
                     textOverlayVisible: false
 
                     onSliderChanged: {
@@ -94,8 +104,10 @@ Item {
                 }
 
                 Image {
+                    id: maxImage
                     source: "image://themedimage/widgets/common/brightness-slider/brightness-max"
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
                 }
             }
 

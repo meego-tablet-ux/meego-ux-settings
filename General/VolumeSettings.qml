@@ -22,19 +22,6 @@ Item {
         }
     }
 
-    Image {
-        id: volval
-        anchors.left: slider.right
-        anchors.verticalCenter: slider.verticalCenter
-        anchors.leftMargin: 20
-        source: "image://themedimage/images/settings/icn_sound_high"
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                volumeControl.volume = 100
-            }
-        }
-    }
 
     Connections {
         target: slider
@@ -57,27 +44,51 @@ Item {
         }
     }
 
-    Slider {
-        id: slider
-        value: volumeControl.volume
-        width: 400
-        anchors.centerIn: parent
-    }
+    Item {
+        height: childrenRect.height
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        anchors.right: parent.right
+        anchors.rightMargin: 20
+        Image {
+            id: volumeImage
+            source: "image://themedimage/images/settings/icn_sound_low"
+            anchors.left: parent.left
+            anchors.verticalCenter: slider.verticalCenter
 
-    Image {
-        id: volumeImage
-        source: "image://themedimage/images/settings/icn_sound_low"
-        anchors.right: slider.left
-        anchors.verticalCenter: slider.verticalCenter
+            property bool muted: volumeControl.mute
 
-        property bool muted: volumeControl.mute
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                volumeControl.volume = 0
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    volumeControl.volume = 0
+                }
             }
         }
+
+        Slider {
+            id: slider
+            value: volumeControl.volume
+            anchors.left: volumeImage.right
+            anchors.leftMargin: 20
+            anchors.right: volval.left
+            anchors.rightMargin: 20
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        Image {
+            id: volval
+            anchors.right: parent.right
+            anchors.verticalCenter: slider.verticalCenter
+            source: "image://themedimage/images/settings/icn_sound_high"
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    volumeControl.volume = 100
+                }
+            }
+        }
+
     }
 
 }
