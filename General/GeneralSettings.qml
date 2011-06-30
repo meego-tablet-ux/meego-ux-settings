@@ -31,6 +31,7 @@ AppPage {
             titleText: qsTr ("Language")              
         }
 
+        ListSeparator {}
         Item {
             id: timedateexpandingbox
             height: theme_listBackgroundPixelHeightOne

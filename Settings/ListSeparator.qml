@@ -9,10 +9,7 @@
 import Qt 4.7
 Item {
     height: 2
-    anchors.left: parent.left
-    anchors.leftMargin: 10
-    anchors.right: parent.right
-    anchors.rightMargin: 10
+    width: parent.width
     Rectangle {
         id: spaceLineDark
         color: theme_separatorDarkColor
