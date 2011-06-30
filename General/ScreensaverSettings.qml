@@ -56,53 +56,52 @@ Item {
             }
         }
 
-        Item {
+        Column {
+            id: sliderColumn
+            visible: enabledToggle.on
             width: parent.width
-            height: sliderColumn.visible ? sliderColumn.height : 0
-            Behavior on height {NumberAnimation {duration: 200}}
-            Column {
-                id: sliderColumn
-                width: parent.width
 
-                Item {
-                    width: childrenRect.width
-                    height: sliderText.height
-                    anchors.horizontalCenter: parent.horizontalCenter
+            Item {
+                width: childrenRect.width
+                height: sliderText.height
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                    Text {
-                        id: sliderText
-                        text: qsTr("Screen Saver Timeout")
-                        font.pixelSize: theme_fontPixelSizeLarge
-                    }
-                    Text {
-                        text: qsTr("%n Minute(s)","time in minutes",screensaverSlider.value)
-                        font.pixelSize: theme_fontPixelSizeLarge
-                        anchors.left: sliderText.right
-                        anchors.leftMargin: 10
-                    }
+                Text {
+                    id: sliderText
+                    text: qsTr("Screen Saver Timeout")
+                    font.pixelSize: theme_fontPixelSizeLarge
                 }
 
-                MeeGo.Slider {
-                    id: screensaverSlider
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: 400
-                    min: 1
-                    max: 60
-                    value: backlightSettings.screenSaverTimeout / 60
-                    textOverlayVisible: false
-
-                    onSliderChanged: {
-                        backlightSettings.screenSaverTimeout = screensaverSlider.value * 60
-                    }
+                Text {
+                    text: qsTr("%n Minute(s)","time in minutes",screensaverSlider.value)
+                    font.pixelSize: theme_fontPixelSizeLarge
+                    anchors.left: sliderText.right
+                    anchors.leftMargin: 10
                 }
-
             }
+
+            MeeGo.Slider {
+                id: screensaverSlider
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: 400
+                min: 1
+                max: 60
+                value: backlightSettings.screenSaverTimeout / 60
+                textOverlayVisible: false
+
+                onSliderChanged: {
+                    backlightSettings.screenSaverTimeout = screensaverSlider.value * 60
+                }
+            }
+
             states: [
                 State {
                     name: "visible"
 
                     PropertyChanges {
                         target: sliderColumn
+                        height: childrenRect.height
+                        visible: true
                         opacity: 1.0
                     }
 
@@ -114,6 +113,8 @@ Item {
 
                     PropertyChanges {
                         target: sliderColumn
+                        visible: false
+                        height: 0
                         opacity: 0
                     }
 
@@ -124,22 +125,16 @@ Item {
             transitions: [
                 Transition {
                     SequentialAnimation {
-                        ScriptAction {
-                            script: {
-                                if (enabledToggle.on)
-                                    sliderColumn.visible = true
-                            }
+
+                        NumberAnimation {
+                            properties: "height"
+                            duration: 200
+                            easing.type: Easing.InCubic
                         }
                         NumberAnimation {
                             properties: "opacity"
                             duration: 350
                             easing.type: Easing.OutCubic
-                        }
-                        ScriptAction {
-                            script: {
-                                if (!enabledToggle.on)
-                                    sliderColumn.visible = false
-                            }
                         }
                     }
                 }
