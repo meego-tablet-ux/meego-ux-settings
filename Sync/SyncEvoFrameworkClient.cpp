@@ -48,8 +48,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::SyncEvoFrameworkClient(QObject* parent)
   reply.waitForFinished();
 
   if (reply.isError()) {
+    SyncEvoStatic::reportDBusError(__PRETTY_FUNCTION__ + QString(": Fatal error: Attach() failed: "), reply.error());
     m_error = true;
-    SyncEvoStatic::reportDBusError(__PRETTY_FUNCTION__ + QString(": Attach() failed: "), reply.error());
   }
   else {
     m_serverDBusName = reply.reply().service();
@@ -349,7 +349,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleAbort(QDBusPendingCallWatcher *call)
   QDBusPendingReply<> reply = *call;
 
   if (reply.isError()) {
-    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
+    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__) + ": Fatal error: ", reply.error());
     m_error = true;
   }
 }
@@ -396,6 +396,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
     }
     else {
       /* We should never get here (TM) */
+      qWarning() << QString(__PRETTY_FUNCTION__) + ": Fatal error: emitting profileRemoved(" + m_name + ")";
       emit profileRemoved(m_name);
       m_error = true;
     }
@@ -561,7 +562,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
   QDBusPendingReply<> reply = *call;
 
   if (reply.isError()) {
-    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
+    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__) + "Fatal error: ", reply.error());
     m_error = true;
 
     switch (sessionActions.head()) {
@@ -639,7 +640,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSync(QDBusPendingCallWatcher *call)
   QDBusPendingReply<QDBusObjectPath> reply = *call;
 
   if (reply.isError()) {
-    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
+    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__) + ": Fatal error: ", reply.error());
     m_error = true;
   }
 }
@@ -650,7 +651,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetStatus(QDBusPendingCallWatcher *ca
   QDBusPendingReply<QString, uint, QSyncStatusMap> reply = *call;
 
   if (reply.isError()) {
-    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
+    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__) + ": Fatal error: ", reply.error());
     m_error = true;
   }
   else
@@ -677,7 +678,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleStartSession(QDBusPendingCallWatcher 
   QDBusPendingReply<QDBusObjectPath> reply = *call;
 
   if (reply.isError()) {
-    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
+    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__) + ": Fatal error: ", reply.error());
     m_error = true;
   }
   else

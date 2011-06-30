@@ -143,15 +143,11 @@ MeeGo::Sync::SyncEvoStatic::dbusCall(QList<QProperty> props, QObject *dst, const
 void
 MeeGo::Sync::SyncEvoStatic::reportDBusError(const QString &prefix, const QDBusError &error)
 {
-  QString msg =
-    prefix.isEmpty()
+  qDebug() <<
+    (prefix.isEmpty()
       ? QString("")
-      : QString(prefix + ": ")
+      : QString(prefix + ": "))
     + QDBusError::errorString(error.type())
-    + QString(": ")
-    + error.name()
-    + QString(": ")
-    + error.message();
-
-  qDebug() << msg;
+    + QString(": ") + error.name()
+    + QString(": ") + error.message();
 }
