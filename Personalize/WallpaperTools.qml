@@ -15,9 +15,6 @@ Button {
     signal openColorstripCreator()
     signal openGallery()
 
-    width: parent.width/2 - 20
-    elideText: true
-    //height: parent.height * 0.75
     text: qsTr("Pick a photo")
     onClicked: {
         container.openGallery()
