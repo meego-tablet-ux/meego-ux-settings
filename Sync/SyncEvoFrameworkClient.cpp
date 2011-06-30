@@ -741,6 +741,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::makeLocalConfig(const QStringMultiMap &temp
   newConfig[""]["ConsumerReady"] = "1";
   newConfig[""]["PeerName"] = m_service;
   newConfig[""]["syncURL"] = "local://@" + m_name.toLower();
+  if (m_config[""].contains("IconURI"))
+    newConfig[""]["IconURI"] = m_config[""]["IconURI"];
 
   if (newConfig[""].contains("username"))
     newConfig[""].remove("username");
