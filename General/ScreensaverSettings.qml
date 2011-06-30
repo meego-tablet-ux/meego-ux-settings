@@ -87,7 +87,7 @@ Item {
                 MeeGo.Slider {
                     id: screensaverSlider
                     anchors.horizontalCenter: parent.horizontalCenter
-                    width: 400
+                    width: parent.width
                     min: 1
                     max: 60
                     value: backlightSettings.screenSaverTimeout / 60
