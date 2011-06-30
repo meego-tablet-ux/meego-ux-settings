@@ -25,23 +25,30 @@ Item {
         width: parent.width
         spacing: 20
 
-        Row {
+        Item {
             id: autoRow
-            spacing: 20
+            width: parent.width
+            height: theme_listBackgroundPixelHeightOne
             anchors.horizontalCenter: parent.horizontalCenter
 
             Text {
                 id: autoText
+                anchors.left: parent.left
+                anchors.right: autoToggle.left
+                anchors.rightMargin: 10
                 text: qsTr("Set brightness automatically")
 		font.pixelSize: theme_fontPixelSizeLarge
+                anchors.verticalCenter: parent.verticalCenter
             }
 
             MeeGo.ToggleButton {
                 id: autoToggle
+                anchors.right: parent.right
                 on: backlightSettings.automatic
                 onToggled: {
                     backlightSettings.automatic = autoToggle.on
                 }
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
 
