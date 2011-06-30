@@ -23,23 +23,25 @@ Item {
     Column{
         id: screensaverColumn
         anchors.left: parent.left
-        anchors.leftMargin: 10
         width: parent.width
         spacing: 20
 
-        Row {
+        Item {
             id: enabledRow
-            anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 20
-
+            width: parent.width
+            height: theme_listBackgroundPixelHeightOne
             Text {
                 id: autoText
+                anchors.left: parent.left
+                anchors.right: enabledToggle.left
+                anchors.rightMargin: 10
                 text: qsTr("Screen Saver Enabled")
                 font.pixelSize: theme_fontPixelSizeLarge
             }
 
             MeeGo.ToggleButton {
                 id: enabledToggle
+                anchors.right: parent.right
                 on: backlightSettings.screenSaverTimeout > 0 ? true : false
                 onToggled: {
 
