@@ -72,31 +72,28 @@ ListModel {
 		}
 	}
 
-	Connections {
-		target: desktopSettingsModel
-		onAppsChanged: {
+	function reloadModel() {
 
-			settingsModel.clear();
+		settingsModel.clear();
 
-			var sortedList=[];
+		var sortedList=[];
 
-			///presort the array:
-			for (var i=0; i < desktopSettingsModel.apps.length; i++) {
-				var app = desktopSettingsModel.apps[i];
+		///presort the array:
+		for (var i=0; i < desktopSettingsModel.apps.length; i++) {
+			var app = desktopSettingsModel.apps[i];
 
-				var section = app.value("MTS/Section")
+			var section = app.value("MTS/Section")
 
-				if (section == "Settings") {
-					sortedList.splice(settingsModel.firstSectionNextIndex++,0,app)
-				}
-				else {
-					var len = sortedList.push(app)
-				}
+			if (section == "Settings") {
+				sortedList.splice(settingsModel.firstSectionNextIndex++,0,app)
 			}
-
-			for(var i=0; i < sortedList.length; i++) {
-				appendApp(sortedList[i])
+			else {
+				var len = sortedList.push(app)
 			}
+		}
+
+		for(var i=0; i < sortedList.length; i++) {
+			appendApp(sortedList[i])
 		}
 	}
 

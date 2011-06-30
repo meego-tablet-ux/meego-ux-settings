@@ -80,6 +80,13 @@ Window {
         id: settingsModel
     }
 
+    Connections {
+        target: settingsModel.desktopSettingsModel
+        onAppsChanged: {
+            settingsModel.reloadModel()
+        }
+    }
+
     SaveRestoreState {
         id: mainSaveRestoreState
         onSaveRequired: {
