@@ -14,7 +14,7 @@ import MeeGo.Settings 0.1 as Settings
 Item {
     id: backlightItem
     width: parent.width
-    height: childrenRect.height
+    height: childrenRect.height + 30
 
     Settings.BacklightSetting {
         id: backlightSettings
@@ -22,14 +22,13 @@ Item {
 
     Column{
         id: backlightColumn
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        width: childrenRect.width
+        width: parent.width
         spacing: 20
 
         Row {
             id: autoRow
             spacing: 20
+            anchors.horizontalCenter: parent.horizontalCenter
 
             Text {
                 id: autoText
@@ -49,7 +48,7 @@ Item {
         Column {
             id: sliderColumn
             visible: !autoToggle.on
-            height: childrenRect.height
+            anchors.horizontalCenter: parent.horizontalCenter
 
             Item {
                 width: childrenRect.width
