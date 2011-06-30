@@ -45,9 +45,9 @@ MeeGo.AppPage{
             width: parent.width
             visible: bluetoothModel.adapterPresent
 
-            Item {
+            Image {
                 id: offlineArea
-                height: theme_listBackgroundPixelHeightOne
+                source: "image://themedimage/images/settings/pulldown_box_2"
                 width: parent.width
                 Text {
                     id: airplaneLabel
@@ -82,11 +82,10 @@ MeeGo.AppPage{
                 }
             }
 
-            ListSeparator {}
-            Item {
+            Image {
                 id: bluetoothToggleGrid
                 width: parent.width
-                height: theme_listBackgroundPixelHeightOne
+                source: "image://themedimage/images/settings/pulldown_box_2"
 
                 Text {
                     id: discoverableLabel
