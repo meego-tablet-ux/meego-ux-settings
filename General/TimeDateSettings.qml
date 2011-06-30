@@ -11,6 +11,7 @@ import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Ux.Components.Common 0.1
 import MeeGo.Ux.Components.DateTime 0.1
 import MeeGo.Connman 0.1
+import MeeGo.Settings 0.1
 
 Item {
     id: page
@@ -50,9 +51,10 @@ Item {
             }
         }
 
-        Image {
+        ListSeparator {}
+        Item {
             id: dateLabel
-            source: "image://themedimage/images/pulldown_box"
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
             Text {
                 id: dateLabelText
@@ -63,7 +65,7 @@ Item {
                 anchors.topMargin: 2
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: theme_fontPixelSizeLarge
-                height: 100
+                height: parent.height
                 width: parent.width
             }
 
@@ -76,9 +78,10 @@ Item {
             }
         }
 
-        Image {
+        ListSeparator {}
+        Item {
             id: timeLabel
-            source: "image://themedimage/images/pulldown_box"
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
 
             Text {
@@ -105,9 +108,10 @@ Item {
             }
         }
 
-        Image {
+        ListSeparator {}
+        Item {
             id: twelveHourToggle
-            source: "image://themedimage/images/pulldown_box"
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
 
             Text {
@@ -135,9 +139,10 @@ Item {
             }
         }
 
-        Image {
+        ListSeparator {}
+        Item {
             id: automagicTimeToggle
-            source: "image://themedimage/images/pulldown_box"
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
 
             Text {
@@ -192,9 +197,9 @@ Item {
             }
         }
 
-        Image {
+        Item {
             id: currentTz
-            source: "image://themedimage/images/pulldown_box"
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
 
             Text {
@@ -211,9 +216,10 @@ Item {
             }
         }
 
-        Image {
+        ListSeparator {}
+        Item {
             id: findMeToggle
-            source: "image://themedimage/images/pulldown_box"
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
 
             Text {
