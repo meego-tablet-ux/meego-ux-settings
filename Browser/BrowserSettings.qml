@@ -70,11 +70,11 @@ MeeGo.AppPage {
     {
         id: settingGroups
         width: parent.width
-
-        Image {
-            source: "image://themedimage/images/pulldown_box"
+        Item {
+            height: Math.max(theme_listBackgroundPixelHeightOne, searchEngineText.paintedHeight)
             width: parent.width
             Text {
+                id: searchEngineText
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.leftMargin: 10
@@ -90,7 +90,7 @@ MeeGo.AppPage {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 10
-                width: parent.width / 2
+                width: Math.min(400, parent.width/2)
                 height: parent.height - 30
                 titleColor: "black"
                 model: settings.searchEngineList
@@ -109,8 +109,9 @@ MeeGo.AppPage {
                 }
             }
         }
-        Image {
-            source: "image://themedimage/images/pulldown_box"
+        ListSeparator {}
+        Item {
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
             Text {
                 anchors.top: parent.top
@@ -135,8 +136,9 @@ MeeGo.AppPage {
             }
         }
 
-        Image {
-            source: "image://themedimage/images/pulldown_box"
+        ListSeparator {}
+        Item {
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
             Text {
                 anchors.top: parent.top
@@ -160,8 +162,9 @@ MeeGo.AppPage {
                 }
             }
         }
-        Image {
-            source: "image://themedimage/images/pulldown_box"
+        ListSeparator {}
+        Item {
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
             Text {
                 anchors.top: parent.top
@@ -185,8 +188,9 @@ MeeGo.AppPage {
                 }
             }
         }
-        Image {
-            source: "image://themedimage/images/pulldown_box"
+        ListSeparator {}
+        Item {
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
             Text {
                 anchors.top: parent.top
@@ -211,8 +215,9 @@ MeeGo.AppPage {
                 }
             }
         }
-        Image {
-            source: "image://themedimage/images/pulldown_box"
+        ListSeparator {}
+        Item {
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
             Text {
                 anchors.top: parent.top
@@ -236,8 +241,9 @@ MeeGo.AppPage {
                 }
             }
         }
-        Image {
-            source: "image://themedimage/images/pulldown_box"
+        ListSeparator {}
+        Item {
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
             Text {
                 anchors.top: parent.top
@@ -261,8 +267,9 @@ MeeGo.AppPage {
                 }
             }
         }
-        Image {
-            source: "image://themedimage/images/pulldown_box"
+        ListSeparator {}
+        Item {
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
             Text {
                 anchors.top: parent.top
@@ -286,8 +293,9 @@ MeeGo.AppPage {
                 }
             }
         }
-        Image {
-            source: "image://themedimage/images/pulldown_box"
+        ListSeparator {}
+        Item {
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
             visible: proxyToggleButton.on
             Text {
@@ -295,7 +303,7 @@ MeeGo.AppPage {
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 text: qsTr("HTTP Proxy details")
-                width: Math.min(paintedWidth, parent.width - proxyBox.width - dotChar.width - portBox.width - 10)
+                width: parent.width - proxyBox.width - dotChar.width - portBox.width - 10
                 wrapMode: Text.WordWrap
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
@@ -342,15 +350,9 @@ MeeGo.AppPage {
                 }
             }
         }
-        Image {
-            source: "image://themedimage/images/pulldown_box"
+        Item {
             width: parent.width
             height:  privacyColumn.height + 20
-            Image {
-                source: "image://themedimage/images/pulldown_box"
-                width: parent.width
-                anchors.bottom: parent.bottom
-            }
             Column {
                 id: privacyColumn
                 width: parent.width-5
@@ -360,6 +362,7 @@ MeeGo.AppPage {
                 anchors.horizontalCenter: parent.horizontalCenter
                 MeeGo.Button {
                     id: clearHisotryBtn
+                    active: true
                     width: parent.width
                     height: 50
                     text: qsTr("Clear Browsing History")
@@ -372,6 +375,7 @@ MeeGo.AppPage {
                 }
                 MeeGo.Button {
                     id: clearDownloadBtn
+                    active: true
                     width: parent.width
                     height: 50
                     text: qsTr("Clear Download History")
@@ -384,6 +388,7 @@ MeeGo.AppPage {
                 }
                 MeeGo.Button {
                     id: clearCookieBtn
+                    active: true
                     width: parent.width
                     height: 50
                     text: qsTr("Clear Cookies")
@@ -396,6 +401,7 @@ MeeGo.AppPage {
                 }
                 MeeGo.Button {
                     id: clearPasswordBtn
+                    active: true
                     width: parent.width
                     height: 50
                     text: qsTr("Clear Saved Passwords")
@@ -408,6 +414,7 @@ MeeGo.AppPage {
                 }
                 MeeGo.Button {
                     id: restoreButton
+                    active: true
                     width: parent.width
                     height: 50
                     text: qsTr("Restore default settings")
@@ -420,13 +427,12 @@ MeeGo.AppPage {
                 }
             }
         }
-
+        ListSeparator {}
         // Button to launcher browser
-        Image {
+        Item {
             id: launchBtn
-            source: "image://themedimage/images/pulldown_box"
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
-            height: startupSetting.height
             Image {
                 id: browserIcon
                 anchors.verticalCenter: parent.verticalCenter
@@ -477,7 +483,6 @@ MeeGo.AppPage {
             ]
         }
     } // Column
-
 
     Connections {
         target: mainWindow
