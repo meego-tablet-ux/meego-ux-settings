@@ -14,12 +14,6 @@ PKGCONFIG += syncfwclient syncprofile mlite syncevolution-qt-dbus
 QT += declarative xml
 
 HEADERS = \
-    AllVisibleProfilesModel.hpp \
-    CalendarModel.hpp \
-    ContactsModel.hpp \
-    FrameworkClient.hpp \
-    ServiceInfo.hpp \
-    StorageModel.hpp \
     QProperty.h \
     SyncEvoFrameworkClient.h \
     SyncEvoStatic.h \
@@ -28,12 +22,6 @@ HEADERS = \
     UiPlugin.hpp
 
 SOURCES = \
-    AllVisibleProfilesModel.cpp \
-    CalendarModel.cpp \
-    ContactsModel.cpp \
-    FrameworkClient.cpp \
-    ServiceInfo.cpp \
-    StorageModel.cpp \
     QProperty.cpp \
     SyncEvoFrameworkClient.cpp \
     SyncEvoStatic.cpp \

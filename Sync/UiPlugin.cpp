@@ -7,16 +7,10 @@
  */
 
 #include "UiPlugin.hpp"
-#include "FrameworkClient.hpp"
-#include "CalendarModel.hpp"
-#include "ContactsModel.hpp"
-#include "AllVisibleProfilesModel.hpp"
-
 #include "SyncEvoStorageModel.h"
 #include "SyncEvoFrameworkClient.h"
 
 #include <qdeclarative.h>
-
 
 void
 MeeGo::Sync::UiPlugin::registerTypes(char const * uri)
@@ -31,22 +25,10 @@ MeeGo::Sync::UiPlugin::registerTypes(char const * uri)
 				   MINOR_VERSION,
 				   "SyncFwClient");
 
-  // ... and similarly for our sync service list models.
-  qmlRegisterType<CalendarModel>(uri,
-				 MAJOR_VERSION,
-				 MINOR_VERSION,
-				 "SyncCalendarModel");
-
-  qmlRegisterType<ContactsModel>(uri,
-				 MAJOR_VERSION,
-				 MINOR_VERSION,
-				 "SyncContactsModel");
-
   qmlRegisterType<SyncEvoStorageModel>(uri,
 					   MAJOR_VERSION,
 					   MINOR_VERSION,
 					   "AllVisibleSyncProfilesModel");
 }
-
 
 Q_EXPORT_PLUGIN2(syncuiplugin, MeeGo::Sync::UiPlugin);
