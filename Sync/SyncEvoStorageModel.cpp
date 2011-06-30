@@ -143,7 +143,12 @@ MeeGo::Sync::SyncEvoStorageModel::asyncCallFinished(QDBusPendingCallWatcher *cal
               << QProperty("Template", call->property("Template").toBool())
               << QProperty("ConfigName", reply.argumentAt<0>()[Nix]),
             this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-            m_serverInterface->GetConfig(reply.argumentAt<0>()[Nix], call->property("Template").toBool()));
+            m_serverInterface->GetConfig(
+              reply.argumentAt<0>()[Nix] + 
+                (call->property("Template").toBool()
+                  ? ("@" + QUuid::createUuid().toString())
+                  : QString("")),
+              call->property("Template").toBool()));
 
         /*
          * Retrieve the actual configurations as well
@@ -163,7 +168,8 @@ MeeGo::Sync::SyncEvoStorageModel::asyncCallFinished(QDBusPendingCallWatcher *cal
       QDBusPendingReply<QStringMultiMap> reply = *call;
       if (reply.isError()) {
         SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
-        m_error = true;
+        if (reply.error().name() != "org.syncevolution.Exception")
+          m_error = true;
       }
       else
         maybeAddToList(call->property("ConfigName").toString(), reply.argumentAt<0>(), call->property("Template").toBool());
