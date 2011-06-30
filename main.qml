@@ -31,7 +31,7 @@ Window {
     property string topView
 
     property string currentBookKey: "currentBook" //The settings book the user user is using T_IGNOREME
-
+    property string bookSaved: "bookSaved" //Flag to check if a book has been saved T_IGNOREME
     property bool restoreFinished: !mainSaveRestoreState.restoreRequired
 
     //bookMenuModel: settingsModel.settingsApps
@@ -40,10 +40,10 @@ Window {
     bookMenuActive: false
 
     Component.onCompleted: {
-        if(mainSaveRestoreState.restoreRequired) {
+        if(mainSaveRestoreState.value(bookSaved)) {
             topView = mainSaveRestoreState.value(currentBookKey);
             restoreFinished = true;
-        } else {
+            mainSaveRestoreState.setValue(bookSaved,false);
             mainSaveRestoreState.sync();
         }
     }
@@ -51,8 +51,6 @@ Window {
     onBookMenuTriggered: {
         translator.catalog = settingsModel.get(index).translation
         topView = settingsModel.get(index).path
-        mainSaveRestoreState.setValue(currentBookKey,topView);
-        mainSaveRestoreState.sync();
     }
 
     onTopViewChanged: {
@@ -84,6 +82,11 @@ Window {
 
     SaveRestoreState {
         id: mainSaveRestoreState
+        onSaveRequired: {
+            setValue(currentBookKey,topView);
+            setValue(bookSaved,true);
+            sync();
+        }
     }
 
     Connections {
