@@ -14,7 +14,7 @@ import MeeGo.Settings 0.1 as Settings
 Item {
     id: screensaverItem
     width: parent.width
-    height: childrenRect.height
+    height: childrenRect.height + 30
 
     Settings.BacklightSetting {
         id: backlightSettings
