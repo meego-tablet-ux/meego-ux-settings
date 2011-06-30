@@ -33,9 +33,6 @@ MeeGo.AppPage {
 					var group = declarativeSettings.groups[g];
 					for(var i = 0;i<group.settings.length; i++){
 						if(group.settings[i].type == TabletSettingsSetting.TextType){
-							if(i > 0) {
-								separator.createObject(column);
-							}
 							var text = textEdits.createObject(column);
 							text.key = group.settings[i].key
 							text.title = group.settings[i].title
@@ -47,9 +44,6 @@ MeeGo.AppPage {
 							///selection type
 						}
 						else if(group.settings[i].type == TabletSettingsSetting.BooleanType) {
-							if(i > 0) {
-								separator.createObject(column);
-							}
 							var boholean = booleans.createObject(column);
 							boholean.key = group.settings[i].key
 							boholean.title = group.settings[i].title
@@ -59,9 +53,6 @@ MeeGo.AppPage {
 						}
 						else if(group.settings[i].type == TabletSettingsSetting.IntegerType) {
 
-							if(i > 0) {
-								separator.createObject(column);
-							}
 							var integer = integers.createObject(column);
 							integer.title = group.settings[i].title
 							integer.key = group.settings[i].key
@@ -89,28 +80,19 @@ MeeGo.AppPage {
 	}
 
 
-    Component {
-        id: separator
-        ListSeparator {
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            anchors.right: parent.right
-            anchors.rightMargin: 10
-        }
-    }
+
 
 	Component {
 		id: booleans
 
-        Item {
+        Image {
+            source: "image://themedimage/images/settings/pulldown_box_2"
 			property string key: ""
 			property string title: ""
 			property bool value
 
-			anchors.left: parent.left
-			anchors.right: parent.right
-			anchors.margins: 20
-			height: theme_listBackgroundPixelHeightOne
+			width: parent.width
+			height: 50
 
 			Text {
 				id: textTitle
@@ -135,18 +117,17 @@ MeeGo.AppPage {
 	Component {
 		id: integers
 
-        Item {
-			id: integersContainer
+        Image {
+            source: "image://themedimage/images/settings/pulldown_box_2"
+            id: integersContainer
 			property string key: ""
 			property string title: ""
-			property int value
+			property bool value
 			property int max: 100
 			property int min: 0
 
-			anchors.left: parent.left
-			anchors.right: parent.right
-			anchors.margins: 20
-			height: theme_listBackgroundPixelHeightOne
+			width:parent.width
+			height: 50
 
 			Text {
 				id: textTitle
@@ -173,20 +154,19 @@ MeeGo.AppPage {
 
 	Component {
 		id: textEdits
-		Item {
-			anchors.left: parent.left
-			anchors.right: parent.right
-			anchors.margins: 20
-			height: theme_listBackgroundPixelHeightOne
+		Image {
+			width: parent.width
+			source: "image://themedimage/images/settings/pulldown_box_2"
 
 			id: textEditsContainer
 			property string key: ""
 			property string title: ""
 			property string value: ""
 
+			height: 50
+
 			Text {
 				id: textTitle
-                anchors.left: parent.left
 				text: title
 				anchors.verticalCenter: textEdit.verticalCenter
 			}
@@ -194,8 +174,6 @@ MeeGo.AppPage {
 			MeeGo.TextEntry {
 				id: textEdit
 				text: value
-				anchors.left: textTitle.right
-				anchors.leftMargin: 10
 				anchors.right: parent.right
 				anchors.rightMargin: 20
 
