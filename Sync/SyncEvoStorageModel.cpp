@@ -206,10 +206,6 @@ MeeGo::Sync::SyncEvoStorageModel::maybeAddToList(const QString &configName, cons
   if (!config.contains(""))
     return;
 
-  /* Not interested if this is a template for a device */
-  if (config[""].contains("PeerIsClient"))
-    return;
-
   /* Not interested if this is not "ConsumerReady" */
   if (!config[""].contains("ConsumerReady") || config[""]["ConsumerReady"] != "1")
       return;

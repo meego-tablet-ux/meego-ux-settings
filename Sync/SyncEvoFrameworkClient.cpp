@@ -741,6 +741,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::makeLocalConfig(const QStringMultiMap &temp
   newConfig[""]["ConsumerReady"] = "1";
   newConfig[""]["PeerName"] = m_service;
   newConfig[""]["syncURL"] = "local://@" + m_name.toLower();
+  if (m_config[""].contains("IconURI"))
+    newConfig[""]["IconURI"] = m_config[""]["IconURI"];
 
   if (newConfig[""].contains("username"))
     newConfig[""].remove("username");
@@ -858,9 +860,13 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
       }
     }
     else {
+      /* When saving the WebDAV configuration, we don't want it showing up in the UI later, so make it invisible. */
+      if (IS_WEBDAV_CONFIG(m_config))
+        m_config[""]["ConsumerReady"] = "0";
+
       /*
        * If we're not saving WebDAV log info, we call SetConfig before doing anything else with the session, passing in an
-       * empty config when attempting to forget, and the current config otherwise
+       * empty config when attempting to forget, and the current config otherwise.
        */
       SyncEvoStatic::dbusCall(
         QList<QProperty>()
