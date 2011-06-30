@@ -437,7 +437,8 @@ MeeGo.AppPage {
                 anchors.left: browserIcon.right
                 anchors.leftMargin: 10
                 text: qsTr("Go to Browser")
-                width: 100
+                anchors.right: btnIcon.left
+                anchors.rightMargin: 10
                 elide: Text.ElideRight
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
