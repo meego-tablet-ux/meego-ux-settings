@@ -42,7 +42,7 @@ MeeGo::Sync::SyncEvoStorageModelItem::name() const
 QString
 MeeGo::Sync::SyncEvoStorageModelItem::storage() const
 {
-  return SyncEvoStatic::storageTypes()[m_storage];
+  return SyncEvoStatic::instance()->storageTypes()[m_storage];
 }
 
 QStringMap

@@ -17,7 +17,7 @@ MeeGo::Sync::SyncEvoStorageModel::SyncEvoStorageModel(QObject *parent)
   , m_error(false)
   , m_serverDBusName()
 {
-  SyncEvoStatic::init();
+  SyncEvoStatic::instance();
   QDBusPendingReply<> reply = m_serverInterface->Attach();
   reply.waitForFinished();
 
@@ -184,7 +184,7 @@ MeeGo::Sync::SyncEvoStorageModel::asyncCallFinished(QDBusPendingCallWatcher *cal
  * 2. If yes, create one row for each recognized source in this config.
  *    A source, such as "source/calendar" is "recognized", if we can give it a friendly name.
  *
- *    Friendly names are currently defined in the static hash table SyncEvoStatic::storageTypes().
+ *    Friendly names are currently defined in the static hash table SyncEvoStatic::instance()->storageTypes().
  *
  *    The header, which is the "source" whose name is "", is copied to each row.
  *
@@ -216,7 +216,7 @@ MeeGo::Sync::SyncEvoStorageModel::maybeAddToList(const QString &configName, cons
     itr.next();
 
     /* If this type of source is recognized ... */
-    if (SyncEvoStatic::storageTypes().contains(itr.key())) {
+    if (SyncEvoStatic::instance()->storageTypes().contains(itr.key())) {
 
       /* If the source has "sync" defined ... */
       if (itr.value().contains("sync")) {
