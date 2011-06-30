@@ -12,9 +12,7 @@ AppPage {
     VolumeControl {
         id: volumeControl
     }
-    Theme {
-        id: theme
-    }
+
     Column {
         id: contents
         width:  parent.width
@@ -23,6 +21,7 @@ AppPage {
             id: languageexpandingbox
             property int containerHeight: 80
             height: containerHeight
+            anchors.margins: 20
             anchors.left: parent.left
             anchors.right: parent.right
 
@@ -31,142 +30,67 @@ AppPage {
             titleText: qsTr ("Language")              
         }
 
-        ListSeparator {}
-        Item {
+        ExpandingBox {
             id: timedateexpandingbox
-            height: theme_listBackgroundPixelHeightOne
+            property int containerHeight: 80
+            height: containerHeight
             anchors.margins: 20
             anchors.left: parent.left
             anchors.right: parent.right
-            Text {
-                id: timeTitle
-                text: qsTr ("Time and date")
-                font.pixelSize: theme.fontPixelSizeLarge
-                color: theme.fontColorHighlight
-                elide: Text.ElideRight
-                anchors.left: parent.left
-                anchors.leftMargin: 5
-                anchors.right: btnIcon.left
-                anchors.rightMargin: 10
-                height: parent.height
-                verticalAlignment: Text.AlignVCenter
-            }
-            Image {
-                id: btnIcon
-                anchors.right: parent.right
-                anchors.rightMargin: 20
-                anchors.verticalCenter: parent.verticalCenter
-                source: "image://themedimage/images/breadcrumb_arrow"
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    window.addPage(timeSettings)
-                }
-            }
-            Component {
-                id: timeSettings
-                AppPage {
-                    pageTitle: timeTitle.text
-                    height: timedateContent.height
-                    TimeDateSettings {
-                        id: timedateContent
-                    }
-                }
-            }
+
+            detailsComponent: TimeDateSettings { }
+
+            titleText:  qsTr ("Time and date")
         }
 
-        ListSeparator {}
-        Item {
+        ExpandingBox {
             id: volumeexpandingbox
+            property int containerHeight: 80
+            height: containerHeight
 
             anchors.margins: 20
             anchors.left: parent.left
             anchors.right: parent.right
 
-            height: sound.height + vol.height
-            Item {
-                id: sound
-                width: parent.width
-                height: theme_listBackgroundPixelHeightOne
-                Text {
-                    text: qsTr ("Sound")
-                    font.pixelSize: theme.fontPixelSizeLarge
-                    color: theme.fontColorHighlight
-                    elide: Text.ElideRight
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
-                    anchors.right: volPercentage.left
-                    anchors.rightMargin: 5
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-                Text {
-                    id: volPercentage
-                    // %1 is volume level percentage
-                    text: qsTr("%1%","%1 is volume level percentage").arg(volumeControl.volume)
-                    height: volumeexpandingbox.containerHeight
-                    anchors.right: parent.right
-                    anchors.rightMargin: 40
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+            titleText: qsTr ("Sound")
+
+            Text {
+                // %1 is volume level percentage
+                text: qsTr("%1%","%1 is volume level percentage").arg(volumeControl.volume)
+                height: volumeexpandingbox.containerHeight
+                anchors.right: parent.right
+                anchors.rightMargin: 40
+                verticalAlignment: Text.AlignVCenter
             }
-            VolumeSettings {
-                id: vol
-                anchors.top: sound.bottom
-            }
+
+            detailsComponent: VolumeSettings { }
         }
 
-        ListSeparator {}
-        Item {
+        ExpandingBox {
             id: backlightexpandingbox
-            height: backlightTitle.height + backlight.height
+            property int containerHeight: 80
+            height: containerHeight
 
             anchors.margins: 20
             anchors.left: parent.left
             anchors.right: parent.right
 
-            Text {
-                id: backlightTitle
-                height: theme_listBackgroundPixelHeightOne
-                text: qsTr ("Backlight control")
-                font.pixelSize: theme.fontPixelSizeLarge
-                color: theme.fontColorHighlight
-                elide: Text.ElideRight
-                anchors.left: parent.left
-                anchors.leftMargin: 5
-                verticalAlignment: Text.AlignVCenter
-            }
-            BacklightSettings {
-                id: backlight
-                anchors.top: backlightTitle.bottom
-            }
+            titleText: qsTr ("Backlight control")
+            detailsComponent: BacklightSettings { }
         }
 
-        ListSeparator {}
-        Item {
+        ExpandingBox {
             id: screensaverexpandingbox
-            height: screensaverTitle.height + screensaver.height
+            property int containerHeight: 80
+            height: containerHeight
 
             anchors.margins: 20
             anchors.left: parent.left
             anchors.right: parent.right
-            Text {
-                id: screensaverTitle
-                height: theme_listBackgroundPixelHeightOne
-                text: qsTr ("Screen saver")
-                font.pixelSize: theme.fontPixelSizeLarge
-                color: theme.fontColorHighlight
-                elide: Text.ElideRight
-                anchors.left: parent.left
-                anchors.leftMargin: 5
-                verticalAlignment: Text.AlignVCenter
-            }
 
-            ScreensaverSettings {
-                id: screensaver
-                anchors.top: screensaverTitle.bottom
-            }
+            titleText: qsTr ("Screen saver")
 
+            detailsComponent: ScreensaverSettings { }
         }
 
     }
