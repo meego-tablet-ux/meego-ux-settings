@@ -34,7 +34,7 @@ AppPage {
         Item {
             id: timedateexpandingbox
             height: theme_listBackgroundPixelHeightOne
-            anchors.margins: 20
+            anchors.margins: 10
             anchors.left: parent.left
             anchors.right: parent.right
             Text {
@@ -78,7 +78,7 @@ AppPage {
         Item {
             id: volumeexpandingbox
 
-            anchors.margins: 20
+            anchors.margins: 10
             anchors.left: parent.left
             anchors.right: parent.right
 
@@ -118,7 +118,7 @@ AppPage {
             id: backlightexpandingbox
             height: backlightTitle.height + backlight.height
 
-            anchors.margins: 20
+            anchors.margins: 10
             anchors.left: parent.left
             anchors.right: parent.right
 
@@ -143,7 +143,7 @@ AppPage {
             id: screensaverexpandingbox
             height: screensaverTitle.height + screensaver.height
 
-            anchors.margins: 20
+            anchors.margins: 10
             anchors.left: parent.left
             anchors.right: parent.right
             Text {

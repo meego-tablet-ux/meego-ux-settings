@@ -37,7 +37,7 @@ Item {
                 anchors.right: autoToggle.left
                 anchors.rightMargin: 10
                 text: qsTr("Set brightness automatically")
-		font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme_fontPixelSizeLarge
                 anchors.verticalCenter: parent.verticalCenter
             }
 
@@ -70,13 +70,18 @@ Item {
                         id: sliderText
                         text: qsTr("Brightness")
                         font.pixelSize: theme_fontPixelSizeLarge
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                        anchors.right: percentText.left
+                        anchors.rightMargin: 10
+                        elide: Text.ElideRight
                     }
 
                     Text {
+                        id: percentText
                         text: qsTr("%1%","slider value percentage").arg(backlightSlider.value)
-                        anchors.left: sliderText.right
-                        anchors.leftMargin: 10
+                        anchors.right: parent.right
+                        anchors.rightMargin: 10
                     }
                 }
 
