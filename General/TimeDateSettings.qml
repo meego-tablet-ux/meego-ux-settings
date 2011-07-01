@@ -315,7 +315,7 @@ Item {
     DatePicker{
         id: datePicker
 
-        minYear: 1970
+        startYear: 1970
         onDateSelected: {
             clockModel.setDate(datePicker.selectedDate);
             timeTimer.interval = 1000
