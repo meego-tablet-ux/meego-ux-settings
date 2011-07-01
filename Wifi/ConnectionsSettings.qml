@@ -75,7 +75,7 @@ MeeGo.AppPage {
             Text {
                 id: airplaneLabel
                 anchors.verticalCenter: airplaneIcon.verticalCenter
-                anchors.left: airplaneIcon.left
+                anchors.left: airplaneIcon.right
                 anchors.leftMargin: 10
                 text: qsTr("Airplane mode")
                 anchors.right:  airplaneToggle.left
