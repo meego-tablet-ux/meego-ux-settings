@@ -14,13 +14,14 @@ import MeeGo.Settings 0.1
 Item {
     id: languageItem
     width: parent.width
-    height: childrenRect.height+50
+    height: dropDown.height+50
 
     Labs.LocaleHelper { id: localehelper }
 
     Labs.LocaleListModel { id: localeModel }
 
     DropDown {
+        id: dropDown
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: 10
