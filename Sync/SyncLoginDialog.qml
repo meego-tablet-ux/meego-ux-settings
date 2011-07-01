@@ -92,7 +92,7 @@ ModalDialog {
     }
 
     onRejected: {
-        popPage();
+        loginOwner.executeOnCancel();
     }
 
     Component.onCompleted: {

@@ -24,6 +24,7 @@ Item {
     property string password    
     property variant theLoginDialog: null
 
+    signal syncDetailsDismissed()
 
     FuzzyDateTime {
         id: fuzz
@@ -63,6 +64,11 @@ Item {
         username = u;
         password = p;
         bridge.doPostInit("", true);
+    }
+
+    function executeOnCancel() {
+        syncDetailsDismissed();
+        popPage();
     }
 
     Component {
@@ -238,10 +244,18 @@ Item {
     }
 
     Connections {
+      target: window
+
+      onBackButtonPressed: {
+        syncDetailsDismissed();
+      }
+    }
+
+    Connections {
         target: bridge
         onProfileRemoved: {
             // Sync profile no longer exists return to main sync UI page.
-            popPage();
+            executeOnCancel()
         }
 
         onAuthenticationFailed: {
