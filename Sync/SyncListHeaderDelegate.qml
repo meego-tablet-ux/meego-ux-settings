@@ -11,13 +11,17 @@ BorderImage {
   width: parent.width
   height: storageHeadingLabel.height + 10
 
+  Theme {
+      id: theme
+  }
+
   Text {
     id: storageHeadingLabel
     anchors.verticalCenter: parent.verticalCenter
     x: 5
 
-    color: theme_fontColorNormal
-    font.pixelSize: theme_fontPixelSizeLarge
+    color: theme.fontColorNormal
+    font.pixelSize: theme.fontPixelSizeLarge
     font.bold: true
 
     //: Arg 1 refers to the storage type (e.g. Contacts, Calendar, etc)
