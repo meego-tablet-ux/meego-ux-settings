@@ -11,7 +11,7 @@ import MeeGo.Components 0.1
 
 Button {
     id: container
-
+    active: true
     signal openColorstripCreator()
     signal openGallery()
 
