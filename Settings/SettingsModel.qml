@@ -49,33 +49,14 @@ ListModel {
 
 
 	Component.onCompleted: {
-		console.log("number of settings: " + desktopSettingsModel.apps.length)
-
-		var sortedList=[];
-
-		///presort the array:
-		for (var i=0; i < desktopSettingsModel.apps.length; i++) {
-			var app = desktopSettingsModel.apps[i];
-
-			var section = app.value("MTS/Section")
-
-			if (section == "Settings") {
-				sortedList.splice(settingsModel.firstSectionNextIndex++,0,app)
-			}
-			else {
-				var len = sortedList.push(app)
-			}
-		}
-
-		for(var i=0; i < sortedList.length; i++) {
-			appendApp(sortedList[i])
-		}
+		reloadModel();
 	}
 
 	function reloadModel() {
 
 		settingsModel.clear();
 		settingsModel.reloadModel()
+		settingsModel.firstSectionNextIndex=0;
 
 		var sortedList=[];
 
