@@ -14,7 +14,7 @@ import MeeGo.Settings 0.1 as Settings
 Item {
     id: backlightItem
     width: parent.width
-    height: childrenRect.height + 30
+    height: backlightColumn.height + 30
 
     Settings.BacklightSetting {
         id: backlightSettings
@@ -52,73 +52,74 @@ Item {
             }
         }
 
-        Column {
-            id: sliderColumn
-            anchors.left: parent.left
-            anchors.right: parent.right
-
-            visible: !autoToggle.on
-
-            Item {
+        Item {
+            width: parent.width
+            height: sliderColumn.visible ? sliderColumn.height : 0
+            Behavior on height {NumberAnimation {duration: 200}}
+            Column {
+                id: sliderColumn
                 width: parent.width
-                height: sliderText.paintedHeight
 
-                Text {
-                    id: sliderText
-                    text: qsTr("Brightness")
-                    font.pixelSize: theme_fontPixelSizeLarge
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
+                visible: !autoToggle.on
 
-                Text {
-                    text: qsTr("%1%","slider value percentage").arg(backlightSlider.value)
-                    anchors.left: sliderText.right
-                    anchors.leftMargin: 10
-                }
-            }
+                Item {
+                    width: parent.width
+                    height: sliderText.paintedHeight
 
-            Item {
-                width: parent.width
-                height: backlightSlider.height + 50
+                    Text {
+                        id: sliderText
+                        text: qsTr("Brightness")
+                        font.pixelSize: theme_fontPixelSizeLarge
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
 
-                Image {
-                    id: minImage
-                    source: "image://themedimage/widgets/common/brightness-slider/brightness-min"
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                }
-
-                MeeGo.Slider {
-                    id: backlightSlider
-                    width: backlightItem.width / 2
-                    value: backlightSettings.manualValue
-                    anchors.left: minImage.right
-                    anchors.right: maxImage.left
-                    anchors.verticalCenter: parent.verticalCenter
-                    textOverlayVisible: false
-
-                    onSliderChanged: {
-                        backlightSettings.manualValue = backlightSlider.value
-                        backlightSlider.value = backlightSettings.manualValue
+                    Text {
+                        text: qsTr("%1%","slider value percentage").arg(backlightSlider.value)
+                        anchors.left: sliderText.right
+                        anchors.leftMargin: 10
                     }
                 }
 
-                Image {
-                    id: maxImage
-                    source: "image://themedimage/widgets/common/brightness-slider/brightness-max"
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
+                Item {
+                    width: parent.width
+                    height: backlightSlider.height + 50
+
+                    Image {
+                        id: minImage
+                        source: "image://themedimage/widgets/common/brightness-slider/brightness-min"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                    }
+
+                    MeeGo.Slider {
+                        id: backlightSlider
+                        width: backlightItem.width / 2
+                        value: backlightSettings.manualValue
+                        anchors.left: minImage.right
+                        anchors.right: maxImage.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        textOverlayVisible: false
+
+                        onSliderChanged: {
+                            backlightSettings.manualValue = backlightSlider.value
+                            backlightSlider.value = backlightSettings.manualValue
+                        }
+                    }
+
+                    Image {
+                        id: maxImage
+                        source: "image://themedimage/widgets/common/brightness-slider/brightness-max"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                    }
                 }
             }
-
             states: [
                 State {
                     name: "visible"
 
                     PropertyChanges {
                         target: sliderColumn
-                        height: childrenRect.height
-                        visible: true
                         opacity: 1.0
                     }
 
@@ -130,8 +131,6 @@ Item {
 
                     PropertyChanges {
                         target: sliderColumn
-                        visible: false
-                        height: 0
                         opacity: 0
                     }
 
@@ -142,16 +141,22 @@ Item {
             transitions: [
                 Transition {
                     SequentialAnimation {
-
-                        NumberAnimation {
-                            properties: "height"
-                            duration: 200
-                            easing.type: Easing.InCubic
+                        ScriptAction {
+                            script: {
+                                if (!autoToggle.on)
+                                    sliderColumn.visible = true
+                            }
                         }
                         NumberAnimation {
                             properties: "opacity"
                             duration: 350
                             easing.type: Easing.OutCubic
+                        }
+                        ScriptAction {
+                            script: {
+                                if (autoToggle.on)
+                                    sliderColumn.visible = false
+                            }
                         }
                     }
                 }
