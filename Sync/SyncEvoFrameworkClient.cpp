@@ -48,8 +48,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::SyncEvoFrameworkClient(QObject* parent)
   reply.waitForFinished();
 
   if (reply.isError()) {
+    SyncEvoStatic::reportDBusError(__PRETTY_FUNCTION__ + QString(": Fatal error: Attach() failed: "), reply.error());
     m_error = true;
-    SyncEvoStatic::reportDBusError(__PRETTY_FUNCTION__ + QString(": Attach() failed: "), reply.error());
   }
   else {
     m_serverDBusName = reply.reply().service();
@@ -308,6 +308,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::setStatusFromLastReport(const QString &fuzz
   if (!fuzzyTime.isEmpty())
     m_fuzzyTime = fuzzyTime;
 
+  //: Status message: Displayed when an unknown/unhandled error occurs.
   QString statusMessage = tr("Unknown sync status");
 
   if (m_lastReport.contains("status")) {
@@ -322,16 +323,21 @@ MeeGo::Sync::SyncEvoFrameworkClient::setStatusFromLastReport(const QString &fuzz
 
     statusMessage =
       (200 == status)
+        //: Arg 1 is a "fuzzy time", e.g. "2 min ago".
         ? tr("Last sync %1").arg(
           m_fuzzyTime.isEmpty()
             ? lastSyncTime().toString("yyyy-MM-dd hh:mm:ss.zzz")
             : m_fuzzyTime)
         :
       (20017 == status)
+        //: Sync explicitly stopped.
         ? tr("Sync aborted")
+        //: Arg 1 is a brief sync error description, e.g. "connection failed".
         : tr("Last sync failed: %1").arg(
             (401 == status || 403 == status || 10401 == status || 10403 == status)
+              //: Authentication failure occurred during sync.
               ? tr("authentication failure")
+              //: Internal error occurred during sync.
               : tr("internal error"));
   }
 
@@ -349,7 +355,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleAbort(QDBusPendingCallWatcher *call)
   QDBusPendingReply<> reply = *call;
 
   if (reply.isError()) {
-    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
+    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__) + ": Fatal error: ", reply.error());
     m_error = true;
   }
 }
@@ -396,6 +402,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
     }
     else {
       /* We should never get here (TM) */
+      qWarning() << QString(__PRETTY_FUNCTION__) + ": Fatal error: emitting profileRemoved(" + m_name + ")";
       emit profileRemoved(m_name);
       m_error = true;
     }
@@ -561,16 +568,18 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
   QDBusPendingReply<> reply = *call;
 
   if (reply.isError()) {
-    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
+    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__) + "Fatal error: ", reply.error());
     m_error = true;
 
     switch (sessionActions.head()) {
       case Forget:
+        //: Displayed when removal of sync account information fails.
         setStatus(tr("Unable to forget sync account!"));
         break;
 
       case Sync:
       case SaveWebDAVLoginInfo:
+        //: Sync explicitly stopped.
         setStatus(tr("Sync aborted"));
         break;
 
@@ -639,7 +648,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSync(QDBusPendingCallWatcher *call)
   QDBusPendingReply<QDBusObjectPath> reply = *call;
 
   if (reply.isError()) {
-    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
+    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__) + ": Fatal error: ", reply.error());
     m_error = true;
   }
 }
@@ -650,7 +659,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetStatus(QDBusPendingCallWatcher *ca
   QDBusPendingReply<QString, uint, QSyncStatusMap> reply = *call;
 
   if (reply.isError()) {
-    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
+    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__) + ": Fatal error: ", reply.error());
     m_error = true;
   }
   else
@@ -677,7 +686,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleStartSession(QDBusPendingCallWatcher 
   QDBusPendingReply<QDBusObjectPath> reply = *call;
 
   if (reply.isError()) {
-    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__), reply.error());
+    SyncEvoStatic::reportDBusError(QString(__PRETTY_FUNCTION__) + ": Fatal error: ", reply.error());
     m_error = true;
   }
   else
@@ -882,6 +891,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
   else
   /* Only interesting if something is going on */
   if (status != "idle") {
+    //: Status message: Sync in-progress
     QString displayStatus = tr("Syncing now...");
 
     /* If we're done ... */
@@ -898,6 +908,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
 
       /* ... and decide on the status */
       if (0 == error)
+        //: Status message: Sync job completed
         displayStatus = tr("Sync completed");
       else {
         /*
