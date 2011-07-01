@@ -56,10 +56,26 @@ MeeGo.AppPage {
             id: offlineArea
             source: "image://themedimage/images/settings/pulldown_box_2"
             width: parent.width
+            MeeGo.ThemeImage {
+                id: airplaneIcon
+                source: "image://themedimage/icons/settings/settings-airplanemode"
+                anchors.verticalCenter: parent.verticalCenter
+
+                states: [
+                    State {
+                        PropertyChanges {
+                            target: airplaneIcon
+                            source: "image://themedimage/icons/settings/settings-airplanemode-active"
+                        }
+                        when: networkListModel.offlineMode
+                    }
+                ]
+            }
+
             Text {
                 id: airplaneLabel
-                anchors.top: parent.top
-                anchors.left: parent.left
+                anchors.verticalCenter: airplaneIcon.verticalCenter
+                anchors.left: airplaneIcon.left
                 anchors.leftMargin: 10
                 text: qsTr("Airplane mode")
                 anchors.right:  airplaneToggle.left

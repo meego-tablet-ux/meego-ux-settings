@@ -454,7 +454,7 @@ MeeGo.AppPage {
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 anchors.verticalCenter: parent.verticalCenter
-                source: "image://themedimage/images/breadcrumb_arrow"
+                source: "image://themedimage/icons/internal/arrow-default-right.png"
             }
             MouseArea {
                 id: mouseArea
