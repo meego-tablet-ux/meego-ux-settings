@@ -13,7 +13,7 @@ import MeeGo.Components 0.1
 Item {
     id: container
     width: parent.width
-    height: childrenRect.height + 30
+    height: contents.height + 30
 
     VolumeControl {
         id: volumeControl
@@ -45,7 +45,8 @@ Item {
     }
 
     Item {
-        height: childrenRect.height
+        id: contents
+        height: Math.max(volumeImage.height,Math.max(slider.height, volval.height))
         anchors.left: parent.left
         anchors.leftMargin: 20
         anchors.right: parent.right
@@ -54,7 +55,7 @@ Item {
             id: volumeImage
             source: "image://themedimage/images/settings/icn_sound_low"
             anchors.left: parent.left
-            anchors.verticalCenter: slider.verticalCenter
+            anchors.verticalCenter: parent.verticalCenter
 
             property bool muted: volumeControl.mute
 
@@ -79,7 +80,7 @@ Item {
         Image {
             id: volval
             anchors.right: parent.right
-            anchors.verticalCenter: slider.verticalCenter
+            anchors.verticalCenter: parent.verticalCenter
             source: "image://themedimage/images/settings/icn_sound_high"
             MouseArea {
                 anchors.fill: parent
