@@ -59,6 +59,7 @@ BorderImage {
 
         onPressed:  parent.pressed = true
         onReleased: parent.pressed = false
+        onCanceled: parent.pressed = false
     }
 
     Item {
@@ -80,7 +81,7 @@ BorderImage {
         anchors.verticalCenter: parent.verticalCenter
         x: 110  // Force alignment of all service labels
 
-        color: themefontColorNormal
+        color: theme.fontColorNormal
         font.pixelSize: theme.fontPixelSizeNormal
 
         //: Arg 1 is the sync service name (e.g. "Yahoo!") and arg 2 is the storage name (e.g. "Contacts" or "Calendar".
