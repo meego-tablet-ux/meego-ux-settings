@@ -23,29 +23,28 @@ AppPage {
         sortType: PanelProxyModel.SortTypeDefaultIndex
     }
 
+    PhotoPicker {
+        id: photoPicker
+        property string selectedPhoto
+
+        albumSelectionMode: false
+        onPhotoSelected: {
+            selectedPhoto = uri.split("file://")[1];
+        }
+        onAccepted: {
+            if (selectedPhoto)
+            {
+                var path = customWallpapers.model.copyImageToBackgrounds(selectedPhoto);
+                customWallpapers.model.activeWallpaper = path;
+                mainWindow.goHome();
+                personalizeContainer.close();
+            }
+        }
+    }
     Column {
         id: contentArea
         width: parent.width
 
-         PhotoPicker {
-            id: photoPicker
-            parent: personalizeContainer
-            property string selectedPhoto
-
-            albumSelectionMode: false
-            onPhotoSelected: {
-                selectedPhoto = uri.split("file://")[1];
-            }
-            onAccepted: {
-                if (selectedPhoto)
-                {
-                    var path = customWallpapers.model.copyImageToBackgrounds(selectedPhoto);
-                    customWallpapers.model.activeWallpaper = path;
-                    mainWindow.goHome();
-                    personalizeContainer.close();
-                }
-            }
-        }
 
        BuiltInWallpapers {
             id: builtinWallpapers
