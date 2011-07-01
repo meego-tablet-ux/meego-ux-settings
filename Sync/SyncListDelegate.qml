@@ -59,6 +59,7 @@ BorderImage {
 
         onPressed:  parent.pressed = true
         onReleased: parent.pressed = false
+        onCanceled: parent.pressed = false
     }
 
     Item {
