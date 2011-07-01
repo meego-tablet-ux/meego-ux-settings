@@ -19,6 +19,7 @@ ModalDialog {
 
     showAcceptButton: true
     showCancelButton: true
+    acceptButtonEnabled: usernameField.textInput.acceptableInput
 
     //: "Sign in" button text displayed in sync account login dialog.
     acceptButtonText: qsTr("Sign in")
@@ -52,7 +53,7 @@ ModalDialog {
             // CORNER CASES.
             //
             textInput.validator: RegExpValidator {
-//                        regExp: /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+//                regExp: /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
                 regExp: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/
             }
 
@@ -86,21 +87,8 @@ ModalDialog {
     }
 
     onAccepted: {
-        if (usernameField.text != "") {
-            if (usernameField.textInput.acceptableInput) {
-                // Sign in
-
-                // Done entering login information.  Now execute the desired action.
-                loginOwner.executeOnSignin(usernameField.text, passwordField.text);
-
-                // Close the Dialog.
-                //container.destroy();
-                dialog.hide();
-            } else {
-                // Display the sample username again.
-                usernameField.text = ""
-            }
-        }
+        // Done entering login information.  Now execute the desired action.
+        loginOwner.executeOnSignin(usernameField.text, passwordField.text);
     }
 
     onRejected: {
