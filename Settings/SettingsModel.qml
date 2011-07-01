@@ -55,7 +55,7 @@ ListModel {
 	function reloadModel() {
 
 		settingsModel.clear();
-		settingsModel.reloadModel()
+		//settingsModel.reloadModel()
 		settingsModel.firstSectionNextIndex=0;
 
 		var sortedList=[];
