@@ -60,7 +60,8 @@ MeeGo.AppPage {
                 id: airplaneIcon
                 source: "image://themedimage/icons/settings/settings-airplanemode"
                 anchors.verticalCenter: parent.verticalCenter
-
+                anchors.left: parent.left
+                anchors.leftMargin: 10
                 states: [
                     State {
                         PropertyChanges {

@@ -11,6 +11,7 @@ import MeeGo.Settings 0.1
 import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1
 import MeeGo.Ux.Gestures 0.1
+import "./General/GeneralSettings.qml"
 
 Window {
     id: window
@@ -137,147 +138,7 @@ Window {
 
     Component {
         id: landingPageComponent
-        AppPage {
-            id: landingPage
-            property string scrollDownAmount: "landingScrollAmount" //T_IGNOREME
-            pageTitle: qsTr("Settings")
-
-            Component.onCompleted: {
-                topView=""
-            }
-
-            onActivated: {
-                if(window.restoreFinished) {
-                    landingPageState.setValue(window.currentBookKey,"");
-                    landingPageState.sync();
-                }
-            }
-
-            onSearch: {
-                if(settingsHacksGconf.value)
-                    settingsModel.filter(needle)
-            }
-
-            Labs.GConfItem {
-                id: settingsHacksGconf
-                defaultValue: false
-                key: "/meego/ux/settings/settingshacks"
-            }
-
-            SaveRestoreState {
-                id: landingPageState
-                onSaveRequired: {
-                    setValue(landingPage.scrollDownAmount,listView.contentY);
-                    sync();
-                }
-            }
-
-            ListView {
-                id: listView
-                //parent:  landingPage.content
-                anchors.fill: parent
-                model: settingsModel
-                clip: true
-                Component.onCompleted: {
-                    listView.contentY = landingPageState.restoreRequired ? landingPageState.value(landingPage.scrollDownAmount) : 0;
-                }
-
-                delegate: ThemeImage {
-                    id: container
-                    source: "image://themedimage/images/settings/btn_settingentry_up"
-                    width: parent.width
-
-                    BorderImage {
-                        id: icon
-                        anchors.left: parent.left
-                        anchors.leftMargin: 20
-                        anchors.verticalCenter: parent.verticalCenter
-                        source: model.icon != "image://systemicon/" ? model.icon: "image://meegotheme/icons/settings/everyday-settings"
-                        onStatusChanged: {
-                            if(icon.status == Image.Ready) {
-                                console.log("image width: " + width + " height: " + height)
-                            }
-                            if(icon.status == Image.Error) {
-                                ///fallback
-                                icon.source =  "image://meegotheme/icons/settings/everyday-settings"
-                            }
-                        }
-
-                        Component.onCompleted: {
-                            console.log("app: " + model.title + " icon: " + model.icon + " src: " + icon.source)
-                        }
-
-                    }
-
-                    Text {
-                        anchors.left: icon.right
-                        anchors.leftMargin: 20
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: 200
-                        text: model.title
-                        height: 30
-                        font.pixelSize: theme_fontPixelSizeLarge
-                    }
-
-                    GestureArea {
-                        //id: mouseArea
-                        anchors.fill: parent
-
-                        Tap {
-                            id: tapArea
-                            onFinished: {
-                                translator.catalog = model.translation
-                                //window.topView = model.path
-
-                                landingPageState.setValue(window.currentBookKey,model.path);
-                                landingPageState.sync();
-
-                                ///This is added because of influential people:
-                                if(topView.lastIndexOf("xml") == topView.length - 3) {
-                                    console.log("loading xml setting: " + topView)
-                                    window.applicationData = topView
-                                    window.addPage(declarativeComponent)
-                                }
-                                else {
-                                    var component = Qt.createComponent(model.path)
-                                    if(component.status == Component.Error) {
-                                        console.log("error loading settings page: " + component.errorString())
-                                    }
-
-                                    window.addPage(component)
-                                }
-                            }
-                        }
-                    }
-
-                    MouseArea {
-                        id: mouseArea
-                        anchors.fill:  parent
-                    }
-
-                    states: [
-                        State {
-                            name: "pressed"
-                            PropertyChanges {
-                                target: container
-                                source: "image://themedimage/images/settings/btn_settingentry_dn"
-                            }
-                            when: mouseArea.pressed
-                        },
-                        State {
-                            name: "normal"
-                            PropertyChanges {
-                                target: container
-                                source: "image://themedimage/images/settings/btn_settingentry_up"
-                            }
-                            when: !mouseArea.pressed
-                        }
-                    ]
-
-                }
-            }
-
-        }
+        GeneralSettings{ }
     }
 }
 
