@@ -12,7 +12,6 @@ import MeeGo.Labs.Components 0.1 as Labs
 Item {
     id: container
 
-    property int mindex: index
     property alias list: thumbnailList
     property alias model: thumbnailList.model
 

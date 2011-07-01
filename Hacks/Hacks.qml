@@ -13,9 +13,9 @@ Ux.AppPage {
         id: contents
         width: parent.width
 
-        Image {
+        Item {
             id: languageItem
-            source: "image://themedimage/images/pulldown_box"
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
 
             Text {
@@ -36,9 +36,10 @@ Ux.AppPage {
             }
         }
 
-        Image {
+        ListSeparator {}
+        Item {
             id: homeItem
-            source: "image://themedimage/images/pulldown_box"
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
 
             Text {
@@ -73,33 +74,38 @@ Ux.AppPage {
         }
 
         Ux.ExpandingBox {
-
+            id: settingsHacksBox
             property int contentAreaHeight: 80
             width: parent.width
             height: contentAreaHeight
 
             Text {
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.leftMargin: 10
                 text: qsTr("Settings Hacks")
-                height: contentAreaHeight
+                height: settingsHacksBox.contentAreaHeight
                 verticalAlignment: Text.AlignVCenter
             }
 
             detailsComponent: Column {
                 width: parent.width
 
-                Image {
+                Item {
                     id: settingsSearchHacks
-                    source: "image://themedimage/images/pulldown_box"
+                    height: theme_listBackgroundPixelHeightOne
                     width: parent.width
 
                     Text {
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.leftMargin: 10
+                        anchors.right: settingsHacksToggle.left
+                        anchors.rightMargin: 10
                         text: qsTr("General Settings Hacks:")
-                        width: 100
                         height: parent.height
                         verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
                     }
 
                     Ux.ToggleButton {
@@ -123,18 +129,21 @@ Ux.AppPage {
                     }
                 }
 
-                Image {
+                ListSeparator {}
+                Item {
                     id: bluetoothHacks
-                    source: "image://themedimage/images/pulldown_box"
+                    height: theme_listBackgroundPixelHeightOne
                     width: parent.width
 
                     Text {
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.leftMargin: 10
-                        text: qsTr("bluetooth hacks:")
-                        width: 100
+                        anchors.right: bthacksToggle.left
+                        anchors.rightMargin: 10
+                        text: qsTr("Bluetooth hacks:")
                         height: parent.height
+                        elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
                     }
 
@@ -160,17 +169,20 @@ Ux.AppPage {
                     }
                 }
 
-                Image {
+                ListSeparator {}
+                Item {
                     id: connectionsHacks
-                    source: "image://themedimage/images/pulldown_box"
+                    height: theme_listBackgroundPixelHeightOne
                     width: parent.width
 
                     Text {
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.leftMargin: 10
+                        anchors.right: connectionshacksToggle.left
+                        anchors.rightMargin: 10
                         text: qsTr("Connections hacks:")
-                        width: 100
+                        elide: Text.ElideRight
                         height: parent.height
                         verticalAlignment: Text.AlignVCenter
                     }
@@ -199,9 +211,9 @@ Ux.AppPage {
             }
         }
 
-        Image {
+        Item {
             id: gpsSettings
-            source: "image://themedimage/images/pulldown_box"
+            height: theme_listBackgroundPixelHeightOne
             width: parent.width
 
             Text {
@@ -241,10 +253,10 @@ Ux.AppPage {
                 }*/
         }
 
-        Image {
+        Item {
             id: notificationMakerBar
-            source: "image://themedimage/images/settings/subheader"
             width: parent.width
+            height: expandingBox.height
 
             Ux.ExpandingBox {
                 id: expandingBox
@@ -252,7 +264,7 @@ Ux.AppPage {
                 width: parent.width
                 titleText: "Notification Maker"
                 titleTextColor: "black"
-                anchors.centerIn:  parent
+                height: theme_listBackgroundPixelHeightOne
                 detailsComponent: notificationMakerComponent
 
                 Component {
@@ -261,11 +273,10 @@ Ux.AppPage {
                     Column{
                         width: parent.width
                         spacing: 10
-                        Image {
+                        Item {
                             id: notificationItem
-                            source: "image://themedimage/images/settings/subheader"
                             width: parent.width
-                            height: 60
+                            height: theme_listBackgroundPixelHeightOne
 
                             Ux.DropDown{
                                 id: typeDropdown
@@ -295,11 +306,11 @@ Ux.AppPage {
                             }
                         }
 
-                        Image {
+                        ListSeparator {}
+                        Item {
                             id: summaryItem
-                            source: "image://themedimage/images/settings/subheader"
                             width: parent.width
-                            height: 50
+                            height: theme_listBackgroundPixelHeightOne
 
                             Row{
                                 anchors.verticalCenter:  parent.verticalCenter
@@ -319,11 +330,11 @@ Ux.AppPage {
                                 }
                             }
                         }
-                        Image {
+                        ListSeparator {}
+                        Item {
                             id: bodyItem
-                            source: "image://themedimage/images/settings/subheader"
                             width: parent.width
-                            height: 50
+                            height: theme_listBackgroundPixelHeightOne
 
                             Row{
                                 anchors.verticalCenter:  parent.verticalCenter
@@ -344,11 +355,11 @@ Ux.AppPage {
                             }
                         }
 
-                        Image {
+                        ListSeparator {}
+                        Item {
                             id: imageItem
-                            source: "image://themedimage/images/settings/subheader"
                             width: parent.width
-                            height: 50
+                            height: theme_listBackgroundPixelHeightOne
 
                             Row{
                                 anchors.verticalCenter:  parent.verticalCenter
@@ -369,16 +380,20 @@ Ux.AppPage {
                             }
                         }
 
-                        Ux.Button{
-                            id: sendNotificationButton
-                            text: "Make Notification"
-                            height: 40
-                            anchors.topMargin: 10
-                            bgSourceUp: "image://themedimage/images/btn_blue_up"
-                            bgSourceDn: "image://themedimage/images/btn_blue_dn"
-                            onClicked: {
-                                notificationMaker.makeNotification(typeDropdown.eventTypeText, summaryInput.text, bodyInput.text, imageInput.text);
+                        ListSeparator {}
+                        Item {
+                            id: makeItem
+                            width: parent.width
+                            height: theme_listBackgroundPixelHeightOne
+                            Ux.Button{
+                                id: sendNotificationButton
+                                anchors.centerIn: parent
+                                active: true
+                                text: "Make Notification"
+                                onClicked: {
+                                    notificationMaker.makeNotification(typeDropdown.eventTypeText, summaryInput.text, bodyInput.text, imageInput.text);
 
+                                }
                             }
                         }
                     }

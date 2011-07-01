@@ -14,7 +14,7 @@ import MeeGo.Settings 0.1 as Settings
 Item {
     id: backlightItem
     width: parent.width
-    height: childrenRect.height
+    height: backlightColumn.height + 30
 
     Settings.BacklightSetting {
         id: backlightSettings
@@ -22,85 +22,104 @@ Item {
 
     Column{
         id: backlightColumn
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        width: childrenRect.width
+        width: parent.width
         spacing: 20
 
-        Row {
+        Item {
             id: autoRow
-            spacing: 20
+            width: parent.width
+            height: theme_listBackgroundPixelHeightOne
+            anchors.horizontalCenter: parent.horizontalCenter
 
             Text {
                 id: autoText
+                anchors.left: parent.left
+                anchors.right: autoToggle.left
+                anchors.rightMargin: 10
                 text: qsTr("Set brightness automatically")
 		font.pixelSize: theme_fontPixelSizeLarge
+                anchors.verticalCenter: parent.verticalCenter
             }
 
             MeeGo.ToggleButton {
                 id: autoToggle
+                anchors.right: parent.right
                 on: backlightSettings.automatic
                 onToggled: {
                     backlightSettings.automatic = autoToggle.on
                 }
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
 
-        Column {
-            id: sliderColumn
-            visible: !autoToggle.on
-            height: childrenRect.height
+        Item {
+            width: parent.width
+            height: sliderColumn.visible ? sliderColumn.height : 0
+            Behavior on height {NumberAnimation {duration: 200}}
+            Column {
+                id: sliderColumn
+                width: parent.width
 
-            Item {
-                width: childrenRect.width
-                height: sliderText.paintedHeight
+                visible: !autoToggle.on
 
-                Text {
-                    id: sliderText
-                    text: qsTr("Brightness")
-                }
+                Item {
+                    width: parent.width
+                    height: sliderText.paintedHeight
 
-                Text {
-                    text: qsTr("%1%","slider value percentage").arg(backlightSlider.value)
-                    anchors.left: sliderText.right
-                    anchors.leftMargin: 10
-                }
-            }
+                    Text {
+                        id: sliderText
+                        text: qsTr("Brightness")
+                        font.pixelSize: theme_fontPixelSizeLarge
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
 
-            Row {
-                height: backlightSlider.height + 50
-
-                Image {
-                    source: "image://themedimage/widgets/common/brightness-slider/brightness-min"
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                MeeGo.Slider {
-                    id: backlightSlider
-                    width: backlightItem.width / 2
-                    value: backlightSettings.manualValue
-                    textOverlayVisible: false
-
-                    onSliderChanged: {
-                        backlightSettings.manualValue = backlightSlider.value
-                        backlightSlider.value = backlightSettings.manualValue
+                    Text {
+                        text: qsTr("%1%","slider value percentage").arg(backlightSlider.value)
+                        anchors.left: sliderText.right
+                        anchors.leftMargin: 10
                     }
                 }
 
-                Image {
-                    source: "image://themedimage/widgets/common/brightness-slider/brightness-max"
-                    anchors.verticalCenter: parent.verticalCenter
+                Item {
+                    width: parent.width
+                    height: backlightSlider.height + 50
+
+                    Image {
+                        id: minImage
+                        source: "image://themedimage/widgets/common/brightness-slider/brightness-min"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                    }
+
+                    MeeGo.Slider {
+                        id: backlightSlider
+                        width: backlightItem.width / 2
+                        value: backlightSettings.manualValue
+                        anchors.left: minImage.right
+                        anchors.right: maxImage.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        textOverlayVisible: false
+
+                        onSliderChanged: {
+                            backlightSettings.manualValue = backlightSlider.value
+                            backlightSlider.value = backlightSettings.manualValue
+                        }
+                    }
+
+                    Image {
+                        id: maxImage
+                        source: "image://themedimage/widgets/common/brightness-slider/brightness-max"
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                    }
                 }
             }
-
             states: [
                 State {
                     name: "visible"
 
                     PropertyChanges {
                         target: sliderColumn
-                        height: childrenRect.height
-                        visible: true
                         opacity: 1.0
                     }
 
@@ -112,8 +131,6 @@ Item {
 
                     PropertyChanges {
                         target: sliderColumn
-                        visible: false
-                        height: 0
                         opacity: 0
                     }
 
@@ -124,16 +141,22 @@ Item {
             transitions: [
                 Transition {
                     SequentialAnimation {
-
-                        NumberAnimation {
-                            properties: "height"
-                            duration: 200
-                            easing.type: Easing.InCubic
+                        ScriptAction {
+                            script: {
+                                if (!autoToggle.on)
+                                    sliderColumn.visible = true
+                            }
                         }
                         NumberAnimation {
                             properties: "opacity"
                             duration: 350
                             easing.type: Easing.OutCubic
+                        }
+                        ScriptAction {
+                            script: {
+                                if (autoToggle.on)
+                                    sliderColumn.visible = false
+                            }
                         }
                     }
                 }

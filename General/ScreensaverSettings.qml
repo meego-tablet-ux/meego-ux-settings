@@ -14,7 +14,7 @@ import MeeGo.Settings 0.1 as Settings
 Item {
     id: screensaverItem
     width: parent.width
-    height: childrenRect.height
+    height: childrenRect.height + 30
 
     Settings.BacklightSetting {
         id: backlightSettings
@@ -23,22 +23,25 @@ Item {
     Column{
         id: screensaverColumn
         anchors.left: parent.left
-        anchors.leftMargin: 10
-        width: childrenRect.width
+        width: parent.width
         spacing: 20
 
-        Row {
+        Item {
             id: enabledRow
-            spacing: 20
-
+            width: parent.width
+            height: theme_listBackgroundPixelHeightOne
             Text {
                 id: autoText
+                anchors.left: parent.left
+                anchors.right: enabledToggle.left
+                anchors.rightMargin: 10
                 text: qsTr("Screen Saver Enabled")
                 font.pixelSize: theme_fontPixelSizeLarge
             }
 
             MeeGo.ToggleButton {
                 id: enabledToggle
+                anchors.right: parent.right
                 on: backlightSettings.screenSaverTimeout > 0 ? true : false
                 onToggled: {
 
@@ -55,50 +58,53 @@ Item {
             }
         }
 
-        Column {
-            id: sliderColumn
-            visible: enabledToggle.on
-            height: childrenRect.height
+        Item {
+            width: parent.width
+            height: sliderColumn.visible ? sliderColumn.height : 0
+            Behavior on height {NumberAnimation {duration: 200}}
+            Column {
+                id: sliderColumn
+                width: parent.width
 
-            Item {
-                width: childrenRect.width
-                height: sliderText.paintedHeight
+                Item {
+                    width: childrenRect.width
+                    height: sliderText.height
+                    anchors.horizontalCenter: parent.horizontalCenter
 
-                Text {
-                    id: sliderText
-                    text: qsTr("Screen Saver Timeout")
-                    font.pixelSize: theme_fontPixelSizeLarge
+                    Text {
+                        id: sliderText
+                        text: qsTr("Screen Saver Timeout")
+                        font.pixelSize: theme_fontPixelSizeLarge
+                    }
+                    Text {
+                        text: qsTr("%n Minute(s)","time in minutes",screensaverSlider.value)
+                        font.pixelSize: theme_fontPixelSizeLarge
+                        anchors.left: sliderText.right
+                        anchors.leftMargin: 10
+                    }
                 }
 
-                Text {
-                    text: qsTr("%n Minute(s)","time in minutes",screensaverSlider.value)
-                    font.pixelSize: theme_fontPixelSizeLarge
-                    anchors.left: sliderText.right
-                    anchors.leftMargin: 10
+                MeeGo.Slider {
+                    id: screensaverSlider
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width
+                    min: 1
+                    max: 60
+                    value: backlightSettings.screenSaverTimeout / 60
+                    textOverlayVisible: false
+
+                    onSliderChanged: {
+                        backlightSettings.screenSaverTimeout = screensaverSlider.value * 60
+                    }
                 }
+
             }
-
-            MeeGo.Slider {
-                id: screensaverSlider
-                width: 400
-                min: 1
-                max: 60
-                value: backlightSettings.screenSaverTimeout / 60
-                textOverlayVisible: false
-
-                onSliderChanged: {
-                    backlightSettings.screenSaverTimeout = screensaverSlider.value * 60
-                }
-            }
-
             states: [
                 State {
                     name: "visible"
 
                     PropertyChanges {
                         target: sliderColumn
-                        height: childrenRect.height
-                        visible: true
                         opacity: 1.0
                     }
 
@@ -110,8 +116,6 @@ Item {
 
                     PropertyChanges {
                         target: sliderColumn
-                        visible: false
-                        height: 0
                         opacity: 0
                     }
 
@@ -122,16 +126,22 @@ Item {
             transitions: [
                 Transition {
                     SequentialAnimation {
-
-                        NumberAnimation {
-                            properties: "height"
-                            duration: 200
-                            easing.type: Easing.InCubic
+                        ScriptAction {
+                            script: {
+                                if (enabledToggle.on)
+                                    sliderColumn.visible = true
+                            }
                         }
                         NumberAnimation {
                             properties: "opacity"
                             duration: 350
                             easing.type: Easing.OutCubic
+                        }
+                        ScriptAction {
+                            script: {
+                                if (!enabledToggle.on)
+                                    sliderColumn.visible = false
+                            }
                         }
                     }
                 }
