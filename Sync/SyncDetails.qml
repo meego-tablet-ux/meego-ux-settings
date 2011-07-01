@@ -60,6 +60,17 @@ Item {
         }
     }
 
+    // Since we're displaying a time relative to the present, its representation will change in time. Keep it up to date.
+    Timer {
+      interval: 60000
+      running: true
+      repeat: true
+
+      onTriggered: {
+        bridge.setFuzzyTime(fuzz.getFuzzy(bridge.lastSyncTime));
+      }
+    }
+
     function executeOnSignin(u, p) {
         username = u;
         password = p;
