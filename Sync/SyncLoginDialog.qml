@@ -52,9 +52,14 @@ ModalDialog {
             // THIS REGULAR EXPRESSION DOES NOT COVER SOME RARE E-MAIL ADDRESS
             // CORNER CASES.
             //
-            textInput.validator: RegExpValidator {
+            RegExpValidator {
+                id: usernameValidator
 //                regExp: /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
                 regExp: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/
+            }
+
+            Component.onCompleted: {
+              textInput.validator = usernameValidator;
             }
 
             Keys.onTabPressed: {
