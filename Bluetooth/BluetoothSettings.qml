@@ -99,7 +99,7 @@ MeeGo.AppPage{
                     anchors.left: parent.left
                     anchors.leftMargin: 10
                     verticalAlignment: Text.AlignVCenter
-                    property int timeRemaining: bluetoothModel.discoverableTimeout
+                    property int timeRemaining : bluetoothModel.discoverable? 180:0
                     states: [
                         State {
                             PropertyChanges {
@@ -126,21 +126,42 @@ MeeGo.AppPage{
                     anchors.right: parent.right;
                     anchors.rightMargin: 10
                     anchors.verticalCenter: parent.verticalCenter
-                    on: bluetoothModel.discoverable
+			Component.onCompleted: {
+				visibilityToggleButton.on = bluetoothModel.discoverable
+				if(visibilityToggleButton.on)
+					discoverableTimer.start();
+                        }
                     onToggled: {
                         bluetoothModel.discoverable = visibilityToggleButton.on
                     }
 
-                    Connections {
-                        target: bluetoothModel
-                        onDiscoverableChanged: {
-                            visibilityToggleButton.on = bluetoothModel.discoverable
-                            if(bluetoothModel.discoverable) discoverableTimer.start();
-                            else discoverableTimer.stop();
+                        Connections {
+                            target: bluetoothModel
+                            onDiscoverableChanged: {
+                                visibilityToggleButton.on = bluetoothModel.discoverable
+                                if(bluetoothModel.discoverable){
+					 discoverableLabel.timeRemaining = bluetoothModel.discoverableTimeout
+					 discoverableTimer.start();
+				}
+                                else{ 
+					discoverableTimer.stop();
+					discoverableLabel.timeRemaining = 0
+				}
+                            }
                         }
+			Connections {
+                        	target: bluetoothModel
+                        	onDiscoverableTimeoutChanged: {
+                           		 if(bluetoothModel.discoverableTimeout == 0){
+						visibilityToggleButton.on = false
+						discoverableLabel.timeRemaining = 0
+					}
+					else if(visibilityToggleButton.on)
+						discoverableLabel.timeRemaining = bluetoothDiscoverTimeout				
+                       		 }
+                   	 }
                     }
                 }
-            }
 
             Image {
                 id: devicesLabel
