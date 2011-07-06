@@ -13,7 +13,7 @@ ListView {
   id: syncListView
   anchors.margins: 10
   anchors.fill: parent
-  interactive: visibleArea.heightRatio != 1
+  interactive: !(visibleArea.heightRatio == 1 && contentY == 0)
 
   clip: true
 
