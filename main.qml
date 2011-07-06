@@ -11,7 +11,7 @@ import MeeGo.Settings 0.1
 import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1
 import MeeGo.Ux.Gestures 0.1
-import "./General/GeneralSettings.qml"
+import "./General"
 
 Window {
     id: window
@@ -47,6 +47,7 @@ Window {
             mainSaveRestoreState.setValue(bookSaved,false);
             mainSaveRestoreState.sync();
         }
+        else topView = "General/GeneralSettings.qml"
     }
 
     onBookMenuTriggered: {
@@ -134,11 +135,6 @@ Window {
         DeclarativeComponent {
 
         }
-    }
-
-    Component {
-        id: landingPageComponent
-        GeneralSettings{ }
     }
 }
 
