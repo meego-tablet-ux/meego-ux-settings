@@ -24,6 +24,7 @@ Item {
     property string password    
     property variant theLoginDialog: null
 
+    signal syncDetailsDismissed()
 
     FuzzyDateTime {
         id: fuzz
@@ -59,10 +60,26 @@ Item {
         }
     }
 
+    // Since we're displaying a time relative to the present, its representation will change in time. Keep it up to date.
+    Timer {
+      interval: 60000
+      running: true
+      repeat: true
+
+      onTriggered: {
+        bridge.setFuzzyTime(fuzz.getFuzzy(bridge.lastSyncTime));
+      }
+    }
+
     function executeOnSignin(u, p) {
         username = u;
         password = p;
         bridge.doPostInit("", true);
+    }
+
+    function executeOnCancel() {
+        syncDetailsDismissed();
+        popPage();
     }
 
     Component {
@@ -116,9 +133,12 @@ Item {
                     spacing: 5
                     anchors.verticalCenter: serviceIcon.verticalCenter
                     anchors.left: serviceIcon.right
+                    anchors.right: syncMe.left
 
                     Text {
                         id: serviceName
+                        width: serviceStatus.width
+                        wrapMode: Text.WordWrap
                         color: theme.fontColorNormal
                         font.pixelSize: theme.fontPixelSizeLarge
                         font.bold: true
@@ -129,6 +149,8 @@ Item {
 
                     Text {
                         id: syncResult
+                        width: serviceStatus.width
+                        wrapMode: Text.WordWrap
                         color: theme.fontColorNormal
                         font.pixelSize: theme.fontPixelSizeNormal
                         text: bridge.status
@@ -162,7 +184,10 @@ Item {
 
                 Text {
                     id: syncToggleLabel
+                    anchors.right: scheduledToggle.left
+                    anchors.left: syncToggleContainer.left
                     anchors.verticalCenter: syncToggleContainer.verticalCenter
+                    wrapMode: Text.WordWrap
                     color: theme.fontColorNormal
                     font.pixelSize: theme.fontPixelSizeLarge
                     //: Argument is sync storage (e.g. "Contacts" or "Calendar").
@@ -170,6 +195,7 @@ Item {
                 }
 
                 ToggleButton {
+                    id: scheduledToggle
                     anchors.verticalCenter: syncToggleContainer.verticalCenter
                     anchors.right: syncToggleContainer.right
                     on: bridge.scheduled
@@ -198,11 +224,15 @@ Item {
                 spacing: 10
                 anchors.verticalCenter: syncAccountDetails.verticalCenter
                 x: 5
+                anchors.right: forget.left
+                anchors.left: syncAccountDetails.left
 
                 Text {
                     id: detailsLabel
                     color: theme.fontColorNormal
                     font.pixelSize: theme.fontPixelSizeLarge
+                    wrapMode: Text.WordWrap
+                    width: details.width
                     font.bold: true
                     //: Title of "account details" area of page.
                     text: qsTr("Sync account details")
@@ -238,10 +268,18 @@ Item {
     }
 
     Connections {
+      target: window
+
+      onBackButtonPressed: {
+        syncDetailsDismissed();
+      }
+    }
+
+    Connections {
         target: bridge
         onProfileRemoved: {
             // Sync profile no longer exists return to main sync UI page.
-            popPage();
+            executeOnCancel()
         }
 
         onAuthenticationFailed: {

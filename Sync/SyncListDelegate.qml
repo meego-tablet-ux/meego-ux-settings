@@ -19,6 +19,7 @@ BorderImage {
     border.bottom: 5
 
     property bool pressed: false
+    property bool detailsLoaded: false
 
     height: Math.max(serviceIcon.height, serviceLabel.height, scheduledStatus.height, arrowRight.height)
 
@@ -46,6 +47,10 @@ BorderImage {
                 storage:  model.storage
                 service:  model.displayName
                 name:     model.name
+
+                onSyncDetailsDismissed: {
+                    detailsLoaded = false;
+                }
             }
         }
     }
@@ -54,7 +59,10 @@ BorderImage {
         anchors.fill: parent
 
         onClicked: {
-            addPage(syncDetails);
+            if (!detailsLoaded) {
+              addPage(syncDetails);
+              detailsLoaded = true;
+            }
         }
 
         onPressed:  parent.pressed = true

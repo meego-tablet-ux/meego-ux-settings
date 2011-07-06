@@ -11,13 +11,28 @@ import MeeGo.Components 0.1
 import MeeGo.Sync 0.1
 
 AppPage {
+    function calculateHeight()
+    {
+      var ret = ((window.inLandscape || window.inInvertedLandscape)
+              ? (window.height - window.barsHeight - window.topDecorationHeight)
+              : (window.width  - window.barsHeight - window.topDecorationHeight));
+
+      return ret;
+    }
+
     id: syncPage
     //: The title of the Sync UI displayed to the user.
     pageTitle: qsTr("Sync Settings")
-    height: window.height - window.barsHeight - window.topDecorationHeight
+    height: calculateHeight()
+
+    Connections {
+      target: window
+      onOrientationChanged: {
+        syncPage.height = calculateHeight();
+      }
+    }
 
     SyncList {
       id: syncAllProfilesList
-      anchors.fill: parent
     }
 }
