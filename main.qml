@@ -27,7 +27,8 @@ Window {
     }
 
     toolBarTitle: window.retranslate ? qsTr("Settings"): ""
-    property variant allSettingsArray: [qsTr("All Settings")];
+
+    property string defaultSettingsPage: "General/GeneralSettings.qml"
     property variant applicationData
     property string topView
 
@@ -47,7 +48,7 @@ Window {
             mainSaveRestoreState.setValue(bookSaved,false);
             mainSaveRestoreState.sync();
         }
-        else topView = "General/GeneralSettings.qml"
+        else topView = defaultSettingsPage
     }
 
     onBookMenuTriggered: {
@@ -109,7 +110,7 @@ Window {
                 var page = cdata.split(",")[0];
 
                 if(page == "settings" || page == "") {
-                    window.switchBook(landingPageComponent)
+                    topView = defaultSettingsPage
                     return;
                 }
 
