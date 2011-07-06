@@ -9,7 +9,7 @@ CONFIG += link_pkgconfig \
     debug \
     warn_on
 
-PKGCONFIG += mlite syncevolution-qt-dbus
+PKGCONFIG += syncfwclient syncprofile mlite syncevolution-qt-dbus
 
 QT += declarative xml
 
