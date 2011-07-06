@@ -299,7 +299,7 @@ private:
 	void SaveGConfValues();
 
 	void SetGConfValue(BrowserSettingType type, const QVariant& value);
-	void setDefaultSearch();
+	void setDefaultSearch(bool reset_to_default);
 
 private:
 	QMap<BrowserSettingType, const char*> keynames_;

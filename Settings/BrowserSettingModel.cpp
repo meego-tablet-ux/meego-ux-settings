@@ -292,7 +292,7 @@ void BrowserSettingModel::Initialize()
 		list = gconf_client_get_list(client_, keynames_[kSearchEngineList], 
 				GCONF_VALUE_STRING, NULL);
                 if (!list) {
-                    setDefaultSearch();
+                    setDefaultSearch(false);
                 } else {
                     for(GSList* node = list; node; node = g_slist_next(node)){
 				QString se = QString::fromUtf8(static_cast<char*>(node->data));
@@ -367,9 +367,9 @@ void BrowserSettingModel::Initialize()
 					"/system/http_proxy/port", NULL);
 }
 
-void BrowserSettingModel::setDefaultSearch()
+void BrowserSettingModel::setDefaultSearch(bool reset_to_default)
 {
-       if (defaultSearchEngine_.isEmpty())
+       if (reset_to_default || defaultSearchEngine_.isEmpty())
            setDefaultSearchEngine("Google");
        QStringList engines;
        engines << defaultSearchEngine_;
@@ -382,7 +382,7 @@ void BrowserSettingModel::SetGConfDefaultValues()
 	setNewTabIsHomePage(true);
 	setHomePage("http://meego.com");
 	setShowBookmarkBar(true);
-	setDefaultSearch();
+	setDefaultSearch(true);
 	setUseProxyHost(false);
 
 	setAllowJavascript(true);
