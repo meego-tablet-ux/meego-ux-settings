@@ -257,7 +257,9 @@ MeeGo::Sync::SyncEvoFrameworkClient::lastSyncTime()
 void
 MeeGo::Sync::SyncEvoFrameworkClient::setFuzzyTime(QString fuzzyTime)
 {
-  setStatusFromLastReport(fuzzyTime);
+  /* We don't use the fuzzy time if we're busy syncing */
+  if (!(sessionActions.count() > 0 && sessionActions.head() == Sync))
+    setStatusFromLastReport(fuzzyTime);
 }
 
 void
