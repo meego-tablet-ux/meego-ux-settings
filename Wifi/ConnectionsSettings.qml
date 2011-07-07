@@ -292,7 +292,7 @@ MeeGo.AppPage {
                         Column {
                             id: rightItems
                             spacing: 10
-                            width: parent.width - leftItems.width - 10
+                            width: parent.width
 
                             MeeGo.TextEntry {
                                 id: ssidEntry
@@ -328,6 +328,10 @@ MeeGo.AppPage {
                             }
                         }
                     }
+                    Component.onCompleted: {
+                        addNetworkDialog.width = leftItems.width + rightItems.width + 50
+                    }
+
                     onAccepted: {
                         networkListModel.connectService(addNetworkDialog.ssidHidden,
                                                         addNetworkDialog.securityHidden, addNetworkDialog.securityPassphrase)
