@@ -196,6 +196,7 @@ namespace MeeGo {
       void nextAction();
       QString contextSessionName() const;
       QDateTime timeFromReport(const QStringMap &report);
+      void setOurConfig(const QStringMultiMap &theNewConfig);
 
     private:
 
