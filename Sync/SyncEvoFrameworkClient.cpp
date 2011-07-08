@@ -82,6 +82,9 @@ MeeGo::Sync::SyncEvoFrameworkClient::scheduled() const
   return m_scheduled;
 }
 
+/*
+ * There's an assumption here that the inital scheduled state is false, both here and in the UI
+ */
 void
 MeeGo::Sync::SyncEvoFrameworkClient::setScheduled(bool s)
 {
@@ -92,6 +95,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::setScheduled(bool s)
     m_scheduled = s;
     m_config[""]["autoSync"] = s ? "1" : "0";
     emit scheduledChanged(s);
+    performAction(RememberAutoSync);
   }
 }
 
@@ -296,7 +300,6 @@ void
 MeeGo::Sync::SyncEvoFrameworkClient::enableAutoSync(bool enable)
 {
   setScheduled(enable);
-  performAction(RememberAutoSync);
 }
 
 /*
@@ -414,13 +417,13 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
 
     if (!(call->property("WebDAVConfig").isValid() && call->property("WebDAVConfig").toBool())) {
       if (call->property("CreateLocalConfig").isValid() && call->property("CreateLocalConfig").toBool()) {
-        m_config = makeLocalConfig(theConfig);
+        setOurConfig(makeLocalConfig(theConfig));
         m_inProgress = false;
         performAction();
         return;
       }
       else
-        m_config = reply.argumentAt<0>();
+        setOurConfig(theConfig);
     }
 
     /* Check if this is a local config and, if so, retrieve the source config */
@@ -473,13 +476,6 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
           setPassword(theConfig[""]["password"]);
         else
           haveLoginInfo = false;
-
-        setScheduled(
-          theConfig[""].contains("autoSync")
-            ? "1" == theConfig[""]["autoSync"]
-              ? true
-              : false
-            : false);
       }
 
       /* If the config had no username/password, prompt for it */
@@ -487,6 +483,20 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetConfig(QDBusPendingCallWatcher *ca
         emit authenticationFailed();
     }
   }
+}
+
+void
+MeeGo::Sync::SyncEvoFrameworkClient::setOurConfig(const QStringMultiMap &theNewConfig)
+{
+  m_config = theNewConfig;
+
+  /* The auto-sync status is always retrieved from the sync config (rather than the target config, in case of WebDAV */
+  setScheduled(
+    m_config[""].contains("autoSync")
+      ? "1" == m_config[""]["autoSync"]
+        ? true
+        : false
+      : false);
 }
 
 /*
