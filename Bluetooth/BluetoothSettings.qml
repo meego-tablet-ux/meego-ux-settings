@@ -18,7 +18,7 @@ MeeGo.AppPage{
     height: contents.height + 10
     BluetoothDevicesModel {
         id: bluetoothModel
-        discoverableTimeout: 180 ///three minutes
+        //discoverableTimeout: 180 ///three minutes
     }
 
     Column {
@@ -67,16 +67,25 @@ MeeGo.AppPage{
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     anchors.rightMargin: 10
-                    on: bluetoothModel.powered
+		    Component.onCompleted: {
+			if(bluetoothModel.powered != poweredToggleButton.on)
+		    		poweredToggleButton.on = bluetoothModel.powered
+		    }
                     onToggled: {
-                        bluetoothModel.powered = poweredToggleButton.on;
+			if(bluetoothModel.powered != poweredToggleButton.on){
+                        	bluetoothModel.powered = poweredToggleButton.on
+				poweredToggleButton.enabled = false
+			}
                     }
 
                     Connections {
                         target: bluetoothModel
                         onPoweredChanged: {
                             if(!bluetoothModel.powered) discoverableTimer.stop();
-                            poweredToggleButton.on = bluetoothModel.powered;
+                            poweredToggleButton.on = bluetoothModel.powered
+                            poweredToggleButton.enabled = true
+
+
                         }
                     }
                 }
@@ -85,13 +94,13 @@ MeeGo.AppPage{
             ListSeparator {}
             Item {
                 id: bluetoothToggleGrid
-                visible: false
+                visible: true
                 width: parent.width
                 height: theme_listBackgroundPixelHeightOne
 
                 Text {
                     id: discoverableLabel
-                    text: qsTr("Discoverable")
+                    text: qsTr("Discoverable (%1)").arg(timeRemaining)
                     anchors.right: visibilityToggleButton.left
                     anchors.rightMargin: 10
                     elide: Text.ElideRight
@@ -123,7 +132,7 @@ MeeGo.AppPage{
 
                 MeeGo.ToggleButton {
                     id: visibilityToggleButton
-                    anchors.right: parent.right;
+                    anchors.right: parent.right
                     anchors.rightMargin: 10
                     anchors.verticalCenter: parent.verticalCenter
                     Component.onCompleted: {
@@ -132,7 +141,8 @@ MeeGo.AppPage{
                                     discoverableTimer.start();
                     }
                     onToggled: {
-                        bluetoothModel.discoverable = visibilityToggleButton.on
+			if(bluetoothModel.discoverable != visibilityToggleButton.on)
+                        	bluetoothModel.discoverable = visibilityToggleButton.on
                     }
 
                     Connections {
@@ -140,12 +150,10 @@ MeeGo.AppPage{
                         onDiscoverableChanged: {
                             visibilityToggleButton.on = bluetoothModel.discoverable
                             if(bluetoothModel.discoverable){
-                                discoverableLabel.timeRemaining = bluetoothModel.discoverableTimeout
-                                discoverableTimer.start();
+				bluetoothModel.discoverableTimeout = 180	
                             }
                             else{
-                                discoverableTimer.stop();
-                                discoverableLabel.timeRemaining = 0
+				bluetoothModel.discoverableTimeout = 0
                             }
                         }
                     }
@@ -154,15 +162,18 @@ MeeGo.AppPage{
                         onDiscoverableTimeoutChanged: {
                             if(bluetoothModel.discoverableTimeout == 0){
                                 visibilityToggleButton.on = false
-                                discoverableLabel.timeRemaining = 0
-                            }
-                            else if(visibilityToggleButton.on)
+				discoverableTimer.stop();
                                 discoverableLabel.timeRemaining = bluetoothModel.discoverableTimeout
+                            }
+                            else{
+                                visibilityToggleButton.on = true
+                                discoverableLabel.timeRemaining = bluetoothModel.discoverableTimeout
+				discoverableTimer.start();
                             }
                         }
                     }
                 }
-
+	    }
             Image {
                 id: devicesLabel
                 width: parent.width
