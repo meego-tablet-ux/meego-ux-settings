@@ -18,7 +18,7 @@ MeeGo.AppPage{
     height: contents.height + 10
     BluetoothDevicesModel {
         id: bluetoothModel
-        //discoverableTimeout: 180 ///three minutes
+        discoverableTimeout: 180 ///three minutes
     }
 
     Column {
@@ -94,7 +94,7 @@ MeeGo.AppPage{
             ListSeparator {}
             Item {
                 id: bluetoothToggleGrid
-                visible: true
+                visible: false
                 width: parent.width
                 height: theme_listBackgroundPixelHeightOne
 
