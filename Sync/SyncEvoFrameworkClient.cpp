@@ -847,47 +847,37 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
     if (!IS_LOCAL_CONFIG(m_config))
       m_config[""]["preventSlowSync"] = "0";
 
-    if (sessionActions.count() > 0) {
-      if (sessionActions.head() == SaveWebDAVLoginInfo) {
-        SyncEvoStatic::dbusCall(
-          QList<QProperty>()
-            << QProperty("DBusFunctionName", "GetConfig")
-            << QProperty("WebDAVConfig", true)
-            << QProperty("ConfigName", m_name),
-          this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-          m_sessionInterface->GetConfig(false));
-      }
-      else
-      if (sessionActions.head() == GetInitialStatus) {
-        if (m_name.isEmpty()) {
-          /*
-           * We have no choice but to detach from the session and unmask the status, because we still don't know
-           * the name of the service.
-           */
-          m_statusIsMasked = false;
-          emit statusChanged(m_status);
-          if (!m_error)
-            SyncEvoStatic::dbusCall(
-              QList<QProperty>()
-                << QProperty("DBusFunctionName", "Session::Detach")
-                << QProperty("ConfigName", m_name),
-              this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-              m_sessionInterface->Detach());
-        }
-        else
-        if (!m_error) {
-          /*
-           * Retrieve the last report for our service before we relinquish the session. That way we don't get any
-           * unfinished reports.
-           */
+    if (sessionActions.head() == SaveWebDAVLoginInfo) {
+      SyncEvoStatic::dbusCall(
+        QList<QProperty>()
+          << QProperty("DBusFunctionName", "GetConfig")
+          << QProperty("WebDAVConfig", true)
+          << QProperty("ConfigName", m_name),
+        this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+        m_sessionInterface->GetConfig(false));
+    }
+    else
+    if (sessionActions.count() > 0 && sessionActions.head() == GetInitialStatus) {
+      if (m_name.isEmpty()) {
+        m_statusIsMasked = false;
+        emit statusChanged(m_status);
+        if (!m_error)
           SyncEvoStatic::dbusCall(
             QList<QProperty>()
-              << QProperty("DBusFunctionName", "GetReports")
-              << QProperty("InitialStatus", true)
+              << QProperty("DBusFunctionName", "Session::Detach")
               << QProperty("ConfigName", m_name),
             this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-            m_serverInterface->GetReports(m_name, 0, 1));
-        }
+            m_sessionInterface->Detach());
+      }
+      else
+      if (!m_error) {
+        SyncEvoStatic::dbusCall(
+          QList<QProperty>()
+            << QProperty("DBusFunctionName", "GetReports")
+            << QProperty("InitialStatus", true)
+            << QProperty("ConfigName", m_name),
+          this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+          m_serverInterface->GetReports(m_name, 0, 1));
       }
     }
     else {
