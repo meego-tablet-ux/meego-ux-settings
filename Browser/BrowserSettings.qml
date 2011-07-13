@@ -313,17 +313,19 @@ MeeGo.AppPage {
                 text: settings.proxyHost
                 width: 300
                 anchors.right: dotChar.left
-                anchors.rightMargin: 4
                 anchors.verticalCenter: parent.verticalCenter
-                textFocus: false
                 onTextChanged: {
                     if(textInput.focus) {
                         settings.proxyHost = proxyBox.text
+                        if(portBox.text != "")
+                            settings.proxyPort = portBox.text
+                        else settings.proxyPort = 0
                     }
                 }
             }
             Text {
                 id: dotChar
+                anchors.left: proxyBox.left+4
                 anchors.right: portBox.left
                 anchors.rightMargin:4
                 text: ":"
@@ -333,20 +335,18 @@ MeeGo.AppPage {
                 id: portBox
                 anchors.right: parent.right
                 anchors.rightMargin: 10
+                text: settings.proxyPort
                 width: 70
                 defaultText: "0"
                 anchors.verticalCenter: parent.verticalCenter
                 validator: IntValidator { bottom: 0; top: 65535 }
-                textFocus: false
                 onTextChanged: {
                     if(textFocus) {
                         if(portBox.text != "")
                             settings.proxyPort = portBox.text
                         else settings.proxyPort = 0
+                        settings.proxyHost = proxyBox.text
                     }
-                }
-                Component.onCompleted: {
-                    portBox.text = settings.proxyPort
                 }
             }
         }
