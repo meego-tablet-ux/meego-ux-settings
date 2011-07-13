@@ -485,15 +485,6 @@ MeeGo.AppPage {
     } // Column
 
     Connections {
-        target: mainWindow
-        onVkbHeight: {
-            var map = current.mapToItem(bsContainer, 0, 0);
-            vkbheight = height;
-            if ((bsContainer.height - map.y - current.height) < vkbheight)l
-            flickableContent.contentY += vkbheight - (bsContainer.height - map.y - current.height) + 5
-        }
-    }
-    Connections {
         target: settings
         onDefaultSearchEngineChanged: {
             var conut = settings.searchEngineList.length;
