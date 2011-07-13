@@ -227,6 +227,7 @@ MeeGo.AppPage {
             MeeGo.Button {
                 id: addNetworkButton
                 text: qsTr("Add network")
+                visible: connectionsHacksGconf.value
                 anchors.right:  parent.right
                 anchors.rightMargin: 10
                 height: parent.height - 10
@@ -235,6 +236,12 @@ MeeGo.AppPage {
                 onClicked: {
                     addNetworkDialog.show()
                 }
+
+				Labs.GConfItem {
+					id: connectionsHacksGconf
+					defaultValue: false
+					key: "/meego/ux/settings/connectionshacks"
+				}
 
                 MeeGo.ModalDialog {
                     id: addNetworkDialog
