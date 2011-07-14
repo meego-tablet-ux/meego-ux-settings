@@ -237,8 +237,13 @@ namespace MeeGo {
       /// Stringified sync status.
       QString m_status;
 
+      enum StatusMode {
+        Normal,
+        Masked,
+        Internal,
+      };
       /// Whether the status is masked
-      bool m_statusIsMasked;
+      StatusMode m_statusMode;
 
       /// Sync service name (e.g. "Google").
       QString m_service;

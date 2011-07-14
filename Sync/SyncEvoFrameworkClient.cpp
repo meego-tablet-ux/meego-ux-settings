@@ -33,7 +33,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::SyncEvoFrameworkClient(QObject* parent)
   , m_error(false)
   , m_scheduled(false)
   , m_status()
-  , m_statusIsMasked(true)
+  , m_statusMode(Masked)
   , m_service()
   , m_storage()
   , m_name()
@@ -104,7 +104,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::status() const
 {
   QString ret = m_status;
 
-  if (m_statusIsMasked)
+  if (Masked == m_statusMode)
     ret = "";
 
   return ret;
@@ -262,7 +262,7 @@ void
 MeeGo::Sync::SyncEvoFrameworkClient::setFuzzyTime(QString fuzzyTime)
 {
   /* We don't use the fuzzy time if we're busy syncing */
-  if (!(sessionActions.count() > 0 && sessionActions.head() == Sync))
+  if (m_statusMode != Internal)
     setStatusFromLastReport(fuzzyTime);
 }
 
@@ -273,6 +273,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::doPostInit(QString fuzzyTime,
   if (forceSync)
     doInitialSync();  // Never been "synced".
   else
+  if (Internal != m_statusMode)
     setStatusFromLastReport(fuzzyTime);
 }
 
@@ -538,7 +539,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetReports(QDBusPendingCallWatcher *c
 
   
   if (initialStatus) {
-    m_statusIsMasked = false;
+    m_statusMode = Normal;
     if (!m_error)
       SyncEvoStatic::dbusCall(
         QList<QProperty>()
@@ -548,7 +549,8 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleGetReports(QDBusPendingCallWatcher *c
         m_sessionInterface->Detach());
   }
 
-  setStatusFromLastReport(QString(), initialStatus);
+  if (m_statusMode != Internal)
+    setStatusFromLastReport(QString(), initialStatus);
 
   /* Give the user a chance to re-enter username/password in case there was a 401 or a 403 */
   if (m_lastReport.contains("status")) {
@@ -586,12 +588,14 @@ MeeGo::Sync::SyncEvoFrameworkClient::handleSetConfig(QDBusPendingCallWatcher *ca
     switch (sessionActions.head()) {
       case Forget:
         //: Displayed when removal of sync account information fails.
+        m_statusMode = Internal;
         setStatus(tr("Unable to forget sync account!"));
         break;
 
       case Sync:
       case SaveWebDAVLoginInfo:
         //: Sync explicitly stopped.
+        m_statusMode = Internal;
         setStatus(tr("Sync aborted"));
         break;
 
@@ -859,7 +863,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
     else
     if (sessionActions.count() > 0 && sessionActions.head() == GetInitialStatus) {
       if (m_name.isEmpty()) {
-        m_statusIsMasked = false;
+        m_statusMode = Normal;
         emit statusChanged(m_status);
         if (!m_error)
           SyncEvoStatic::dbusCall(
@@ -903,6 +907,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
   else
   /* Only interesting if something is going on */
   if (status != "idle") {
+    m_statusMode = Internal;
     //: Status message: Sync in-progress
     QString displayStatus = tr("Syncing now...");
 
@@ -922,22 +927,24 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
       if (0 == error)
         //: Status message: Sync job completed
         displayStatus = tr("Sync completed");
-      else {
-        /*
-         * If there's an error, retrieve the newly created report, passing in the received error code so that, if the
-         * retrieval is unsuccessful, a rudimentary report can be created locally from the error code. The status will
-         * be calculated and set when the report retrieval completes (one way or the other).
-         */
-        if (!m_error)
-          SyncEvoStatic::dbusCall(
-            QList<QProperty>()
-              << QProperty("DBusFunctionName", "GetReports")
-              << QProperty("ConfigName", m_name)
-              << QProperty("Error", error),
-            this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
-            m_serverInterface->GetReports(m_name, 0, 1));
-      }
+      else
+        m_statusMode = Normal;
+
+      /*
+       * Retrieve the newly created report, passing in the received error code so that, if the
+       * retrieval is unsuccessful, a rudimentary report can be created locally from the error code. The status will
+       * be calculated and set when the report retrieval completes (one way or the other).
+       */
+      if (!m_error)
+        SyncEvoStatic::dbusCall(
+          QList<QProperty>()
+            << QProperty("DBusFunctionName", "GetReports")
+            << QProperty("ConfigName", m_name)
+            << QProperty("Error", error),
+          this, SLOT(asyncCallFinished(QDBusPendingCallWatcher *)),
+          m_serverInterface->GetReports(m_name, 0, 1));
     }
+
     setStatus(displayStatus);
   }
 }
