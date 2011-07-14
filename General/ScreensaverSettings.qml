@@ -65,25 +65,15 @@ Item {
             Column {
                 id: sliderColumn
                 width: parent.width
-
-                Item {
-                    width: childrenRect.width
-                    height: sliderText.height
+                Text {
+                    id: sliderText
+                    text: qsTr("Screen Saver Timeout") + " " + qsTr("%n Minute(s)","time in minutes",screensaverSlider.value)
+                    width: sliderColumn.width
+                    height: paintedHeight
+                    font.pixelSize: theme_fontPixelSizeLarge
+                    wrapMode: Text.WordWrap
                     anchors.horizontalCenter: parent.horizontalCenter
-
-                    Text {
-                        id: sliderText
-                        text: qsTr("Screen Saver Timeout")
-                        font.pixelSize: theme_fontPixelSizeLarge
-                    }
-                    Text {
-                        text: qsTr("%n Minute(s)","time in minutes",screensaverSlider.value)
-                        font.pixelSize: theme_fontPixelSizeLarge
-                        anchors.left: sliderText.right
-                        anchors.leftMargin: 10
-                    }
                 }
-
                 MeeGo.Slider {
                     id: screensaverSlider
                     anchors.horizontalCenter: parent.horizontalCenter
