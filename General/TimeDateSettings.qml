@@ -299,7 +299,7 @@ Item {
                 text: qsTr("Set Time Zone")
 
                 onClicked: {
-                    timezoneMenu.initAndShow()
+                    timezoneMenu.initAndShow(clockModel.timezone)
                 }
             }
         }

@@ -11,7 +11,7 @@ ModalDialog {
 
     showAcceptButton: true
     showCancelButton: true
-    acceptButtonEnabled: (tzlistmodel.currentItem != undefined)&&(searchBar.text != "")
+    acceptButtonEnabled: timezoneList.currentItem != undefined
 
     property bool embedded: false
     property bool landscape: true
@@ -22,122 +22,41 @@ ModalDialog {
     signal close()
 
     function initAndShow(title) {
-
-        if (title != undefined) {
-            timezonelist.filterOut(title);
-            tzlistmodel.currentIndex = 0;
-            searchBar.text = title;
-        }
-        else {
-            tzlistmodel.currentIndex = -1;
-            searchBar.text = "";
-        }
-
+        locEntry.text = ""
+        timezoneList.selectTitle(title);
         dialog.show();
     }
 
     function handleAccept() {
-        if((tzlistmodel.currentItem != undefined)&&(searchBar.text != ""))
-        {
-            dialog.triggered(tzlistmodel.currentItem.tzTitle);
-            dialog.close();
-        }
+        dialog.triggered(timezoneList.currentItem.selectedtitle);
+        dialog.close();
     }
 
     onAccepted: handleAccept()
     onRejected: close()
 
     content: Item {
-        id: container
-        anchors.fill:parent
+        anchors.fill: parent
         anchors.margins: 20
 
-        Labs.TimezoneListModel {
-            id: timezonelist
-        }
-
         Text {
-            id: filterTitle
-            anchors.top: parent.top
-            anchors.left: parent.left
-            height:  55
-            verticalAlignment: Text.AlignVCenter
-            text: qsTr("Filter list")
-            font.pixelSize: theme_fontPixelSizeLarge
+            id: locLabel
+            anchors { top: parent.top; left: parent.left }
+            color: theme_fontColorMedium
+            font.pixelSize: 16
+            text: qsTr("Choose location:")
         }
-
         TextEntry {
-            id: searchBar
-            anchors.top: parent.top
-            anchors.left: filterTitle.right
-            anchors.leftMargin: 10
-            anchors.right: parent.right
-
-            width: parent.width - filterTitle.paintedWidth
-            height: 55
-
-            onTextChanged: {
-                timezonelist.filterOut(searchBar.text);
-                tzlistmodel.currentIndex = 0;
-            }
-            Keys.onReturnPressed: {
-                dialog.handleAccept()
-            }
-        }
-
-        Image {
-            id: timezones
-            anchors.top: searchBar.bottom
+            id: locEntry
+            anchors { top: locLabel.bottom; left: parent.left; right: parent.right }
             anchors.topMargin: 10
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-
-            source: "image://themedimage/images/clock/bg_grooved_area"
-            ListView {
-                id: tzlistmodel
-                anchors.fill: parent
-                clip: true
-                z: -1
-                model: timezonelist
-
-                delegate: Image {
-                    id: timerect
-                    property int gmt: gmtoffset
-                    property string tzTitle: title
-                    source: "image://themedimage/images/clock/bg_list_item"
-                    height: itemHeight
-                    width: parent.width
-
-                    Text {
-                        text: locationname
-                        anchors.left: timerect.left
-                        anchors.leftMargin: 15
-                        anchors.verticalCenter: parent.verticalCenter
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        wrapMode: Text.WordWrap
-                        font.pixelSize: theme_fontPixelSizeLarge
-                    }
-                    /*Text {
-                        text: (gmtoffset < 0) ? qsTr("(GMT %1%2)").arg(gmtoffset).arg(":00") : qsTr("(GMT +%1%2)").arg(gmtoffset).arg(":00")
-                        anchors.right: timerect.right
-                        anchors.rightMargin: 15
-                        anchors.verticalCenter: parent.verticalCenter
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        wrapMode: Text.WordWrap
-                        font.pixelSize: theme_fontPixelSizeLarge
-                    }*/
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            tzlistmodel.currentIndex = index;
-                            searchBar.text = locationname;
-                        }
-                    }
-                }
-            }
+            font.pixelSize: 18
+            onTextChanged: timezoneList.filter(text)
+        }
+        Labs.TimezoneList {
+            id: timezoneList
+            anchors { top: locEntry.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
+            anchors.topMargin: 10
         }
     }
 }
