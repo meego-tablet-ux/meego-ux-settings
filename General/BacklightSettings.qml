@@ -33,6 +33,8 @@ Item {
 
             Text {
                 id: autoText
+                height: paintedHeight
+                wrapMode: Text.WordWrap
                 anchors.left: parent.left
                 anchors.right: autoToggle.left
                 anchors.rightMargin: 10
