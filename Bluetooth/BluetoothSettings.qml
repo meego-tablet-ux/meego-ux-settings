@@ -67,15 +67,15 @@ MeeGo.AppPage{
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     anchors.rightMargin: 10
-		    Component.onCompleted: {
-			if(bluetoothModel.powered != poweredToggleButton.on)
-		    		poweredToggleButton.on = bluetoothModel.powered
-		    }
+                    Component.onCompleted: {
+                        if(bluetoothModel.powered != poweredToggleButton.on)
+                            poweredToggleButton.on = bluetoothModel.powered
+                    }
                     onToggled: {
-			if(bluetoothModel.powered != poweredToggleButton.on){
+                        if(bluetoothModel.powered != poweredToggleButton.on){
                         	bluetoothModel.powered = poweredToggleButton.on
-				poweredToggleButton.enabled = false
-			}
+                            poweredToggleButton.enabled = false
+                        }
                     }
 
                     Connections {

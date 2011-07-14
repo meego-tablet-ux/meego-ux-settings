@@ -87,9 +87,11 @@ MeeGo.ExpandingBox {
     Component {
         id: inputButtonComponent
         MeeGo.Button {
+            property string conntectToString: qsTr("Connect input device")
+            property string disconnectToString: qsTr("Disconnect input device")
             width: parent.width
             height: 50
-            text: connected ? qsTr("Disconnect input device"): qsTr("Connect input device")
+            text: connected ? disconnectToString: conntectToString
             elideText: true
             property bool connected: container.device.inputConnected
 
@@ -100,11 +102,11 @@ MeeGo.ExpandingBox {
                     connected = isConnected
 
                     if(connected){
-                        text = qsTr("Disconnect input device")
+                        text = disconnectToString
                     }
 
                     else{
-                        text = qsTr("Connect input device")
+                        text = conntectToString
                     }
                 }
             }

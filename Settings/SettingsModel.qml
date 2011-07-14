@@ -97,9 +97,11 @@ ListModel {
 		var section = app.value("MTS/Section")
 
 		var sectionMap = [];
+		//:should actually be 'Applications'
+		var applicationstring = qsTr("Application");
 		sectionMap["Settings"] = qsTr("Settings")
-		sectionMap["Applications"] = qsTr("Application","should actually by 'Applications'")
-		sectionMap[""] = qsTr("Application","should actually by 'Applications'")
+		sectionMap["Applications"] = applicationstring
+		sectionMap[""] = applicationstring
 
 		if(path=="") {
 			path = app.value("DCP/Part")
