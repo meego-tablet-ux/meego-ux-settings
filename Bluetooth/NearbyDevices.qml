@@ -15,7 +15,7 @@ import MeeGo.Bluetooth 0.1
 AppPage {
     id: page
     pageTitle: qsTr("Add New Device")
-
+    height: nearbyDevicesList.height
     property bool suppress: false
 
     Component.onCompleted: {
@@ -72,9 +72,9 @@ AppPage {
 
     }
 
-    Item {
-        parent: page.content
-        anchors.fill: parent
+    Column {
+        id: nearbyDevicesList
+        width: parent.width
 
         /*Text {
         id: nearbyDevicesLabel
@@ -87,12 +87,8 @@ AppPage {
 			width: 100
 		}*/
 
-		ListView {
-			id: nearbyDevicesList
-			width: parent.width
-			height: parent.height
-			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.top: parent.top
+		Repeater {
+
 			model: nearbyDevicesModel
 			delegate: NearbyDeviceExpandingBox {
 				id: availableBluetoothItem
@@ -143,7 +139,7 @@ AppPage {
 				}
 			}
 		}
-    }
+	}
 
 
 

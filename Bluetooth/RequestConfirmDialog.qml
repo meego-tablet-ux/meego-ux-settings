@@ -30,16 +30,14 @@ Column {
         text: qsTr("Pair with %1 with key %2?").arg(deviceName).arg(key)
     }
 
-    Item {
+    Row {
         id: buttonGroup
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width / 2
+        spacing: 20
         height: 50
 
         MeeGo.Button {
             id: acceptButton
-            anchors.left: parent.left
-            width: 100
             height: parent.height
             text: qsTr("Accept")
             onClicked: {
@@ -49,8 +47,6 @@ Column {
 
         MeeGo.Button {
             id: rejectButton
-            anchors.right: parent.right
-            width: 100
             height: parent.height
             text: qsTr("Reject")
             onClicked: {
