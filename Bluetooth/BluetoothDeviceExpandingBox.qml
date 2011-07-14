@@ -215,9 +215,9 @@ MeeGo.ExpandingBox {
                             }
                             else if(napItem == null && list[i] == "00001116-0000-1000-8000-00805f9b34fb") {
                                 //internets nap profile
-                                napItem = panButtonComponent.createObject(profileButtonsColumn);
-                                napItem.parent = profileButtonsColumn
-                                count ++;
+                                // napItem = panButtonComponent.createObject(profileButtonsColumn);
+                                // napItem.parent = profileButtonsColumn
+                                // count ++;
                             }
                             else if(inputItem == null && list[i] == "00001124-0000-1000-8000-00805f9b34fb") {
                                 //input profile
