@@ -219,7 +219,7 @@ MeeGo::Sync::SyncEvoStorageModel::maybeAddToList(const QString &configName, cons
     if (SyncEvoStatic::instance()->storageTypes().contains(itr.key())) {
 
       /* If the source has "sync" defined ... */
-      if (itr.value().contains("sync")) {
+      if (itr.value().contains("sync") && itr.value()["sync"] != "disabled") {
         SyncEvoStorageModelItem newItem = SyncEvoStorageModelItem(configName, itr.key(), config[""], itr.value(), isTemplate);
 
         bool replace = false;
