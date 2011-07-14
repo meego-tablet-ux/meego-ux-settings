@@ -23,6 +23,12 @@ Window {
         onRetranslateUi: {
             window.retranslate = !window.retranslate
             window.retranslate = !window.retranslate
+            if (appsChanged == true) {
+                settingsModel.reloadModel()
+                appsChanged = false
+                translated = false
+            } else
+                translated = true
         }
     }
 
@@ -35,6 +41,9 @@ Window {
     property string currentBookKey: "currentBook" //The settings book the user user is using T_IGNOREME
     property string bookSaved: "bookSaved" //Flag to check if a book has been saved T_IGNOREME
     property bool restoreFinished: !mainSaveRestoreState.restoreRequired
+
+    property bool appsChanged: false
+    property bool translated: false
 
     //bookMenuModel: settingsModel.settingsApps
     bookMenuModel: settingsModel
@@ -86,7 +95,12 @@ Window {
     Connections {
         target: settingsModel.desktopSettingsModel
         onAppsChanged: {
-            settingsModel.reloadModel()
+            if (translated == true) {
+                settingsModel.reloadModel()
+                appsChanged = false
+                translated = false
+            } else
+                appsChanged = true
         }
     }
 
