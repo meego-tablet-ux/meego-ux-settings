@@ -221,12 +221,14 @@ MeeGo.AppPage{
                 Repeater {
                     model: bluetoothModel
                     delegate: BluetoothDeviceExpandingBox {
+                        bluetoothdevicemodel: bluetoothModel
                         name: model.name
                         width: deviceList.width
                         hwaddy: model.address
                         dbuspath: model.path
                         uuids: model.profiles
-                        bluetoothdevicemodel: bluetoothModel
+
+                        //device: model.bluetoothDevice
 
                         Connections {
                             target: bluetoothModel

@@ -149,17 +149,12 @@ MeeGo.ExpandingBox {
 
     Component {
         id: capabilitiesComponent
-        Item {
+        Column {
             id: capabilitiesItem
 
             width: parent.width
-            height: profileButtonsColumn.height + removeButton.height
+            //height: profileButtonsColumn.height + removeButton.height
             anchors.horizontalCenter: parent.horizontalCenter
-
-            Component.onCompleted: {
-                console.log("getting device for " + dbuspath)
-                container.device = bluetoothdevicemodel.device(dbuspath)
-            }
 
             Connections {
                 target: container
@@ -181,16 +176,20 @@ MeeGo.ExpandingBox {
                     property Item napItem: null
                     property Item inputItem: null
 
+                    Connections {
+                        target:  container
+                        onDeviceChanged: {
+                            console.log("text created first!!! " + container.device.name)
+                            if(container.device)
+                                profileButtonsColumn.populateList();
+                        }
+                    }
+
                     Text {
                         text: qsTr("Connect actions")
                         height: 50
                         width: parent.width
                         elide: Text.ElideRight
-
-                        Component.onCompleted: {
-                            console.log("text created first!!! " + container.device.name)
-                            profileButtonsColumn.populateList();
-                        }
                     }
 
                     function populateList() {
@@ -209,6 +208,7 @@ MeeGo.ExpandingBox {
                             if(audioItem == null && (list[i] == "00001108-0000-1000-8000-00805f9b34fb" ||
                                              list[i] == "0000110b-0000-1000-8000-00805f9b34fb")) {
                                 //audio
+                                console.log("adding audio button")
                                 audioItem = audioButtonComponent.createObject(profileButtonsColumn);
                                 audioItem.parent = profileButtonsColumn
                                 count ++;
@@ -254,7 +254,7 @@ MeeGo.ExpandingBox {
 
                     Text {
                         visible: btHacksGconf.value
-                        height: 50
+                        //height: 50
                         width: parent.width
                         elide: Text.ElideRight
                         text: qsTr("Properties")
@@ -262,8 +262,9 @@ MeeGo.ExpandingBox {
 
                     Text {
                         visible: btHacksGconf.value
-                        text: qsTr("Paired: %1").arg(container.device.paired)
-                        height: 50
+                        //: User will never see this:
+                        text: qsTr("Paired: %1").arg(container.device.paired ? "true":"false")
+                        //height: 50
                         width: parent.width
                         wrapMode: Text.WordWrap
                         verticalAlignment: Text.AlignVCenter
@@ -272,7 +273,7 @@ MeeGo.ExpandingBox {
                     Text {
                         visible: btHacksGconf.value
                         text: qsTr("Hardware address: %1").arg(container.hwaddy)
-                        height: 50
+                        //height: 50
                         width: parent.width
                         wrapMode: Text.WrapAnywhere
                         verticalAlignment: Text.AlignVCenter
@@ -281,7 +282,7 @@ MeeGo.ExpandingBox {
                     Text {
                         visible: btHacksGconf.value
                         text: qsTr("Icon: %1").arg(container.device.icon)
-                        height: 50
+                        //height: 50
                         width: parent.width
                         wrapMode: Text.WrapAnywhere
                         verticalAlignment: Text.AlignVCenter
@@ -289,8 +290,8 @@ MeeGo.ExpandingBox {
 
                     Text {
                         visible: btHacksGconf.value
-                        text: qsTr("UUIDs: %1").arg(container.uuids)
-                        height: 100
+                        text: qsTr("UUIDs: %1").arg(container.uuids.toString())
+                        //height: 100
                         wrapMode: Text.WrapAnywhere
                         width: parent.width
                         verticalAlignment: Text.AlignVCenter
