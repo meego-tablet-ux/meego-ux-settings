@@ -906,7 +906,7 @@ MeeGo::Sync::SyncEvoFrameworkClient::sessionStatusChanged(const QString &status,
   }
   else
   /* Only interesting if something is going on */
-  if (status != "idle") {
+  if (!(status == "idle" || status == "queueing")) {
     m_statusMode = Internal;
     //: Status message: Sync in-progress
     QString displayStatus = tr("Syncing now...");
