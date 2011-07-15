@@ -28,9 +28,9 @@ MeeGo::Sync::SyncEvoStorageModelItem::displayName() const
 QString
 MeeGo::Sync::SyncEvoStorageModelItem::iconURI() const
 {
-  return (m_header.contains("IconURI") && !m_header["IconURI"].isEmpty())
+  return (m_header.contains("IconURI"))
     ? m_header["IconURI"]
-    : "image://themedimage/icons/services/generic";
+    : "";
 }
 
 QString

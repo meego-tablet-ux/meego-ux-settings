@@ -81,6 +81,11 @@ BorderImage {
             id: theIcon
             source: image
             anchors.centerIn: serviceIcon
+
+            onStatusChanged: {
+              if (status == Image.Error || status == Image.Null)
+                source = "image://themedimage/icons/services/generic";
+            }
         }
     }
 
