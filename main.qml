@@ -21,14 +21,11 @@ Window {
     Connections {
         target:  mainWindow
         onRetranslateUi: {
+            /// This is a trick to cause retransation to happen
             window.retranslate = !window.retranslate
             window.retranslate = !window.retranslate
-            if (appsChanged == true) {
-                settingsModel.reloadModel()
-                appsChanged = false
-                translated = false
-            } else
-                translated = true
+            /// We also reset the model
+            settingsModel.reloadModel()
         }
     }
 
@@ -42,8 +39,8 @@ Window {
     property string bookSaved: "bookSaved" //Flag to check if a book has been saved T_IGNOREME
     property bool restoreFinished: !mainSaveRestoreState.restoreRequired
 
-    property bool appsChanged: false
-    property bool translated: false
+    //property bool appsChanged: false
+    //property bool translated: false
 
     //bookMenuModel: settingsModel.settingsApps
     bookMenuModel: settingsModel
@@ -90,18 +87,6 @@ Window {
 
     SettingsModel {
         id: settingsModel
-    }
-
-    Connections {
-        target: settingsModel.desktopSettingsModel
-        onAppsChanged: {
-            if (translated == true) {
-                settingsModel.reloadModel()
-                appsChanged = false
-                translated = false
-            } else
-                appsChanged = true
-        }
     }
 
     SaveRestoreState {
