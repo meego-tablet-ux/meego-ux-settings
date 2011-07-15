@@ -267,7 +267,7 @@ MeeGo.AppPage {
                 }
             }
         }
-        ListSeparator {}
+       /* ListSeparator {}
         Item {
             height: theme_listBackgroundPixelHeightOne
             width: parent.width
@@ -315,7 +315,7 @@ MeeGo.AppPage {
                 anchors.right: dotChar.left
                 anchors.verticalCenter: parent.verticalCenter
                 onTextChanged: {
-                    if(textInput.focus) {
+                    if(activeFocus) {
                         settings.proxyHost = proxyBox.text
                         if(portBox.text != "")
                             settings.proxyPort = portBox.text
@@ -341,7 +341,7 @@ MeeGo.AppPage {
                 anchors.verticalCenter: parent.verticalCenter
                 validator: IntValidator { bottom: 0; top: 65535 }
                 onTextChanged: {
-                    if(textFocus) {
+                    if(activeFocus) {
                         if(portBox.text != "")
                             settings.proxyPort = portBox.text
                         else settings.proxyPort = 0
@@ -349,7 +349,7 @@ MeeGo.AppPage {
                     }
                 }
             }
-        }
+        }*/
         Item {
             width: parent.width
             height:  privacyColumn.height + 20
