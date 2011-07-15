@@ -125,6 +125,11 @@ Item {
                         id: theIcon
                         source: icon
                         anchors.centerIn: serviceIcon
+
+                        onStatusChanged: {
+                          if (status == Image.Error || status == Image.Null)
+                            source = "image://themedimage/icons/services/generic";
+                        }
                     }
                 }
 
