@@ -269,11 +269,12 @@ Item {
                 id: manualTimezoneLabelText
                 anchors.left: parent.left
                 anchors.leftMargin: 10
+                anchors.right: setTimeZoneButton.left
+                anchors.rightMargin: 10
                 text: qsTr("Manual time zone selection");
                 font.pixelSize: theme_fontPixelSizeLarge
                 height: parent.height
-                width: parent.width
-                elide: Text.ElideRight
+                wrapMode: Text.WordWrap
                 verticalAlignment: Text.AlignVCenter
             }
 
