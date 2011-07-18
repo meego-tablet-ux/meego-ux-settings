@@ -26,6 +26,12 @@ Window {
             window.retranslate = !window.retranslate
             /// We also reset the model
             settingsModel.reloadModel()
+            /// reload the current page
+            var component = Qt.createComponent(topView)
+            if(component.status == Component.Error) {
+                console.log("error loading settings page: " + component.errorString())
+            }
+            replacePage(component)
         }
     }
 
@@ -77,6 +83,7 @@ Window {
                     console.log("error loading settings page: " + component.errorString())
                 }
                 window.switchBook(component)
+
             }
         }
     }
