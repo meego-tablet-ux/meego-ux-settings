@@ -22,7 +22,8 @@ OTHER_FILES += \
     Sync/*.qml \
     General/*.qml \
     Wifi/*.js \
-    Wifi/*.qml
+    Wifi/*.qml \
+    Panels/*.qml
 
 TRANSLATIONS += $${TRANS_SOURCES} $${OTHER_FILES} $${HEADERS}
 PROJECT_NAME = meego-ux-settings
@@ -39,7 +40,7 @@ QMAKE_EXTRA_TARGETS += dist
 SUBDIRS += Settings Example Hacks
 sync_settings:SUBDIRS += Sync
 
-qmlfiles.files += *.qml Wifi General Browser Language Personalize Notifications
+qmlfiles.files += *.qml Wifi General Browser Personalize Notifications Panels
 qmlfiles.path = $$INSTALL_ROOT/usr/share/$$TARGET
 
 bluetooth.files = Bluetooth/*.qml Bluetooth/helper.js
