@@ -30,6 +30,7 @@ ExpandingBox {
         anchors.margins: 10
         source: "image://themedimage/icons/settings/"+icon
         defaultSource: "image://themedimage/icons/settings/device-bluetooth-default"
+
         //height: availableBluetoothItem.containerHeight - 20
     }
 

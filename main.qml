@@ -54,7 +54,7 @@ Window {
     bookMenuActive: false
 
     Component.onCompleted: {
-        if(mainSaveRestoreState.value(bookSaved)) {
+        if(mainSaveRestoreState.restoreRequired && mainSaveRestoreState.value(bookSaved)) {
             topView = mainSaveRestoreState.value(currentBookKey);
             restoreFinished = true;
             mainSaveRestoreState.setValue(bookSaved,false);
