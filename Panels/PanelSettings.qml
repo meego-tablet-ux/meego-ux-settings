@@ -17,11 +17,12 @@ AppPage {
         id: content
         width: parent.width
 
-        Label {
+        /*Label {
+        /// FIXME: This is in the page title.  we don't need it here too.
             text: qsTr("Panels")
             width: parent.width
             height: 60
-        }
+        }*/
 
         Repeater {
             model: panelModel
