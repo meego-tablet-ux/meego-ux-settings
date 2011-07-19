@@ -31,20 +31,13 @@ MeeGo.ExpandingBox {
 
     visible: device.paired
 
-    Image {
+    MeeGo.ThemeImage {
         id: bluetoothIcon
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.margins: 10
-        source: container.device.icon != "" ? "image://meegotheme/icons/settings/"+container.device.icon: "image://meegotheme/icons/settings/device-bluetooth-default"
-        height: container.containerHeight - 20
-        fillMode: Image.PreserveAspectFit
-        onStatusChanged: {
-            console.log("icon: " + container.device.icon)
-            if(status == Image.Error) {
-                source = "image://image://systemicon/device-bluetooth-default"
-            }
-        }
+        source: "image://themedimage/icons/settings/"+container.device.icon
+        defaultSource: "image://themedimage/icons/settings/device-bluetooth-default"
     }
 
     Text {

@@ -23,20 +23,14 @@ ExpandingBox {
 	property string icon: ""
 	property string alias: ""
 
-    Image {
+    ThemeImage {
         id: bluetoothIcon
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.margins: 10
-        source: icon != "" ? "image://meegotheme/icons/settings/"+icon: "image://meegotheme/icons/settings/device-bluetooth-default"
-        height: availableBluetoothItem.containerHeight - 20
-        fillMode: Image.PreserveAspectFit
-        onStatusChanged: {
-            console.log("icon: " + icon)
-            if(status == Image.Error) {
-                source = "image://meegotheme/icons/settings/device-bluetooth-default"
-            }
-        }
+        source: "image://themedimage/icons/settings/"+icon
+        defaultSource: "image://themedimage/icons/settings/device-bluetooth-default"
+        //height: availableBluetoothItem.containerHeight - 20
     }
 
 	Text {

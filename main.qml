@@ -11,7 +11,6 @@ import MeeGo.Settings 0.1
 import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1
 import MeeGo.Ux.Gestures 0.1
-import "./General"
 
 Window {
     id: window
@@ -30,6 +29,7 @@ Window {
             var component = Qt.createComponent(topView)
             if(component.status == Component.Error) {
                 console.log("error loading settings page: " + component.errorString())
+                return;
             }
             replacePage(component)
         }
