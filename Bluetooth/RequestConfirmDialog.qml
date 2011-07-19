@@ -28,6 +28,7 @@ Column {
         height: 100
         horizontalAlignment: Text.AlignHCenter
         text: qsTr("Pair with %1 with key %2?").arg(deviceName).arg(key)
+        wrapMode: Text.WordWrap
     }
 
     Row {

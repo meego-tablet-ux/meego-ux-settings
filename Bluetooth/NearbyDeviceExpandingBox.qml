@@ -38,6 +38,9 @@ ExpandingBox {
 		anchors.margins: 10
 		anchors.top: parent.top
 		anchors.left: bluetoothIcon.right
+		anchors.right: parent.right
+		anchors.rightMargin: 30
 		text: deviceName
+		elide: Text.ElideRight
 	}
 }

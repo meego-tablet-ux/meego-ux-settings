@@ -18,6 +18,7 @@ Column {
         id: textlabel
         anchors.horizontalCenter: parent.horizontalCenter
         text: qsTr("Enter passcode to use:")
+        wrapMode: Text.WordWrap
         width: parent.width
     }
 
