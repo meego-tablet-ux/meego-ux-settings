@@ -14,7 +14,7 @@ import MeeGo.Settings 0.1 as Settings
 Item {
     id: backlightItem
     width: parent.width
-    height: backlightColumn.height + 30
+    height: backlightColumn.height
 
     Settings.BacklightSetting {
         id: backlightSettings
@@ -28,7 +28,7 @@ Item {
         Item {
             id: autoRow
             width: parent.width
-            height: theme_listBackgroundPixelHeightOne
+            height: autoToggle.height
             anchors.horizontalCenter: parent.horizontalCenter
 
             Text {
@@ -36,16 +36,19 @@ Item {
                 height: paintedHeight
                 wrapMode: Text.WordWrap
                 anchors.left: parent.left
+                anchors.leftMargin: 20
                 anchors.right: autoToggle.left
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 text: qsTr("Set brightness automatically")
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 anchors.verticalCenter: parent.verticalCenter
             }
 
             MeeGo.ToggleButton {
                 id: autoToggle
                 anchors.right: parent.right
+                anchors.rightMargin: 20
                 on: backlightSettings.automatic
                 onToggled: {
                     backlightSettings.automatic = autoToggle.on
@@ -71,19 +74,22 @@ Item {
                     Text {
                         id: sliderText
                         text: qsTr("Brightness")
-                        font.pixelSize: theme_fontPixelSizeLarge
+                        font.pixelSize: theme.fontPixelSizeNormal
+                        color: theme.fontColorNormal
                         anchors.left: parent.left
-                        anchors.leftMargin: 10
+                        anchors.leftMargin: 20
                         anchors.right: percentText.left
-                        anchors.rightMargin: 10
+                        anchors.rightMargin: 20
                         elide: Text.ElideRight
                     }
 
                     Text {
                         id: percentText
                         text: qsTr("%1%","slider value percentage").arg(backlightSlider.value)
+                        font.pixelSize: theme.fontPixelSizeNormal
+                        color: theme.fontColorNormal
                         anchors.right: parent.right
-                        anchors.rightMargin: 10
+                        anchors.rightMargin: 20
                     }
                 }
 

@@ -31,20 +31,27 @@ MeeGo.ExpandingBox {
 
     visible: device.paired
 
+    MeeGo.Theme {
+        id: theme
+    }
+
     MeeGo.ThemeImage {
         id: bluetoothIcon
-        anchors.top: parent.top
         anchors.left: parent.left
-        anchors.margins: 10
+        anchors.leftMargin: 20
+        anchors.verticalCenter: mainText.verticalCenter
         source: "image://themedimage/icons/settings/"+container.device.icon
         defaultSource: "image://themedimage/icons/settings/device-bluetooth-default"
     }
 
     Text {
         id: mainText
-        anchors.margins: 10
-        anchors.top: parent.top
+        height: container.containerHeight
+        verticalAlignment: Text.AlignVCenter
+        anchors.leftMargin: 8
         anchors.left: bluetoothIcon.right
+        font.pixelSize: theme.fontPixelSizeNormal
+        color: theme.fontColorNormal
         text: name
     }
 
@@ -145,9 +152,10 @@ MeeGo.ExpandingBox {
         Column {
             id: capabilitiesItem
 
-            width: parent.width
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: 20
             //height: profileButtonsColumn.height + removeButton.height
-            anchors.horizontalCenter: parent.horizontalCenter
 
             Connections {
                 target: container
@@ -180,6 +188,8 @@ MeeGo.ExpandingBox {
 
                     Text {
                         text: qsTr("Connect actions")
+                        font.pixelSize: theme.fontPixelSizeNormal
+                        color: theme.fontColorNormal
                         height: 50
                         width: parent.width
                         elide: Text.ElideRight
@@ -228,6 +238,8 @@ MeeGo.ExpandingBox {
                     width: capabilitiesItem.width / 2 - 10
                     Text {
                         text: qsTr("Manage")
+                        font.pixelSize: theme.fontPixelSizeNormal
+                        color: theme.fontColorNormal
                         height: 50
                         width: parent.width
                         elide: Text.ElideRight

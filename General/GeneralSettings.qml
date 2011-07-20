@@ -28,22 +28,30 @@ AppPage {
 
             detailsComponent: LanguageSettings { }
 
-            titleText: qsTr ("Language")              
+            Text {
+                text: qsTr ("Language")
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                anchors.right:  parent.right
+                anchors.rightMargin: 40
+                verticalAlignment: Text.AlignVCenter
+                height:  parent.containerHeight
+                font.pixelSize: theme.fontPixelSizeNormal
+            }
         }
 
-        Item {
+        Image {
             id: timedateexpandingbox
             height: theme_listBackgroundPixelHeightOne
-            anchors.margins: 10
-            anchors.left: parent.left
-            anchors.right: parent.right
+            source: "image://themedimage/images/settings/subheader"
+            width: parent.width
             Text {
                 id: timeTitle
-                text: qsTr ("Time and date")
-                font.pixelSize: theme.fontPixelSizeLarge
-                color: theme.fontColorHighlight
-                elide: Text.ElideRight
                 anchors.left: parent.left
+                anchors.leftMargin: 20
+                text: qsTr ("Time and date")
+                font.pixelSize: theme.fontPixelSizeNormal
+                elide: Text.ElideRight
                 anchors.right: btnIcon.left
                 anchors.rightMargin: 10
                 height: parent.height
@@ -54,7 +62,7 @@ AppPage {
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 anchors.verticalCenter: parent.verticalCenter
-                source: "image://themedimage/icons/internal/arrow-default-right.png"
+                source: "image://themedimage/icons/internal/arrow-default-right"
             }
             MouseArea {
                 anchors.fill: parent
@@ -74,96 +82,99 @@ AppPage {
             }
         }
 
-        ListSeparator {}
-        Item {
-            id: volumeexpandingbox
-
-            anchors.margins: 10
-            anchors.left: parent.left
-            anchors.right: parent.right
-
-            height: sound.height + vol.height
-            Item {
-                id: sound
-                width: parent.width
-                height: theme_listBackgroundPixelHeightOne
-                Text {
-                    text: qsTr ("Sound")
-                    font.pixelSize: theme.fontPixelSizeLarge
-                    color: theme.fontColorHighlight
-                    elide: Text.ElideRight
-                    anchors.left: parent.left
-                    anchors.right: volPercentage.left
-                    anchors.rightMargin: 5
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-                Text {
-                    id: volPercentage
-                    // %1 is volume level percentage
-                    text: qsTr("%1%","%1 is volume level percentage").arg(volumeControl.volume)
-                    height: volumeexpandingbox.containerHeight
-                    anchors.right: parent.right
-                    anchors.rightMargin: 40
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+        //ListSeparator {}
+        Image {
+            id: sound
+            width: parent.width
+            height: theme.listBackgroundPixelHeightOne
+            source: "image://themedimage/images/settings/subheader"
+            Text {
+                text: qsTr ("Sound")
+                font.pixelSize: theme.fontPixelSizeNormal
+                elide: Text.ElideRight
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                anchors.right: volPercentage.left
+                anchors.rightMargin: 5
+                anchors.verticalCenter: parent.verticalCenter
             }
+            Text {
+                id: volPercentage
+                // %1 is volume level percentage
+                text: qsTr("%1%","%1 is volume level percentage").arg(volumeControl.volume)
+                height: volumeexpandingbox.containerHeight
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
+                anchors.right: parent.right
+                anchors.rightMargin: 20
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+        Item {
+            width: parent.width
+            height: vol.height + 40
             VolumeSettings {
                 id: vol
-                anchors.top: sound.bottom
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
 
-        ListSeparator {}
-        Item {
-            id: backlightexpandingbox
-            height: backlightTitle.height + backlight.height
 
-            anchors.margins: 10
-            anchors.left: parent.left
-            anchors.right: parent.right
+
+
+       // ListSeparator {}
+        Image {
+            id: backlightexpandingbox
+            height: theme.listBackgroundPixelHeightOne
+            source: "image://themedimage/images/settings/subheader"
+            width: parent.width
 
             Text {
                 id: backlightTitle
-                height: theme_listBackgroundPixelHeightOne
+                height: theme.listBackgroundPixelHeightOne
                 text: qsTr ("Backlight control")
-                font.pixelSize: theme.fontPixelSizeLarge
-                color: theme.fontColorHighlight
+                font.pixelSize: theme.fontPixelSizeNormal
                 elide: Text.ElideRight
                 anchors.left: parent.left
+                anchors.leftMargin: 20
                 verticalAlignment: Text.AlignVCenter
             }
+        }
+        Item {
+            width: parent.width
+            height: backlight.height + 40
             BacklightSettings {
                 id: backlight
-                anchors.top: backlightTitle.bottom
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
 
-        ListSeparator {}
-        Item {
-            id: screensaverexpandingbox
-            height: screensaverTitle.height + screensaver.height
 
-            anchors.margins: 10
-            anchors.left: parent.left
-            anchors.right: parent.right
+        ///ListSeparator {}
+        Image {
+            id: screensaverexpandingbox
+            height: theme.listBackgroundPixelHeightOne
+            source: "image://themedimage/images/settings/subheader"
+
+            width: parent.width
             Text {
                 id: screensaverTitle
                 height: theme_listBackgroundPixelHeightOne
                 text: qsTr ("Screen saver")
-                font.pixelSize: theme.fontPixelSizeLarge
-                color: theme.fontColorHighlight
+                font.pixelSize: theme.fontPixelSizeNormal
                 elide: Text.ElideRight
                 anchors.left: parent.left
+                anchors.leftMargin: 20
                 verticalAlignment: Text.AlignVCenter
             }
-
+        }
+        Item {
+            width: parent.width
+            height: screensaver.height + 40
             ScreensaverSettings {
                 id: screensaver
-                anchors.top: screensaverTitle.bottom
+                anchors.verticalCenter: parent.verticalCenter
             }
-
         }
-
     }
-
 }

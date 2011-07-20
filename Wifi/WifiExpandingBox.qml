@@ -64,6 +64,10 @@ MeeGo.ExpandingBox {
             return 0;
     }
 
+    MeeGo.Theme {
+        id: theme
+    }
+
     Component.onCompleted: {
         WifiHelper.connmanSecurityType["wpa"] = qsTr("WPA");
         WifiHelper.connmanSecurityType["rsn"] = qsTr("WPA2");
@@ -84,13 +88,11 @@ MeeGo.ExpandingBox {
 
     Row {
         id: headerArea
-        parent: container.headerContent
-        spacing: 10
-        anchors.top:  parent.top
-        anchors.topMargin: 10
-        height: childrenRect.height
+        spacing: 8
+        anchors.top:  parent.top       
+        height: container.containerHeight
         anchors.left: parent.left
-        anchors.leftMargin: 10
+        anchors.leftMargin: 20
 
         Image {
             id: checkbox
@@ -111,6 +113,7 @@ MeeGo.ExpandingBox {
 
         Image {
             id: signalIndicator
+            anchors.verticalCenter: parent.verticalCenter
             source: {
                 if(networkItem.type == "wifi" || networkItem.type == "cellular")
                     return "image://themedimage/icons/settings/" + signalIndicatorIcons[signalIndicatorIconIndex]
@@ -119,13 +122,15 @@ MeeGo.ExpandingBox {
         }
 
         Column {
+            id: textLabelColumn
             spacing: 5
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width
             Text {
                 id: mainText
                 text: status == "" ? ssid:(ssid + " - " + status)
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 width:  container.width - 40
                 elide: Text.ElideRight
             }
@@ -133,7 +138,8 @@ MeeGo.ExpandingBox {
             Text {
                 id: securityText
                 text: finished ? WifiHelper.connmanSecurityType[container.security] : ""
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 visible: text != ""
                 width: parent.width
                 elide: Text.ElideRight
@@ -205,9 +211,9 @@ MeeGo.ExpandingBox {
 
             Text {
                 text: qsTr("Do you want to remove %1 ?  This action will forget any passwords and you will no longer be automatically connected to %2").arg(networkItem.name).arg(networkItem.name);
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 wrapMode: Text.WordWrap
-                height: paintedHeight
                 width: parent.width
             }
 
@@ -249,17 +255,20 @@ MeeGo.ExpandingBox {
             columns: 2
             anchors.top: parent.top
             anchors.left: parent.left
-            anchors.leftMargin: 10
-            width: parent.width
+            anchors.leftMargin: 20
+            anchors.right:  parent.right
+            anchors.rightMargin: 20
             height: childrenRect.height
 
-	    property bool editable: container.networkItem.method != "dhcp" && container.networkItem.type != "cellular"
+            property bool editable: container.networkItem.method != "dhcp" && container.networkItem.type != "cellular"
+            property int orientationWidth: (settingsGrid.width  / (window.orientation == 1 || window.orientation == 3 ? 3:2)) - settingsGrid.spacing * 2
+
 
             MeeGo.Button {
                 id: disconnectButton
                 text: qsTr("Disconnect")
                 height: 50
-                width: parent.width / 3
+                width: orientationWidth
                 onClicked: {
                     networkItem.disconnectService();
                     container.expanded = false;
@@ -270,7 +279,7 @@ MeeGo.ExpandingBox {
                 id: removeConnection
                 text: qsTr("Remove connection")
                 height: 50
-                width: parent.width / 3
+                width: orientationWidth
                 elideText: true
                 onClicked: {
                     container.detailsComponent = removeConfirmAreaComponent
@@ -281,13 +290,15 @@ MeeGo.ExpandingBox {
             Text {
                 id: connectByLabel
                 text: qsTr("Connect by:")
-                width: Math.min(settingsGrid.width / 2, connectByLabel.paintedWidth)
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
+                width: orientationWidths
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
             MeeGo.DropDown {
                 id: dropdown
-                width: parent.width / 3
+                width: orientationWidth
                 property string method
                 visible: container.networkItem.type != "cellular"
                 model: finished ? [ WifiHelper.IPv4Type["dhcp"], WifiHelper.IPv4Type["static"] ]: []
@@ -307,48 +318,58 @@ MeeGo.ExpandingBox {
             }
 
             Text {
-                width: parent.width / 3
+                width: orientationWidth
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 text: finished ? WifiHelper.IPv4Type["dhcp"] : ""
                 visible: container.networkItem.type == "cellular"
             }
 
 			Text {
 				id: ipaddyLabel
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				text: qsTr("IP Address:")
-				width: Math.min(settingsGrid.width / 2, ipaddyLabel.paintedWidth)
+				width: orientationWidth
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
 			Text {
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				text: container.ipaddy
 				visible:  !editable
-				width: parent.width / 3
+				width: orientationWidth
 			}
 
 			MeeGo.TextEntry {
 				id: ipaddyEdit
-				width: parent.width / 3
+				width: orientationWidth
 				text: container.ipaddy
 				visible: editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 
 			Text {
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				id: subnetMaskLabel
 				text: qsTr("Subnet mask:")
-				width: Math.min(settingsGrid.width / 2, subnetMaskLabel.paintedWidth)
+				width: orientationWidth
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
 			Text {
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				text: container.subnet
 				visible:  !editable
-				width: parent.width / 3
+				width: orientationWidth
 			}
 
 			MeeGo.TextEntry {
 				id: subnetEdit
-				width: parent.width / 3
+				width: orientationWidth
 				text: container.subnet
 				visible: editable
 				//textInput.inputMask: "000.000.000.000;_"
@@ -356,27 +377,33 @@ MeeGo.ExpandingBox {
 			Text {
 				id: gatewayLabel
 				text: qsTr("Gateway")
-				width: Math.min(settingsGrid.width / 2, gatewayLabel.paintedWidth)
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
+				width: orientationWidth
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
 			Text {
 				text: container.gateway
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				visible:  !editable
-				width: parent.width / 3
+				width: orientationWidth
 			}
 
 			MeeGo.TextEntry {
 				id: gatewayEdit
-				width: parent.width / 3
+				width: orientationWidth
 				text: container.gateway
 				visible: editable
 				//textInput.inputMask: "000.000.000.000;_"
 			}
 			Text {
 				id: dnsLabel
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				text: qsTr("DNS:")
-				width: Math.min(settingsGrid.width / 2, dnsLabel.paintedWidth)
+				width: orientationWidth
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 			Grid {
@@ -387,8 +414,10 @@ MeeGo.ExpandingBox {
 				Repeater {
 					model: container.nameservers
 					delegate: Text {
-						width: nameserverstextedit.width / 3
+						width: orientationWidth
 						text: modelData
+						font.pixelSize: theme.fontPixelSizeNormal
+						color: theme.fontColorNormal
 					}
 				}
 
@@ -396,18 +425,23 @@ MeeGo.ExpandingBox {
 			Text {
 				id: hwaddyLabel
 				text: qsTr("Hardware address:")
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				visible: container.networkItem.type != "cellular"
-				width: Math.min(settingsGrid.width / 2, hwaddyLabel.paintedWidth)
+				width: orientationWidth
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 
 			Text {
-				width: parent.width / 3
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
+				width: orientationWidth
 				text: container.hwaddy
 				visible: container.networkItem.type != "cellular"
 			}
 
 			Labs.GConfItem {
+
 				id: connectionsHacksGconf
 				defaultValue: false
 				key: "/meego/ux/settings/connectionshacks"
@@ -416,26 +450,34 @@ MeeGo.ExpandingBox {
 			Text {
 				id: securityLabel
 				visible: connectionsHacksGconf.value
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				text: qsTr("Security: ")
-				width: Math.min(settingsGrid.width / 2, securityLabel.paintedWidth)
+				width: orientationWidth
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 			}
 			Text {
 				visible: connectionsHacksGconf.value
-				width: parent.width / 3
+				width: orientationWidth
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				text: WifiHelper.connmanSecurityType[container.security]
 			}
 
 			Text {
 				id: strengthLabel
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				visible: connectionsHacksGconf.value
-				width: Math.min(settingsGrid.width / 2, strengthLabel.paintedWidth)
+				width: orientationWidth
 				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 				text: qsTr("Strength: ")
 			}
 			Text {
+				font.pixelSize: theme.fontPixelSizeNormal
+				color: theme.fontColorNormal
 				visible: connectionsHacksGconf.value
-				width: parent.width / 3
+				width: orientationWidth
 				text: container.networkItem.strength
 			}
 
@@ -444,7 +486,7 @@ MeeGo.ExpandingBox {
 				text: qsTr("Apply")
 				elideText: true
 				height: 50
-				width: parent.width / 3
+				width: orientationWidth
 				onClicked: {
 					networkItem.method = dropdown.method
 					networkItem.ipaddress = ipaddyEdit.text
@@ -457,7 +499,7 @@ MeeGo.ExpandingBox {
 				id: cancelButton
 				text: qsTr("Cancel")
 				height: 50
-				width: parent.width / 3
+				width: orientationWidth
 				elideText: true
 				onClicked: {
 					container.expanded = false
@@ -475,7 +517,9 @@ MeeGo.ExpandingBox {
         id: passwordArea
         Item {
             id: passwordGrid
-            width: parent.width
+            anchors.right: parent.right
+            anchors.left:  parent.left
+            anchors.margins: 20
             height: childrenRect.height
 
             property bool passwordRequired: container.networkItem.type == "wifi" && container.security != "none" && container.security != "ieee8021x"

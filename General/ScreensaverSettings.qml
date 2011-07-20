@@ -14,7 +14,7 @@ import MeeGo.Settings 0.1 as Settings
 Item {
     id: screensaverItem
     width: parent.width
-    height: childrenRect.height + 30
+    height: childrenRect.height
 
     Settings.BacklightSetting {
         id: backlightSettings
@@ -24,24 +24,26 @@ Item {
         id: screensaverColumn
         anchors.left: parent.left
         width: parent.width
-        spacing: 20
-
+        spacing:  20
         Item {
             id: enabledRow
             width: parent.width
-            height: theme_listBackgroundPixelHeightOne
+            height: enabledToggle.height
             Text {
                 id: autoText
                 anchors.left: parent.left
+                anchors.leftMargin: 20
                 anchors.right: enabledToggle.left
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 text: qsTr("Screen Saver Enabled")
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
             }
 
             MeeGo.ToggleButton {
                 id: enabledToggle
                 anchors.right: parent.right
+                anchors.rightMargin: 20
                 on: backlightSettings.screenSaverTimeout > 0 ? true : false
                 onToggled: {
 
@@ -66,16 +68,19 @@ Item {
                 id: sliderColumn
                 width: parent.width
                 Text {
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
                     id: sliderText
-                    text: qsTr("Screen Saver Timeout") + " " + qsTr("%n Minute(s)","time in minutes",screensaverSlider.value)
+                    text: qsTr("Screen Saver Timeout %n Minute(s)", "time in minutes", screensaverSlider.value)
                     width: sliderColumn.width
                     height: paintedHeight
-                    font.pixelSize: theme_fontPixelSizeLarge
+                    font.pixelSize: theme.fontPixelSizeNormal
+                    color: theme.fontColorNormal
                     wrapMode: Text.WordWrap
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
                 MeeGo.Slider {
-                    id: screensaverSlider
+                    id: screensaverSlider                 
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width
                     min: 1

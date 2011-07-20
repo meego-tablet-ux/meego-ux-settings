@@ -25,21 +25,22 @@ ExpandingBox {
 
     ThemeImage {
         id: bluetoothIcon
-        anchors.top: parent.top
         anchors.left: parent.left
-        anchors.margins: 10
+        anchors.verticalCenter: mainText.verticalCenter
+        anchors.margins: 20
         source: "image://themedimage/icons/settings/"+icon
-        defaultSource: "image://themedimage/icons/settings/device-bluetooth-default"
-
-        //height: availableBluetoothItem.containerHeight - 20
+        defaultSource: "image://themedimage/icons/settings/device-bluetooth-default"        
     }
 
 	Text {
 		id: mainText
-		anchors.margins: 10
-		anchors.top: parent.top
+		anchors.leftMargin: 8
+		verticalAlignment: Text.AlignVCenter
+		height:  availableBluetoothItem.containerHeight
 		anchors.left: bluetoothIcon.right
 		anchors.right: parent.right
+		font.pixelSize: theme.fontPixelSizeNormal
+		color: theme.fontColorNormal
 		anchors.rightMargin: 30
 		text: deviceName
 		elide: Text.ElideRight

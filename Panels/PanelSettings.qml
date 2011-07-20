@@ -13,6 +13,10 @@ AppPage {
         sortType: PanelProxyModel.SortTypeDefaultIndex
     }
 
+    Theme {
+        id: theme
+    }
+
     Column {
         id: content
         width: parent.width
@@ -29,6 +33,7 @@ AppPage {
             delegate:panelDelegate
             focus: true
         }
+
 
         Component {
             id: panelDelegate
@@ -47,7 +52,7 @@ AppPage {
                     anchors.right: tbPanel.visible ? tbPanel.left : tbText.left
                     anchors.rightMargin: 12
                     color: theme_fontColorNormal
-                    font.pixelSize: theme_fontPixelSizeLarge
+                    font.pixelSize: theme.fontPixelSizeNormal
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.NoWrap
                     elide: Text.ElideRight

@@ -8,7 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1 as Labs
-import MeeGo.Ux.Components.Common 0.1
+import MeeGo.Components 0.1
 import MeeGo.Ux.Components.DateTime 0.1
 import MeeGo.Connman 0.1
 import MeeGo.Settings 0.1
@@ -30,6 +30,10 @@ Item {
         id: clockModel
     }
 
+    Theme{
+        id: theme
+    }
+
     Column {
         id: timeDateItem
         width: parent.width
@@ -41,9 +45,9 @@ Item {
 
             Text{
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("What time it is");
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
                 height: parent.height
                 width: parent.width
                 elide: Text.ElideRight
@@ -60,11 +64,12 @@ Item {
                 id: dateLabelText
                 text: locale.currentDate(Labs.LocaleHelper.DateFullLong)
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 anchors.top: parent.top
                 anchors.topMargin: 2
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 height: parent.height
                 width: parent.width
             }
@@ -87,10 +92,11 @@ Item {
             Text {
                 id: timeLabelText
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 verticalAlignment: Text.AlignVCenter
                 text: locale.currentTime(Labs.LocaleHelper.TimeFull)
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 height: parent.height
                 width: parent.width - 10
             }
@@ -117,11 +123,12 @@ Item {
             Text {
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 anchors.right: twentyfourhrtoggle.left
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 text: qsTr("24 hour clock")
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
             }
@@ -130,7 +137,7 @@ Item {
                 id: twentyfourhrtoggle
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 on: locale.timeFormat == Labs.LocaleHelper.TimeFormat24
                 onToggled: {
                     locale.timeFormat = twentyfourhrtoggle.on ? Labs.LocaleHelper.TimeFormat24 : Labs.LocaleHelper.TimeFormat12
@@ -148,13 +155,15 @@ Item {
             Text {
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 anchors.right: autoTimeToggle.left
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 text: qsTr("Set date and time automatically")
                 wrapMode: Text.WordWrap
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
             }
 
             ToggleButton {
@@ -162,7 +171,7 @@ Item {
                 on: clockModel.timeUpdates == "auto"
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
 
                 onToggled: {
                     if (on)
@@ -187,9 +196,9 @@ Item {
 
             Text{
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Where you are");
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
                 height: parent.height
                 width: parent.width
                 elide: Text.ElideRight
@@ -206,11 +215,12 @@ Item {
                 id: currentTzText
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Current time zone is %1").arg(timezoneListModel.getLocationName(clockModel.timezone))
                 width: parent.width
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
             }
@@ -226,12 +236,13 @@ Item {
                 id: findMeText
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 anchors.right:  findMeToggleButton.left
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 text: qsTr("Find me and keep my location updated")
                 wrapMode: Text.WordWrap
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
 
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
@@ -241,7 +252,7 @@ Item {
                 id: findMeToggleButton
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 on: clockModel.timezoneUpdates == "auto"
                 onToggled: {
                     if (on)
@@ -268,11 +279,12 @@ Item {
             Text{
                 id: manualTimezoneLabelText
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 anchors.right: setTimeZoneButton.left
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 text: qsTr("Manual time zone selection");
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 height: parent.height
                 wrapMode: Text.WordWrap
                 verticalAlignment: Text.AlignVCenter
@@ -280,9 +292,9 @@ Item {
 
             Button {
                 id: setTimeZoneButton
-                height: 40
+                height: 50
                 anchors.right: parent.right
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Set Time Zone")
 

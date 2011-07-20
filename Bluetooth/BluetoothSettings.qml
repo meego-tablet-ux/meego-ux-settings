@@ -21,6 +21,10 @@ MeeGo.AppPage{
         discoverableTimeout: 180 ///three minutes
     }
 
+    MeeGo.Theme {
+        id: theme
+    }
+
     Column {
         id: contents
         width: parent.width
@@ -31,9 +35,10 @@ MeeGo.AppPage{
             visible: !bluetoothModel.adapterPresent
             Text{
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("No bluetooth adapter present");
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 height: parent.height
                 width: parent.width
                 elide: Text.ElideRight
@@ -53,10 +58,12 @@ MeeGo.AppPage{
                     id: airplaneLabel
                     anchors.top: parent.top
                     anchors.left: parent.left
-                    anchors.leftMargin: 10
+                    anchors.leftMargin: 20
                     anchors.right: poweredToggleButton.left
-                    anchors.rightMargin: 10
+                    anchors.rightMargin: 20
                     text: qsTr("Bluetooth")
+                    font.pixelSize: theme.fontPixelSizeNormal
+                    color: theme.fontColorNormal
                     elide:  Text.ElideRight
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
@@ -66,7 +73,7 @@ MeeGo.AppPage{
                     id: poweredToggleButton
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    anchors.rightMargin: 10
+                    anchors.rightMargin: 20
                     Component.onCompleted: {
                         if(bluetoothModel.powered != poweredToggleButton.on)
                             poweredToggleButton.on = bluetoothModel.powered
@@ -102,11 +109,11 @@ MeeGo.AppPage{
                     id: discoverableLabel
                     text: qsTr("Discoverable (%1)").arg(timeRemaining)
                     anchors.right: visibilityToggleButton.left
-                    anchors.rightMargin: 10
+                    anchors.rightMargin: 20
                     elide: Text.ElideRight
                     height: parent.height
                     anchors.left: parent.left
-                    anchors.leftMargin: 10
+                    anchors.leftMargin: 20
                     verticalAlignment: Text.AlignVCenter
                     property int timeRemaining : bluetoothModel.discoverable? 180:0
                     states: [
@@ -133,7 +140,7 @@ MeeGo.AppPage{
                 MeeGo.ToggleButton {
                     id: visibilityToggleButton
                     anchors.right: parent.right
-                    anchors.rightMargin: 10
+                    anchors.rightMargin: 20
                     anchors.verticalCenter: parent.verticalCenter
                     Component.onCompleted: {
                             visibilityToggleButton.on = bluetoothModel.discoverable
@@ -181,12 +188,12 @@ MeeGo.AppPage{
 
                 Text{
                     anchors.left: parent.left
-                    anchors.leftMargin: 10
+                    anchors.leftMargin: 20
                     text: qsTr("Paired devices");
-                    font.pixelSize: theme_fontPixelSizeLarge
+                    font.pixelSize: theme.fontPixelSizeNormal
                     height: parent.height
                     anchors.right: addNewDeviceButton.left
-                    anchors.rightMargin: 10
+                    anchors.rightMargin: 20
                     wrapMode: Text.WordWrap
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -195,7 +202,7 @@ MeeGo.AppPage{
                     id: addNewDeviceButton
                     active: poweredToggleButton.on
                     anchors.right: parent.right
-                    anchors.rightMargin: 10
+                    anchors.rightMargin: 20
                     anchors.verticalCenter: parent.verticalCenter
                     text: qsTr("Add device")
                     height: parent.height / 1.5

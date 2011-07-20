@@ -34,6 +34,11 @@ MeeGo.AppPage {
         finished = true;
     }
 
+
+    MeeGo.Theme {
+        id: theme
+    }
+
     Column {
         id: contents
         width: parent.width
@@ -61,7 +66,7 @@ MeeGo.AppPage {
                 source: "image://themedimage/icons/settings/settings-airplanemode"
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 states: [
                     State {
                         PropertyChanges {
@@ -77,10 +82,12 @@ MeeGo.AppPage {
                 id: airplaneLabel
                 anchors.verticalCenter: airplaneIcon.verticalCenter
                 anchors.left: airplaneIcon.right
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Airplane mode")
+                font.pixelSize: theme.fontPixelSizeNormal
                 anchors.right:  airplaneToggle.left
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
+                color: theme.fontColorNormal
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
@@ -90,7 +97,7 @@ MeeGo.AppPage {
                 id: airplaneToggle
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 on: networkListModel.offlineMode
                 onToggled: {
                     networkListModel.setOfflineMode(airplaneToggle.on);
@@ -112,9 +119,9 @@ MeeGo.AppPage {
 
             Text{
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Network connections");
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
                 height: parent.height
                 width: parent.width
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -146,10 +153,12 @@ MeeGo.AppPage {
                         Text {
                             anchors.top: parent.top
                             anchors.left: parent.left
-                            anchors.leftMargin: 10
+                            anchors.leftMargin: 20
                             text: finished ? WifiHelper.connmanTechnologies[modelData]: ""
+                            font.pixelSize: theme.fontPixelSizeNormal
+                            color: theme.fontColorNormal
                             anchors.right:  dtoggle.left
-                            anchors.rightMargin: 10
+                            anchors.rightMargin: 20
                             elide: Text.ElideRight
                             height: parent.height
                             verticalAlignment: Text.AlignVCenter
@@ -159,7 +168,7 @@ MeeGo.AppPage {
                             id: dtoggle
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.right
-                            anchors.rightMargin: 10
+                            anchors.rightMargin: 20
                             on: networkListModel.enabledTechnologies.indexOf(modelData) != -1
                             onToggled: {
                                 if(dtoggle.on) {
@@ -213,12 +222,12 @@ MeeGo.AppPage {
             source: "image://themedimage/images/settings/subheader"
             Text{
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Available networks")
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeNormal
                 height: parent.height
                 anchors.right:  addNetworkButton.left
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
@@ -229,7 +238,7 @@ MeeGo.AppPage {
                 text: qsTr("Add network")
                 visible: connectionsHacksGconf.value
                 anchors.right:  parent.right
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 height: parent.height - 10
                 anchors.verticalCenter: parent.verticalCenter
 
@@ -299,7 +308,7 @@ MeeGo.AppPage {
                         Column {
                             id: rightItems
                             spacing: 10
-                            width: parent.width
+                            //width: parent.width
 
                             MeeGo.TextEntry {
                                 id: ssidEntry

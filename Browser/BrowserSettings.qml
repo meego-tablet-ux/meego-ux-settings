@@ -22,6 +22,10 @@ MeeGo.AppPage {
         id:settings
     }
 
+    MeeGo.Theme{
+        id: theme
+    }
+
     MeeGo.ModalDialog {
         id: dlg
 
@@ -45,6 +49,8 @@ MeeGo.AppPage {
             anchors.left: parent.left
             anchors.leftMargin:20
             wrapMode: Text.WordWrap
+            font.pixelSize: theme.fontPixelSizeNormal
+            color: theme.fontColorNormal
 
         }
 
@@ -77,13 +83,15 @@ MeeGo.AppPage {
                 id: searchEngineText
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Default search engine")
                 anchors.right:  searchEngineDropDown.left
                 anchors.rightMargin: 10
                 wrapMode: Text.WordWrap
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
             }
             MeeGo.DropDown {
                 id: searchEngineDropDown
@@ -116,13 +124,15 @@ MeeGo.AppPage {
             Text {
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Show bookmarks bar")
                 anchors.right:  bookmarkToggleButton.left
                 anchors.rightMargin: 10
                 wrapMode: Text.WordWrap
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
             }
             MeeGo.ToggleButton {
                 id: bookmarkToggleButton
@@ -143,13 +153,15 @@ MeeGo.AppPage {
             Text {
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Offer to save passwords")
                 anchors.right:  passwordToggleButton.left
                 anchors.rightMargin: 10
                 wrapMode: Text.WordWrap
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
             }
             MeeGo.ToggleButton {
                 id: passwordToggleButton
@@ -169,13 +181,15 @@ MeeGo.AppPage {
             Text {
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Allow JavaScript")
                 anchors.right:  javascriptToggleButton.left
                 anchors.rightMargin: 10
                 wrapMode: Text.WordWrap
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
             }
             MeeGo.ToggleButton {
                 id: javascriptToggleButton
@@ -195,7 +209,7 @@ MeeGo.AppPage {
             Text {
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Allow Images")
                 anchors.right:  imageToggleButton.left
                 anchors.rightMargin: 10
@@ -203,6 +217,8 @@ MeeGo.AppPage {
                 elide: Text.ElideNone
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
             }
             MeeGo.ToggleButton {
                 id: imageToggleButton
@@ -222,13 +238,15 @@ MeeGo.AppPage {
             Text {
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Allow Cookies")
                 anchors.right:  cookiesToggleButton.left
                 anchors.rightMargin: 10
                 wrapMode: Text.WordWrap
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
             }
             MeeGo.ToggleButton {
                 id: cookiesToggleButton
@@ -248,12 +266,14 @@ MeeGo.AppPage {
             Text {
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Block popups")
                 anchors.right:  popupsToggleButton.left
                 anchors.rightMargin: 10
                 wrapMode: Text.WordWrap
                 height: parent.height
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
                 verticalAlignment: Text.AlignVCenter
             }
             MeeGo.ToggleButton {
@@ -274,7 +294,7 @@ MeeGo.AppPage {
             Text {
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Use HTTP proxy")
                 anchors.right:  proxyToggleButton.left
                 anchors.rightMargin: 10
@@ -301,7 +321,7 @@ MeeGo.AppPage {
             Text {
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("HTTP Proxy details")
                 width: parent.width - proxyBox.width - dotChar.width - portBox.width - 10
                 wrapMode: Text.WordWrap
@@ -355,7 +375,10 @@ MeeGo.AppPage {
             height:  privacyColumn.height + 20
             Column {
                 id: privacyColumn
-                width: parent.width-5
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                anchors.rightMargin: 20
                 spacing: 0
                 anchors.top: parent.top
                 anchors.topMargin: 10
@@ -432,7 +455,10 @@ MeeGo.AppPage {
         Item {
             id: launchBtn
             height: theme_listBackgroundPixelHeightOne
-            width: parent.width
+            anchors.left: parent.left
+            anchors.right:  parent.right
+            anchors.margins: 20
+
             Image {
                 id: browserIcon
                 anchors.verticalCenter: parent.verticalCenter
@@ -441,20 +467,22 @@ MeeGo.AppPage {
             Text {
                 anchors.top: parent.top
                 anchors.left: browserIcon.right
-                anchors.leftMargin: 10
+                anchors.leftMargin: 20
                 text: qsTr("Go to Browser")
                 anchors.right: btnIcon.left
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 elide: Text.ElideRight
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
             }
             Image {
                 id: btnIcon
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 anchors.verticalCenter: parent.verticalCenter
-                source: "image://themedimage/icons/internal/arrow-default-right.png"
+                source: "image://themedimage/icons/internal/arrow-default-right"
             }
             MouseArea {
                 id: mouseArea

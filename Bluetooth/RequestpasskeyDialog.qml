@@ -20,6 +20,8 @@ Column {
         text: qsTr("Enter passcode to use:")
         wrapMode: Text.WordWrap
         width: parent.width
+        font.pixelSize: theme.fontPixelSizeNormal
+        color: theme.fontColorNormal
     }
 
     MeeGo.TextEntry {
