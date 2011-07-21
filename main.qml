@@ -60,6 +60,12 @@ Window {
             mainSaveRestoreState.setValue(bookSaved,false);
             mainSaveRestoreState.sync();
         }
+        else if(mainWindow.call.length() > 0 ) {
+            var cmd = mainWindow.call[0];
+            var cdata = mainWindow.call[1];
+
+            showPage(cmd, cdata)
+        }
         else topView = defaultSettingsPage
     }
 
@@ -105,30 +111,37 @@ Window {
         }
     }
 
+    function showPage(page, args) {
+        var cmd = page;
+        var cdata = args;
+
+        console.log("Remote Call: " + cmd + " - " + cdata);
+        if (cmd == "showPage")	{
+            var page = cdata.split(",")[0];
+
+            if(page == "settings" || page == "") {
+                topView = defaultSettingsPage
+                return;
+            }
+
+            for(var i=0; i< settingsModel.settingsAppNames.length; i++) {
+                if(page == settingsModel.settingsAppNames[i]) {
+                    translator.catalog = settingsModel.get(i).translation
+                    var payloadFile  = settingsModel.get(i).path
+                    window.applicationData = cdata
+                    topView = payloadFile
+                }
+            }
+        }
+    }
+
     Connections {
         target: mainWindow
         onCall: {
             var cmd = parameters[0];
             var cdata = parameters[1];
 
-            console.log("Remote Call: " + cmd + " - " + cdata);
-            if (cmd == "showPage")	{
-                var page = cdata.split(",")[0];
-
-                if(page == "settings" || page == "") {
-                    topView = defaultSettingsPage
-                    return;
-                }
-
-                for(var i=0; i< settingsModel.settingsAppNames.length; i++) {
-                    if(page == settingsModel.settingsAppNames[i]) {
-                        translator.catalog = settingsModel.get(i).translation
-                        var payloadFile  = settingsModel.get(i).path
-                        window.applicationData = cdata
-                        topView = payloadFile
-                    }
-                }
-            }
+            showPage(cmd,cdata)
         }
     }
 
