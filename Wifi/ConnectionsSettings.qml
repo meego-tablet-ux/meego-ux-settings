@@ -236,7 +236,7 @@ MeeGo.AppPage {
             MeeGo.Button {
                 id: addNetworkButton
                 text: qsTr("Add network")
-                visible: connectionsHacksGconf.value
+                //visible: connectionsHacksGconf.value
                 anchors.right:  parent.right
                 anchors.rightMargin: 20
                 height: parent.height - 10
@@ -269,7 +269,6 @@ MeeGo.AppPage {
                     property string securityHidden
                     property string securityPassphrase: ""
                     property int itemHeight: 55
-                    property bool itemOpacity: securityDropdown.selectedIndex > 0 ? 1 : 0
 
                     content: Row {
                         id: dialogContent
@@ -285,6 +284,8 @@ MeeGo.AppPage {
                                 text: qsTr("Network name:")
                                 verticalAlignment: Text.AlignVCenter
                                 height: addNetworkDialog.itemHeight
+                                font.pixelSize: theme.fontPixelSizeNormal
+                                color: theme.fontColorNormal
 
                             }
 
@@ -293,6 +294,8 @@ MeeGo.AppPage {
                                 text: qsTr("Security type:")
                                 verticalAlignment: Text.AlignVCenter
                                 height: addNetworkDialog.itemHeight
+                                font.pixelSize: theme.fontPixelSizeNormal
+                                color: theme.fontColorNormal
                             }
 
                             Text {
@@ -301,6 +304,8 @@ MeeGo.AppPage {
                                 text: qsTr("Security passphrase:")
                                 verticalAlignment: Text.AlignVCenter
                                 height: addNetworkDialog.itemHeight
+                                font.pixelSize: theme.fontPixelSizeNormal
+                                color: theme.fontColorNormal
                             }
 
                         }
@@ -308,7 +313,7 @@ MeeGo.AppPage {
                         Column {
                             id: rightItems
                             spacing: 10
-                            //width: parent.width
+                            width: 300
 
                             MeeGo.TextEntry {
                                 id: ssidEntry
@@ -335,11 +340,11 @@ MeeGo.AppPage {
 
                             MeeGo.TextEntry {
                                 id: passPhraseEntry
-                                opacity: addNetworkDialog.itemOpacity
+                                visible: securityDropdown.selectedIndex > 0
                                 width: parent.width
                                 height: addNetworkDialog.itemHeight
 
-                                textInput.inputMethodHints: Qt.ImhNoAutoUppercase
+                                inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
                                 onTextChanged: addNetworkDialog.securityPassphrase = text
                             }
                         }

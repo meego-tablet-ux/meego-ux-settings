@@ -533,12 +533,12 @@ MeeGo.ExpandingBox {
 
                     MeeGo.TextEntry {
                         id: passwordTextInput
-                        textInput.echoMode: TextInput.Normal
+                        //textInput.echoMode: TextInput.Normal
                         visible: passwordGrid.passwordRequired
                         defaultText: qsTr("Type password here")
                         width: passwordGrid.width / 2
                         text: container.networkItem.passphrase
-                        textInput.inputMethodHints: Qt.ImhNoAutoUppercase
+                        inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
 
                     }
 

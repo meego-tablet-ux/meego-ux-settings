@@ -107,6 +107,7 @@ MeeGo.AppPage{
 
                 Text {
                     id: discoverableLabel
+                    //: this is not currently user visible:
                     text: qsTr("Discoverable (%1)").arg(timeRemaining)
                     anchors.right: visibilityToggleButton.left
                     anchors.rightMargin: 20
