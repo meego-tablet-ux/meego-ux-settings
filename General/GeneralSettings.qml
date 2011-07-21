@@ -102,7 +102,6 @@ AppPage {
                 id: volPercentage
                 // %1 is volume level percentage
                 text: qsTr("%1%","%1 is volume level percentage").arg(volumeControl.volume)
-                height: volumeexpandingbox.containerHeight
                 font.pixelSize: theme.fontPixelSizeNormal
                 color: theme.fontColorNormal
                 anchors.right: parent.right

@@ -145,11 +145,6 @@ Window {
         }
     }
 
-    Loader {
-        id: dialogLoader
-        anchors.fill: parent
-    }
-
     Component {
         id: declarativeComponent
         DeclarativeComponent {

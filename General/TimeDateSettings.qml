@@ -336,7 +336,9 @@ Item {
 
         startYear: 1970
         onDateSelected: {
+            clockModel.timeUpdates = "manual"
             clockModel.setDate(datePicker.selectedDate);
+            autoTimeToggle.on = (clockModel.timeUpdates == "auto")
             timeTimer.interval = 1000
         }
     }
