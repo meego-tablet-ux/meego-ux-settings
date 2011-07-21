@@ -167,12 +167,12 @@ MeeGo.ExpandingBox {
             onHeightChanged: {
                 console.log("bt expanding area height changed " + height)
             }
-            Row {
+            Column {
                 height: childrenRect.height
-                spacing: 10
+                spacing: 20
                 Column {
                     id: profileButtonsColumn
-                    width: capabilitiesItem.width / 2 - 10
+                    width: capabilitiesItem.width - 10
                     property Item audioItem: null
                     property Item napItem: null
                     property Item inputItem: null
@@ -235,7 +235,7 @@ MeeGo.ExpandingBox {
                 }
                 Column {
                     id: manageColumn
-                    width: capabilitiesItem.width / 2 - 10
+                    width: capabilitiesItem.width - 10
                     Text {
                         text: qsTr("Manage")
                         font.pixelSize: theme.fontPixelSizeNormal
