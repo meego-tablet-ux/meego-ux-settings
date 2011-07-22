@@ -42,7 +42,7 @@ Column {
         MeeGo.Button {
             id: acceptButton
             height: parent.height
-            width:  parent.width / 2 - 20
+            width:  container.width / 2 - 20
             text: qsTr("Accept")
             onClicked: {
                 replyRequestConfirmation(true);
@@ -52,7 +52,7 @@ Column {
         MeeGo.Button {
             id: rejectButton
             height: parent.height
-            width:  parent.width / 2 - 20
+            width:  container.width / 2 - 20
             text: qsTr("Reject")
             onClicked: {
                 replyRequestConfirmation(false);
