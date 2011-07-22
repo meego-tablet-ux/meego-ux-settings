@@ -38,6 +38,7 @@ Window {
     toolBarTitle: window.retranslate ? qsTr("Settings"): ""
 
     property string defaultSettingsPage: "General/GeneralSettings.qml"
+    property string blankSettingsPage: "Blankness.qml"
     property variant applicationData
     property string topView
 
@@ -54,6 +55,8 @@ Window {
     bookMenuActive: false
 
     Component.onCompleted: {
+        topView = blankSettingsPage
+        settingsModel.go();
         if(mainSaveRestoreState.restoreRequired && mainSaveRestoreState.value(bookSaved)) {
             topView = mainSaveRestoreState.value(currentBookKey);
             restoreFinished = true;

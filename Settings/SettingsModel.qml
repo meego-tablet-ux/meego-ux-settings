@@ -14,7 +14,7 @@ ListModel {
 	property QtObject desktopSettingsModel: Labs.ApplicationsModel {
 			id: desktopSettingsModel
 			type: "ControlPanelApplet"
-			directories: ["/usr/share/meego-ux-settings/apps/"]
+			//directories: ["/usr/share/meego-ux-settings/apps/"]
 		}
 
 
@@ -49,6 +49,11 @@ ListModel {
 
 
 	Component.onCompleted: {
+		//reloadModel();
+	}
+
+	function go() {
+		desktopSettingsModel.directories = ["/usr/share/meego-ux-settings/apps/"]
 		reloadModel();
 	}
 
