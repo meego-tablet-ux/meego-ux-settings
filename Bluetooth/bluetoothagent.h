@@ -14,6 +14,7 @@
 class AsyncAgent;
 class QDeclarativeView;
 class BluetoothDevice;
+class LauncherWindow;
 
 class BluetoothAgent : public QObject
 {
@@ -40,7 +41,7 @@ private slots:
 
 private:
 	AsyncAgent* agent;
-	QDeclarativeView *view;
+	LauncherWindow *view;
 };
 
 #endif // BLUETOOTHAGENT_H

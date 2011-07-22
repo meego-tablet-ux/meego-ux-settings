@@ -6,11 +6,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-#include <QDeclarativeView>
 #include <QApplication>
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <stdlib.h>
 
 #include "bluetoothagent.h"
 
@@ -18,8 +18,6 @@ void daemonize();
 
 int main(int argc, char** argv)
 {
-
-
 	//daemonize();
 
 	QApplication app(argc,argv);
