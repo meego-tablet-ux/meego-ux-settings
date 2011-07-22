@@ -60,7 +60,7 @@ Window {
             mainSaveRestoreState.setValue(bookSaved,false);
             mainSaveRestoreState.sync();
         }
-        else if(mainWindow.call.length() > 0 ) {
+        else if(mainWindow.call.length > 0 ) {
             var cmd = mainWindow.call[0];
             var cdata = mainWindow.call[1];
 
