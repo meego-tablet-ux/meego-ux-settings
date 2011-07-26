@@ -292,15 +292,8 @@ MeeGo.ExpandingBox {
                 text: qsTr("Connect by:")
                 font.pixelSize: theme.fontPixelSizeNormal
                 color: theme.fontColorNormal
-                width: orientationWidths
+                width: orientationWidth
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            }
-
-            Text {
-                text: WifiHelper.IPv4Type[networkItem.method]
-                font.pixelSize: theme.fontPixelSizeNormal
-                color: theme.fontColorNormal
-                width: orientationWidths
             }
 
             /*MeeGo.DropDown {
@@ -322,15 +315,14 @@ MeeGo.ExpandingBox {
                         dropdown.method = dropdown.selectedIndex == 0 ? "dhcp":"static"
                     }
                 }
-            }
+            }*/
 
             Text {
                 width: orientationWidth
                 font.pixelSize: theme.fontPixelSizeNormal
                 color: theme.fontColorNormal
-                text: finished ? WifiHelper.IPv4Type["dhcp"] : ""
-                visible: container.networkItem.type == "cellular"
-            }*/
+                text: finished ? WifiHelper.IPv4Type[networkItem.method] : ""
+            }
 
 			Text {
 				id: ipaddyLabel
