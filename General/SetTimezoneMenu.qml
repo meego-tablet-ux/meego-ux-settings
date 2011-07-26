@@ -53,7 +53,7 @@ ModalDialog {
             font.pixelSize: 18
             onTextChanged: timezoneList.filter(text)
         }
-        Labs.TimezoneList {
+        Labs.TimezoneListView {
             id: timezoneList
             anchors { top: locEntry.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
             anchors.topMargin: 10

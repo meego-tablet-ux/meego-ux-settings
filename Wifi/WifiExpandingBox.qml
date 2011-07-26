@@ -224,7 +224,7 @@ MeeGo.ExpandingBox {
                 MeeGo.Button {
                     id: yesDelete
                     text: qsTr("Yes, Delete")
-                    width: removeConfirmArea.width / 6
+                    width: removeConfirmArea.width / 2 - 20
                     height: 50
                     onClicked: {
                         networkItem.passphrase=""
@@ -236,7 +236,7 @@ MeeGo.ExpandingBox {
                 MeeGo.Button {
                     id: noSave
                     text: qsTr("No, Save")
-                    width: removeConfirmArea.width / 6
+                    width: removeConfirmArea.width / 2 - 20
                     height: 50
                     onClicked: {
                         container.expanded = false;
@@ -296,7 +296,14 @@ MeeGo.ExpandingBox {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
-            MeeGo.DropDown {
+            Text {
+                text: WifiHelper.IPv4Type[networkItem.method]
+                font.pixelSize: theme.fontPixelSizeNormal
+                color: theme.fontColorNormal
+                width: orientationWidths
+            }
+
+            /*MeeGo.DropDown {
                 id: dropdown
                 width: orientationWidth
                 property string method
@@ -323,7 +330,7 @@ MeeGo.ExpandingBox {
                 color: theme.fontColorNormal
                 text: finished ? WifiHelper.IPv4Type["dhcp"] : ""
                 visible: container.networkItem.type == "cellular"
-            }
+            }*/
 
 			Text {
 				id: ipaddyLabel
