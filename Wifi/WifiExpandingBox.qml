@@ -158,8 +158,6 @@ MeeGo.ExpandingBox {
         }
         else if(statusint == NetworkItemModel.StateFailure) {
             status = qsTr("Failed to Connect")
-            connectButtonOfAwesome.active = true
-            connectButtonOfAwesome.enabled = true
         }
         else if(statusint == NetworkItemModel.StateAssociation) {
             status = qsTr("Associating")
@@ -189,8 +187,6 @@ MeeGo.ExpandingBox {
         }
         else if(statusint == NetworkItemModel.StateAssociation || statusint == NetworkItemModel.StateConfiguration){
             detailsComponent = passwordArea
-            connectButtonOfAwesome.active = false
-            connectButtonOfAwesome.enabled = false
         }
 
     }
@@ -557,21 +553,18 @@ MeeGo.ExpandingBox {
                     MeeGo.Button {
                         id: connectButtonOfAwesome
                         height: 50
-                        active: true
-                        enabled: true
+                        property bool shouldBeActive: container.statusint != NetworkItemModel.StateAssociation &&
+                                                      container.statusint != NetworkItemModel.StateConfiguration
+                        active: shouldBeActive
+                        enabled: shouldBeActive
                         text: qsTr("Connect")
                         onClicked: {
                             if(container.networkItem.type == "wifi") {
                                 container.networkItem.passphrase = passwordTextInput.text;
                                 container.listModel.connectService(container.ssid, container.security, passwordTextInput.text)
-                                connectButtonOfAwesome.active = false
-                                connectButtonOfAwesome.enabled = false
-
                             }
                             else {
                                 container.networkItem.connectService();
-                                connectButtonOfAwesome.active = false
-                                connectButtonOfAwesome.enabled = false
                             }
                         }
                     }
