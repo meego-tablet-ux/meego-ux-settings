@@ -158,6 +158,8 @@ MeeGo.ExpandingBox {
         }
         else if(statusint == NetworkItemModel.StateFailure) {
             status = qsTr("Failed to Connect")
+            connectButtonOfAwesome.active = true
+            connectButtonOfAwesome.enabled = true
         }
         else if(statusint == NetworkItemModel.StateAssociation) {
             status = qsTr("Associating")
