@@ -24,8 +24,8 @@ Name[el]=Ρυθμίσεις
 Name[de]=Einstellungen
 Name[da]=Indstillinger
 Name[cs]=Nastavení
-Icon=meego-app-settings
-Exec=meego-qml-launcher --opengl --fullscreen --app meego-ux-settings
+Icon=meego-ux-settings
+Exec=invoker --type=l meego-qml-launcher --opengl --fullscreen --app meego-ux-settings
 X-MEEGO-CORE-UX=true
 X-MEEGO-CGROUP-PATH=managed
 X-MEEGO-CGROUP-CONTROLLERS=freezer
