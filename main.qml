@@ -63,7 +63,7 @@ Window {
         else if(mainWindow.call.length > 0 ) {
             var cmd = mainWindow.call[0];
             var cdata = mainWindow.call[1];
-
+            settingsModel.reloadModel();
             showPage(cmd, cdata)
         }
         else topView = defaultSettingsPage
@@ -124,8 +124,9 @@ Window {
                 return;
             }
 
-            for(var i=0; i< settingsModel.settingsAppNames.length; i++) {
-                if(page == settingsModel.settingsAppNames[i]) {
+            for(var i=0; i< settingsModel.count; i++) {
+                var app = settingsModel.get(i).id
+                if(page == app ) {
                     translator.catalog = settingsModel.get(i).translation
                     var payloadFile  = settingsModel.get(i).path
                     window.applicationData = cdata
