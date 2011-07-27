@@ -15,6 +15,8 @@ import MeeGo.Ux.Gestures 0.1
 Window {
     id: window
 
+    ///This is bad. FIXME!!!!!
+    orientationLock: 5
     property bool retranslate: true
 
     Connections {
@@ -70,6 +72,7 @@ Window {
     }
 
     onBookMenuTriggered: {
+        console.log("loading translation: " + settingsModel.get(index).translation)
         translator.catalog = settingsModel.get(index).translation
         topView = settingsModel.get(index).path
     }

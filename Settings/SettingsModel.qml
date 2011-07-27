@@ -97,8 +97,7 @@ ListModel {
 		var section = app.value("MTS/Section")
 
 		var sectionMap = [];
-		//:should actually be 'Applications'
-		var applicationstring = qsTr("Application");
+		var applicationstring = qsTr("Applications");
 		sectionMap["Settings"] = qsTr("Settings")
 		sectionMap["Applications"] = applicationstring
 		sectionMap[""] = applicationstring
