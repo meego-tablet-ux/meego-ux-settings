@@ -86,12 +86,12 @@ Window {
                 window.switchBook(declarativeComponent)
             }
             else {
-
+                window.switchBook(blankPageComponent)
                 var component = Qt.createComponent(topView)
                 if(component.status == Component.Error) {
                     console.log("error loading settings page: " + component.errorString())
                 }
-                window.switchBook(component)
+                window.replacePage(component)
 
             }
         }
@@ -99,6 +99,11 @@ Window {
 
     Labs.Translator {
         id: translator
+    }
+
+    Component {
+        id: blankPageComponent
+        Blankness { }
     }
 
     SettingsModel {
