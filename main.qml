@@ -16,7 +16,7 @@ Window {
     id: window
 
     ///This is bad. FIXME!!!!!
-    orientationLock: 5
+    orientationLock: settingsHacksGconf.value ? 0:5
     property bool retranslate: true
 
     Connections {
@@ -95,6 +95,12 @@ Window {
 
             }
         }
+    }
+
+    Labs.GConfItem {
+        id: settingsHacksGconf
+        defaultValue: false
+        key: "/meego/ux/settings/settingshacks"s
     }
 
     Labs.Translator {
