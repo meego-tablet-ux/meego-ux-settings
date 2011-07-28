@@ -28,7 +28,8 @@ ExpandingBox {
         anchors.left: parent.left
         anchors.verticalCenter: mainText.verticalCenter
         anchors.margins: 20
-        source: "image://themedimage/icons/settings/"+icon
+        property string bluetoothSrc: "image://themedimage/icons/settings/"+icon
+        source: bluetoothSrc
         defaultSource: "image://themedimage/icons/settings/device-bluetooth-default"        
     }
 

@@ -40,7 +40,10 @@ MeeGo.ExpandingBox {
         anchors.left: parent.left
         anchors.leftMargin: 20
         anchors.verticalCenter: mainText.verticalCenter
-        source: "image://themedimage/icons/settings/"+container.device.icon
+
+        property string blueToothSource: "image://themedimage/icons/settings/" + container.device.icon
+
+        source: blueToothSource
         defaultSource: "image://themedimage/icons/settings/device-bluetooth-default"
     }
 
