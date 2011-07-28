@@ -18,6 +18,7 @@ Window {
     ///This is bad. FIXME!!!!!
     orientationLock: 5
     property bool retranslate: true
+    property string currentPageTitle
 
     Connections {
         target:  mainWindow
@@ -74,6 +75,7 @@ Window {
     onBookMenuTriggered: {
         console.log("loading translation: " + settingsModel.get(index).translation)
         translator.catalog = settingsModel.get(index).translation
+        window.currentPageTitle = settingsModel.get(index).name
         topView = settingsModel.get(index).path
     }
 
@@ -87,12 +89,8 @@ Window {
             }
             else {
                 window.switchBook(blankPageComponent)
-                var component = Qt.createComponent(topView)
-                if(component.status == Component.Error) {
-                    console.log("error loading settings page: " + component.errorString())
-                }
-                window.replacePage(component)
-
+                window.replacePage(blankPageComponent)
+                pageLoaderTimer.start();
             }
         }
     }
@@ -101,9 +99,24 @@ Window {
         id: translator
     }
 
+    Timer {
+        id: pageLoaderTimer
+        interval: 1
+        repeat: false
+        onTriggered: {
+            var component = Qt.createComponent(topView)
+            if(component.status == Component.Error) {
+                console.log("error loading settings page: " + component.errorString())
+            }
+            window.replacePage(component)
+        }
+    }
+
     Component {
         id: blankPageComponent
-        Blankness { }
+        Blankness {
+            pageTitle: currentPageTitle
+        }
     }
 
     SettingsModel {
