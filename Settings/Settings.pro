@@ -25,8 +25,7 @@ MOC_DIR = .moc
 # Input
 SOURCES += components.cpp \
 	declarativesettingsmodel.cpp \
-    BrowserSettingModel.cpp \
-    localesettings.cpp \
+	BrowserSettingModel.cpp \
     cellularsettings.cpp \
     connectioncontext.cpp \
     notificationtypes.cpp \
@@ -38,7 +37,6 @@ OTHER_FILES += qmldir \
 HEADERS += components.h \ 
     declarativesettingsmodel.h \
     BrowserSettingModel.h \
-    localesettings.h \
     cellularsettings.h \
     connectioncontext.h \
     notificationtypes.h \
